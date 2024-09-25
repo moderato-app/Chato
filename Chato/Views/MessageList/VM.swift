@@ -149,11 +149,11 @@ extension InputAreaView {
           if userMsg.status == .sending {
             userMsg.onSent()
           }
-          
           switch res {
           case .success(let result):
             let content = result.choices[0].message.content ?? ""
             aiMsg.onEOF(text: content)
+            em.messageEvent.send(.eof)
           case .failure(let error):
             if !error.localizedDescription.contains("The data couldn’t be read because it isn’t in the correct format") {
               // macpaw's lib has problem reading message
@@ -209,7 +209,6 @@ extension InputAreaView {
               aiMsg.onError(error.localizedDescription, .unknown)
             }
             print("completion error: \(info)")
-            chat.updatedAt = Date.now
             em.messageEvent.send(.err)
           } else {
             print("openAI.client.chatsStream done")

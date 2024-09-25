@@ -105,12 +105,12 @@ private struct ChatDetail: View {
           HapticsService.shared.shake(.light)
         case .eof:
           Task {
-            await sleepFor(0.7)
+            await sleepFor(0.2)
             HapticsService.shared.shake(.success)
           }
         case .err:
           Task {
-            await sleepFor(0.7)
+            await sleepFor(0.2)
             HapticsService.shared.shake(.error)
           }
         }

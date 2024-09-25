@@ -14,7 +14,9 @@ extension String {
   }
 
   var isBestModel: Bool {
-    self.contains("gpt-4") && self != "gpt-4o-mini"
+    self.contains("gpt-4o") && self != "gpt-4o-mini" ||
+      self == "o1-preview" ||
+      self == "o1-mini"
   }
 
   var containsEmoji: Bool {

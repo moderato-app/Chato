@@ -23,7 +23,7 @@ struct ChatDetailView: View {
               isTutorialPresented.toggle()
             } label: {
               HStack {
-                Text("Tutorial")
+                Text("Help")
                 Image(systemName: "accessibility")
               }
             }

@@ -4,17 +4,6 @@ on: [ pull_request, workflow_dispatch ]
 
 permissions: read-all
 
-env:
-  XCODE_PROJECT: "Chato.xcodeproj"
-  XCODE_SCHEME: "Chato"
-  CODE_SIGN_IDENTITY: "-"
-  BUILD_DIR: "build"
-  XCODE_ARCHIVE: "Chato.xcarchive"
-  APP_NAME: "Chato.app"
-  EXPORT_OPTIONS_PLIST: "exportOptions.plist"
-  DMG_NAME: "Chato"
-  DMG_FILE_NAME: "Chato.dmg"
-
 jobs:
   build:
     runs-on: macos-latest
@@ -29,23 +18,34 @@ jobs:
         run: |
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
       - name: Build
-        run: xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" archive CODE_SIGN_IDENTITY="$CODE_SIGN_IDENTITY" -archivePath "$BUILD_DIR/$XCODE_ARCHIVE"
-      - name: Export
-        run: |
-          plutil -convert xml1 - -o "$EXPORT_OPTIONS_PLIST" << EOF
-            {
-              "destination": "export",
-              "method": "mac-application"
-            }
-          EOF
-          
-          xcodebuild -exportArchive -archivePath "$BUILD_DIR/$XCODE_ARCHIVE" -exportPath "$BUILD_DIR" -exportOptionsPlist "$EXPORT_OPTIONS_PLIST"
-      - name: Resign App
-        run: codesign --force --deep -s "$CODE_SIGN_IDENTITY" "$BUILD_DIR/$APP_NAME"
-      - name: Make DMG
-        run: hdiutil create -srcdir "$BUILD_DIR" -volname "$DMG_NAME" "$DMG_FILE_NAME"
-      - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: yukiarrr/ios-build-action@v1.12.0
         with:
-          name: Build
-          path: ${{ env.DMG_FILE_NAME }}
+          project-path: Chato.xcodeproj
+          p12-base64: ${{ secrets.CERTIFICATES_P12 }}
+          certificate-password: ${{secrets.CERTIFICATES_P12_PASSWORD}}
+# https://www.andrewhoog.com/post/how-to-build-an-ios-app-with-github-actions-2023/
+          mobileprovision-base64: ${{ secrets.MOBILEPROVISION }}
+          code-signing-identity: ${{ secrets.CODE_SIGN_IDENTITY }}
+          team-id: ${{ secrets.TEAM_ID }}
+#          workspace-path: Unity-iPhone.xcworkspace # optional
+#      - name: Build
+#        run: xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" archive CODE_SIGN_IDENTITY="$CODE_SIGN_IDENTITY" -archivePath "$BUILD_DIR/$XCODE_ARCHIVE"
+#      - name: Export
+#        run: |
+#          plutil -convert xml1 - -o "$EXPORT_OPTIONS_PLIST" << EOF
+#            {
+#              "destination": "export",
+#              "method": "mac-application"
+#            }
+#          EOF
+#
+#          xcodebuild -exportArchive -archivePath "$BUILD_DIR/$XCODE_ARCHIVE" -exportPath "$BUILD_DIR" -exportOptionsPlist "$EXPORT_OPTIONS_PLIST"
+#      - name: Resign App
+#        run: codesign --force --deep -s "$CODE_SIGN_IDENTITY" "$BUILD_DIR/$APP_NAME"
+#      - name: Make DMG
+#        run: hdiutil create -srcdir "$BUILD_DIR" -volname "$DMG_NAME" "$DMG_FILE_NAME"
+#      - name: Upload
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: Build
+#          path: ${{ env.DMG_FILE_NAME }}

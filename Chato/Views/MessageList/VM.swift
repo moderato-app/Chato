@@ -84,7 +84,8 @@ extension InputAreaView {
 
   func ask(text: String, useContext: Bool = true) {
     var openAI: ChatGPTContext
-    let timeout: Double = chat.option.model.contains("o1-") ? 120.0 : 15.0
+    let isO1 = chat.option.model.contains("o1-")
+    let timeout: Double = isO1 ? 120.0 : 15.0
     print("using timeout: \(timeout)")
     if pref.gptUseProxy, !pref.gptProxyHost.isEmpty {
       openAI = ChatGPTContext(apiKey: pref.gptApiKey, proxyHost: pref.gptProxyHost, timeout: timeout)
@@ -104,7 +105,7 @@ extension InputAreaView {
     }
     
     chat.option.prompt?.messages.sorted().reversed().forEach {
-      macpaw.insert(.init(role: $0.role == .user ? .user : ($0.role == .assistant ? .assistant : .system), content: $0.content), at: 0)
+      macpaw.insert(.init(role: $0.role == .assistant ? .assistant : ($0.role == .user || isO1 ? .user : .system), content: $0.content), at: 0)
     }
     
     newChatCallback()
@@ -142,7 +143,7 @@ extension InputAreaView {
       }
     }
     
-    if chat.option.model.contains("o1-") {
+    if isO1 {
       print("using stream: false")
       openAI.client.chats(query: query) { res in
         DispatchQueue.main.async {

@@ -4,10 +4,6 @@ public extension View {
   func lovelyRow() -> some View {
     modifier(LoveRowView())
   }
-
-  func lovelyNavi() -> some View {
-    modifier(LovelyNaviModifier())
-  }
 }
 
 struct LoveRowView: ViewModifier {
@@ -120,21 +116,6 @@ struct NavAppearanceModifier: ViewModifier {
     if let tintColor = tintColor {
       UINavigationBar.appearance().tintColor = tintColor
     }
-  }
-
-  func body(content: Content) -> some View {
-    content
-  }
-}
-
-struct LovelyNaviModifier: ViewModifier {
-  init() {
-    let navBarAppearance = UINavigationBarAppearance()
-    navBarAppearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-    navBarAppearance.shadowColor = .clear
-    UINavigationBar.appearance().standardAppearance = navBarAppearance
-//    UINavigationBar.appearance().compactAppearance = navBarAppearance
-//    UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
   }
 
   func body(content: Content) -> some View {

@@ -142,7 +142,7 @@ struct LovelyNaviModifier: ViewModifier {
   }
 }
 
-struct VisualEffectView: UIViewRepresentable {
+struct AVisualEffectView: UIViewRepresentable {
   var isDark: Bool
 
   func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }

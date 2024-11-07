@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import VisualEffectView
 
 struct MessageList: View {
   @EnvironmentObject var em: EM
@@ -77,7 +78,7 @@ struct MessageList: View {
     .scrollDismissesKeyboard(.interactively)
     .removeFocusOnTap()
     .safeAreaInset(edge: .top, spacing: 0) {
-      VisualEffectView(isDark: colorScheme == .dark)
+      VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
         .ignoresSafeArea(edges: .top)
         .frame(height: 0)
     }
@@ -90,8 +91,9 @@ struct MessageList: View {
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
       InputAreaView(chat: chat, newChatCallback: onMsgCountChange)
-        .background(VisualEffectView(isDark: colorScheme == .dark)
-          .ignoresSafeArea(edges: .bottom))
+        .background(
+          VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
+            .ignoresSafeArea(edges: .bottom))
         .overlay(alignment: .topTrailing) {
           HStack {
             if !lastMsgOnScreen {
@@ -133,6 +135,10 @@ struct MessageList: View {
         HapticsService.shared.shake(.error)
       }
     }
+  }
+
+  var visualTint: Color {
+    colorScheme == .dark ? .black : .white
   }
 }
 

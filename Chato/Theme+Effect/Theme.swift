@@ -4,10 +4,6 @@ public extension View {
   func lovelyRow() -> some View {
     modifier(LoveRowView())
   }
-
-  func lovelyNavi() -> some View {
-    modifier(LovelyNaviModifier())
-  }
 }
 
 struct LoveRowView: ViewModifier {
@@ -124,34 +120,6 @@ struct NavAppearanceModifier: ViewModifier {
 
   func body(content: Content) -> some View {
     content
-  }
-}
-
-struct LovelyNaviModifier: ViewModifier {
-  init() {
-    let navBarAppearance = UINavigationBarAppearance()
-    navBarAppearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-    navBarAppearance.shadowColor = .clear
-    UINavigationBar.appearance().standardAppearance = navBarAppearance
-//    UINavigationBar.appearance().compactAppearance = navBarAppearance
-//    UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
-  }
-
-  func body(content: Content) -> some View {
-    content
-  }
-}
-
-struct VisualEffectView: UIViewRepresentable {
-  var isDark: Bool
-
-  func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
-  func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) {
-    if isDark {
-      uiView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
-    } else {
-      uiView.effect = UIBlurEffect(style: .light)
-    }
   }
 }
 

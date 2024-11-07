@@ -51,7 +51,6 @@ struct HomePage: View {
             }
           }
         }
-        .lovelyNavi()
         .navigationDestination(for: Chat.self) { chat in
           ChatDetailView(chat: chat)
         }

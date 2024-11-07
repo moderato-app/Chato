@@ -17,7 +17,6 @@ let chatGPTModels = [
   defaultGPTModel,
   ChatGPTModel("GPT4", "gpt-4", 4),
   ChatGPTModel("GPT-4o", "gpt-4o", 4),
-  ChatGPTModel("GPT-4o 2024-08-06", "gpt-4o-2024-08-06", 4),
   ChatGPTModel("o1-preview", "o1-preview", 4),
   ChatGPTModel("o1-mini", "o1-mini", 4),
   ChatGPTModel("GPT-4 Turbo", "gpt-4-turbo", 4),

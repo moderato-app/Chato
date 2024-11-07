@@ -65,6 +65,8 @@
 		EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB8FB4F22C3940D60041833B /* MarkdownUI */; };
 		EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E72002BCAB5FB00D5B110 /* Product.swift */; };
 		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
+		EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E2E2CDD3006007E480C /* VisualEffectView */; };
+		EBA73E322CDD3405007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E312CDD3405007E480C /* VisualEffectView */; };
 		EBA75D8C2C380C24003FC64D /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = EBA75D8B2C380C24003FC64D /* Ripple.metal */; };
 		EBB075C52B938AB8007328EF /* PromptSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB075C42B938AB8007328EF /* PromptSample.swift */; };
 		EBB075C82B93949A007328EF /* PromptListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB075C72B93949A007328EF /* PromptListView.swift */; };
@@ -165,6 +167,7 @@
 		EB8DFFA02B98E87A00862A94 /* PromptCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCreateView.swift; sourceTree = "<group>"; };
 		EB9E72002BCAB5FB00D5B110 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		EBA256B02BCAD15000141F3E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		EBA73E2C2CDD2FD2007E480C /* VisualEffectView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = VisualEffectView; path = ../../../Downloads/VisualEffectView; sourceTree = "<group>"; };
 		EBA75D8B2C380C24003FC64D /* Ripple.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ripple.metal; sourceTree = "<group>"; };
 		EBB075C42B938AB8007328EF /* PromptSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptSample.swift; sourceTree = "<group>"; };
 		EBB075C72B93949A007328EF /* PromptListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptListView.swift; sourceTree = "<group>"; };
@@ -193,7 +196,9 @@
 			files = (
 				EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */,
 				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
+				EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */,
 				EBC857802C39599800DE2252 /* Splash in Frameworks */,
+				EBA73E322CDD3405007E480C /* VisualEffectView in Frameworks */,
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
 				EBD0114C2B98F2840046F235 /* Haptico in Frameworks */,
 				EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */,
@@ -259,6 +264,7 @@
 		EB4A0EE32B6F908D0065BCDC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EBA73E2C2CDD2FD2007E480C /* VisualEffectView */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -530,6 +536,8 @@
 				EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */,
 				EB8FB4F22C3940D60041833B /* MarkdownUI */,
 				EBC8577F2C39599800DE2252 /* Splash */,
+				EBA73E2E2CDD3006007E480C /* VisualEffectView */,
+				EBA73E312CDD3405007E480C /* VisualEffectView */,
 			);
 			productName = Chato;
 			productReference = EB6422102B6F7BB000119DE6 /* Chato.app */;
@@ -567,6 +575,7 @@
 				EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				EBC8577E2C39599800DE2252 /* XCRemoteSwiftPackageReference "Splash" */,
+				EBA73E302CDD3405007E480C /* XCRemoteSwiftPackageReference "VisualEffectView" */,
 			);
 			productRefGroup = EB6422112B6F7BB000119DE6 /* Products */;
 			projectDirPath = "";
@@ -819,7 +828,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 18.0.2;
+				MARKETING_VERSION = 18.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = app.moderato.Chato.Chato.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -861,7 +870,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 18.0.2;
+				MARKETING_VERSION = 18.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = app.moderato.Chato.Chato;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -922,6 +931,14 @@
 				kind = branch;
 			};
 		};
+		EBA73E302CDD3405007E480C /* XCRemoteSwiftPackageReference "VisualEffectView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/efremidze/VisualEffectView";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		EBC8577E2C39599800DE2252 /* XCRemoteSwiftPackageReference "Splash" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/JohnSundell/Splash.git";
@@ -963,6 +980,15 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
 			productName = ConfettiSwiftUI;
+		};
+		EBA73E2E2CDD3006007E480C /* VisualEffectView */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualEffectView;
+		};
+		EBA73E312CDD3405007E480C /* VisualEffectView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBA73E302CDD3405007E480C /* XCRemoteSwiftPackageReference "VisualEffectView" */;
+			productName = VisualEffectView;
 		};
 		EBC8577F2C39599800DE2252 /* Splash */ = {
 			isa = XCSwiftPackageProductDependency;

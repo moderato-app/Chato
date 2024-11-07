@@ -142,19 +142,6 @@ struct LovelyNaviModifier: ViewModifier {
   }
 }
 
-struct AVisualEffectView: UIViewRepresentable {
-  var isDark: Bool
-
-  func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
-  func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) {
-    if isDark {
-      uiView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
-    } else {
-      uiView.effect = UIBlurEffect(style: .light)
-    }
-  }
-}
-
 #Preview {
   LovelyPreview {
     HomePage()

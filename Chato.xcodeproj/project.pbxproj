@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EB0FC7DD2BEBF71F001BFD49 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0FC7DC2BEBF71F001BFD49 /* Icons.swift */; };
+		EB1340042CDE592A00F5197E /* SendButtonTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1340022CDE592A00F5197E /* SendButtonTip.swift */; };
 		EB13D6682BC9C61F00B38A5E /* StoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB13D6672BC9C61F00B38A5E /* StoreKit.swift */; };
 		EB1671B62B8E633F00540426 /* ThinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671B52B8E633F00540426 /* ThinkingView.swift */; };
 		EB1671B92B8E69FC00540426 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671B82B8E69FC00540426 /* Util.swift */; };
@@ -107,6 +108,7 @@
 /* Begin PBXFileReference section */
 		EB09AB072C57A3680052DD69 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		EB0FC7DC2BEBF71F001BFD49 /* Icons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
+		EB1340022CDE592A00F5197E /* SendButtonTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendButtonTip.swift; sourceTree = "<group>"; };
 		EB13D6672BC9C61F00B38A5E /* StoreKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreKit.swift; sourceTree = "<group>"; };
 		EB13D6692BC9D40C00B38A5E /* PurchaseSync.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PurchaseSync.storekit; sourceTree = "<group>"; };
 		EB1671B52B8E633F00540426 /* ThinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinkingView.swift; sourceTree = "<group>"; };
@@ -224,6 +226,14 @@
 			path = ci_scripts;
 			sourceTree = "<group>";
 		};
+		EB1340032CDE592A00F5197E /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+				EB1340022CDE592A00F5197E /* SendButtonTip.swift */,
+			);
+			path = Tips;
+			sourceTree = "<group>";
+		};
 		EB1671B22B8E430600540426 /* Theme+Effect */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,6 +301,7 @@
 		EB6422122B6F7BB000119DE6 /* Chato */ = {
 			isa = PBXGroup;
 			children = (
+				EB1340032CDE592A00F5197E /* Tips */,
 				EB64226E2B6F7CB100119DE6 /* ChatoApp.swift */,
 				EB30601F2B964120009F90E9 /* NavigationContext.swift */,
 				EB7906B72B977FD600BB16D1 /* EventManager.swift */,
@@ -631,6 +642,7 @@
 				EB6422512B6F7C9300119DE6 /* ModelContainerPreview.swift in Sources */,
 				EB3080AC2C3480BC002FEDB3 /* HapticsService.swift in Sources */,
 				EB64225D2B6F7C9400119DE6 /* TextEditPageVIew.swift in Sources */,
+				EB1340042CDE592A00F5197E /* SendButtonTip.swift in Sources */,
 				EB6422582B6F7C9400119DE6 /* Other.swift in Sources */,
 				EB6422672B6F7C9400119DE6 /* Container.swift in Sources */,
 				EBB075C82B93949A007328EF /* PromptListView.swift in Sources */,

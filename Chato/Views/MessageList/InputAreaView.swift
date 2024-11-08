@@ -1,4 +1,5 @@
 import Combine
+import CoreHaptics
 import SwiftData
 import SwiftUI
 
@@ -17,24 +18,55 @@ struct InputAreaView: View {
   @State var subject = PassthroughSubject<String, Never>()
 
   let chat: Chat
-  let newChatCallback: ()->Void
-  
-  init(chat: Chat, newChatCallback: @escaping ()->Void) {
+  let newChatCallback: () -> Void
+
+  init(chat: Chat, newChatCallback: @escaping () -> Void) {
     self.chat = chat
     self.newChatCallback = newChatCallback
   }
 
   var body: some View {
-    VStack {
-      TextField("", text: $inputText, axis: .vertical)
-        .textInputAutocapitalization(.never)
+    input()
+      .onAppear {
+        reloadInputArea()
+        setupDebounce()
+      }
+      .onDisappear {
+        destroyDebounce()
+      }
+      .onReceive(em.chatOptionContextLengthChangeEvent) { _ in
+        reloadInputArea()
+      }
+      .overlay(alignment: .topLeading) {
+        if !inputText.isEmpty {
+          Button(action: {
+            withAnimation {
+              inputText = ""
+            }
+            HapticsService.shared.shake(.light)
+          }) {
+            ClearIcon(font: .title2.bold())
+          }
+          .transition(.asymmetric(insertion: .scale, removal: .scale))
+          .padding(.top, -30)
+          .padding(.leading, 4)
+        }
+      }
+  }
+
+  @ViewBuilder
+  func input() -> some View {
+    HStack(alignment: .bottom, spacing: 0) {
+      TextField("Message", text: $inputText, axis: .vertical)
         .lineLimit(1 ... (isTextEditorFocused ? 10 : 15))
-        .padding(10)
-        .background(.clear)
         .focused($isTextEditorFocused)
+        .textInputAutocapitalization(.never)
+        .autocorrectionDisabled()
         .onChange(of: inputText) { _, newText in
           debounceText(newText: newText)
         }
+        .padding(.vertical, 2.5) // hight of TextFiled should be >= Send Button to prevent Button from enlarging  HStack
+        .textFieldStyle(.plain)
         .onReceive(em.reUseTextEvent) { text in
           DispatchQueue.main.async {
             reuseOrCancel(text: text)
@@ -56,86 +88,52 @@ struct InputAreaView: View {
             }
         )
         .scrollContentBackground(.hidden)
-    }
-    .background(
-      GradientView()
-        .onTapGesture {
-          isTextEditorFocused = true
-        }
-    )
-    .cornerRadius(15)
-    .overlay(alignment: .topLeading) {
-      if !inputText.isEmpty {
-        Button(action: {
-          withAnimation {
-            inputText = ""
-          }
-          HapticsService.shared.shake(.light)
-        }) {
-          ClearIcon(font: .title)
-        }
-        .keyboardShortcut("k", modifiers: .command)
-        .transition(.asymmetric(insertion: .scale, removal: .scale))
-        .padding(.top, -34)
-      }
-    }
-    .overlay(alignment: .topTrailing) {
-      if !inputText.isEmpty {
-        HStack {
-          Button {
-            let copy = inputText
-            inputText = ""
-            Task.detached {
-              await delayClearInput()
-            }
-            isTextEditorFocused = false
-            Task {
-              ask(text: copy, useContext: false)
-            }
-          } label: {
-            SendIconLight(.title)
-          }
-          .disabled(inputText.isEmpty)
-          .keyboardShortcut(.return, modifiers: [.command, .shift])
-          .transition(.asymmetric(insertion: .scale, removal: .scale))
 
-          Button {
-            let copy = inputText
-            inputText = ""
-            Task.detached {
-              await delayClearInput()
-            }
-            isTextEditorFocused = false
-            Task {
-              ask(text: copy, useContext: true)
-            }
-          } label: {
-            SendIcon(.title)
-          }
-          .disabled(inputText.isEmpty)
-          .keyboardShortcut(.return, modifiers: .command)
+      if !inputText.isEmpty {
+        Image(systemName: "arrow.up.circle.fill")
+          .font(.title2.weight(.bold))
+          .symbolRenderingMode(.multicolor)
+          .foregroundStyle(.tint)
+          .contentShape(Circle())
           .transition(.asymmetric(insertion: .scale, removal: .scale))
-          .if(contextLength == 0) {
-            $0.disabled(true)
-              .opacity(0)
-              .allowsHitTesting(false)
+          .onTapGesture {
+            send(chat.option.contextLength)
           }
-        }
-        .padding(.top, -34)
+          .contextMenu {
+            Section("Send with context length") {
+              Button("Infinite") { send(Int.max) }
+              Button("20") { send(20) }
+              Button("10") { send(10) }
+              Button("8") { send(8) }
+              Button("6") { send(6) }
+              Button("4") { send(4) }
+              Button("3") { send(3) }
+              Button("2") { send(2) }
+              Button("1") { send(1) }
+              Button("0") { send(0) }
+            }
+          }
+          .popoverTip(SendButtonTip.instance, arrowEdge: .top)
       }
     }
-    .frame(maxWidth: .infinity)
-    .padding(.vertical, 16)
-    .padding(.horizontal, 16)
-    .onAppear {
-      reloadInputArea()
-      setupDebounce()
+    .padding(EdgeInsets(top: 4, leading: 10, bottom: 4, trailing: 4))
+    .background(
+      RoundedRectangle(cornerRadius: 15)
+        .fill(.clear)
+        .strokeBorder(.secondary.opacity(0.5), lineWidth: 0.5)
+    )
+    .padding(EdgeInsets(top: 6, leading: 8, bottom: 12, trailing: 8))
+  }
+
+  func send(_ contextLength: Int) {
+    let copy = inputText
+    inputText = ""
+    Task.detached {
+      await delayClearInput()
     }
-    .onDisappear {
-      destroyDebounce()
-    }
-    .onReceive(em.chatOptionContextLengthChangeEvent) { _ in
-      reloadInputArea()
+    isTextEditorFocused = false
+    Task {
+      ask(text: copy, contextLength: contextLength)
     }
   }
 }

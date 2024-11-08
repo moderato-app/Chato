@@ -28,7 +28,6 @@ extension InputAreaView {
   }
 
   func reloadInputArea() {
-    contextLength = chat.option.contextLength
     inputText = chat.input
   }
 
@@ -82,50 +81,48 @@ extension InputAreaView {
     }
   }
 
-  func ask(text: String, useContext: Bool = true) {
+  func ask(text: String, contextLength: Int) {
     var openAI: ChatGPTContext
     let isO1 = chat.option.model.contains("o1-")
     let timeout: Double = isO1 ? 120.0 : 15.0
-    print("using timeout: \(timeout)")
+    print("using timeout: \(timeout), contextLength: \(contextLength)")
     if pref.gptUseProxy, !pref.gptProxyHost.isEmpty {
       openAI = ChatGPTContext(apiKey: pref.gptApiKey, proxyHost: pref.gptProxyHost, timeout: timeout)
     } else {
       openAI = ChatGPTContext(apiKey: pref.gptApiKey, timeout: timeout)
     }
-    
+
     let q = ChatQuery(model: chat.option.model, messages: [.init(role: .user, content: text)])
     var macpaw = q.messages
-    
-    if useContext, chat.option.contextLength > 0 {
-      let hist = self.modelContext.recentMessgagesEarlyOnTop(chatId: chat.persistentModelID, limit: chat.option.contextLength)
-      
+
+    if contextLength > 0 {
+      let hist = self.modelContext.recentMessgagesEarlyOnTop(chatId: chat.persistentModelID, limit: contextLength)
+
       for item in hist.sorted().reversed() {
         macpaw.insert(.init(role: item.role == .user ? .user : (item.role == .assistant ? .assistant : .system), content: item.message.isMeaningful ? item.message : item.errorInfo), at: 0)
       }
     }
-    
+
     chat.option.prompt?.messages.sorted().reversed().forEach {
       macpaw.insert(.init(role: $0.role == .assistant ? .assistant : ($0.role == .user || isO1 ? .user : .system), content: $0.content), at: 0)
     }
-    
-    newChatCallback()
-    
+
     let query = ChatQuery(model: chat.option.model, messages: macpaw)
-    
+
     print("===whole message list begins===")
-    
+
     for (i, m) in query.messages.enumerated() {
       print("\(i).\(m.role): \(m.content ?? "")")
     }
-    
+
     print("===whole message list ends===")
-    
+
     var userMsg = Message(text, .user, .sending)
     userMsg.chat = chat
-    
+
     var aiMsg = Message("", .assistant, .thinking)
     aiMsg.chat = chat
-    
+
     do {
       // it seems model data can only stay consistent when all the ops happen in a non-breakable main actor
       try modelContext.save()
@@ -135,14 +132,16 @@ extension InputAreaView {
       print("Error: Failed to save messages into model container: \(error.localizedDescription)")
       return
     }
-    
+
+    newChatCallback()
+
     Task.detached {
       await sleepFor(0.1)
       Task { @MainActor in
         em.messageEvent.send(.new)
       }
     }
-    
+
     if isO1 {
       print("using stream: false")
       openAI.client.chats(query: query) { res in
@@ -177,7 +176,7 @@ extension InputAreaView {
           if userMsg.status == .sending {
             userMsg.onSent()
           }
-          
+
           switch partialResult {
           case .success(let result):
             let content = result.choices[0].delta.content ?? ""

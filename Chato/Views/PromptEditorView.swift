@@ -34,7 +34,6 @@ struct PromptEditorView: View {
           }
 
           TextField("Message", text: $msg.content, axis: .vertical)
-            .textInputAutocapitalization(.never)
             .lineLimit(1 ... 10)
             .padding(10)
             .background(roleToColor(message.role).opacity(colorScheme == .light ? 0.1 : 0.6))

@@ -21,24 +21,6 @@ struct TutorialView: View {
           Text(Image(systemName: contextLengthCircle(option.contextLength, false))).foregroundStyle(.secondary) +
           Text(" of other models.")
 
-        Divider()
-
-        Label {
-          Text("Send your input to ChatGPT without previous messages.")
-        } icon: {
-          SendIconLight()
-        }
-
-        Divider()
-
-        Label {
-          Text("Send your input to ChatGPT, with ") +
-            Text(Image(systemName: contextLengthCircle(option.contextLength, option.isBestModel))).foregroundStyle(.secondary) +
-            Text(" previous messages.")
-        } icon: {
-          SendIcon()
-        }
-
         Spacer()
       }
       .padding(.horizontal)

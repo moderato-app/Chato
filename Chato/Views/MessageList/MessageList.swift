@@ -28,18 +28,18 @@ struct MessageList: View {
 
   func onMsgCountChange() {
     // Skip animation if there are too many history messages to avoid clutter
-    let ani = total == 10
+    let anim = total <= 20
     total = 10
     Task.detached {
       try await Task.sleep(for: .seconds(0.05))
       Task { @MainActor in
-        withAnimation(ani ? .default : .none) {
+        withAnimation(anim ? .easeInOut : .none) {
           initMessageList()
         }
       }
       try await Task.sleep(for: .seconds(1))
       Task { @MainActor in
-        withAnimation(ani ? .default : .none) {
+        withAnimation(anim ? .easeInOut : .none) {
           initMessageList()
         }
       }

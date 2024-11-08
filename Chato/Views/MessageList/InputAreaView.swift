@@ -48,8 +48,8 @@ struct InputAreaView: View {
             ClearIcon(font: .title2.bold())
           }
           .transition(.asymmetric(insertion: .scale, removal: .scale))
-          .padding(.top, -30)
-          .padding(.leading, 4)
+          .padding(.top, -24)
+          .padding(.leading, 8)
         }
       }
   }
@@ -60,8 +60,6 @@ struct InputAreaView: View {
       TextField("Message", text: $inputText, axis: .vertical)
         .lineLimit(1 ... (isTextEditorFocused ? 10 : 15))
         .focused($isTextEditorFocused)
-        .textInputAutocapitalization(.never)
-        .autocorrectionDisabled()
         .onChange(of: inputText) { _, newText in
           debounceText(newText: newText)
         }

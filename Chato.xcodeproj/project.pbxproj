@@ -66,7 +66,6 @@
 		EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E72002BCAB5FB00D5B110 /* Product.swift */; };
 		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
 		EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E2E2CDD3006007E480C /* VisualEffectView */; };
-		EBA73E322CDD3405007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E312CDD3405007E480C /* VisualEffectView */; };
 		EBA75D8C2C380C24003FC64D /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = EBA75D8B2C380C24003FC64D /* Ripple.metal */; };
 		EBB075C52B938AB8007328EF /* PromptSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB075C42B938AB8007328EF /* PromptSample.swift */; };
 		EBB075C82B93949A007328EF /* PromptListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB075C72B93949A007328EF /* PromptListView.swift */; };
@@ -77,6 +76,7 @@
 		EBB076272B94ABC6007328EF /* EnvTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB076262B94ABC6007328EF /* EnvTypeView.swift */; };
 		EBB205BE2B8F2FCE00B046F6 /* ChatGPTSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB205BD2B8F2FCE00B046F6 /* ChatGPTSettingView.swift */; };
 		EBB3464A2C37F3F7003DB2CE /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB346492C37F3F7003DB2CE /* MessageList.swift */; };
+		EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBB4EF282CDDC02200F38178 /* VisualEffectView */; };
 		EBC7C1342B98A380008409D0 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7C1332B98A380008409D0 /* Chat.swift */; };
 		EBC7C1362B98A386008409D0 /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7C1352B98A386008409D0 /* Prompt.swift */; };
 		EBC7C1382B98A61C008409D0 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7C1372B98A61C008409D0 /* Migration.swift */; };
@@ -198,7 +198,7 @@
 				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
 				EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */,
 				EBC857802C39599800DE2252 /* Splash in Frameworks */,
-				EBA73E322CDD3405007E480C /* VisualEffectView in Frameworks */,
+				EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */,
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
 				EBD0114C2B98F2840046F235 /* Haptico in Frameworks */,
 				EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */,
@@ -537,7 +537,7 @@
 				EB8FB4F22C3940D60041833B /* MarkdownUI */,
 				EBC8577F2C39599800DE2252 /* Splash */,
 				EBA73E2E2CDD3006007E480C /* VisualEffectView */,
-				EBA73E312CDD3405007E480C /* VisualEffectView */,
+				EBB4EF282CDDC02200F38178 /* VisualEffectView */,
 			);
 			productName = Chato;
 			productReference = EB6422102B6F7BB000119DE6 /* Chato.app */;
@@ -575,7 +575,7 @@
 				EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				EBC8577E2C39599800DE2252 /* XCRemoteSwiftPackageReference "Splash" */,
-				EBA73E302CDD3405007E480C /* XCRemoteSwiftPackageReference "VisualEffectView" */,
+				EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */,
 			);
 			productRefGroup = EB6422112B6F7BB000119DE6 /* Products */;
 			projectDirPath = "";
@@ -931,12 +931,12 @@
 				kind = branch;
 			};
 		};
-		EBA73E302CDD3405007E480C /* XCRemoteSwiftPackageReference "VisualEffectView" */ = {
+		EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/efremidze/VisualEffectView";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
 			};
 		};
 		EBC8577E2C39599800DE2252 /* XCRemoteSwiftPackageReference "Splash" */ = {
@@ -985,9 +985,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = VisualEffectView;
 		};
-		EBA73E312CDD3405007E480C /* VisualEffectView */ = {
+		EBB4EF282CDDC02200F38178 /* VisualEffectView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = EBA73E302CDD3405007E480C /* XCRemoteSwiftPackageReference "VisualEffectView" */;
+			package = EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */;
 			productName = VisualEffectView;
 		};
 		EBC8577F2C39599800DE2252 /* Splash */ = {

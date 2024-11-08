@@ -933,10 +933,10 @@
 		};
 		EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/efremidze/VisualEffectView";
+			repositoryURL = "https://github.com/moderato-app/VisualEffectView";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 		EBC8577E2C39599800DE2252 /* XCRemoteSwiftPackageReference "Splash" */ = {

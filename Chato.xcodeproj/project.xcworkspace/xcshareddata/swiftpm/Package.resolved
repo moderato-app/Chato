@@ -1,5 +1,5 @@
 {
-  "originHash" : "d021fa6742252c042c842497a6b84d33a57bdeb6d6dd6893498b81a8bc429f7c",
+  "originHash" : "3940503877a36d901c452aa429eecf697bceba0c90d3a1d09a1d434aae0f966c",
   "pins" : [
     {
       "identity" : "confettiswiftui",
@@ -62,6 +62,15 @@
       "state" : {
         "revision" : "bd0b16eb9c02e992e2c6cefec3abea0e74b90369",
         "version" : "2.1.3"
+      }
+    },
+    {
+      "identity" : "visualeffectview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/moderato-app/VisualEffectView",
+      "state" : {
+        "branch" : "master",
+        "revision" : "f6d723cbff308332875afe60987ffe2a48b24486"
       }
     }
   ],

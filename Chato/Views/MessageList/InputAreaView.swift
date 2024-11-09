@@ -34,9 +34,6 @@ struct InputAreaView: View {
       .onDisappear {
         destroyDebounce()
       }
-      .onReceive(em.chatOptionContextLengthChangeEvent) { _ in
-        reloadInputArea()
-      }
       .overlay(alignment: .topLeading) {
         if !inputText.isEmpty {
           Button(action: {

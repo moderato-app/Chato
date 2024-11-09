@@ -1,14 +1,17 @@
 import SwiftData
-import TipKit
 import SwiftUI
+import TipKit
 
 @main
 struct ChatoApp: App {
-  
-  init(){
-    try? Tips.configure()
+  init() {
+    do {
+      try Tips.configure()
+    } catch {
+      print("failed to try? Tips.configure(): \(error)")
+    }
   }
-  
+
   var body: some Scene {
     WindowGroup {
       ContentView()

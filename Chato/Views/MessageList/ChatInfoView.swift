@@ -2,6 +2,7 @@ import SwiftData
 import SwiftUI
 
 struct ChatInfoView: View {
+  @EnvironmentObject var em: EM
   @Environment(\.dismiss) private var dismiss
   @Environment(\.modelContext) private var modelContex
   @FocusState private var isFocused: Bool
@@ -32,7 +33,7 @@ struct ChatInfoView: View {
           Button(role: .destructive) {
             isClearHistoryPresented = true
           } label: {
-            Label("Clear History", systemImage: "paintbrush")
+            Label("Clear Messages", systemImage: "paintbrush")
               .foregroundColor(chat.messages.isEmpty ? .secondary : .red)
           }
           .disabled(chat.messages.isEmpty)
@@ -48,15 +49,15 @@ struct ChatInfoView: View {
           }
         }
       }
-      .confirmationDialog("Clear History?",
+      .confirmationDialog("Clear Messages?",
                           isPresented: $isClearHistoryPresented,
                           titleVisibility: .visible)
       {
-        Button("Clear History", role: .destructive) {
+        Button("Confirm", role: .destructive) {
           clearMessages()
         }
       } message: {
-        Text("Remove all messages of current chat.")
+        Text("Clear all messages from this chat.")
       }
       .onAppear {
         self.chatNamePlaceHolder = chat.name
@@ -89,6 +90,7 @@ struct ChatInfoView: View {
     for m in chat.messages {
       modelContex.delete(m)
     }
+    em.messageEvent.send(.countChanged)
   }
 }
 

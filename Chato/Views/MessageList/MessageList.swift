@@ -45,32 +45,52 @@ struct MessageList: View {
       }
     }
   }
+  
+  @State var scrollviewRect = CGRect.zero
+  @State var vstackRect = CGRect.zero
+  var scrollIndicatorPresented: Bool {
+    vstackRect.height > scrollviewRect.height
+  }
+
 
   var body: some View {
     ScrollView {
-      ForEach(messages, id: \.self) { msg in
-        NormalMsgView(msg: msg, deleteCallback: onMsgCountChange)
-          .id(msg.id)
-          .if(pref.magicScrolling) { c in
-            c.visualEffect { content, proxy in
-              let frame = proxy.frame(in: .scrollView(axis: .vertical))
-              let distance = min(0, frame.height > UIScreen.main.bounds.height / 4 ? 0 : frame.minY)
-              var scale = (1 + distance / 700)
-              if scale < 0 {
-                scale = 0
+      VStack(alignment: .leading) {
+        ForEach(messages, id: \.self) { msg in
+          NormalMsgView(msg: msg, deleteCallback: onMsgCountChange)
+            .id(msg.id)
+            .if(pref.magicScrolling) { c in
+              c.visualEffect { content, proxy in
+                let frame = proxy.frame(in: .scrollView(axis: .vertical))
+                let distance = min(0, frame.height > UIScreen.main.bounds.height / 4 ? 0 : frame.minY)
+                var scale = (1 + distance / 700)
+                if scale < 0 {
+                  scale = 0
+                }
+                let y = scale < 0 ? 0 : -distance / 1.25
+                return content
+                  .scaleEffect(scale)
+                  .offset(y: y)
+                  .blur(radius: -distance / 50)
               }
-              let y = scale < 0 ? 0 : -distance / 1.25
-              return content
-                .scaleEffect(scale)
-                .offset(y: y)
-                .blur(radius: -distance / 50)
             }
-          }
+        }
+        .padding(10)
       }
-      .padding(10)
+      .onGeometryChange(for: CGRect.self) { proxy in
+        proxy.frame(in: .global)
+      } action: {
+        vstackRect = $0
+      }
       .scrollTargetLayout()
     }
-    .defaultScrollAnchor(.bottom)
+    .onGeometryChange(for: CGRect.self) { proxy in
+      proxy.frame(in: .global)
+    } action: {
+      scrollviewRect = $0
+    }
+    .background(Rectangle().fill(.gray.opacity(0.0001)).containerRelativeFrame(.horizontal){v,a in v})
+    .defaultScrollAnchor(scrollIndicatorPresented ? .bottom : .top)
     .scrollPosition($position, anchor: .bottom)
     .onScrollTargetVisibilityChange(idType: PersistentIdentifier.self, threshold: 0.001) { onScreenIds in
       lastMsgOnScreen = onScreenIds.contains(where: { it in it == messages.last?.persistentModelID })
@@ -85,14 +105,14 @@ struct MessageList: View {
     .onReceive(em.messageEvent) { event in
       if event == .new {
         withAnimation {
+          onMsgCountChange()
           position.scrollTo(edge: .bottom)
         }
       }else if event == .countChanged{
-        onMsgCountChange()
       }
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
-      InputAreaView(chat: chat, newChatCallback: onMsgCountChange)
+      InputAreaView(chat: chat)
         .background(
           VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
             .ignoresSafeArea(edges: .bottom))

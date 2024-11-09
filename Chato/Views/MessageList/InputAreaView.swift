@@ -18,11 +18,9 @@ struct InputAreaView: View {
   @State var subject = PassthroughSubject<String, Never>()
 
   let chat: Chat
-  let newChatCallback: () -> Void
 
-  init(chat: Chat, newChatCallback: @escaping () -> Void) {
+  init(chat: Chat) {
     self.chat = chat
-    self.newChatCallback = newChatCallback
   }
 
   var body: some View {
@@ -158,7 +156,7 @@ struct GradientView: View {
     NavigationStack {
       VStack {
         Spacer()
-        InputAreaView(chat: ChatSample.manyMessages, newChatCallback: {})
+        InputAreaView(chat: ChatSample.manyMessages)
       }
     }
   }

@@ -13,6 +13,7 @@ struct WheelPicker: View {
   let end: Int
   let defaultValue: Int
   let spacing: CGFloat
+  let haptic: Bool
   
   private let defaultIndex: Int
   @State private var actualIndex: Int
@@ -20,12 +21,13 @@ struct WheelPicker: View {
   @State private var indicatorX: CGFloat = .zero
   @State private var defaultIndexX: CGFloat = .zero
 
-  init(value: Binding<Double>, start: Int, end: Int, defaultValue: Int, spacing: CGFloat = 13) {
+  init(value: Binding<Double>, start: Int, end: Int, defaultValue: Int, spacing: CGFloat = 13, haptic: Bool = true) {
     self._value = value
     self.start = start
     self.end = end
     self.defaultValue = defaultValue
     self.spacing = spacing
+    self.haptic = haptic
     
     self.defaultIndex = Int(round((Double(defaultValue) - Double(start)) * 10))
     self._actualIndex = State(initialValue: Int(round((value.wrappedValue - Double(start)) * Double(steps))))
@@ -129,7 +131,9 @@ struct WheelPicker: View {
         withAnimation{
           value = indexToValue(b)
         }
-        AudioServicesPlayAlertSound(SystemSoundID(1460))
+        if haptic{
+          AudioServicesPlayAlertSound(SystemSoundID(1460))
+        }
         isUpdating = false
       }
     }
@@ -139,7 +143,9 @@ struct WheelPicker: View {
         withAnimation{
           actualIndex = valueToIndex(b)
         }
-        AudioServicesPlayAlertSound(SystemSoundID(1460))
+        if haptic{
+          AudioServicesPlayAlertSound(SystemSoundID(1460))
+        }
         isUpdating = false
       }
     }

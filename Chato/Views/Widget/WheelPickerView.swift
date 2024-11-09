@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct WheelPickerView: View {
+  @EnvironmentObject var pref: Pref
+
   let name: String
   @Binding var value: Double
   let start: Int
@@ -63,7 +65,7 @@ struct WheelPickerView: View {
         value = Double(defaultValue)
       }
 
-      WheelPicker(value: $value, start: start, end: end, defaultValue: defaultValue,spacing: spacing)
+      WheelPicker(value: $value, start: start, end: end, defaultValue: defaultValue,spacing: spacing, haptic: pref.haptics)
         .frame(height: 50)
     }
     .grayscale(doubleEqual(Double(defaultValue), value) ? 1 : 0)

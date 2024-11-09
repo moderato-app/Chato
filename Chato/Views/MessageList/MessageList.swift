@@ -109,6 +109,9 @@ struct MessageList: View {
           position.scrollTo(edge: .bottom)
         }
       }else if event == .countChanged{
+        withAnimation {
+          onMsgCountChange()
+        }
       }
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {

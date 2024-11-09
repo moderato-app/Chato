@@ -69,6 +69,7 @@
 		EBA0F1782CDF9BCB003043F7 /* WheelPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */; };
 		EBA0F1792CDF9BCB003043F7 /* WheelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */; };
 		EBA0F17B2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F17A2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift */; };
+		EBA0F17D2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F17C2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift */; };
 		EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E2E2CDD3006007E480C /* VisualEffectView */; };
 		EBA75D8C2C380C24003FC64D /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = EBA75D8B2C380C24003FC64D /* Ripple.metal */; };
 		EBB075C52B938AB8007328EF /* PromptSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB075C42B938AB8007328EF /* PromptSample.swift */; };
@@ -175,6 +176,7 @@
 		EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPicker.swift; sourceTree = "<group>"; };
 		EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPickerView.swift; sourceTree = "<group>"; };
 		EBA0F17A2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAdvancedOptionView.swift; sourceTree = "<group>"; };
+		EBA0F17C2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedOptionDoubleTapTip.swift; sourceTree = "<group>"; };
 		EBA256B02BCAD15000141F3E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		EBA73E2C2CDD2FD2007E480C /* VisualEffectView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = VisualEffectView; path = ../../../Downloads/VisualEffectView; sourceTree = "<group>"; };
 		EBA75D8B2C380C24003FC64D /* Ripple.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ripple.metal; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				EB1340022CDE592A00F5197E /* SendButtonTip.swift */,
+				EBA0F17C2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift */,
 			);
 			path = Tips;
 			sourceTree = "<group>";
@@ -699,6 +702,7 @@
 				EB64226A2B6F7C9400119DE6 /* ChatExample.swift in Sources */,
 				EB1671BD2B8E733500540426 /* ErrorView.swift in Sources */,
 				EBB075C52B938AB8007328EF /* PromptSample.swift in Sources */,
+				EBA0F17D2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift in Sources */,
 				EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */,
 				EB4A0EEC2B6FD64F0065BCDC /* SwiftUI.swift in Sources */,
 				EB3060202B964121009F90E9 /* NavigationContext.swift in Sources */,

@@ -8,8 +8,8 @@ struct SendButtonTip: Tip {
   }
 
   var message: Text? {
-    let glitch: LocalizedStringKey = "\nSend with a different context length."
-    return Text(glitch)
+    let str: LocalizedStringKey = "\nSend with a different context length."
+    return Text(str)
       .foregroundStyle(.foreground)
   }
 

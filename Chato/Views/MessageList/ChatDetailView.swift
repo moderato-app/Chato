@@ -113,6 +113,8 @@ private struct ChatDetail: View {
             await sleepFor(0.2)
             HapticsService.shared.shake(.error)
           }
+        case .countChanged:
+          break
         }
       }
   }

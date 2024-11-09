@@ -87,6 +87,8 @@ struct MessageList: View {
         withAnimation {
           position.scrollTo(edge: .bottom)
         }
+      }else if event == .countChanged{
+        onMsgCountChange()
       }
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -96,7 +98,7 @@ struct MessageList: View {
             .ignoresSafeArea(edges: .bottom))
         .overlay(alignment: .topTrailing) {
           HStack {
-            if !lastMsgOnScreen {
+            if !lastMsgOnScreen && messages.count > 0 {
               Button {
                 withAnimation {
                   position.scrollTo(edge: .bottom)

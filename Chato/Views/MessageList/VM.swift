@@ -107,7 +107,14 @@ extension InputAreaView {
       macpaw.insert(.init(role: $0.role == .assistant ? .assistant : ($0.role == .user || isO1 ? .user : .system), content: $0.content), at: 0)
     }
 
-    let query = ChatQuery(model: chat.option.model, messages: macpaw)
+    let query = ChatQuery(model: chat.option.model, messages: macpaw,
+                          temperature: chat.option.maybeTemperature,
+                          presencePenalty: chat.option.maybePresencePenalty,
+                          frequencyPenalty: chat.option.maybeFrequencyPenalty
+    )
+    
+    print("using temperature: \(String(describing: chat.option.maybeTemperature)), presencePenalty: \(String(describing: chat.option.maybePresencePenalty)), frequencyPenalty: \(String(describing: chat.option.maybeFrequencyPenalty))")
+
 
     print("===whole message list begins===")
 

@@ -2,7 +2,6 @@ import SwiftData
 import SwiftUI
 
 struct ChatOptionView: View {
-  @EnvironmentObject var em: EM
   @EnvironmentObject var pref: Pref
 
   @Bindable private var chatOption: ChatOption
@@ -53,9 +52,6 @@ struct ChatOptionView: View {
         .pickerStyle(.segmented)
         .if(pref.haptics) {
           $0.sensoryFeedback(.selection, trigger: chatOption.contextLength)
-        }
-        .onChange(of: chatOption.contextLength) { _, _ in
-          em.chatOptionContextLengthChangeEvent.send()
         }
       }
     }

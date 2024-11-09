@@ -108,13 +108,24 @@ final class Message: Comparable {
     }
   }
 }
-  
+
 @Model
 final class ChatOption {
   @Attribute(originalName: "model") var model: String
   @Attribute(originalName: "context_length") var contextLength: Int
   @Relationship(originalName: "prompt") var prompt: Prompt?
-    
+  // presence_penalty number or null  Optional  Defaults to 0
+  // Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+  @Attribute(originalName: "presence_penalty") var presencePenalty: Double = 0
+  // temperature  number or null  Optional  Defaults to 1
+  // What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  // We generally recommend altering this or top_p but not both.
+  @Attribute(originalName: "temperature") var temperature: Double = 1
+// frequency_penalty  number or null  Optional  Defaults to 0
+//  Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  @Attribute(originalName: "frequency_penalty") var frequencyPenalty: Double = 0
+
+  
   @Transient
   var isBestModel: Bool {
     self.model.isBestModel

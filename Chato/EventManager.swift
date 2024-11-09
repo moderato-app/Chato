@@ -9,7 +9,6 @@ class EM: ObservableObject {
   let reUseTextEvent = PassthroughSubject<String, Never>()
 
   let chatOptionPromptChangeEvent = PassthroughSubject<PersistentIdentifier?, Never>()
-  let chatOptionContextLengthChangeEvent = PassthroughSubject<Void, Never>()
 }
 
 enum MessageEventType {

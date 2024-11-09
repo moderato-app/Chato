@@ -140,10 +140,7 @@ extension InputAreaView {
       return
     }
 
-    newChatCallback()
-
     Task.detached {
-      await sleepFor(0.1)
       Task { @MainActor in
         em.messageEvent.send(.new)
       }

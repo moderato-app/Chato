@@ -19,9 +19,14 @@ struct ChatInfoView: View {
             .focused($isFocused)
         }.textCase(.none)
 
-        Section("ChatGPT") {
+        Section("General") {
           ChatOptionView(chat.option)
         }.textCase(.none)
+
+        Section("Advanced") {
+          ChatAdvancedOptionView(chat.option)
+        }
+        .textCase(.none)
 
         Section {
           Button(role: .destructive) {

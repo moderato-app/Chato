@@ -66,6 +66,10 @@
 		EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB8FB4F22C3940D60041833B /* MarkdownUI */; };
 		EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E72002BCAB5FB00D5B110 /* Product.swift */; };
 		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
+		EBA0F1782CDF9BCB003043F7 /* WheelPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */; };
+		EBA0F1792CDF9BCB003043F7 /* WheelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */; };
+		EBA0F17B2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F17A2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift */; };
+		EBA0F17D2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F17C2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift */; };
 		EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E2E2CDD3006007E480C /* VisualEffectView */; };
 		EBA75D8C2C380C24003FC64D /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = EBA75D8B2C380C24003FC64D /* Ripple.metal */; };
 		EBB075C52B938AB8007328EF /* PromptSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB075C42B938AB8007328EF /* PromptSample.swift */; };
@@ -90,6 +94,7 @@
 		EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */ = {isa = PBXBuildFile; productRef = EBCFF3942B6FF4CC00498E1E /* Throttler */; };
 		EBD0114C2B98F2840046F235 /* Haptico in Frameworks */ = {isa = PBXBuildFile; productRef = EBD0114B2B98F2840046F235 /* Haptico */; };
 		EBDEDC8B2C37FF6500C4F251 /* Ripple.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDEDC8A2C37FF6500C4F251 /* Ripple.swift */; };
+		EBF62A152CDF5AAB002353FA /* AudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF62A142CDF5AAB002353FA /* AudioService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -168,6 +173,10 @@
 		EB8BBA372B8E264C002010FA /* NormalMsgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalMsgView.swift; sourceTree = "<group>"; };
 		EB8DFFA02B98E87A00862A94 /* PromptCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCreateView.swift; sourceTree = "<group>"; };
 		EB9E72002BCAB5FB00D5B110 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPicker.swift; sourceTree = "<group>"; };
+		EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPickerView.swift; sourceTree = "<group>"; };
+		EBA0F17A2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAdvancedOptionView.swift; sourceTree = "<group>"; };
+		EBA0F17C2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedOptionDoubleTapTip.swift; sourceTree = "<group>"; };
 		EBA256B02BCAD15000141F3E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		EBA73E2C2CDD2FD2007E480C /* VisualEffectView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = VisualEffectView; path = ../../../Downloads/VisualEffectView; sourceTree = "<group>"; };
 		EBA75D8B2C380C24003FC64D /* Ripple.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ripple.metal; sourceTree = "<group>"; };
@@ -189,6 +198,7 @@
 		EBCAC0C52C96E5BC000A3DA1 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		EBCAC0C72C96F3B5000A3DA1 /* VersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionView.swift; sourceTree = "<group>"; };
 		EBDEDC8A2C37FF6500C4F251 /* Ripple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ripple.swift; sourceTree = "<group>"; };
+		EBF62A142CDF5AAB002353FA /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				EB1340022CDE592A00F5197E /* SendButtonTip.swift */,
+				EBA0F17C2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift */,
 			);
 			path = Tips;
 			sourceTree = "<group>";
@@ -258,6 +269,8 @@
 		EB2AF8452C19587E003C9292 /* Widget */ = {
 			isa = PBXGroup;
 			children = (
+				EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */,
+				EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */,
 				EB2AF8462C19588D003C9292 /* DoneButton.swift */,
 			);
 			path = Widget;
@@ -267,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				EB3080AB2C3480BC002FEDB3 /* HapticsService.swift */,
+				EBF62A142CDF5AAB002353FA /* AudioService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -409,6 +423,7 @@
 			isa = PBXGroup;
 			children = (
 				EB6422382B6F7C9300119DE6 /* ChatOptionView.swift */,
+				EBA0F17A2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift */,
 			);
 			path = ChatSetting;
 			sourceTree = "<group>";
@@ -638,6 +653,7 @@
 				EB2AF8472C19588D003C9292 /* DoneButton.swift in Sources */,
 				EB7906B82B977FD600BB16D1 /* EventManager.swift in Sources */,
 				EB88E3282CA2868800DA9F71 /* State.swift in Sources */,
+				EBA0F17B2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift in Sources */,
 				EB37B9A82C281A45002A1667 /* DebugZoneView.swift in Sources */,
 				EB6422512B6F7C9300119DE6 /* ModelContainerPreview.swift in Sources */,
 				EB3080AC2C3480BC002FEDB3 /* HapticsService.swift in Sources */,
@@ -658,6 +674,8 @@
 				EBA75D8C2C380C24003FC64D /* Ripple.metal in Sources */,
 				EBC7C1382B98A61C008409D0 /* Migration.swift in Sources */,
 				EB6422552B6F7C9400119DE6 /* TestButton.swift in Sources */,
+				EBA0F1782CDF9BCB003043F7 /* WheelPickerView.swift in Sources */,
+				EBA0F1792CDF9BCB003043F7 /* WheelPicker.swift in Sources */,
 				EB7906BA2B979DEC00BB16D1 /* SelectTextView.swift in Sources */,
 				EB1671BF2B8E75F200540426 /* StatusView.swift in Sources */,
 				EB64225F2B6F7C9400119DE6 /* ChatDetailView.swift in Sources */,
@@ -674,6 +692,7 @@
 				EB1671BB2B8E71D800540426 /* SendingView.swift in Sources */,
 				EB18C93D2C0B1101003A9465 /* WallpaperSelectionView.swift in Sources */,
 				EB64226C2B6F7C9400119DE6 /* Basic.swift in Sources */,
+				EBF62A152CDF5AAB002353FA /* AudioService.swift in Sources */,
 				EBCAC0C82C96F3B5000A3DA1 /* VersionView.swift in Sources */,
 				EBB075D82B93D44E007328EF /* String.swift in Sources */,
 				EBCAC0C62C96E5BC000A3DA1 /* SafariView.swift in Sources */,
@@ -683,6 +702,7 @@
 				EB64226A2B6F7C9400119DE6 /* ChatExample.swift in Sources */,
 				EB1671BD2B8E733500540426 /* ErrorView.swift in Sources */,
 				EBB075C52B938AB8007328EF /* PromptSample.swift in Sources */,
+				EBA0F17D2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift in Sources */,
 				EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */,
 				EB4A0EEC2B6FD64F0065BCDC /* SwiftUI.swift in Sources */,
 				EB3060202B964121009F90E9 /* NavigationContext.swift in Sources */,

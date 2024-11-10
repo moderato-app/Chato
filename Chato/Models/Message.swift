@@ -69,6 +69,9 @@ final class Message: Comparable {
       self.status = .typing
       self.message += text
       self.updatedAt = Date.now
+      if self.meta?.startedAt == nil {
+        self.meta?.startedAt = .now
+      }
     case .sending, .sent, .received, .error:
       print("Error: onTyping is invalid, current status: \(self.status.rawValue)")
     }
@@ -94,8 +97,10 @@ final class Message: Comparable {
       self.errorType = errorType
       self.updatedAt = Date.now
       self.meta?.endedAt = Date.now
+      self.meta?.startedAt = .now
     case .error, .received, .sent:
       print("Error: onError is invalid, current status: \(self.status.rawValue)")
+      print("errorInfo:\(errorInfo) errorType:\(errorType)")
     }
   }
 }

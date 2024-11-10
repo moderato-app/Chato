@@ -59,9 +59,24 @@ struct SettingView: View {
             .labelsHidden()
             .selectionFeedback(pref.doubleTapAction)
           }
+          HStack {
+            Label("Tripple Tap", systemImage: "hand.tap")
+              .symbolRenderingMode(.multicolor)
+            Spacer()
+            Picker("Tripple Tap", selection: $pref.trippleTapAction.animation()) {
+              ForEach(DoubleTapAction.allCases, id: \.self) { c in
+                Text("\(c.rawValue)")
+              }
+            }
+            .labelsHidden()
+            .selectionFeedback(pref.trippleTapAction)
+          }
         } header: { Text("App") } footer: {
           if pref.doubleTapAction == .reuse {
             Text("Double-tap a message to input it, and double-tap again to withdraw.")
+          }
+          if pref.trippleTapAction == .reuse {
+            Text("Tripple-tap a message to input it, and tripple-tap again to withdraw.")
           }
         }
         .textCase(.none)

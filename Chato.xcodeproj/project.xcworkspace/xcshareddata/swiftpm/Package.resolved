@@ -1,6 +1,15 @@
 {
-  "originHash" : "3940503877a36d901c452aa429eecf697bceba0c90d3a1d09a1d434aae0f966c",
+  "originHash" : "4c781c0fb22226b2660d37ccb7b5ff24bad91b078598cf96b3713d38bfbb5cdd",
   "pins" : [
+    {
+      "identity" : "bottomsheet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lucaszischka/BottomSheet",
+      "state" : {
+        "revision" : "720ddbd1371fef2a09cc1ab65fc503df37767f9c",
+        "version" : "3.1.1"
+      }
+    },
     {
       "identity" : "confettiswiftui",
       "kind" : "remoteSourceControl",
@@ -53,6 +62,15 @@
       "state" : {
         "revision" : "9a8119b37e09a770367eeb26e05267c75d854053",
         "version" : "2.3.1"
+      }
+    },
+    {
+      "identity" : "swiftopenai",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/moderato-app/SwiftOpenAI.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8f2487a9b1c3094f218cee87d9eb422f6bff8ba2"
       }
     },
     {

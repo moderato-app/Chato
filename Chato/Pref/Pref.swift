@@ -6,6 +6,7 @@ class Pref: ObservableObject {
 
   @AppStorage("haptics") var haptics: Bool = true
   @AppStorage("doubleTapAction") var doubleTapAction: DoubleTapAction = .reuse
+  @AppStorage("trippleTapAction") var trippleTapAction: DoubleTapAction = .showInfo
   @AppStorage("magicScrolling") var magicScrolling: Bool = true
 
   @AppStorage("colorScheme") var colorScheme: AppColorScheme = .system
@@ -42,7 +43,7 @@ class Pref: ObservableObject {
 }
 
 enum DoubleTapAction: String, CaseIterable, Codable {
-  case none = "None", reuse = "Reuse Text", copy = "Copy Text"
+  case none = "None", reuse = "Reuse Text", copy = "Copy Text", showInfo = "Info"
 }
 
 extension Pref {

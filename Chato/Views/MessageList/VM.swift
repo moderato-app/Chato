@@ -1,6 +1,7 @@
 import Combine
 import OpenAI
 import SwiftData
+import SwiftOpenAI
 import SwiftUI
 
 extension InputAreaView {
@@ -81,43 +82,44 @@ extension InputAreaView {
     }
   }
 
-  func ask(text: String, contextLength: Int) {
-    var openAI: ChatGPTContext
+  func ask2(text: String, contextLength: Int) {
     let isO1 = chat.option.model.contains("o1-")
     let timeout: Double = isO1 ? 120.0 : 15.0
     print("using timeout: \(timeout), contextLength: \(contextLength)")
-    if pref.gptUseProxy, !pref.gptProxyHost.isEmpty {
-      openAI = ChatGPTContext(apiKey: pref.gptApiKey, proxyHost: pref.gptProxyHost, timeout: timeout)
-    } else {
-      openAI = ChatGPTContext(apiKey: pref.gptApiKey, timeout: timeout)
-    }
 
-    let q = ChatQuery(model: chat.option.model, messages: [.init(role: .user, content: text)])
-    var macpaw = q.messages
+    var msgs: [ChatCompletionParameters.Message] = [.init(role: .user, content: .text(text))]
 
+    var actualCL = 0
     if contextLength > 0 {
       let hist = self.modelContext.recentMessgagesEarlyOnTop(chatId: chat.persistentModelID, limit: contextLength)
+      actualCL = hist.count
 
       for item in hist.sorted().reversed() {
-        macpaw.insert(.init(role: item.role == .user ? .user : (item.role == .assistant ? .assistant : .system), content: item.message.isMeaningful ? item.message : item.errorInfo), at: 0)
+        let msg: ChatCompletionParameters.Message = .init(role: item.role == .user ? .user : (item.role == .assistant ? .assistant : .system), content: .text(item.message.isMeaningful ? item.message : item.errorInfo))
+        msgs.insert(msg, at: 0)
       }
     }
 
     chat.option.prompt?.messages.sorted().reversed().forEach {
-      macpaw.insert(.init(role: $0.role == .assistant ? .assistant : ($0.role == .user || isO1 ? .user : .system), content: $0.content), at: 0)
+      let msg: ChatCompletionParameters.Message = .init(role: $0.role == .assistant ? .assistant : ($0.role == .user || isO1 ? .user : .system), content: .text($0.content))
+      msgs.insert(msg, at: 0)
     }
 
-    let query = ChatQuery(model: chat.option.model, messages: macpaw,
-                          temperature: chat.option.maybeTemperature,
-                          presencePenalty: chat.option.maybePresencePenalty,
-                          frequencyPenalty: chat.option.maybeFrequencyPenalty)
+    let parameters = ChatCompletionParameters(
+      messages: msgs,
+      model: .custom(chat.option.model),
+      frequencyPenalty: chat.option.maybeFrequencyPenalty,
+      presencePenalty: chat.option.maybePresencePenalty,
+      temperature: chat.option.maybeTemperature,
+      streamOptions: ChatCompletionParameters.StreamOptions(includeUsage: true)
+    )
 
     print("using temperature: \(String(describing: chat.option.maybeTemperature)), presencePenalty: \(String(describing: chat.option.maybePresencePenalty)), frequencyPenalty: \(String(describing: chat.option.maybeFrequencyPenalty))")
 
     print("===whole message list begins===")
 
-    for (i, m) in query.messages.enumerated() {
-      print("\(i).\(m.role): \(m.content ?? "")")
+    for (i, m) in msgs.enumerated() {
+      print("\(i).\(m.role): \(m.content)")
     }
 
     print("===whole message list ends===")
@@ -126,6 +128,8 @@ extension InputAreaView {
     userMsg.chat = chat
     userMsg.meta = .init(model: chat.option.model,
                          contextLength: contextLength,
+                         actual_contextLength: actualCL,
+                         promptName: chat.option.prompt?.name,
                          temperature: chat.option.temperature,
                          presencePenalty: chat.option.presencePenalty,
                          frequencyPenalty: chat.option.frequencyPenalty,
@@ -135,6 +139,8 @@ extension InputAreaView {
     aiMsg.chat = chat
     aiMsg.meta = .init(model: chat.option.model,
                        contextLength: contextLength,
+                       actual_contextLength: actualCL,
+                       promptName: chat.option.prompt?.name,
                        temperature: chat.option.temperature,
                        presencePenalty: chat.option.presencePenalty,
                        frequencyPenalty: chat.option.frequencyPenalty,
@@ -156,83 +162,70 @@ extension InputAreaView {
       }
     }
 
-    if isO1 {
-      print("using stream: false")
-      openAI.client.chats(query: query) { res in
-        DispatchQueue.main.async {
-          if userMsg.status == .sending {
-            userMsg.onSent()
+    Task.detached {
+      do {
+        if isO1 {
+          print("not using stream")
+          Task { @MainActor in
+            aiMsg.meta?.startedAt = .now
           }
-          switch res {
-          case .success(let result):
+          let result = try await openAIService.startChat(parameters: parameters)
+          Task { @MainActor in
             let content = result.choices[0].message.content ?? ""
-            userMsg.meta?.promptTokens = result.usage?.promptTokens
-            aiMsg.meta?.completionTokens = result.usage?.completionTokens
+            userMsg.meta?.promptTokens = result.usage.promptTokens
+            userMsg.meta?.endedAt = .now
+            aiMsg.meta?.completionTokens = result.usage.completionTokens
             aiMsg.onEOF(text: content)
             em.messageEvent.send(.eof)
-          case .failure(let error):
-            if !error.localizedDescription.contains("The data couldn’t be read because it isn’t in the correct format") {
-              // macpaw's lib has problem reading message
-              let info = error.localizedDescription.lowercased()
-              if info.contains("api key") || info.contains("apikey") {
-                aiMsg.onError(error.localizedDescription, .apiKey)
-              } else {
-                aiMsg.onError(error.localizedDescription, .unknown)
+          }
+        } else {
+          print("using stream")
+          let stream = try await openAIService.startStreamedChat(parameters: parameters)
+          for try await chunk in stream {
+            Task { @MainActor in
+              if aiMsg.meta?.startedAt == nil {
+                aiMsg.meta?.startedAt = .now
               }
-              print("res error: \(info)")
-              em.messageEvent.send(.err)
-            }
-          }
-        }
-      }
-    } else {
-      print("using stream: true")
-      openAI.client.chatsStream(query: query) { partialResult in
-        DispatchQueue.main.async {
-          if userMsg.status == .sending {
-            userMsg.onSent()
-          }
-
-          switch partialResult {
-          case .success(let result):
-            let content = result.choices[0].delta.content ?? ""
-            if let _ = result.choices[0].finishReason {
-//              userMsg.meta?.promptTokens = result.usage?.totalTokens
-//              aiMsg.meta?.completionTokens = result.usage?.completionTokens
+              if userMsg.meta?.endedAt == nil {
+                userMsg.meta?.endedAt = .now
+              }
               
-              aiMsg.onEOF(text: content)
-            } else {
-              aiMsg.onTyping(text: content)
-            }
-          case .failure(let error):
-            if !error.localizedDescription.contains("The data couldn’t be read because it isn’t in the correct format") {
-              // macpaw's lib has problem reading message
-              let info = error.localizedDescription.lowercased()
-              if info.contains("api key") || info.contains("apikey") {
-                aiMsg.onError(error.localizedDescription, .apiKey)
+              if let choice = chunk.choices.first {
+                let text = choice.delta.content ?? "\nchoice has no content\n"
+                if let fr = choice.finishReason {
+                  if case .string(let reason) = fr, reason == "stop" {
+                    aiMsg.onEOF(text: "")
+                  } else {
+                    // if reason is not stop, something may be wrong
+                    aiMsg.onError("finished reason: \(fr)", .unknown)
+                  }
+                  return
+                } else {
+                  aiMsg.onTyping(text: text)
+                }
               } else {
-                aiMsg.onError(error.localizedDescription, .unknown)
+                if let usage = chunk.usage {
+                  userMsg.meta?.promptTokens = usage.promptTokens
+                  aiMsg.meta?.completionTokens = usage.completionTokens
+                  aiMsg.onEOF(text: "")
+                } else {
+                  print("no text in chunk, chunk: \(chunk)")
+                }
               }
-              print("partialResult error: \(info)")
-              em.messageEvent.send(.err)
             }
           }
         }
-      } completion: { error in
-        DispatchQueue.main.async {
-          if let error = error {
-            let info = error.localizedDescription
-            if info.contains("The Internet connection appears to be offline") {
-              aiMsg.onError(error.localizedDescription, .network)
-            } else {
-              aiMsg.onError(error.localizedDescription, .unknown)
-            }
-            print("completion error: \(info)")
-            em.messageEvent.send(.err)
+      } catch {
+        Task { @MainActor in
+          let info = error.localizedDescription.lowercased()
+          if info.contains("api key") || info.contains("apikey") {
+            aiMsg.onError(error.localizedDescription, .apiKey)
           } else {
-            print("openAI.client.chatsStream done")
-            em.messageEvent.send(.eof)
+            aiMsg.onError(error.localizedDescription, .unknown)
           }
+          userMsg.meta?.endedAt = .now
+          print("partialResult error: \(info)")
+          em.messageEvent.send(.err)
         }
       }
     }

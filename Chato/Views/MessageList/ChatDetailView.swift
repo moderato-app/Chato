@@ -1,8 +1,10 @@
 import SwiftUI
 
 struct ChatDetailView: View {
-  @EnvironmentObject var pref: Pref
+  @EnvironmentObject private var pref: Pref
+  @Environment(\.colorScheme) private var colorScheme
   @State private var isTutorialPresented = false
+  @State private var isSettingPresented = false
 
   let chat: Chat
 
@@ -11,7 +13,7 @@ struct ChatDetailView: View {
       .navigationTitle(chat.name)
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.hidden, for: .automatic)
-      .softFeedback(isTutorialPresented, isTutorialPresented)
+      .softFeedback(isTutorialPresented, isSettingPresented)
       .toolbar {
         ToolbarTitleMenu {
           Section {
@@ -24,10 +26,26 @@ struct ChatDetailView: View {
               }
             }
           }
+
+          Section {
+            Button {
+              isSettingPresented.toggle()
+            } label: {
+              HStack {
+                Text("Settings")
+                Image(systemName: "gear")
+              }
+            }
+          }
         }
       }
       .sheet(isPresented: $isTutorialPresented) {
         TutorialView(option: chat.option)
+      }
+      .sheet(isPresented: $isSettingPresented) {
+        SettingView()
+          .preferredColorScheme(colorScheme)
+          .presentationDetents([.large])
       }
   }
 }

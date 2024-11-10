@@ -15,12 +15,13 @@ final class MessageMeta {
   @Attribute(originalName: "startedAt") var startedAt: Date? = nil
   @Attribute(originalName: "endedAt") var endedAt: Date? = nil
 
-  init(model: String, contextLength: Int, promptName: String? = nil, temperature: Double,
+  init(model: String, contextLength: Int, actual_contextLength: Int, promptName: String?, temperature: Double,
        presencePenalty: Double, frequencyPenalty: Double, promptTokens: Int?,completionTokens: Int?,
        startedAt: Date?, endedAt: Date? )
   {
     self.model = model
     self.contextLength = contextLength
+    self.actual_contextLength = actual_contextLength
     self.promptName = promptName
     self.temperature = temperature
     self.presencePenalty = presencePenalty
@@ -35,6 +36,8 @@ final class MessageMeta {
     return .init(
       model: model,
       contextLength: contextLength,
+      actual_contextLength: actual_contextLength,
+      promptName: promptName,
       temperature: temperature,
       presencePenalty: presencePenalty,
       frequencyPenalty: frequencyPenalty,

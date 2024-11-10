@@ -58,8 +58,11 @@ struct NormalMsgView: View {
         .presentationDetents(detents())
     }
     .sheet(isPresented: $isInfoPresented) {
-      Rectangle()
-        .presentationDetents([.medium])
+      Form {
+        MessageMetaView(message: msg)
+      }
+      .presentationDetents([.medium])
+      .presentationDragIndicator(.visible)
     }
     .confirmationDialog(
       confirmDeleteTitle(),
@@ -111,64 +114,59 @@ struct NormalMsgView: View {
     .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
     .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15).inset(by: 1))
     // preserve corner in context menu, use inset(by: 1) to remove the unhappy tiny white edge line
-    .if(msg.status != .typing && pref.doubleTapAction != .none) {
+    .contextMenu {
+      Button(action: {
+        UIPasteboard.general.string = targetText()
+      }) {
+        Label("Copy", systemImage: "doc.on.doc")
+      }
+      Button(action: {
+        showingSelectTextPopover.toggle()
+      }) {
+        Label("Select Text", systemImage: "selection.pin.in.out")
+      }
+      Button(action: {
+        em.reUseTextEvent.send(targetText())
+      }) {
+        Label("Reuse", systemImage: "highlighter")
+      }
+      Button(action: {
+        translationVisible.toggle()
+      }) {
+        Label("Translate", systemImage: "translate")
+      }
+      Button(action: {
+        isInfoPresented.toggle()
+      }) {
+        Label("Info", systemImage: "info.square")
+      }
+      Section {
+        Button(role: .destructive, action: {
+          isDeleteConfirmPresented.toggle()
+        }) {
+          Label("Delete", systemImage: "trash")
+        }
+      }
+    }
+    .if(msg.status != .typing) {
       $0.onTapGesture(count: 2) {
-        switch pref.doubleTapAction {
-        case .none:
-          break
-        case .reuse:
-          Task { @MainActor in
-            em.reUseTextEvent.send(targetText())
-          }
-        case .copy:
-#if os(iOS)
-          UIPasteboard.general.string = targetText()
-#elseif os(macOS)
-          NSPasteboard.general.clearContents()
-          NSPasteboard.general.setString(targetText, forType: .string)
-#endif
-        }
-        HapticsService.shared.shake(.light)
+        switchAction(pref.doubleTapAction)
+      }.onTapGesture(count: 3) {
+        switchAction(pref.trippleTapAction)
       }
-      .contextMenu {
-        Button(action: {
-#if os(iOS)
-          UIPasteboard.general.string = targetText()
-#elseif os(macOS)
-          NSPasteboard.general.clearContents()
-          NSPasteboard.general.setString(targetText, forType: .string)
-#endif
-        }) {
-          Label("Copy", systemImage: "doc.on.doc")
-        }
-        Button(action: {
-          showingSelectTextPopover.toggle()
-        }) {
-          Label("Select Text", systemImage: "selection.pin.in.out")
-        }
-        Button(action: {
-          em.reUseTextEvent.send(targetText())
-        }) {
-          Label("Reuse", systemImage: "highlighter")
-        }
-        Button(action: {
-          translationVisible.toggle()
-        }) {
-          Label("Translate", systemImage: "translate")
-        }
-        Button(action: {
-          isInfoPresented.toggle()
-        }) {
-          Label("Info", systemImage: "info.square")
-        }
-        Section {
-          Button(role: .destructive, action: {
-            isDeleteConfirmPresented.toggle()
-          }) {
-            Label("Delete", systemImage: "trash")
-          }
-        }
-      }
+    }
+  }
+
+  func switchAction(_ action: DoubleTapAction) {
+    switch action {
+    case .none:
+      break
+    case .reuse:
+      em.reUseTextEvent.send(targetText())
+    case .copy:
+      UIPasteboard.general.string = targetText()
+    case .showInfo:
+      isInfoPresented.toggle()
     }
   }
 

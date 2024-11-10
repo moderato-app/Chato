@@ -1,28 +1,31 @@
 import Foundation
+import SwiftOpenAI
 
-struct ChatGPTModel: Hashable {
+struct ChatGPTModel {
   let name: String
   let value: String
+  let swiftOpenAIModel: SwiftOpenAI.Model
   let version: Int
 
-  init(_ name: String, _ value: String, _ version: Int) {
+  init(_ name: String, _ value: String, _ swiftOpenAIModel: SwiftOpenAI.Model, _ version: Int) {
     self.name = name
     self.value = value
+    self.swiftOpenAIModel = swiftOpenAIModel
     self.version = version
   }
 }
 
 let chatGPTModels = [
-  ChatGPTModel("GPT3.5 Turbo", "gpt-3.5-turbo", 3),
+  ChatGPTModel("GPT3.5 Turbo", "gpt-3.5-turbo", .gpt35Turbo, 3),
   defaultGPTModel,
-  ChatGPTModel("GPT4", "gpt-4", 4),
-  ChatGPTModel("GPT-4o", "gpt-4o", 4),
-  ChatGPTModel("o1-preview", "o1-preview", 4),
-  ChatGPTModel("o1-mini", "o1-mini", 4),
-  ChatGPTModel("GPT-4 Turbo", "gpt-4-turbo", 4),
+  ChatGPTModel("GPT4", "gpt-4", .gpt4, 4),
+  ChatGPTModel("GPT-4o", "gpt-4o", .gpt4o, 4),
+  ChatGPTModel("o1-preview", "o1-preview", .o1Preview, 4),
+  ChatGPTModel("o1-mini", "o1-mini", .o1Mini, 4),
+  ChatGPTModel("GPT-4 Turbo", "gpt-4-turbo", .gpt4turbo, 4)
 ].sorted { a, b in a.value < b.value }
 
-let defaultGPTModel = ChatGPTModel("GPT-4o mini", "gpt-4o-mini", 3)
+let defaultGPTModel = ChatGPTModel("GPT-4o mini", "gpt-4o-mini", .gpt4omini, 3)
 
 enum ContextLength: Hashable {
   case zero
@@ -68,7 +71,7 @@ enum ContextLength: Hashable {
     if self == .infinite {
       return "Inf"
     } else {
-      return "\(self.length)"
+      return "\(length)"
     }
   }
 }

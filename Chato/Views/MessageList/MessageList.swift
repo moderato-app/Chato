@@ -143,9 +143,7 @@ struct MessageList: View {
           .offset(x: -15)
         }
     }
-    .if(pref.haptics) {
-      $0.sensoryFeedback(.impact(flexibility: .soft), trigger: triggerHaptic)
-    }
+    .softFeedback(triggerHaptic)
     .onAppear {
       initMessageList()
       position.scrollTo(edge: .bottom)

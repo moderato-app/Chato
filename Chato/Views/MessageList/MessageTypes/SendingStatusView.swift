@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SendingView: View {
+struct SendingStatusView: View {
   @State private var rotation: Double = 0
 
   var body: some View {
@@ -16,5 +16,5 @@ struct SendingView: View {
 }
 
 #Preview {
-  SendingView().background(.secondary)
+  SendingStatusView().background(.secondary)
 }

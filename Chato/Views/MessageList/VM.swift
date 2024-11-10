@@ -110,11 +110,9 @@ extension InputAreaView {
     let query = ChatQuery(model: chat.option.model, messages: macpaw,
                           temperature: chat.option.maybeTemperature,
                           presencePenalty: chat.option.maybePresencePenalty,
-                          frequencyPenalty: chat.option.maybeFrequencyPenalty
-    )
-    
-    print("using temperature: \(String(describing: chat.option.maybeTemperature)), presencePenalty: \(String(describing: chat.option.maybePresencePenalty)), frequencyPenalty: \(String(describing: chat.option.maybeFrequencyPenalty))")
+                          frequencyPenalty: chat.option.maybeFrequencyPenalty)
 
+    print("using temperature: \(String(describing: chat.option.maybeTemperature)), presencePenalty: \(String(describing: chat.option.maybePresencePenalty)), frequencyPenalty: \(String(describing: chat.option.maybeFrequencyPenalty))")
 
     print("===whole message list begins===")
 
@@ -126,9 +124,21 @@ extension InputAreaView {
 
     var userMsg = Message(text, .user, .sending)
     userMsg.chat = chat
+    userMsg.meta = .init(model: chat.option.model,
+                         contextLength: contextLength,
+                         temperature: chat.option.temperature,
+                         presencePenalty: chat.option.presencePenalty,
+                         frequencyPenalty: chat.option.frequencyPenalty,
+                         promptTokens: nil, completionTokens: nil, startedAt: Date.now, endedAt: nil)
 
     var aiMsg = Message("", .assistant, .thinking)
     aiMsg.chat = chat
+    aiMsg.meta = .init(model: chat.option.model,
+                       contextLength: contextLength,
+                       temperature: chat.option.temperature,
+                       presencePenalty: chat.option.presencePenalty,
+                       frequencyPenalty: chat.option.frequencyPenalty,
+                       promptTokens: nil, completionTokens: nil, startedAt: nil, endedAt: nil)
 
     do {
       // it seems model data can only stay consistent when all the ops happen in a non-breakable main actor
@@ -156,6 +166,8 @@ extension InputAreaView {
           switch res {
           case .success(let result):
             let content = result.choices[0].message.content ?? ""
+            userMsg.meta?.promptTokens = result.usage?.promptTokens
+            aiMsg.meta?.completionTokens = result.usage?.completionTokens
             aiMsg.onEOF(text: content)
             em.messageEvent.send(.eof)
           case .failure(let error):
@@ -185,6 +197,9 @@ extension InputAreaView {
           case .success(let result):
             let content = result.choices[0].delta.content ?? ""
             if let _ = result.choices[0].finishReason {
+//              userMsg.meta?.promptTokens = result.usage?.totalTokens
+//              aiMsg.meta?.completionTokens = result.usage?.completionTokens
+              
               aiMsg.onEOF(text: content)
             } else {
               aiMsg.onTyping(text: content)

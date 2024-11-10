@@ -29,9 +29,7 @@ struct ErrorView: View {
               .font(.footnote)
               .foregroundColor(.accentColor)
           }
-          .if(pref.haptics) {
-            $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isSettingPresented)
-          }
+          .softFeedback(isSettingPresented)
         case .network:
           Button {
             if let appSettings = URL(string: UIApplication.openSettingsURLString) {

@@ -11,6 +11,7 @@ struct ChatDetailView: View {
       .navigationTitle(chat.name)
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.hidden, for: .automatic)
+      .softFeedback(isTutorialPresented, isTutorialPresented)
       .toolbar {
         ToolbarTitleMenu {
           Section {
@@ -22,17 +23,11 @@ struct ChatDetailView: View {
                 Image(systemName: "accessibility")
               }
             }
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isTutorialPresented)
-            }
           }
         }
       }
       .sheet(isPresented: $isTutorialPresented) {
         TutorialView(option: chat.option)
-      }
-      .if(pref.haptics) {
-        $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isTutorialPresented)
       }
   }
 }
@@ -53,6 +48,7 @@ private struct ChatDetail: View {
   var body: some View {
 //    let _ = Self._printChanges()
     MessageList(chat: chat)
+      .softFeedback(isPromptPresented, isInfoPresented)
       .toolbar {
         ToolbarItem(placement: .automatic) {
           HStack(spacing: 0) {
@@ -75,9 +71,6 @@ private struct ChatDetail: View {
               }
               .presentationDetents([.large])
             }
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isPromptPresented)
-            }
             Button {
               self.isInfoPresented.toggle()
             } label: {
@@ -91,9 +84,6 @@ private struct ChatDetail: View {
             .sheet(isPresented: $isInfoPresented) {
               ChatInfoView(chat: chat)
                 .presentationDetents([.large])
-            }
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isInfoPresented)
             }
           }
         }

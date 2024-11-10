@@ -23,9 +23,7 @@ struct SettingView: View {
             }
             .pickerStyle(.segmented)
             .labelsHidden()
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.selection, trigger: pref.colorScheme)
-            }
+            .selectionFeedback(pref.colorScheme)
           }
 
           HStack {
@@ -59,9 +57,7 @@ struct SettingView: View {
               }
             }
             .labelsHidden()
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.selection, trigger: pref.doubleTapAction)
-            }
+            .selectionFeedback(pref.doubleTapAction)
           }
         } header: { Text("App") } footer: {
           if pref.doubleTapAction == .reuse {

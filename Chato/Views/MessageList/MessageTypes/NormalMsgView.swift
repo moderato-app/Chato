@@ -21,9 +21,10 @@ struct NormalMsgView: View {
   @State private var showingSelectTextPopover: Bool = false
   @State var isDeleteConfirmPresented: Bool = false
   @State private var translationVisible = false
+  @State private var isInfoPresented = false
 
-  private let deleteCallback: ()->Void
-  init(msg: Message, deleteCallback: @escaping ()->Void) {
+  private let deleteCallback: () -> Void
+  init(msg: Message, deleteCallback: @escaping () -> Void) {
     self.msg = msg
     self.deleteCallback = deleteCallback
   }
@@ -55,6 +56,10 @@ struct NormalMsgView: View {
     .sheet(isPresented: $showingSelectTextPopover) {
       SelectTextView(msg.message)
         .presentationDetents(detents())
+    }
+    .sheet(isPresented: $isInfoPresented) {
+      Rectangle()
+        .presentationDetents([.medium])
     }
     .confirmationDialog(
       confirmDeleteTitle(),
@@ -89,9 +94,7 @@ struct NormalMsgView: View {
         .translationPresentation(isPresented: $translationVisible, text: msg.message) { trans in
           msg.message = trans
         }
-        .if(pref.haptics) {
-          $0.sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: msg.message)
-        }
+        .softFeedback(msg.message)
       }
       if msg.status == .error {
         ErrorView(msg.errorInfo, msg.errorType)
@@ -152,6 +155,11 @@ struct NormalMsgView: View {
           translationVisible.toggle()
         }) {
           Label("Translate", systemImage: "translate")
+        }
+        Button(action: {
+          isInfoPresented.toggle()
+        }) {
+          Label("Info", systemImage: "info.square")
         }
         Section {
           Button(role: .destructive, action: {

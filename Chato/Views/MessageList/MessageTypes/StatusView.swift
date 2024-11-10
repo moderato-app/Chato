@@ -1,22 +1,23 @@
 import SwiftUI
 
 struct StateView: View {
-  @Environment(\.colorScheme) var colorScheme
+  @Environment(\.colorScheme) private var colorScheme
+
   var msg: Message
 
   var body: some View {
     HStack(spacing: 2) {
       Text(formatAgo(from: msg.createdAt))
       if msg.status == .sending {
-        SendingView()
+        SendingStatusView()
           .modifier(StatusModifier(msg.role))
       }
       if msg.status == .sent || msg.status == .received {
-        DoneView()
+        DoneStatusView()
           .modifier(StatusModifier(msg.role))
       }
     }
-    .foregroundColor(msg.role == .assistant ? .secondary : Color(hex:"#e5e5e5"))
+    .foregroundColor(msg.role == .assistant ? .secondary : Color(hex: "#e5e5e5"))
     .font(.footnote)
   }
 }

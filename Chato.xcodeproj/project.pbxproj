@@ -12,10 +12,10 @@
 		EB13D6682BC9C61F00B38A5E /* StoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB13D6672BC9C61F00B38A5E /* StoreKit.swift */; };
 		EB1671B62B8E633F00540426 /* ThinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671B52B8E633F00540426 /* ThinkingView.swift */; };
 		EB1671B92B8E69FC00540426 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671B82B8E69FC00540426 /* Util.swift */; };
-		EB1671BB2B8E71D800540426 /* SendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671BA2B8E71D800540426 /* SendingView.swift */; };
+		EB1671BB2B8E71D800540426 /* SendingStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671BA2B8E71D800540426 /* SendingStatusView.swift */; };
 		EB1671BD2B8E733500540426 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671BC2B8E733500540426 /* ErrorView.swift */; };
 		EB1671BF2B8E75F200540426 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671BE2B8E75F200540426 /* StatusView.swift */; };
-		EB1671C12B8E76B200540426 /* DoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671C02B8E76B200540426 /* DoneView.swift */; };
+		EB1671C12B8E76B200540426 /* DoneStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671C02B8E76B200540426 /* DoneStatusView.swift */; };
 		EB18C9362C0AF2B3003A9465 /* VM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18C9352C0AF2B3003A9465 /* VM.swift */; };
 		EB18C93B2C0B1075003A9465 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18C93A2C0B1075003A9465 /* Pref.swift */; };
 		EB2AF8472C19588D003C9292 /* DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2AF8462C19588D003C9292 /* DoneButton.swift */; };
@@ -57,6 +57,12 @@
 		EB7906B82B977FD600BB16D1 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7906B72B977FD600BB16D1 /* EventManager.swift */; };
 		EB7906BA2B979DEC00BB16D1 /* SelectTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7906B92B979DEC00BB16D1 /* SelectTextView.swift */; };
 		EB80896E2CE103FD0003BACD /* ChatGPTSettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80896D2CE103FD0003BACD /* ChatGPTSettingSection.swift */; };
+		EB8089702CE10C980003BACD /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80896F2CE10C980003BACD /* InfoView.swift */; };
+		EB8089722CE10CD20003BACD /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089712CE10CD20003BACD /* Pasteboard.swift */; };
+		EB8089742CE117A40003BACD /* Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089732CE117A40003BACD /* Ext.swift */; };
+		EB8089762CE1199A0003BACD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089752CE1199A0003BACD /* Message.swift */; };
+		EB8089782CE119BB0003BACD /* ChatOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089772CE119BB0003BACD /* ChatOption.swift */; };
+		EB80897A2CE119DA0003BACD /* MessageMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089792CE119DA0003BACD /* MessageMeta.swift */; };
 		EB88E3282CA2868800DA9F71 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB88E3272CA2868800DA9F71 /* State.swift */; };
 		EB8B955E2BC9B5DB00E018C4 /* CoffeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8B955D2BC9B5DB00E018C4 /* CoffeeView.swift */; };
 		EB8BBA382B8E264C002010FA /* NormalMsgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8BBA372B8E264C002010FA /* NormalMsgView.swift */; };
@@ -116,10 +122,10 @@
 		EB13D6692BC9D40C00B38A5E /* PurchaseSync.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PurchaseSync.storekit; sourceTree = "<group>"; };
 		EB1671B52B8E633F00540426 /* ThinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinkingView.swift; sourceTree = "<group>"; };
 		EB1671B82B8E69FC00540426 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		EB1671BA2B8E71D800540426 /* SendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendingView.swift; sourceTree = "<group>"; };
+		EB1671BA2B8E71D800540426 /* SendingStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendingStatusView.swift; sourceTree = "<group>"; };
 		EB1671BC2B8E733500540426 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		EB1671BE2B8E75F200540426 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
-		EB1671C02B8E76B200540426 /* DoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneView.swift; sourceTree = "<group>"; };
+		EB1671C02B8E76B200540426 /* DoneStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneStatusView.swift; sourceTree = "<group>"; };
 		EB18C9352C0AF2B3003A9465 /* VM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VM.swift; sourceTree = "<group>"; };
 		EB18C93A2C0B1075003A9465 /* Pref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pref.swift; sourceTree = "<group>"; };
 		EB2AF8462C19588D003C9292 /* DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButton.swift; sourceTree = "<group>"; };
@@ -164,6 +170,12 @@
 		EB7906B72B977FD600BB16D1 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		EB7906B92B979DEC00BB16D1 /* SelectTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTextView.swift; sourceTree = "<group>"; };
 		EB80896D2CE103FD0003BACD /* ChatGPTSettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPTSettingSection.swift; sourceTree = "<group>"; };
+		EB80896F2CE10C980003BACD /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		EB8089712CE10CD20003BACD /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
+		EB8089732CE117A40003BACD /* Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
+		EB8089752CE1199A0003BACD /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		EB8089772CE119BB0003BACD /* ChatOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatOption.swift; sourceTree = "<group>"; };
+		EB8089792CE119DA0003BACD /* MessageMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMeta.swift; sourceTree = "<group>"; };
 		EB88E3272CA2868800DA9F71 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		EB8B955D2BC9B5DB00E018C4 /* CoffeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeView.swift; sourceTree = "<group>"; };
 		EB8BBA372B8E264C002010FA /* NormalMsgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalMsgView.swift; sourceTree = "<group>"; };
@@ -365,6 +377,7 @@
 				EB64222B2B6F7C9300119DE6 /* Settings */,
 				EB6422392B6F7C9300119DE6 /* Whatever */,
 				EB58C3C02B85D9F500DF8DDB /* TestView.swift */,
+				EB8089732CE117A40003BACD /* Ext.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -451,6 +464,9 @@
 			children = (
 				EB7646272B98990500B76236 /* Setting.swift */,
 				EBC7C1332B98A380008409D0 /* Chat.swift */,
+				EB8089772CE119BB0003BACD /* ChatOption.swift */,
+				EB8089752CE1199A0003BACD /* Message.swift */,
+				EB8089792CE119DA0003BACD /* MessageMeta.swift */,
 				EBC7C1352B98A386008409D0 /* Prompt.swift */,
 				EB6422482B6F7C9300119DE6 /* Container.swift */,
 				EB6451F32B72B79500434D47 /* SQL.swift */,
@@ -473,6 +489,7 @@
 		EB64224D2B6F7C9300119DE6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EB8089712CE10CD20003BACD /* Pasteboard.swift */,
 				EBB075D72B93D44E007328EF /* String.swift */,
 				EB4A0EEB2B6FD64F0065BCDC /* SwiftUI.swift */,
 				EB64224E2B6F7C9300119DE6 /* SwiftData.swift */,
@@ -504,10 +521,11 @@
 				EB8BBA372B8E264C002010FA /* NormalMsgView.swift */,
 				EBC857882C395CF600DE2252 /* MsgVM.swift */,
 				EB1671B52B8E633F00540426 /* ThinkingView.swift */,
-				EB1671BA2B8E71D800540426 /* SendingView.swift */,
-				EB1671C02B8E76B200540426 /* DoneView.swift */,
+				EB1671BA2B8E71D800540426 /* SendingStatusView.swift */,
+				EB1671C02B8E76B200540426 /* DoneStatusView.swift */,
 				EB1671BC2B8E733500540426 /* ErrorView.swift */,
 				EB1671BE2B8E75F200540426 /* StatusView.swift */,
+				EB80896F2CE10C980003BACD /* InfoView.swift */,
 			);
 			path = MessageTypes;
 			sourceTree = "<group>";
@@ -629,6 +647,7 @@
 				EB7646282B98990500B76236 /* Setting.swift in Sources */,
 				EB6422692B6F7C9400119DE6 /* ChatGPT.swift in Sources */,
 				EB18C9362C0AF2B3003A9465 /* VM.swift in Sources */,
+				EB8089742CE117A40003BACD /* Ext.swift in Sources */,
 				EB8DFFA12B98E87A00862A94 /* PromptCreateView.swift in Sources */,
 				EB8B955E2BC9B5DB00E018C4 /* CoffeeView.swift in Sources */,
 				EBDEDC8B2C37FF6500C4F251 /* Ripple.swift in Sources */,
@@ -642,7 +661,7 @@
 				EB4A0EEA2B6FC8940065BCDC /* ChatInfoView.swift in Sources */,
 				EB6422612B6F7C9400119DE6 /* InputAreaView.swift in Sources */,
 				EB6451F42B72B79500434D47 /* SQL.swift in Sources */,
-				EB1671C12B8E76B200540426 /* DoneView.swift in Sources */,
+				EB1671C12B8E76B200540426 /* DoneStatusView.swift in Sources */,
 				EB2AF8472C19588D003C9292 /* DoneButton.swift in Sources */,
 				EB7906B82B977FD600BB16D1 /* EventManager.swift in Sources */,
 				EB88E3282CA2868800DA9F71 /* State.swift in Sources */,
@@ -656,18 +675,22 @@
 				EB6422672B6F7C9400119DE6 /* Container.swift in Sources */,
 				EBB075C82B93949A007328EF /* PromptListView.swift in Sources */,
 				EBB3464A2C37F3F7003DB2CE /* MessageList.swift in Sources */,
+				EB8089722CE10CD20003BACD /* Pasteboard.swift in Sources */,
 				EB1671B62B8E633F00540426 /* ThinkingView.swift in Sources */,
 				EBC7C1342B98A380008409D0 /* Chat.swift in Sources */,
 				EB1671B92B8E69FC00540426 /* Util.swift in Sources */,
+				EB80897A2CE119DA0003BACD /* MessageMeta.swift in Sources */,
 				EB18C93B2C0B1075003A9465 /* Pref.swift in Sources */,
 				EBB075D42B93B1CA007328EF /* PromptEditorView.swift in Sources */,
 				EB64225A2B6F7C9400119DE6 /* ChatListView.swift in Sources */,
+				EB8089762CE1199A0003BACD /* Message.swift in Sources */,
 				EB8BBA382B8E264C002010FA /* NormalMsgView.swift in Sources */,
 				EB80896E2CE103FD0003BACD /* ChatGPTSettingSection.swift in Sources */,
 				EB6422622B6F7C9400119DE6 /* NewChatView.swift in Sources */,
 				EBA75D8C2C380C24003FC64D /* Ripple.metal in Sources */,
 				EBC7C1382B98A61C008409D0 /* Migration.swift in Sources */,
 				EB6422552B6F7C9400119DE6 /* TestButton.swift in Sources */,
+				EB8089702CE10C980003BACD /* InfoView.swift in Sources */,
 				EBA0F1782CDF9BCB003043F7 /* WheelPickerView.swift in Sources */,
 				EBA0F1792CDF9BCB003043F7 /* WheelPicker.swift in Sources */,
 				EB7906BA2B979DEC00BB16D1 /* SelectTextView.swift in Sources */,
@@ -683,7 +706,7 @@
 				EB7906B52B976CBA00BB16D1 /* Theme.swift in Sources */,
 				EB3060222B964438009F90E9 /* HomePage.swift in Sources */,
 				EB4A0EE82B6F91B40065BCDC /* ChatGPTContext.swift in Sources */,
-				EB1671BB2B8E71D800540426 /* SendingView.swift in Sources */,
+				EB1671BB2B8E71D800540426 /* SendingStatusView.swift in Sources */,
 				EB64226C2B6F7C9400119DE6 /* Basic.swift in Sources */,
 				EBF62A152CDF5AAB002353FA /* AudioService.swift in Sources */,
 				EBCAC0C82C96F3B5000A3DA1 /* VersionView.swift in Sources */,
@@ -693,6 +716,7 @@
 				EB4CD6882B9A582600E076AC /* DangerZoneView.swift in Sources */,
 				EBB075CC2B939BEF007328EF /* PromptRowView.swift in Sources */,
 				EB64226A2B6F7C9400119DE6 /* ChatExample.swift in Sources */,
+				EB8089782CE119BB0003BACD /* ChatOption.swift in Sources */,
 				EB1671BD2B8E733500540426 /* ErrorView.swift in Sources */,
 				EBB075C52B938AB8007328EF /* PromptSample.swift in Sources */,
 				EBA0F17D2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift in Sources */,

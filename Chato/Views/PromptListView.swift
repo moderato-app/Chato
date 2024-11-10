@@ -42,7 +42,7 @@ private struct ListPromptNoQuery: View {
   @State var promptToDelete: Prompt?
   @State var isDeleteConfirmPresented: Bool = false
   @State var isCreatePromptPresented = false
-  @State var hapticsTrigger = 0
+  @State var hapticsTrigger = false
 
   var chatOption: ChatOption?
   private var myPrompts: [Prompt]
@@ -85,10 +85,8 @@ private struct ListPromptNoQuery: View {
       } label: {
         PlusIcon()
       }
-      .if(pref.haptics) {
-        $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isCreatePromptPresented)
-      }
     }
+    .softFeedback(isCreatePromptPresented, hapticsTrigger)
     .sheet(isPresented: $isCreatePromptPresented) {
       NavigationStack {
         PromptCreateView { _ in }
@@ -112,7 +110,7 @@ private struct ListPromptNoQuery: View {
     }
     .onReceive(em.chatOptionPromptChangeEvent) { id in
       if let co = chatOption {
-        hapticsTrigger += 1
+        hapticsTrigger.toggle()
         withAnimation(.bouncy(duration: 0.2)) {
           if let id = id {
             co.prompt = modelContext.findPromptById(promptId: id)
@@ -121,9 +119,6 @@ private struct ListPromptNoQuery: View {
           }
         }
       }
-    }
-    .if(pref.haptics) {
-      $0.sensoryFeedback(.impact(flexibility: .soft), trigger: hapticsTrigger)
     }
   }
 

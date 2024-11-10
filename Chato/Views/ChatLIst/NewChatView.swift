@@ -53,9 +53,7 @@ struct NewChatView: View {
               }
             }
           }
-          .if(pref.haptics) {
-            $0.sensoryFeedback(.impact(weight: .medium, intensity: 1.0), trigger: triggerHaptic)
-          }
+          .softFeedback(triggerHaptic)
         }
         ToolbarItem(placement: .cancellationAction) {
           Button("Cancel") {

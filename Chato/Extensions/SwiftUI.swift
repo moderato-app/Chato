@@ -315,3 +315,15 @@ public extension View {
     modifier(TransNaviModifier())
   }
 }
+
+struct SelectableModifier: ViewModifier {
+  func body(content: Content) -> some View {
+    content.textSelection(.enabled)
+  }
+}
+
+public extension View {
+  func selectable() -> some View {
+    modifier(SelectableModifier())
+  }
+}

@@ -46,12 +46,7 @@ struct ChatListView: View {
             selection: $settingsDetent
           )
       }
-      .if(pref.haptics) {
-        $0.sensoryFeedback(.impact(flexibility: .soft), trigger: editMode)
-          .sensoryFeedback(.impact(flexibility: .soft), trigger: isSettingPresented)
-          .sensoryFeedback(.impact(flexibility: .soft), trigger: isNewChatPresented)
-          .sensoryFeedback(.impact(flexibility: .soft), trigger: isMultiDeleteConfirmPresented)
-      }
+      .softFeedback(editMode.isEditing, isSettingPresented, isNewChatPresented, isMultiDeleteConfirmPresented)
   }
 
   @State var selectedChatIDs = Set<PersistentIdentifier>()

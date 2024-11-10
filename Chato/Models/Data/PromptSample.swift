@@ -23,7 +23,7 @@ struct PromptSample: Decodable {
 extension PromptSample {
   
   static let userDefault = Prompt(
-    name: "Emoji chatbot",
+    name: "Emoji Chatbot",
     messages: [PromptMessage(content: "You will be provided with a message, and your task is to respond using emojis only.", role: .system, order: 0)],
     order: 0
   )

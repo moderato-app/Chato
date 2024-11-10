@@ -3,6 +3,7 @@ import Foundation
 import SwiftData
 import SwiftUI
 import Throttler
+import VisualEffectView
 
 struct SwitchablePickerStyle: ViewModifier {
   let isNavi: Bool
@@ -291,36 +292,23 @@ extension View {
   }
 }
 
-
-#if canImport(UIKit)
 struct TransNaviModifier: ViewModifier {
-  init() {
-    let navBarAppearance = UINavigationBarAppearance()
-    navBarAppearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-    navBarAppearance.shadowColor = .clear
-    UINavigationBar.appearance().standardAppearance = navBarAppearance
+  @Environment(\.colorScheme) var colorScheme
+
+  var visualTint: Color {
+    colorScheme == .dark ? .black : .white
   }
 
   func body(content: Content) -> some View {
     content
+      .toolbarBackground(.hidden, for: .navigationBar)
+      .safeAreaInset(edge: .top, spacing: 0) {
+        VisualEffect(colorTint: visualTint, colorTintAlpha: 0.1, blurRadius: 18, scale: 1)
+          .ignoresSafeArea(edges: .top)
+          .frame(height: 0)
+      }
   }
 }
-#elseif canImport(AppKit)
-struct TransNaviModifier: ViewModifier {
-  init() {
-    let navBarAppearance = NSAppearance(named: .vibrantLight)
-    NSApplication.shared.appearance = navBarAppearance
-    
-    if let titleBar = NSApplication.shared.windows.first?.standardWindowButton(.closeButton)?.superview {
-      titleBar.layer?.backgroundColor = NSColor.clear.cgColor
-    }
-  }
-
-  func body(content: Content) -> some View {
-    content
-  }
-}
-#endif
 
 public extension View {
   func transNavi() -> some View {

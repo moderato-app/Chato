@@ -2,11 +2,16 @@ import SwiftData
 import SwiftUI
 
 struct ChatListView: View {
-  static let sortOrder = [SortDescriptor(\Chat.order, order: .reverse)]
+  private static let sortOrder = [SortDescriptor(\Chat.order, order: .reverse)]
 
-  @Environment(\.colorScheme) var colorScheme
   @Environment(\.modelContext) private var modelContext
+  @Environment(\.colorScheme) private var colorScheme
+  @EnvironmentObject var pref: Pref
   @Query(sort: \Chat.createdAt) private var chats: [Chat]
+
+  @State private var settingsDetent = PresentationDetent.medium
+  @State private var isSettingPresented = false
+  @State private var isNewChatPresented = false
 
   @State var isDeleteConfirmPresented: Bool = false
   @State var chatToDelete: Chat?
@@ -26,6 +31,18 @@ struct ChatListView: View {
 
   var body: some View {
     list()
+      .sheet(isPresented: $isSettingPresented) {
+        SettingView()
+          .preferredColorScheme(colorScheme)
+          .presentationDetents([.large])
+      }
+      .sheet(isPresented: $isNewChatPresented) {
+        NewChatView()
+          .presentationDetents(
+            [.medium, .large],
+            selection: $settingsDetent
+          )
+      }
   }
 
   @State var selectedChatIDs = Set<PersistentIdentifier>()
@@ -37,7 +54,7 @@ struct ChatListView: View {
         ChatRowView(chat: chat)
           .listRowInsets(SwiftUICore.EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 10))
           .background(
-            NavigationLink(value: chat){}
+            NavigationLink(value: chat) {}
               .opacity(0)
           )
           .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -58,8 +75,6 @@ struct ChatListView: View {
       .onMove(perform: onMove)
     }
     .listStyle(.plain)
-    .navigationTitle("Chats")
-    .transNavi()
     .confirmationDialog(
       chatToDelete?.name ?? "",
       isPresented: $isDeleteConfirmPresented,
@@ -76,7 +91,6 @@ struct ChatListView: View {
     .toolbar {
       toolbarItems()
     }
-
     // ensure the .environment() modifier is placed after the .toolbar() modifier
     .environment(\.editMode, $editMode)
     .onAppear {
@@ -88,42 +102,44 @@ struct ChatListView: View {
   func toolbarItems() -> some ToolbarContent {
     ToolbarItem {
       if editMode == .active {
-        #if os(iOS)
         Button("Done") {
           withAnimation {
             editMode = .inactive
             selectedChatIDs = .init()
           }
         }.fontWeight(.semibold)
-        #endif
       } else {
         Menu("", systemImage: "ellipsis.circle") {
-          Button("Prompts", systemImage: "p.square") {}
-//          Button("Statistics", systemImage: "chart.line.uptrend.xyaxis") {}
+          NavigationLink(value: "prompt list") {
+            Label("Prompts", systemImage: "p.square")
+          }
           if !chats.isEmpty {
-            #if os(iOS)
             Button("Select Chats", systemImage: "checkmark.circle") {
               withAnimation {
                 editMode = .active
               }
             }
-            #endif
           }
           Section {
-            Button("Settings", systemImage: "gear") {}
+            Button("Settings", systemImage: "gear") {
+              isSettingPresented = true
+            }
+            .if(pref.haptics) {
+              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isSettingPresented)
+            }
           }
         }
       }
     }
-    #if os(iOS)
-    let p = ToolbarItemPlacement.navigationBarTrailing
-    #elseif os(macOS)
-    let p = ToolbarItemPlacement.automatic
-    #endif
-    ToolbarItem(placement: p) {
+    ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
       if editMode != .active {
-        Button(action: {}) {
-          Image(systemName: "square.and.pencil")
+        Button {
+          self.isNewChatPresented = true
+        } label: {
+          PlusIcon()
+        }
+        .if(pref.haptics) {
+          $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isNewChatPresented)
         }
         .contextMenu {
           Button("New Chat", systemImage: "square.and.pencil") {}
@@ -140,7 +156,6 @@ struct ChatListView: View {
         }
       }
     }
-    #if os(iOS)
     ToolbarItem(placement: .bottomBar) {
       if editMode == .active {
         HStack {
@@ -152,7 +167,6 @@ struct ChatListView: View {
         }
       }
     }
-    #endif
   }
 
   private func removeChats(_ indexSet: IndexSet) {

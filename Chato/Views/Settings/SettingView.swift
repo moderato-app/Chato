@@ -11,7 +11,6 @@ struct SettingView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.colorScheme) var colorScheme
   @EnvironmentObject var storeVM: StoreVM
-  @State var showWallpaperSelection = false
   let selectedDisplayMode: NavigationBarItem.TitleDisplayMode = .large
 
   var body: some View {
@@ -31,25 +30,6 @@ struct SettingView: View {
             .labelsHidden()
             .if(pref.haptics) {
               $0.sensoryFeedback(.selection, trigger: pref.colorScheme)
-            }
-          }
-          if colorScheme != .dark {
-            Button {
-              showWallpaperSelection.toggle()
-            } label: {
-              HStack {
-                Label {
-                  Text("Wallpaper")
-                    .tint(.primary)
-                } icon: {
-                  Image(systemName: "rainbow")
-                    .symbolRenderingMode(.multicolor)
-                }
-                Spacer()
-                Text(pref.wallpaperDispaleyName)
-                  .lineLimit(1)
-                  .foregroundColor(.secondary)
-              }
             }
           }
 
@@ -204,12 +184,6 @@ struct SettingView: View {
       }
       .navigationTitle("Settings")
       .navigationBarTitleDisplayMode(.inline)
-      .fullScreenCover(isPresented: $showWallpaperSelection) {
-        WallpaperSelectionView()
-          .overlay(alignment: .topTrailing) {
-            CloseButton()
-          }
-      }
     }
   }
 

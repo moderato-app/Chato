@@ -10,8 +10,7 @@ struct PromptRowView: View {
 
   var body: some View {
     //let _ = Self.printChagesWhenDebug()
-    print("prompt.id: \(prompt.id)")
-    return HStack {
+    HStack {
       // show button only if chatOption exists
       if showCircle {
         if prompt.id == id {
@@ -35,11 +34,20 @@ struct PromptRowView: View {
         }
       }
       VStack(alignment: .leading) {
-        Text(prompt.name)
-          .font(.headline)
+        HStack(alignment: .firstTextBaseline) {
+          Text(prompt.name)
+            .fontWeight(.semibold)
+            .lineLimit(1)
+          Spacer()
+          Image(systemName: "chevron.forward")
+            .foregroundStyle(.tertiary)
+            .fontWeight(.semibold)
+            .imageScale(.small)
+        }
         Text((prompt.messages.sorted().first(where: { !$0.content.isEmpty })?.content ?? "") + String(repeating: " ", count: 50))
-          .foregroundColor(.secondary)
-          .lineLimit(3)
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+          .lineLimit(2)
       }
     }
     .buttonStyle(.plain)

@@ -5,7 +5,7 @@ struct PromptListView: View {
   @State var searchString = ""
   var chatOption: ChatOption?
   var body: some View {
-    //let _ = Self.printChagesWhenDebug()
+    // let _ = Self.printChagesWhenDebug()
     ListPrompt(chatOption: chatOption, searchString: searchString)
       .searchable(text: $searchString)
 //      .searchable(text: $searchString, placement: .navigationBarDrawer(displayMode: .always))
@@ -28,18 +28,21 @@ private struct ListPrompt: View {
   }
 
   var body: some View {
-    //let _ = Self.printChagesWhenDebug()
+    // let _ = Self.printChagesWhenDebug()
     ListPromptNoQuery(chatOption: chatOption, prompts: prompts)
+      .navigationBarTitle("Prompts")
   }
 }
 
 private struct ListPromptNoQuery: View {
   @Environment(\.modelContext) private var modelContext
   @EnvironmentObject var em: EM
+  @EnvironmentObject var pref: Pref
 
   @State var promptToDelete: Prompt?
   @State var isDeleteConfirmPresented: Bool = false
   @State var isCreatePromptPresented = false
+  @State var hapticsTrigger = 0
 
   var chatOption: ChatOption?
   private var myPrompts: [Prompt]
@@ -52,71 +55,32 @@ private struct ListPromptNoQuery: View {
   }
 
   var body: some View {
-    //let _ = Self.printChagesWhenDebug()
+    // let _ = Self.printChagesWhenDebug()
     List {
       if !myPrompts.isEmpty {
-        Section(myPrompts.count > 5 ? "My Prompts (\(myPrompts.count))" : "My Prompts") {
-          ForEach(myPrompts, id: \.persistentModelID) { prompt in
-            NavigationLink(value: prompt) {
-              PromptRowView(prompt: prompt, showCircle: chatOption != nil, id: chatOption?.prompt?.persistentModelID)
-            }
-            .modifier(
-              SwitchableListRowInsets(chatOption != nil, EdgeInsets(top: 10, leading: 4, bottom: 10, trailing: 10))
-            )
-            .lovelyRow()
-            .swipeActions {
-              DeleteButton {
-                promptToDelete = prompt
-                isDeleteConfirmPresented = true
-              }
-              DupButton {
-                let p2 = prompt.copy(order: myPrompts.count)
-                modelContext.insert(p2)
-              }
-            }
-          }
-          .onMove(perform: movePrompts)
+        Section(myPrompts.count > 5 ? "MY PROMPTS (\(myPrompts.count))" : "MY PROMPTS") {
+          list(prompts: myPrompts)
         }
-        .textCase(.none)
       }
 
       if !presets.isEmpty {
-        Section(presets.count > 5 ? "Presets (\(presets.count))" : "") {
-          ForEach(presets, id: \.persistentModelID) { prompt in
-            NavigationLink(value: prompt) {
-              PromptRowView(prompt: prompt, showCircle: chatOption != nil, id: chatOption?.prompt?.persistentModelID)
-            }
-            .modifier(
-              SwitchableListRowInsets(chatOption != nil, EdgeInsets(top: 10, leading: 4, bottom: 10, trailing: 10))
-            )
-            .lovelyRow()
-            .swipeActions(allowsFullSwipe: false) {
-              DeleteButton {
-                promptToDelete = prompt
-                isDeleteConfirmPresented = true
-              }
-              DupButton {
-                let p2 = prompt.copy(order: myPrompts.count)
-                modelContext.insert(p2)
-              }
-            }
-          }
-          .onMove(perform: movePresets)
+        Section(presets.count > 5 ? "PRESETS (\(presets.count))" : "PRESETS") {
+          list(prompts: presets)
         }
-        .textCase(.none)
       }
     }
+    .listStyle(.plain)
     .modifier(JustScrollView(chatOption?.prompt?.persistentModelID))
-    .scrollContentBackground(.hidden)
-    .background(WallpaperView())
     .animation(.spring, value: myPrompts.count)
     .animation(.spring, value: presets.count)
     .toolbar {
       Button {
         isCreatePromptPresented.toggle()
-      }
-      label: {
+      } label: {
         PlusIcon()
+      }
+      .if(pref.haptics) {
+        $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isCreatePromptPresented)
       }
     }
     .sheet(isPresented: $isCreatePromptPresented) {
@@ -140,9 +104,9 @@ private struct ListPromptNoQuery: View {
     } message: {
       Text("This prompt will be deleted.")
     }
-    .navigationBarTitle("Prompts", displayMode: .inline)
     .onReceive(em.chatOptionPromptChangeEvent) { id in
       if let co = chatOption {
+        hapticsTrigger += 1
         withAnimation(.bouncy(duration: 0.2)) {
           if let id = id {
             co.prompt = modelContext.findPromptById(promptId: id)
@@ -151,6 +115,35 @@ private struct ListPromptNoQuery: View {
           }
         }
       }
+    }
+    .if(pref.haptics) {
+      $0.sensoryFeedback(.impact(flexibility: .soft), trigger: hapticsTrigger)
+    }
+  }
+
+  @ViewBuilder
+  func list(prompts: [Prompt]) -> some View {
+    ForEach(prompts, id: \.persistentModelID) { prompt in
+      PromptRowView(prompt: prompt, showCircle: chatOption != nil, id: chatOption?.prompt?.persistentModelID)
+        .background(
+          NavigationLink(value: prompt) {}.opacity(0)
+        )
+        .modifier(
+          SwitchableListRowInsets(chatOption != nil, EdgeInsets(top: 10, leading: 4, bottom: 10, trailing: 10))
+        )
+        .swipeActions(allowsFullSwipe: false) {
+          DeleteButton {
+            promptToDelete = prompt
+            isDeleteConfirmPresented = true
+          }
+          DupButton {
+            let p = prompt.copy(order: prompts.count)
+            modelContext.insert(p)
+          }
+        }
+    }
+    .onMove {
+      onMove(prompts: prompts, from: $0, to: $1)
     }
   }
 
@@ -161,14 +154,8 @@ private struct ListPromptNoQuery: View {
     }
   }
 
-  func movePrompts(from source: IndexSet, to destination: Int) {
-    var updatedItems = myPrompts
-    updatedItems.move(fromOffsets: source, toOffset: destination)
-    updatedItems.reIndex()
-  }
-
-  func movePresets(from source: IndexSet, to destination: Int) {
-    var updatedItems = presets
+  func onMove(prompts: [Prompt], from source: IndexSet, to destination: Int) {
+    var updatedItems = prompts
     updatedItems.move(fromOffsets: source, toOffset: destination)
     updatedItems.reIndex()
   }

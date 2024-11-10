@@ -196,7 +196,7 @@ extension InputAreaView {
               if userMsg.status == .sending {
                 userMsg.onSent()
               }
-              
+
               if let choice = chunk.choices.first {
                 let text = choice.delta.content ?? "\nchoice has no content\n"
                 if let fr = choice.finishReason {
@@ -224,11 +224,11 @@ extension InputAreaView {
         }
       } catch {
         Task { @MainActor in
-          let info = error.localizedDescription.lowercased()
-          if info.contains("api key") || info.contains("apikey") {
-            aiMsg.onError(error.localizedDescription, .apiKey)
+          let info = "\(error)"
+          if info.lowercased().contains("api key") || info.lowercased().contains("apikey") {
+            aiMsg.onError(info, .apiKey)
           } else {
-            aiMsg.onError(error.localizedDescription, .unknown)
+            aiMsg.onError(info, .unknown)
           }
           userMsg.onSent()
           print("partialResult error: \(error)")

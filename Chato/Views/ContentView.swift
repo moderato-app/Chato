@@ -13,7 +13,7 @@ struct ContentView: View {
       .environmentObject(EM.shared)
       .environmentObject(storeVM)
       .environmentObject(pref)
-      .colorScheme(pref.computedColorScheme ?? colorScheme)
+      .preferredColorScheme(pref.computedColorScheme)
   }
 }
 

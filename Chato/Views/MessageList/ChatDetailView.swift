@@ -7,12 +7,9 @@ struct ChatDetailView: View {
   let chat: Chat
   @State private var isTutorialPresented = false
   @EnvironmentObject var pref: Pref
-  @State var uiState = UIState.shared
 
   var body: some View {
     ChatDetail(chat: chat)
-      .onAppear{uiState.inChatView = true}
-      .onDisappear{uiState.inChatView = false}
       .navigationTitle(chat.name)
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.hidden, for: .automatic)

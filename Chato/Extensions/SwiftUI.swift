@@ -3,6 +3,7 @@ import Foundation
 import SwiftData
 import SwiftUI
 import Throttler
+import VisualEffectView
 
 struct SwitchablePickerStyle: ViewModifier {
   let isNavi: Bool
@@ -288,5 +289,29 @@ struct SizeDetector: ViewModifier {
 extension View {
   @ViewBuilder func detectSize(_ size: Binding<CGSize>) -> some View {
     modifier(SizeDetector(size: size))
+  }
+}
+
+struct TransNaviModifier: ViewModifier {
+  @Environment(\.colorScheme) var colorScheme
+
+  var visualTint: Color {
+    colorScheme == .dark ? .black : .white
+  }
+
+  func body(content: Content) -> some View {
+    content
+      .toolbarBackground(.hidden, for: .navigationBar)
+      .safeAreaInset(edge: .top, spacing: 0) {
+        VisualEffect(colorTint: visualTint, colorTintAlpha: 0.1, blurRadius: 18, scale: 1)
+          .ignoresSafeArea(edges: .top)
+          .frame(height: 0)
+      }
+  }
+}
+
+public extension View {
+  func transNavi() -> some View {
+    modifier(TransNaviModifier())
   }
 }

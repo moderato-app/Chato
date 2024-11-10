@@ -2,69 +2,65 @@ import SwiftData
 import SwiftUI
 
 struct ChatRowView: View {
-  var chat: Chat
-  @Query private var messages: [Message]
+  @Environment(\.modelContext) private var modelContext
+  @Environment(\.editMode) private var editMode
 
-  init(_ chat: Chat) {
-    self.chat = chat
+  var chat: Chat
+
+  @State private var message: Message?
+
+  func loadLatestMsg() {
     let chatId = chat.persistentModelID
     let predicate = #Predicate<Message> { msg in
       msg.chat?.persistentModelID == chatId
     }
-    let fetcher = FetchDescriptor<Message>(predicate: predicate, sortBy: [SortDescriptor(\Message.createdAt, order: .reverse)], fetchLimit: 4)
-    _messages = Query(fetcher)
-  }
-
-  var item: ChatRowCacheItem {
-    //let _ = Self.printChagesWhenDebug()
-    let msg = messages.first(where: { !$0.message.isEmpty })
-    let item = ChatRowCacheItem(name: chat.name,
-                                updatedAt: msg?.createdAt,
-                                input: chat.input,
-                                role: msg?.role,
-                                text: msg?.message)
-    return item
+    let fetcher = FetchDescriptor<Message>(predicate: predicate, sortBy: [SortDescriptor(\Message.createdAt, order: .reverse)], fetchLimit: 1)
+    do {
+      message = try modelContext.fetch(fetcher).first
+    } catch {
+      print("message = try modelContext.fetch(fetcher).first :\(error)")
+    }
   }
 
   var body: some View {
-    //let _ = Self.printChagesWhenDebug()
-    InnerChatRowView(item: item)
-      .onAppear {
-        ChatRowCache.shared.set(chat.persistentModelID, item)
-      }
-  }
-}
+    // let _ = Self.printChagesWhenDebug()
 
-struct InnerChatRowView: View {
-  var item: ChatRowCacheItem
-
-  var body: some View {
-    //let _ = Self.printChagesWhenDebug()
     VStack(alignment: .leading) {
-      HStack {
-        Text(item.name)
-          .font(.headline)
+      HStack(alignment: .firstTextBaseline) {
+        Text(chat.name)
+          .fontWeight(.semibold)
+          .lineLimit(1)
         Spacer()
-        if let up = item.updatedAt {
-          Text(formatAgo(from: up))
-            .foregroundColor(.secondary)
-            .font(.footnote)
+        Text(formatAgo(from: chat.updatedAt))
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+          .lineLimit(1)
+        if editMode?.wrappedValue.isEditing ?? false {
+        } else {
+          Image(systemName: "chevron.forward")
+            .foregroundStyle(.tertiary)
+            .fontWeight(.semibold)
+            .imageScale(.small)
         }
       }
-      HStack {
-        if item.input.isMeaningful {
-          Text(Image(systemName: "pencil.and.outline")).foregroundStyle(.primary) + Text(" " + item.input.meaningfulString)
+      Group {
+        if chat.input.isMeaningful {
+          Text(Image(systemName: "pencil.and.outline")).foregroundStyle(.primary) + Text(" " + chat.input.meaningfulString)
         } else {
-          if let role = item.role, let text = item.text {
-            let sender = role == .user ? "You: " : ""
-            Text(sender + text + String(repeating: " ", count: 50))
+          if let message {
+            let sender = message.role == .user ? "You: " : ""
+            Text(sender + message.message + String(repeating: " ", count: 50))
           } else {
             Text(String(repeating: " ", count: 50))
           }
         }
       }
-      .foregroundColor(.secondary)
+      .font(.subheadline)
+      .foregroundStyle(.secondary)
       .lineLimit(2)
+    }
+    .onAppear {
+      loadLatestMsg()
     }
   }
 }
@@ -73,8 +69,8 @@ struct InnerChatRowView: View {
   ModelContainerPreview(ModelContainer.preview) {
     NavigationStack {
       List {
-        ChatRowView(ChatSample.manyMessages)
-        ChatRowView(ChatSample.emptyMessage)
+        ChatRowView(chat: ChatSample.manyMessages)
+        ChatRowView(chat: ChatSample.emptyMessage)
       }
     }
   }

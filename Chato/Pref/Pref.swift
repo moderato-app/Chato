@@ -4,7 +4,6 @@ import SwiftUI
 class Pref: ObservableObject {
   static var shared = Pref()
 
-  @AppStorage("wallpaperIndex") var wallpaperIndex = 1
   @AppStorage("haptics") var haptics: Bool = true
   @AppStorage("doubleTapAction") var doubleTapAction: DoubleTapAction = .reuse
   @AppStorage("magicScrolling") var magicScrolling: Bool = true
@@ -25,23 +24,8 @@ class Pref: ObservableObject {
   @AppStorage("fillDataRecordGreeting") var fillDataRecordGreeting: Bool = false
   @AppStorage("fillDataRecordPrompts") var fillDataRecordPrompts: Bool = false
 
-  var wallpaperName: String? {
-    if self.wallpaperIndex == 0 {
-      return nil
-    }
-    return wallpaperImageNames[self.wallpaperIndex - 1]
-  }
-
-  var wallpaperDispaleyName: String {
-    if self.wallpaperIndex == 0 {
-      return "Default"
-    }
-    return wallpaperImageNames[self.wallpaperIndex - 1].split(separator: "-").first!.capitalized
-  }
-
   func reset() {
     let newPref = Pref()
-    self.wallpaperIndex = newPref.wallpaperIndex
     self.haptics = newPref.haptics
     self.doubleTapAction = newPref.doubleTapAction
     self.magicScrolling = newPref.magicScrolling

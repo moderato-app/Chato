@@ -1,53 +1,5 @@
 import SwiftUI
 
-public extension View {
-  func lovelyRow() -> some View {
-    modifier(LoveRowView())
-  }
-}
-
-struct LoveRowView: ViewModifier {
-  @Environment(\.colorScheme) var colorScheme
-  @EnvironmentObject var pref: Pref
-
-  func body(content: Content) -> some View {
-    content
-      .if(colorScheme == .light) {
-        $0.listRowBackground(
-          Color.clear
-            .overlay {
-              if pref.wallpaperIndex == 0 {
-                Rectangle()
-                  .fill(.white)
-                  .clipShape(RoundedRectangle(cornerRadius: 10))
-                  .shadow(color: .gray.opacity(0.2), radius: 5, y: 5)
-                  .padding(.vertical, 2)
-              } else {
-                Rectangle()
-                  .fill(BackgroundStyle.background.opacity(0.7))
-                  .clipShape(RoundedRectangle(cornerRadius: 10))
-                  .padding(.vertical, 2)
-              }
-            })
-            .listRowSeparator(.hidden)
-      }
-      .if(colorScheme == .dark) {
-        $0.listRowBackground(
-          Rectangle()
-            .fill(BackgroundStyle.background)
-            .clipShape(RoundedRectangle(cornerRadius: 14))
-            .padding(.vertical, 2)
-            .overlay {
-              Rectangle()
-                .fill(HierarchicalShapeStyle.quaternary)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
-                .padding(.vertical, 2)
-            })
-            .listRowSeparator(.hidden)
-      }
-  }
-}
-
 struct MessageRowModifier: ViewModifier {
   @Environment(\.colorScheme) var colorScheme
   private let role: Message.MessageRole

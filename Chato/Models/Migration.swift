@@ -2,10 +2,9 @@ import Foundation
 import SwiftData
 
 func migrate(_ modelContext: ModelContext) throws {
-  
-  //TODO It's safe to delete all asm and migratePref() at 01/01/2025
+  // TODO: It's safe to delete all asm and migratePref() at 01/01/2025
   let asms = try modelContext.fetch(FetchDescriptor<AppStateModel>())
-  if let asm = asms.first{
+  if let asm = asms.first {
     migratePref(asm: asm)
     modelContext.delete(asm)
   }
@@ -32,26 +31,34 @@ private func fillData(_ modelContext: ModelContext) throws {
   }
 
   if !Pref.shared.fillDataRecordPrompts {
-    let descriptor = FetchDescriptor<Prompt>(
-      predicate: #Predicate { !$0.preset }
-    )
-    let count = (try? modelContext.fetchCount(descriptor)) ?? 0
-
-    let english = PromptSample.english()
-
-    english.prompts.reIndex()
-
-    for p in english.prompts {
-      p.order += count
-      modelContext.insert(p)
-      p.messages.reIndex()
-    }
-
-    modelContext.insert(PromptSample.userDefault)
+    try fillPrompts(modelContext,save: false)
     Pref.shared.fillDataRecordPrompts = true
   }
 
   try? modelContext.save()
+}
+
+func fillPrompts(_ modelContext: ModelContext, save: Bool) throws {
+  let descriptor = FetchDescriptor<Prompt>(
+    predicate: #Predicate { !$0.preset }
+  )
+  let count = (try? modelContext.fetchCount(descriptor)) ?? 0
+
+  let english = PromptSample.english()
+
+  english.prompts.reIndex()
+
+  for p in english.prompts {
+    p.order += count
+    modelContext.insert(p)
+    p.messages.reIndex()
+  }
+
+  modelContext.insert(PromptSample.userDefault)
+
+  if save{
+    try? modelContext.save()
+  }
 }
 
 func addPreviewData(_ modelContext: ModelContext) throws {

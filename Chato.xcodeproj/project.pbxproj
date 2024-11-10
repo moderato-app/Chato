@@ -18,7 +18,6 @@
 		EB1671C12B8E76B200540426 /* DoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671C02B8E76B200540426 /* DoneView.swift */; };
 		EB18C9362C0AF2B3003A9465 /* VM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18C9352C0AF2B3003A9465 /* VM.swift */; };
 		EB18C93B2C0B1075003A9465 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18C93A2C0B1075003A9465 /* Pref.swift */; };
-		EB18C93D2C0B1101003A9465 /* WallpaperSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18C93C2C0B1101003A9465 /* WallpaperSelectionView.swift */; };
 		EB2AF8472C19588D003C9292 /* DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2AF8462C19588D003C9292 /* DoneButton.swift */; };
 		EB3060202B964121009F90E9 /* NavigationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30601F2B964120009F90E9 /* NavigationContext.swift */; };
 		EB3060222B964438009F90E9 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3060212B964438009F90E9 /* HomePage.swift */; };
@@ -53,7 +52,6 @@
 		EB64226F2B6F7CB100119DE6 /* ChatoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB64226E2B6F7CB100119DE6 /* ChatoApp.swift */; };
 		EB6451F42B72B79500434D47 /* SQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6451F32B72B79500434D47 /* SQL.swift */; };
 		EB6E08E12B9BA0A800100DFE /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6E08E02B9BA0A800100DFE /* Cache.swift */; };
-		EB6E08E32B9BAD6300100DFE /* CaChatRowPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6E08E22B9BAD6300100DFE /* CaChatRowPreview.swift */; };
 		EB7646282B98990500B76236 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7646272B98990500B76236 /* Setting.swift */; };
 		EB7906B32B975FA200BB16D1 /* ChatRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7906B22B975FA200BB16D1 /* ChatRowView.swift */; };
 		EB7906B52B976CBA00BB16D1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7906B42B976CBA00BB16D1 /* Theme.swift */; };
@@ -124,7 +122,6 @@
 		EB1671C02B8E76B200540426 /* DoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneView.swift; sourceTree = "<group>"; };
 		EB18C9352C0AF2B3003A9465 /* VM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VM.swift; sourceTree = "<group>"; };
 		EB18C93A2C0B1075003A9465 /* Pref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pref.swift; sourceTree = "<group>"; };
-		EB18C93C2C0B1101003A9465 /* WallpaperSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperSelectionView.swift; sourceTree = "<group>"; };
 		EB2AF8462C19588D003C9292 /* DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButton.swift; sourceTree = "<group>"; };
 		EB30601F2B964120009F90E9 /* NavigationContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationContext.swift; sourceTree = "<group>"; };
 		EB3060212B964438009F90E9 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
@@ -162,7 +159,6 @@
 		EB6451F82B72CCDE00434D47 /* Chato.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chato.entitlements; sourceTree = "<group>"; };
 		EB6451FB2B72CEF400434D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EB6E08E02B9BA0A800100DFE /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
-		EB6E08E22B9BAD6300100DFE /* CaChatRowPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaChatRowPreview.swift; sourceTree = "<group>"; };
 		EB7646272B98990500B76236 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		EB7906B22B975FA200BB16D1 /* ChatRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRowView.swift; sourceTree = "<group>"; };
 		EB7906B42B976CBA00BB16D1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -315,7 +311,6 @@
 		EB6422122B6F7BB000119DE6 /* Chato */ = {
 			isa = PBXGroup;
 			children = (
-				EB1340032CDE592A00F5197E /* Tips */,
 				EB64226E2B6F7CB100119DE6 /* ChatoApp.swift */,
 				EB30601F2B964120009F90E9 /* NavigationContext.swift */,
 				EB7906B72B977FD600BB16D1 /* EventManager.swift */,
@@ -327,6 +322,7 @@
 				EB64222A2B6F7C9300119DE6 /* Views */,
 				EB64224D2B6F7C9300119DE6 /* Extensions */,
 				EB1671B72B8E69F300540426 /* Util */,
+				EB1340032CDE592A00F5197E /* Tips */,
 				EB6422252B6F7C9300119DE6 /* PreviewHelper */,
 				EB64221B2B6F7BB100119DE6 /* Preview Content */,
 				EB13D6672BC9C61F00B38A5E /* StoreKit.swift */,
@@ -378,23 +374,22 @@
 			isa = PBXGroup;
 			children = (
 				EBCAC0C52C96E5BC000A3DA1 /* SafariView.swift */,
-				EB64222C2B6F7C9300119DE6 /* Flaky */,
+				EB64222C2B6F7C9300119DE6 /* Whatever */,
 				EB64222F2B6F7C9300119DE6 /* Other */,
 				EB6422332B6F7C9300119DE6 /* SettingView.swift */,
 				EBB205BD2B8F2FCE00B046F6 /* ChatGPTSettingView.swift */,
-				EB18C93C2C0B1101003A9465 /* WallpaperSelectionView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		EB64222C2B6F7C9300119DE6 /* Flaky */ = {
+		EB64222C2B6F7C9300119DE6 /* Whatever */ = {
 			isa = PBXGroup;
 			children = (
 				EB64222D2B6F7C9300119DE6 /* TestButton.swift */,
 				EB64222E2B6F7C9300119DE6 /* ProxyView.swift */,
 				EB7906B92B979DEC00BB16D1 /* SelectTextView.swift */,
 			);
-			path = Flaky;
+			path = Whatever;
 			sourceTree = "<group>";
 		};
 		EB64222F2B6F7C9300119DE6 /* Other */ = {
@@ -491,7 +486,6 @@
 			isa = PBXGroup;
 			children = (
 				EB7906B22B975FA200BB16D1 /* ChatRowView.swift */,
-				EB6E08E22B9BAD6300100DFE /* CaChatRowPreview.swift */,
 			);
 			path = Row;
 			sourceTree = "<group>";
@@ -641,7 +635,6 @@
 				EBC857892C395CF600DE2252 /* MsgVM.swift in Sources */,
 				EBC857862C395CBA00DE2252 /* TextOutputFormat.swift in Sources */,
 				EBC857872C395CBA00DE2252 /* SplashCodeSyntaxHighlighter.swift in Sources */,
-				EB6E08E32B9BAD6300100DFE /* CaChatRowPreview.swift in Sources */,
 				EBB076272B94ABC6007328EF /* EnvTypeView.swift in Sources */,
 				EBB205BE2B8F2FCE00B046F6 /* ChatGPTSettingView.swift in Sources */,
 				EB58C3C12B85D9F500DF8DDB /* TestView.swift in Sources */,
@@ -690,7 +683,6 @@
 				EB3060222B964438009F90E9 /* HomePage.swift in Sources */,
 				EB4A0EE82B6F91B40065BCDC /* ChatGPTContext.swift in Sources */,
 				EB1671BB2B8E71D800540426 /* SendingView.swift in Sources */,
-				EB18C93D2C0B1101003A9465 /* WallpaperSelectionView.swift in Sources */,
 				EB64226C2B6F7C9400119DE6 /* Basic.swift in Sources */,
 				EBF62A152CDF5AAB002353FA /* AudioService.swift in Sources */,
 				EBCAC0C82C96F3B5000A3DA1 /* VersionView.swift in Sources */,

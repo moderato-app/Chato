@@ -53,7 +53,7 @@ struct ChatInfoView: View {
                           isPresented: $isClearHistoryPresented,
                           titleVisibility: .visible)
       {
-        Button("Confirm", role: .destructive) {
+        Button("Clear", role: .destructive) {
           clearMessages()
         }
       } message: {

@@ -55,11 +55,9 @@ struct NewChatView: View {
               }
             }
           }
-#if !os(visionOS)
           .if(pref.haptics) {
             $0.sensoryFeedback(.impact(weight: .medium, intensity: 1.0), trigger: triggerHaptic)
           }
-#endif
         }
         ToolbarItem(placement: .cancellationAction) {
           Button("Cancel") {

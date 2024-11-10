@@ -14,6 +14,7 @@ struct ChatListView: View {
   @State private var isNewChatPresented = false
 
   @State var isDeleteConfirmPresented: Bool = false
+  @State var isMultiDeleteConfirmPresented: Bool = false
   @State var chatToDelete: Chat?
   @State var uiState = UIState.shared
 
@@ -75,6 +76,7 @@ struct ChatListView: View {
       .onMove(perform: onMove)
     }
     .listStyle(.plain)
+    .animation(.default, value: chats.count)
     .confirmationDialog(
       chatToDelete?.name ?? "",
       isPresented: $isDeleteConfirmPresented,
@@ -84,6 +86,17 @@ struct ChatListView: View {
         if let c = chatToDelete {
           modelContext.delete(c)
         }
+      }
+    } message: {
+      Text("This chat will be deleted.")
+    }
+    .confirmationDialog(
+      "\(selectedChatIDs.count) chat(s) in total",
+      isPresented: $isMultiDeleteConfirmPresented,
+      titleVisibility: .visible
+    ) {
+      Button("Delete", role: .destructive) {
+        removeChats(selectedChatIDs)
       }
     } message: {
       Text("This chat will be deleted.")
@@ -161,18 +174,11 @@ struct ChatListView: View {
         HStack {
           Spacer()
           Button("Delete") {
-            removeChats(selectedChatIDs)
+            isMultiDeleteConfirmPresented.toggle()
           }
           .disabled(selectedChatIDs.isEmpty)
         }
       }
-    }
-  }
-
-  private func removeChats(_ indexSet: IndexSet) {
-    for index in indexSet {
-      let chatToDelete = chats[index]
-      modelContext.delete(chatToDelete)
     }
   }
 

@@ -31,7 +31,7 @@ private func fillData(_ modelContext: ModelContext) throws {
   }
 
   if !Pref.shared.fillDataRecordPrompts {
-    try fillPrompts(modelContext,save: false)
+    try fillPrompts(modelContext, save: false)
     Pref.shared.fillDataRecordPrompts = true
   }
 
@@ -56,7 +56,7 @@ func fillPrompts(_ modelContext: ModelContext, save: Bool) throws {
 
   modelContext.insert(PromptSample.userDefault)
 
-  if save{
+  if save {
     try? modelContext.save()
   }
 }
@@ -75,8 +75,8 @@ func migratePref(asm: AppStateModel) {
   pref.colorScheme = Pref.AppColorScheme(rawValue: asm.colorScheme.rawValue) ?? .system
 
   pref.gptApiKey = asm.chatGPTConfig.apiKey
-  pref.gptProxyHost = asm.chatGPTConfig.proxyHost
-  pref.gptUseProxy = asm.chatGPTConfig.userProxy
+  pref.gptBaseURL = "https://" + asm.chatGPTConfig.proxyHost
+  pref.gptEnableEndpoint = asm.chatGPTConfig.userProxy
 
   if let opt = asm.lastUsedOption {
     pref.lastUsedModel = opt.model

@@ -8,20 +8,21 @@ struct ContentView: View {
   @StateObject private var openAIServiceProvider: OpenAIServiceProvider
 
   init() {
-    if Pref.shared.gptUseProxy {
-      _openAIServiceProvider = StateObject(wrappedValue: OpenAIServiceProvider(apiKey: Pref.shared.gptApiKey, baseUrl: Pref.shared.gptProxyHost))
+    if Pref.shared.gptEnableEndpoint {
+      _openAIServiceProvider = StateObject(wrappedValue: OpenAIServiceProvider(apiKey: Pref.shared.gptApiKey, baseUrl: Pref.shared.gptBaseURL))
     } else {
       _openAIServiceProvider = StateObject(wrappedValue: OpenAIServiceProvider(apiKey: Pref.shared.gptApiKey))
     }
   }
-
+  
   var body: some View {
+    let o = OpenAIServiceProvider(apiKey: pref.gptApiKey, baseUrl: pref.gptBaseURL)
     HomePage()
       .environmentObject(EM.shared)
       .environmentObject(storeVM)
       .environmentObject(pref)
       .preferredColorScheme(pref.computedColorScheme)
-      .environment(\.openAIService, openAIServiceProvider.service)
+      .environment(\.openAIService, o.service)
   }
 }
 

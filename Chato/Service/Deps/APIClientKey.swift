@@ -26,10 +26,13 @@ class OpenAIServiceProvider: ObservableObject {
   let service: OpenAIService
 
   init(apiKey: String, baseUrl: String? = nil) {
+    let conf = URLSessionConfiguration.default
+    conf.timeoutIntervalForRequest = 120
+
     if let baseUrl{
-      self.service = OpenAIServiceFactory.service(apiKey: apiKey, overrideBaseURL: baseUrl)
+      self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf, overrideBaseURL: baseUrl)
     }else{
-      self.service = OpenAIServiceFactory.service(apiKey: apiKey)
+      self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf)
     }
   }
 }

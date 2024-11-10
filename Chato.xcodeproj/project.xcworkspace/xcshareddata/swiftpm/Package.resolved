@@ -1,5 +1,5 @@
 {
-  "originHash" : "4c781c0fb22226b2660d37ccb7b5ff24bad91b078598cf96b3713d38bfbb5cdd",
+  "originHash" : "5102feaeeb04bae99d89c22d43001820d5aea29107d777c6cd614c8f4c28495d",
   "pins" : [
     {
       "identity" : "bottomsheet",
@@ -70,7 +70,7 @@
       "location" : "https://github.com/moderato-app/SwiftOpenAI.git",
       "state" : {
         "branch" : "main",
-        "revision" : "8f2487a9b1c3094f218cee87d9eb422f6bff8ba2"
+        "revision" : "fbfb9419fad21aaab3cb7ab441858bad52ccd19b"
       }
     },
     {

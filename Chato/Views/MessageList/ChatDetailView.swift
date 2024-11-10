@@ -1,8 +1,10 @@
 import SwiftUI
 
 struct ChatDetailView: View {
-  @EnvironmentObject var pref: Pref
+  @EnvironmentObject private var pref: Pref
+  @Environment(\.colorScheme) private var colorScheme
   @State private var isTutorialPresented = false
+  @State private var isSettingPresented = false
 
   let chat: Chat
 
@@ -11,6 +13,7 @@ struct ChatDetailView: View {
       .navigationTitle(chat.name)
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.hidden, for: .automatic)
+      .softFeedback(isTutorialPresented, isSettingPresented)
       .toolbar {
         ToolbarTitleMenu {
           Section {
@@ -22,8 +25,16 @@ struct ChatDetailView: View {
                 Image(systemName: "accessibility")
               }
             }
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isTutorialPresented)
+          }
+
+          Section {
+            Button {
+              isSettingPresented.toggle()
+            } label: {
+              HStack {
+                Text("Settings")
+                Image(systemName: "gear")
+              }
             }
           }
         }
@@ -31,8 +42,10 @@ struct ChatDetailView: View {
       .sheet(isPresented: $isTutorialPresented) {
         TutorialView(option: chat.option)
       }
-      .if(pref.haptics) {
-        $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isTutorialPresented)
+      .sheet(isPresented: $isSettingPresented) {
+        SettingView()
+          .preferredColorScheme(colorScheme)
+          .presentationDetents([.large])
       }
   }
 }
@@ -53,6 +66,7 @@ private struct ChatDetail: View {
   var body: some View {
 //    let _ = Self._printChanges()
     MessageList(chat: chat)
+      .softFeedback(isPromptPresented, isInfoPresented)
       .toolbar {
         ToolbarItem(placement: .automatic) {
           HStack(spacing: 0) {
@@ -75,9 +89,6 @@ private struct ChatDetail: View {
               }
               .presentationDetents([.large])
             }
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isPromptPresented)
-            }
             Button {
               self.isInfoPresented.toggle()
             } label: {
@@ -91,9 +102,6 @@ private struct ChatDetail: View {
             .sheet(isPresented: $isInfoPresented) {
               ChatInfoView(chat: chat)
                 .presentationDetents([.large])
-            }
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isInfoPresented)
             }
           }
         }

@@ -5,6 +5,7 @@ import SwiftUI
 
 struct InputAreaView: View {
   @Environment(\.modelContext) var modelContext
+  @Environment(\.openAIService) var openAIService
   @EnvironmentObject var em: EM
   @EnvironmentObject var pref: Pref
 
@@ -92,17 +93,27 @@ struct InputAreaView: View {
             send(chat.option.contextLength)
           }
           .contextMenu {
-            Section("Send with context length") {
-              Button("Infinite") { send(Int.max) }
-              Button("20") { send(20) }
-              Button("10") { send(10) }
-              Button("8") { send(8) }
-              Button("6") { send(6) }
-              Button("4") { send(4) }
-              Button("3") { send(3) }
-              Button("2") { send(2) }
-              Button("1") { send(1) }
-              Button("0") { send(0) }
+            let count = chat.messages.count
+            if count >= 20 {
+              Section("Send with context length") {
+                Menu {
+                  if count >= 20 { Button("20") { send(20) }}
+                  if count < 50 { Button("\(count) (max)") { send(count) }}
+                  if count >= 50 { Button("50") { send(50) }}
+                  if count > 50 { Button("\(count) (max)") { send(count) }}
+                } label: {
+                  Button("More") {}
+                }
+              }
+              ForEach([0, 1, 2, 3, 4, 6, 8, 10].reversed(), id: \.self) { i in
+                Button("\(i)") { send(i) }
+              }
+            } else {
+              if count > 10 { Button("\(count) (max)") { send(count) }}
+              ForEach((0 ... 10).reversed(), id: \.self) { i in
+                if i < count { Button("\(i)") { send(i) }}
+                if i == count { Button("\(i) (max)") { send(i) }}
+              }
             }
           }
           .popoverTip(SendButtonTip.instance, arrowEdge: .top)
@@ -125,7 +136,7 @@ struct InputAreaView: View {
     }
     isTextEditorFocused = false
     Task {
-      ask(text: copy, contextLength: contextLength)
+      ask2(text: copy, contextLength: contextLength)
     }
   }
 }

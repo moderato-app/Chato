@@ -51,9 +51,7 @@ struct PromptEditorView: View {
                 .padding(.top, -33)
                 .transition(.asymmetric(insertion: .scale, removal: .scale))
                 .animation(.default, value: focusedItemID)
-                .if(pref.haptics) {
-                  $0.sensoryFeedback(.selection, trigger: msg.role)
-                }
+                .selectionFeedback(msg.role)
               }
             }
             .animation(.default, value: message.role)

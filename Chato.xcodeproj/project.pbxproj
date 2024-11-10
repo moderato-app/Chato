@@ -12,10 +12,10 @@
 		EB13D6682BC9C61F00B38A5E /* StoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB13D6672BC9C61F00B38A5E /* StoreKit.swift */; };
 		EB1671B62B8E633F00540426 /* ThinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671B52B8E633F00540426 /* ThinkingView.swift */; };
 		EB1671B92B8E69FC00540426 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671B82B8E69FC00540426 /* Util.swift */; };
-		EB1671BB2B8E71D800540426 /* SendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671BA2B8E71D800540426 /* SendingView.swift */; };
+		EB1671BB2B8E71D800540426 /* SendingStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671BA2B8E71D800540426 /* SendingStatusView.swift */; };
 		EB1671BD2B8E733500540426 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671BC2B8E733500540426 /* ErrorView.swift */; };
 		EB1671BF2B8E75F200540426 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671BE2B8E75F200540426 /* StatusView.swift */; };
-		EB1671C12B8E76B200540426 /* DoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671C02B8E76B200540426 /* DoneView.swift */; };
+		EB1671C12B8E76B200540426 /* DoneStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671C02B8E76B200540426 /* DoneStatusView.swift */; };
 		EB18C9362C0AF2B3003A9465 /* VM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18C9352C0AF2B3003A9465 /* VM.swift */; };
 		EB18C93B2C0B1075003A9465 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18C93A2C0B1075003A9465 /* Pref.swift */; };
 		EB2AF8472C19588D003C9292 /* DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2AF8462C19588D003C9292 /* DoneButton.swift */; };
@@ -23,7 +23,6 @@
 		EB3080AC2C3480BC002FEDB3 /* HapticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3080AB2C3480BC002FEDB3 /* HapticsService.swift */; };
 		EB37B9A82C281A45002A1667 /* DebugZoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB37B9A72C281A45002A1667 /* DebugZoneView.swift */; };
 		EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = EB4A0EE42B6F908D0065BCDC /* OpenAI */; };
-		EB4A0EE82B6F91B40065BCDC /* ChatGPTContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4A0EE72B6F91B40065BCDC /* ChatGPTContext.swift */; };
 		EB4A0EEA2B6FC8940065BCDC /* ChatInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4A0EE92B6FC8940065BCDC /* ChatInfoView.swift */; };
 		EB4A0EEC2B6FD64F0065BCDC /* SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4A0EEB2B6FD64F0065BCDC /* SwiftUI.swift */; };
 		EB4CD6882B9A582600E076AC /* DangerZoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4CD6872B9A582600E076AC /* DangerZoneView.swift */; };
@@ -57,6 +56,18 @@
 		EB7906B82B977FD600BB16D1 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7906B72B977FD600BB16D1 /* EventManager.swift */; };
 		EB7906BA2B979DEC00BB16D1 /* SelectTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7906B92B979DEC00BB16D1 /* SelectTextView.swift */; };
 		EB80896E2CE103FD0003BACD /* ChatGPTSettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80896D2CE103FD0003BACD /* ChatGPTSettingSection.swift */; };
+		EB8089702CE10C980003BACD /* MessageMetaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80896F2CE10C980003BACD /* MessageMetaView.swift */; };
+		EB8089722CE10CD20003BACD /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089712CE10CD20003BACD /* Pasteboard.swift */; };
+		EB8089742CE117A40003BACD /* Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089732CE117A40003BACD /* Ext.swift */; };
+		EB8089762CE1199A0003BACD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089752CE1199A0003BACD /* Message.swift */; };
+		EB8089782CE119BB0003BACD /* ChatOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089772CE119BB0003BACD /* ChatOption.swift */; };
+		EB80897A2CE119DA0003BACD /* MessageMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089792CE119DA0003BACD /* MessageMeta.swift */; };
+		EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = EB80897C2CE12A100003BACD /* SwiftOpenAI */; };
+		EB8089802CE12A910003BACD /* APIClientKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80897F2CE12A910003BACD /* APIClientKey.swift */; };
+		EB8089822CE13C660003BACD /* MessageInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089812CE13C660003BACD /* MessageInfoView.swift */; };
+		EB80898B2CE145AF0003BACD /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = EB80898A2CE145AE0003BACD /* BottomSheet */; };
+		EB80898D2CE146440003BACD /* AdaptiveSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80898C2CE146440003BACD /* AdaptiveSheet.swift */; };
+		EB80898F2CE15E100003BACD /* OpenAIExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80898E2CE15E100003BACD /* OpenAIExt.swift */; };
 		EB88E3282CA2868800DA9F71 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB88E3272CA2868800DA9F71 /* State.swift */; };
 		EB8B955E2BC9B5DB00E018C4 /* CoffeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8B955D2BC9B5DB00E018C4 /* CoffeeView.swift */; };
 		EB8BBA382B8E264C002010FA /* NormalMsgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8BBA372B8E264C002010FA /* NormalMsgView.swift */; };
@@ -116,17 +127,16 @@
 		EB13D6692BC9D40C00B38A5E /* PurchaseSync.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PurchaseSync.storekit; sourceTree = "<group>"; };
 		EB1671B52B8E633F00540426 /* ThinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinkingView.swift; sourceTree = "<group>"; };
 		EB1671B82B8E69FC00540426 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		EB1671BA2B8E71D800540426 /* SendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendingView.swift; sourceTree = "<group>"; };
+		EB1671BA2B8E71D800540426 /* SendingStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendingStatusView.swift; sourceTree = "<group>"; };
 		EB1671BC2B8E733500540426 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		EB1671BE2B8E75F200540426 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
-		EB1671C02B8E76B200540426 /* DoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneView.swift; sourceTree = "<group>"; };
+		EB1671C02B8E76B200540426 /* DoneStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneStatusView.swift; sourceTree = "<group>"; };
 		EB18C9352C0AF2B3003A9465 /* VM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VM.swift; sourceTree = "<group>"; };
 		EB18C93A2C0B1075003A9465 /* Pref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pref.swift; sourceTree = "<group>"; };
 		EB2AF8462C19588D003C9292 /* DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButton.swift; sourceTree = "<group>"; };
 		EB3060212B964438009F90E9 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 		EB3080AB2C3480BC002FEDB3 /* HapticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsService.swift; sourceTree = "<group>"; };
 		EB37B9A72C281A45002A1667 /* DebugZoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugZoneView.swift; sourceTree = "<group>"; };
-		EB4A0EE72B6F91B40065BCDC /* ChatGPTContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPTContext.swift; sourceTree = "<group>"; };
 		EB4A0EE92B6FC8940065BCDC /* ChatInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInfoView.swift; sourceTree = "<group>"; };
 		EB4A0EEB2B6FD64F0065BCDC /* SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.swift; sourceTree = "<group>"; };
 		EB4CD6872B9A582600E076AC /* DangerZoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DangerZoneView.swift; sourceTree = "<group>"; };
@@ -164,6 +174,16 @@
 		EB7906B72B977FD600BB16D1 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		EB7906B92B979DEC00BB16D1 /* SelectTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTextView.swift; sourceTree = "<group>"; };
 		EB80896D2CE103FD0003BACD /* ChatGPTSettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPTSettingSection.swift; sourceTree = "<group>"; };
+		EB80896F2CE10C980003BACD /* MessageMetaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMetaView.swift; sourceTree = "<group>"; };
+		EB8089712CE10CD20003BACD /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
+		EB8089732CE117A40003BACD /* Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
+		EB8089752CE1199A0003BACD /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		EB8089772CE119BB0003BACD /* ChatOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatOption.swift; sourceTree = "<group>"; };
+		EB8089792CE119DA0003BACD /* MessageMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMeta.swift; sourceTree = "<group>"; };
+		EB80897F2CE12A910003BACD /* APIClientKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientKey.swift; sourceTree = "<group>"; };
+		EB8089812CE13C660003BACD /* MessageInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInfoView.swift; sourceTree = "<group>"; };
+		EB80898C2CE146440003BACD /* AdaptiveSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveSheet.swift; sourceTree = "<group>"; };
+		EB80898E2CE15E100003BACD /* OpenAIExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIExt.swift; sourceTree = "<group>"; };
 		EB88E3272CA2868800DA9F71 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		EB8B955D2BC9B5DB00E018C4 /* CoffeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeView.swift; sourceTree = "<group>"; };
 		EB8BBA372B8E264C002010FA /* NormalMsgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalMsgView.swift; sourceTree = "<group>"; };
@@ -203,9 +223,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */,
+				EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */,
 				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
 				EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */,
 				EBC857802C39599800DE2252 /* Splash in Frameworks */,
+				EB80898B2CE145AF0003BACD /* BottomSheet in Frameworks */,
 				EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */,
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
 				EBD0114C2B98F2840046F235 /* Haptico in Frameworks */,
@@ -275,6 +297,7 @@
 		EB3080AA2C3480AA002FEDB3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				EB80897E2CE12A8F0003BACD /* Deps */,
 				EB3080AB2C3480BC002FEDB3 /* HapticsService.swift */,
 				EBF62A142CDF5AAB002353FA /* AudioService.swift */,
 			);
@@ -365,6 +388,7 @@
 				EB64222B2B6F7C9300119DE6 /* Settings */,
 				EB6422392B6F7C9300119DE6 /* Whatever */,
 				EB58C3C02B85D9F500DF8DDB /* TestView.swift */,
+				EB8089732CE117A40003BACD /* Ext.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -451,6 +475,9 @@
 			children = (
 				EB7646272B98990500B76236 /* Setting.swift */,
 				EBC7C1332B98A380008409D0 /* Chat.swift */,
+				EB8089772CE119BB0003BACD /* ChatOption.swift */,
+				EB8089752CE1199A0003BACD /* Message.swift */,
+				EB8089792CE119DA0003BACD /* MessageMeta.swift */,
 				EBC7C1352B98A386008409D0 /* Prompt.swift */,
 				EB6422482B6F7C9300119DE6 /* Container.swift */,
 				EB6451F32B72B79500434D47 /* SQL.swift */,
@@ -473,11 +500,13 @@
 		EB64224D2B6F7C9300119DE6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EB80898C2CE146440003BACD /* AdaptiveSheet.swift */,
+				EB8089712CE10CD20003BACD /* Pasteboard.swift */,
 				EBB075D72B93D44E007328EF /* String.swift */,
 				EB4A0EEB2B6FD64F0065BCDC /* SwiftUI.swift */,
 				EB64224E2B6F7C9300119DE6 /* SwiftData.swift */,
 				EB64224F2B6F7C9300119DE6 /* Basic.swift */,
-				EB4A0EE72B6F91B40065BCDC /* ChatGPTContext.swift */,
+				EB80898E2CE15E100003BACD /* OpenAIExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -488,6 +517,14 @@
 				EB7906B22B975FA200BB16D1 /* ChatRowView.swift */,
 			);
 			path = Row;
+			sourceTree = "<group>";
+		};
+		EB80897E2CE12A8F0003BACD /* Deps */ = {
+			isa = PBXGroup;
+			children = (
+				EB80897F2CE12A910003BACD /* APIClientKey.swift */,
+			);
+			path = Deps;
 			sourceTree = "<group>";
 		};
 		EB88E3262CA2868300DA9F71 /* State */ = {
@@ -504,10 +541,12 @@
 				EB8BBA372B8E264C002010FA /* NormalMsgView.swift */,
 				EBC857882C395CF600DE2252 /* MsgVM.swift */,
 				EB1671B52B8E633F00540426 /* ThinkingView.swift */,
-				EB1671BA2B8E71D800540426 /* SendingView.swift */,
-				EB1671C02B8E76B200540426 /* DoneView.swift */,
+				EB1671BA2B8E71D800540426 /* SendingStatusView.swift */,
+				EB1671C02B8E76B200540426 /* DoneStatusView.swift */,
 				EB1671BC2B8E733500540426 /* ErrorView.swift */,
 				EB1671BE2B8E75F200540426 /* StatusView.swift */,
+				EB80896F2CE10C980003BACD /* MessageMetaView.swift */,
+				EB8089812CE13C660003BACD /* MessageInfoView.swift */,
 			);
 			path = MessageTypes;
 			sourceTree = "<group>";
@@ -558,6 +597,8 @@
 				EBC8577F2C39599800DE2252 /* Splash */,
 				EBA73E2E2CDD3006007E480C /* VisualEffectView */,
 				EBB4EF282CDDC02200F38178 /* VisualEffectView */,
+				EB80897C2CE12A100003BACD /* SwiftOpenAI */,
+				EB80898A2CE145AE0003BACD /* BottomSheet */,
 			);
 			productName = Chato;
 			productReference = EB6422102B6F7BB000119DE6 /* Chato.app */;
@@ -596,6 +637,8 @@
 				EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				EBC8577E2C39599800DE2252 /* XCRemoteSwiftPackageReference "Splash" */,
 				EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */,
+				EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
+				EB8089892CE145AE0003BACD /* XCRemoteSwiftPackageReference "BottomSheet" */,
 			);
 			productRefGroup = EB6422112B6F7BB000119DE6 /* Products */;
 			projectDirPath = "";
@@ -629,6 +672,7 @@
 				EB7646282B98990500B76236 /* Setting.swift in Sources */,
 				EB6422692B6F7C9400119DE6 /* ChatGPT.swift in Sources */,
 				EB18C9362C0AF2B3003A9465 /* VM.swift in Sources */,
+				EB8089742CE117A40003BACD /* Ext.swift in Sources */,
 				EB8DFFA12B98E87A00862A94 /* PromptCreateView.swift in Sources */,
 				EB8B955E2BC9B5DB00E018C4 /* CoffeeView.swift in Sources */,
 				EBDEDC8B2C37FF6500C4F251 /* Ripple.swift in Sources */,
@@ -639,10 +683,11 @@
 				EBB205BE2B8F2FCE00B046F6 /* ChatGPTSettingView.swift in Sources */,
 				EB58C3C12B85D9F500DF8DDB /* TestView.swift in Sources */,
 				EBC7C1362B98A386008409D0 /* Prompt.swift in Sources */,
+				EB80898F2CE15E100003BACD /* OpenAIExt.swift in Sources */,
 				EB4A0EEA2B6FC8940065BCDC /* ChatInfoView.swift in Sources */,
 				EB6422612B6F7C9400119DE6 /* InputAreaView.swift in Sources */,
 				EB6451F42B72B79500434D47 /* SQL.swift in Sources */,
-				EB1671C12B8E76B200540426 /* DoneView.swift in Sources */,
+				EB1671C12B8E76B200540426 /* DoneStatusView.swift in Sources */,
 				EB2AF8472C19588D003C9292 /* DoneButton.swift in Sources */,
 				EB7906B82B977FD600BB16D1 /* EventManager.swift in Sources */,
 				EB88E3282CA2868800DA9F71 /* State.swift in Sources */,
@@ -656,18 +701,22 @@
 				EB6422672B6F7C9400119DE6 /* Container.swift in Sources */,
 				EBB075C82B93949A007328EF /* PromptListView.swift in Sources */,
 				EBB3464A2C37F3F7003DB2CE /* MessageList.swift in Sources */,
+				EB8089722CE10CD20003BACD /* Pasteboard.swift in Sources */,
 				EB1671B62B8E633F00540426 /* ThinkingView.swift in Sources */,
 				EBC7C1342B98A380008409D0 /* Chat.swift in Sources */,
 				EB1671B92B8E69FC00540426 /* Util.swift in Sources */,
+				EB80897A2CE119DA0003BACD /* MessageMeta.swift in Sources */,
 				EB18C93B2C0B1075003A9465 /* Pref.swift in Sources */,
 				EBB075D42B93B1CA007328EF /* PromptEditorView.swift in Sources */,
 				EB64225A2B6F7C9400119DE6 /* ChatListView.swift in Sources */,
+				EB8089762CE1199A0003BACD /* Message.swift in Sources */,
 				EB8BBA382B8E264C002010FA /* NormalMsgView.swift in Sources */,
 				EB80896E2CE103FD0003BACD /* ChatGPTSettingSection.swift in Sources */,
 				EB6422622B6F7C9400119DE6 /* NewChatView.swift in Sources */,
 				EBA75D8C2C380C24003FC64D /* Ripple.metal in Sources */,
 				EBC7C1382B98A61C008409D0 /* Migration.swift in Sources */,
 				EB6422552B6F7C9400119DE6 /* TestButton.swift in Sources */,
+				EB8089702CE10C980003BACD /* MessageMetaView.swift in Sources */,
 				EBA0F1782CDF9BCB003043F7 /* WheelPickerView.swift in Sources */,
 				EBA0F1792CDF9BCB003043F7 /* WheelPicker.swift in Sources */,
 				EB7906BA2B979DEC00BB16D1 /* SelectTextView.swift in Sources */,
@@ -676,23 +725,26 @@
 				EB58C3BF2B85D16000DF8DDB /* TutorialView.swift in Sources */,
 				EB6422592B6F7C9400119DE6 /* SettingView.swift in Sources */,
 				EB6422562B6F7C9400119DE6 /* ProxyView.swift in Sources */,
+				EB8089802CE12A910003BACD /* APIClientKey.swift in Sources */,
 				EB6E08E12B9BA0A800100DFE /* Cache.swift in Sources */,
 				EB0FC7DD2BEBF71F001BFD49 /* Icons.swift in Sources */,
 				EB6422632B6F7C9400119DE6 /* ContentView.swift in Sources */,
 				EB64226B2B6F7C9400119DE6 /* SwiftData.swift in Sources */,
 				EB7906B52B976CBA00BB16D1 /* Theme.swift in Sources */,
 				EB3060222B964438009F90E9 /* HomePage.swift in Sources */,
-				EB4A0EE82B6F91B40065BCDC /* ChatGPTContext.swift in Sources */,
-				EB1671BB2B8E71D800540426 /* SendingView.swift in Sources */,
+				EB1671BB2B8E71D800540426 /* SendingStatusView.swift in Sources */,
 				EB64226C2B6F7C9400119DE6 /* Basic.swift in Sources */,
 				EBF62A152CDF5AAB002353FA /* AudioService.swift in Sources */,
 				EBCAC0C82C96F3B5000A3DA1 /* VersionView.swift in Sources */,
 				EBB075D82B93D44E007328EF /* String.swift in Sources */,
 				EBCAC0C62C96E5BC000A3DA1 /* SafariView.swift in Sources */,
+				EB8089822CE13C660003BACD /* MessageInfoView.swift in Sources */,
 				EB7906B32B975FA200BB16D1 /* ChatRowView.swift in Sources */,
+				EB80898D2CE146440003BACD /* AdaptiveSheet.swift in Sources */,
 				EB4CD6882B9A582600E076AC /* DangerZoneView.swift in Sources */,
 				EBB075CC2B939BEF007328EF /* PromptRowView.swift in Sources */,
 				EB64226A2B6F7C9400119DE6 /* ChatExample.swift in Sources */,
+				EB8089782CE119BB0003BACD /* ChatOption.swift in Sources */,
 				EB1671BD2B8E733500540426 /* ErrorView.swift in Sources */,
 				EBB075C52B938AB8007328EF /* PromptSample.swift in Sources */,
 				EBA0F17D2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift in Sources */,
@@ -936,7 +988,23 @@
 			repositoryURL = "https://github.com/MacPaw/OpenAI";
 			requirement = {
 				kind = exactVersion;
-				version = 0.2.5;
+				version = 0.2.6;
+			};
+		};
+		EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/moderato-app/SwiftOpenAI.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		EB8089892CE145AE0003BACD /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lucaszischka/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.1;
 			};
 		};
 		EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
@@ -994,6 +1062,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */;
 			productName = OpenAI;
+		};
+		EB80897C2CE12A100003BACD /* SwiftOpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */;
+			productName = SwiftOpenAI;
+		};
+		EB80898A2CE145AE0003BACD /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EB8089892CE145AE0003BACD /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
 		};
 		EB8FB4F22C3940D60041833B /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;

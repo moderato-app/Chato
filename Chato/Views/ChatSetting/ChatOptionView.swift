@@ -37,9 +37,7 @@ struct ChatOptionView: View {
         .accentColor(.secondary)
         .labelsHidden()
         .modifier(SwitchablePickerStyle(isNavi: pickerNavi))
-        .if(pref.haptics) {
-          $0.sensoryFeedback(.selection, trigger: chatOption.model)
-        }
+        .selectionFeedback(chatOption.model)
       }
       VStack(alignment: .leading) {
         Label("Context Length", systemImage: "square.3.layers.3d.down.left")
@@ -50,9 +48,7 @@ struct ChatOptionView: View {
           }
         }
         .pickerStyle(.segmented)
-        .if(pref.haptics) {
-          $0.sensoryFeedback(.selection, trigger: chatOption.contextLength)
-        }
+        .selectionFeedback(chatOption.contextLength)
       }
     }
   }

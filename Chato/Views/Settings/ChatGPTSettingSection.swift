@@ -1,5 +1,6 @@
 import Haptico
 import SwiftUI
+import SwiftOpenAI
 
 struct ChatGPTSettingSection: View {
   @EnvironmentObject var pref: Pref
@@ -27,7 +28,7 @@ struct ChatGPTSettingSection: View {
         }
       }
       NavigationLink {
-        ProxyView($pref.gptUseProxy, $pref.gptProxyHost)
+        ProxyView($pref.gptEnableEndpoint, $pref.gptBaseURL)
           .navigationTitle("Proxy")
           .toolbarTitleDisplayMode(.inline)
       } label: {
@@ -39,24 +40,17 @@ struct ChatGPTSettingSection: View {
               .foregroundColor(.accentColor)
           }
           Spacer()
-          Text(pref.gptUseProxy ? "On" : "Off")
+          Text(pref.gptEnableEndpoint ? "On" : "Off")
             .foregroundColor(.secondary)
         }
       }
     } header: { Text("ChatGPT") } footer: {
       if !pref.gptApiKey.isEmpty {
         TestButton {
-          var c: ChatGPTContext
-          if pref.gptUseProxy && !pref.gptProxyHost.isEmpty {
-            c = ChatGPTContext(apiKey: pref.gptApiKey,
-                               proxyHost: pref.gptProxyHost,
-                               timeout: 5.0)
-          } else {
-            c = ChatGPTContext(apiKey: pref.gptApiKey, timeout: 5.0)
-          }
-
+          let openai = pref.gptEnableEndpoint ? OpenAIServiceFactory.service(apiKey: pref.gptApiKey, overrideBaseURL: pref.gptBaseURL) : OpenAIServiceFactory.service(apiKey: pref.gptApiKey)
           do {
-            let res = try await c.hello()
+            
+            let res = try await openai.hello()
             HapticsService.shared.shake(.success)
             return .succeeded(res)
           } catch {
@@ -73,7 +67,7 @@ struct ChatGPTSettingSection: View {
 
 #Preview("SettingView") {
   LovelyPreview {
-    Form{
+    Form {
       ChatGPTSettingSection()
     }
   }

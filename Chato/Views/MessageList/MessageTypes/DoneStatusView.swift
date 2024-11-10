@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct DoneView: View {
+struct DoneStatusView: View {
   var body: some View {
     Image(systemName: "checkmark.circle.fill")
       .symbolRenderingMode(.monochrome)
@@ -11,5 +11,5 @@ struct DoneView: View {
 }
 
 #Preview {
-  DoneView()
+  DoneStatusView()
 }

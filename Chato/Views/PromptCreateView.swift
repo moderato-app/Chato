@@ -9,7 +9,6 @@ struct PromptCreateView: View {
   @State var name: String
   @State var messages: [PromptMessage]
   @FocusState private var focusedItemID: String?
-  @EnvironmentObject var pref: Pref
 
   var onCreate: (Prompt) -> Void
 
@@ -56,9 +55,7 @@ struct PromptCreateView: View {
               .padding(.top, -33)
               .transition(.asymmetric(insertion: .scale, removal: .scale))
               .animation(.default, value: focusedItemID)
-              .if(pref.haptics) {
-                $0.sensoryFeedback(.selection, trigger: msg.role)
-              }
+              .selectionFeedback(msg.role)
             }
           }
           .animation(.default, value: message.role)

@@ -69,8 +69,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/moderato-app/SwiftOpenAI.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "fbfb9419fad21aaab3cb7ab441858bad52ccd19b"
+        "revision" : "a9aa7214d6fdb113da56fb2be6d44b755ed4686c"
       }
     },
     {

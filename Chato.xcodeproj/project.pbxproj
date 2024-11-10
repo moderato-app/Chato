@@ -995,8 +995,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/moderato-app/SwiftOpenAI.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = revision;
+				revision = a9aa7214d6fdb113da56fb2be6d44b755ed4686c;
 			};
 		};
 		EB8089892CE145AE0003BACD /* XCRemoteSwiftPackageReference "BottomSheet" */ = {

@@ -58,14 +58,20 @@ private struct ListPromptNoQuery: View {
     // let _ = Self.printChagesWhenDebug()
     List {
       if !myPrompts.isEmpty {
-        Section(myPrompts.count > 5 ? "MY PROMPTS (\(myPrompts.count))" : "MY PROMPTS") {
+        Section {
           list(prompts: myPrompts)
+        } header: {
+          Text(myPrompts.count > 5 ? "MY PROMPTS (\(myPrompts.count))" : "MY PROMPTS")
+            .foregroundStyle(.tint)
         }
       }
 
       if !presets.isEmpty {
-        Section(presets.count > 5 ? "PRESETS (\(presets.count))" : "PRESETS") {
+        Section {
           list(prompts: presets)
+        } header: {
+          Text(presets.count > 5 ? "PRESETS (\(presets.count))" : "PRESETS")
+            .foregroundStyle(.tint)
         }
       }
     }
@@ -131,7 +137,7 @@ private struct ListPromptNoQuery: View {
         .modifier(
           SwitchableListRowInsets(chatOption != nil, EdgeInsets(top: 10, leading: 4, bottom: 10, trailing: 10))
         )
-        .swipeActions(allowsFullSwipe: false) {
+        .swipeActions {
           DeleteButton {
             promptToDelete = prompt
             isDeleteConfirmPresented = true

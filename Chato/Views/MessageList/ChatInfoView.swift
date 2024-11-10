@@ -4,7 +4,7 @@ import SwiftUI
 struct ChatInfoView: View {
   @EnvironmentObject var em: EM
   @Environment(\.dismiss) private var dismiss
-  @Environment(\.modelContext) private var modelContex
+  @Environment(\.modelContext) private var modelContext
   @FocusState private var isFocused: Bool
   @State private var isClearHistoryPresented = false
 
@@ -88,7 +88,7 @@ struct ChatInfoView: View {
 
   private func clearMessages() {
     for m in chat.messages {
-      modelContex.delete(m)
+      modelContext.delete(m)
     }
     em.messageEvent.send(.countChanged)
   }

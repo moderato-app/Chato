@@ -4,7 +4,6 @@ import SwiftData
 import SwiftUI
 
 struct InputAreaView: View {
-  @Environment(NavigationContext.self) var navigationContext
   @Environment(\.modelContext) var modelContext
   @EnvironmentObject var em: EM
   @EnvironmentObject var pref: Pref

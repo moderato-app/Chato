@@ -18,8 +18,8 @@ final class Chat: NewAtFront {
   var isBestModel: Bool {
     self.option.isBestModel
   }
-
-  init(name: String, messages: [Message] = [Message](), option: ChatOption = ChatOption(), order: Int) {
+  
+  init(name: String, messages: [Message] = [Message](), option: ChatOption = ChatOption()) {
     self.name = name
     self.messages = messages
     self.createdAt = Date.now
@@ -27,7 +27,26 @@ final class Chat: NewAtFront {
     self.favorited = false
     self.input = ""
     self.option = option
-    self.order = order
+    self.order = Int(Date().timeIntervalSince1970 * 1000)
+  }
+
+  init(name: String, messages: [Message] = [Message](), createdAt: Date, updatedAt: Date,
+       favorited: Bool, input: String, option: ChatOption)
+  {
+    self.name = name
+    self.messages = messages
+    self.createdAt = createdAt
+    self.updatedAt = updatedAt
+    self.order = Int(Date().timeIntervalSince1970 * 1000)
+    self.favorited = favorited
+    self.input = input
+    self.option = option
+  }
+  
+  func clone() -> Chat {
+    let msgs = self.messages.map { $0.clone() }
+    let chat = Chat(name: self.name + " copy", messages: msgs, createdAt: .now, updatedAt: .now, favorited: self.favorited, input: self.input, option: self.option.clone())
+    return chat
   }
 }
   
@@ -57,7 +76,22 @@ final class Message: Comparable {
       fatalError("invalid status")
     }
   }
-    
+  
+  init(message: String, role: MessageRole, chat: Chat? = nil, createdAt: Date, updatedAt: Date, status: MessageStatus, errorInfo: String, errorType: MessageErrorType) {
+    self.message = message
+    self.role = role
+    self.chat = chat
+    self.createdAt = createdAt
+    self.updatedAt = updatedAt
+    self.status = status
+    self.errorInfo = errorInfo
+    self.errorType = errorType
+  }
+  
+  func clone() -> Message {
+    return .init(message: self.message, role: self.role, createdAt: self.createdAt, updatedAt: self.updatedAt, status: self.status, errorInfo: self.errorInfo, errorType: self.errorType)
+  }
+
   static func < (lhs: Message, rhs: Message) -> Bool {
     return lhs.createdAt < rhs.createdAt
   }
@@ -121,16 +155,24 @@ final class ChatOption {
   // presence_penalty number or null  Optional  Defaults to 0
   // Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   @Attribute(originalName: "presence_penalty") var presencePenalty: Double = 0
-// frequency_penalty  number or null  Optional  Defaults to 0
+  // frequency_penalty  number or null  Optional  Defaults to 0
 //  Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   @Attribute(originalName: "frequency_penalty") var frequencyPenalty: Double = 0
-// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
-
+  // An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
       
   init(model: String = defaultGPTModel.value, contextLength: Int = 2, prompt: Prompt? = nil) {
     self.model = model
     self.contextLength = contextLength
     self.prompt = prompt
+  }
+  
+  init(model: String, contextLength: Int, prompt: Prompt? = nil, temperature: Double, presencePenalty: Double, frequencyPenalty: Double) {
+    self.model = model
+    self.contextLength = contextLength
+    self.prompt = prompt
+    self.temperature = temperature
+    self.presencePenalty = presencePenalty
+    self.frequencyPenalty = frequencyPenalty
   }
   
   @Transient
@@ -153,9 +195,8 @@ final class ChatOption {
     doubleEqual(self.frequencyPenalty, 0.0) ? nil : self.frequencyPenalty
   }
 
-    
   func clone() -> ChatOption {
-    return ChatOption(model: self.model, contextLength: self.contextLength, prompt: self.prompt)
+    return ChatOption(model: self.model, contextLength: self.contextLength, prompt: self.prompt, temperature: self.temperature, presencePenalty: self.presencePenalty, frequencyPenalty: self.frequencyPenalty)
   }
 }
 

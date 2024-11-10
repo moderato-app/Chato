@@ -39,8 +39,6 @@ struct NewChatView: View {
               chatName = chatNamePlaceHolder
             }
 
-            let order = Int(Date().timeIntervalSince1970 * 1000)
-
             pref.lastUsedModel = chatOption.model
             pref.lastUsedContextLength = chatOption.contextLength
 
@@ -51,7 +49,7 @@ struct NewChatView: View {
             Task.detached {
               try await Task.sleep(for: .seconds(0.1))
               Task { @MainActor in
-                modelContext.insert(Chat(name: chatName, option: chatOption, order: order))
+                modelContext.insert(Chat(name: chatName, option: chatOption))
               }
             }
           }

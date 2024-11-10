@@ -1,22 +1,17 @@
 import ConfettiSwiftUI
-import Haptico
 import StoreKit
-import SwiftData
 import SwiftUI
 
 struct SettingView: View {
-  @Environment(NavigationContext.self) private var navigationContext
   @EnvironmentObject var pref: Pref
-  @Environment(\.modelContext) private var modelContext
   @Environment(\.dismiss) private var dismiss
   @Environment(\.colorScheme) var colorScheme
   @EnvironmentObject var storeVM: StoreVM
-  let selectedDisplayMode: NavigationBarItem.TitleDisplayMode = .large
 
   var body: some View {
     NavigationView {
       List {
-        Section(header: Text("Appearance"), footer: Text("3D Scrolling: Move messages to the background when it goes off-screen.")) {
+        Section {
           VStack(alignment: .leading) {
             Label("Color Scheme", systemImage: "paintpalette")
               .symbolRenderingMode(.multicolor)
@@ -34,76 +29,20 @@ struct SettingView: View {
           }
 
           HStack {
-            Label("3D Scrolling", systemImage: "m.circle")
+            Label("3D Scrolling", systemImage: "cube")
               .symbolRenderingMode(.multicolor)
-              .modifier(RippleEffect(at: .zero, trigger: pref.magicScrolling))
-            Toggle("", isOn: $pref.magicScrolling)
+            Toggle("", isOn: $pref.magicScrolling.animation())
+          }
+        } header: { Text("Appearance") } footer: {
+          if pref.magicScrolling {
+            Text("Move messages to the background when it goes off-screen.")
           }
         }
         .textCase(.none)
 
-        Section("ChatGPT") {
-          NavigationLink {
-            TextEditPageVIew(text: $pref.gptApiKey,
-                             title: "ChatGPT API key",
-                             fb: .empty,
-                             description: apiKeyExplain,
-                             links: apiKeyExplainLlinks)
-          } label: {
-            HStack {
-              Label {
-                Text("API Key")
-              } icon: {
-                Image(systemName: "key")
-                  .foregroundColor(.accentColor)
-              }
-              Spacer()
-              Text(pref.gptApiKey)
-                .lineLimit(1)
-                .foregroundColor(.secondary)
-            }
-          }
-          NavigationLink {
-            ProxyView($pref.gptUseProxy, $pref.gptProxyHost)
-              .navigationTitle("Proxy")
-              .toolbarTitleDisplayMode(.inline)
-          } label: {
-            HStack {
-              Label {
-                Text("Proxy")
-              } icon: {
-                Image(systemName: "network")
-                  .foregroundColor(.accentColor)
-              }
-              Spacer()
-              Text(pref.gptUseProxy ? "On" : "Off")
-                .foregroundColor(.secondary)
-            }
-          }
-          if !pref.gptApiKey.isEmpty {
-            TestButton {
-              var c: ChatGPTContext
-              if pref.gptUseProxy && !pref.gptProxyHost.isEmpty {
-                c = ChatGPTContext(apiKey: pref.gptApiKey,
-                                   proxyHost: pref.gptProxyHost,
-                                   timeout: 5.0)
-              } else {
-                c = ChatGPTContext(apiKey: pref.gptApiKey, timeout: 5.0)
-              }
+        ChatGPTSettingSection()
 
-              do {
-                let res = try await c.hello()
-                HapticsService.shared.shake(.success)
-                return .succeeded(res)
-              } catch {
-                HapticsService.shared.shake(.error)
-                return .failed(error.localizedDescription)
-              }
-            }
-          }
-        }.textCase(.none)
-
-        Section(header: Text("App"), footer: Text("Reuse Text: Double-tap a message to input it, and double-tap again to withdraw.")) {
+        Section {
           HStack {
             Label("Haptics Feedback", systemImage: "iphone.gen2.radiowaves.left.and.right")
               .symbolRenderingMode(.multicolor)
@@ -114,7 +53,7 @@ struct SettingView: View {
             Label("Double Tap", systemImage: "hand.tap")
               .symbolRenderingMode(.multicolor)
             Spacer()
-            Picker("Double Tap", selection: $pref.doubleTapAction) {
+            Picker("Double Tap", selection: $pref.doubleTapAction.animation()) {
               ForEach(DoubleTapAction.allCases, id: \.self) { c in
                 Text("\(c.rawValue)")
               }
@@ -124,7 +63,12 @@ struct SettingView: View {
               $0.sensoryFeedback(.selection, trigger: pref.doubleTapAction)
             }
           }
-        }.textCase(.none)
+        } header: { Text("App") } footer: {
+          if pref.doubleTapAction == .reuse {
+            Text("Double-tap a message to input it, and double-tap again to withdraw.")
+          }
+        }
+        .textCase(.none)
 
         OtherViewGroup()
 

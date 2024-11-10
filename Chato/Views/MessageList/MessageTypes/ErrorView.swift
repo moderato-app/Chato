@@ -1,11 +1,11 @@
 import SwiftUI
 
 struct ErrorView: View {
-  @Environment(NavigationContext.self) private var navigationContext
-  @Environment(\.modelContext) private var modelContext
+  @EnvironmentObject var pref: Pref
 
   let errorInfo: String
   let errorType: Message.MessageErrorType
+
   @State private var isSettingPresented = false
 
   init(_ errorInfo: String, _ errorType: Message.MessageErrorType) {
@@ -23,17 +23,14 @@ struct ErrorView: View {
           EmptyView()
         case .apiKey:
           Button {
-            isSettingPresented = true
+            isSettingPresented.toggle()
           } label: {
-            Text("Provide your API key")
+            Text("Please enter your API key.")
               .font(.footnote)
               .foregroundColor(.accentColor)
           }
-          .sheet(isPresented: $isSettingPresented) {
-            ChatGPTSettingView()
-              .environment(navigationContext)
-              .modelContainer(modelContext.container)
-              .presentationDetents([.medium])
+          .if(pref.haptics) {
+            $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isSettingPresented)
           }
         case .network:
           Button {
@@ -52,6 +49,10 @@ struct ErrorView: View {
     } icon: {
       Image(systemName: "exclamationmark.circle.fill")
         .foregroundColor(.orange)
+    }
+    .sheet(isPresented: $isSettingPresented) {
+      ChatGPTSettingView()
+        .presentationDetents([.medium])
     }
   }
 }

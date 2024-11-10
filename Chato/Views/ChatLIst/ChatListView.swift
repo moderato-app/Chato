@@ -7,6 +7,7 @@ struct ChatListView: View {
   @Environment(\.modelContext) private var modelContext
   @Environment(\.colorScheme) private var colorScheme
   @EnvironmentObject var pref: Pref
+  @EnvironmentObject var em: EM
   @Query(sort: \Chat.createdAt) private var chats: [Chat]
 
   @State private var settingsDetent = PresentationDetent.medium
@@ -15,8 +16,9 @@ struct ChatListView: View {
 
   @State var isDeleteConfirmPresented: Bool = false
   @State var isMultiDeleteConfirmPresented: Bool = false
+  @State var isClearMessageConfirmPresented: Bool = false
+  @State var chatToClearMessages: Chat?
   @State var chatToDelete: Chat?
-  @State var uiState = UIState.shared
 
   @State var editMode: EditMode = .inactive
 
@@ -44,6 +46,12 @@ struct ChatListView: View {
             selection: $settingsDetent
           )
       }
+      .if(pref.haptics) {
+        $0.sensoryFeedback(.impact(flexibility: .soft), trigger: editMode)
+          .sensoryFeedback(.impact(flexibility: .soft), trigger: isSettingPresented)
+          .sensoryFeedback(.impact(flexibility: .soft), trigger: isNewChatPresented)
+          .sensoryFeedback(.impact(flexibility: .soft), trigger: isMultiDeleteConfirmPresented)
+      }
   }
 
   @State var selectedChatIDs = Set<PersistentIdentifier>()
@@ -58,13 +66,19 @@ struct ChatListView: View {
             NavigationLink(value: chat) {}
               .opacity(0)
           )
+          .contextMenu(menuItems: { menuItems(chat: chat) })
           .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             // Avoid using the `chat` variable in the confirm dialog. Swipe actions seem to re-calculate
             // the list, which might delete the wrong chat.
             // Don't use role = .destructive, or confirmation dialog animation becomes unstable https://stackoverflow.com/questions/71442998/swiftui-confirmationdialog-disappearing-after-one-second
             DeleteButton {
               chatToDelete = chat
-              isDeleteConfirmPresented = true
+              isDeleteConfirmPresented.toggle()
+            }
+          }
+          .swipeActions(edge: .leading, allowsFullSwipe: true) {
+            DupButton {
+              duplicate(chat)
             }
           }
         //        .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -91,15 +105,32 @@ struct ChatListView: View {
       Text("This chat will be deleted.")
     }
     .confirmationDialog(
-      "\(selectedChatIDs.count) chat(s) in total",
+      "Delete \(selectedChatIDs.count) Chats",
       isPresented: $isMultiDeleteConfirmPresented,
       titleVisibility: .visible
     ) {
       Button("Delete", role: .destructive) {
         removeChats(selectedChatIDs)
+        selectedChatIDs = .init()
       }
     } message: {
-      Text("This chat will be deleted.")
+      Text("\(selectedChatIDs.count) chats will be deleted.")
+    }
+    .confirmationDialog(
+      "Clear \(chatToClearMessages?.messages.count ?? 0) Messages",
+      isPresented: $isClearMessageConfirmPresented,
+      titleVisibility: .visible
+    ) {
+      Button("Clear", role: .destructive) {
+        if let chatToClearMessages {
+          for m in chatToClearMessages.messages {
+            modelContext.delete(m)
+          }
+          em.messageCountChange.send(chatToClearMessages.persistentModelID)
+        }
+      }
+    } message: {
+      Text("\(chatToClearMessages?.messages.count ?? 0) messages will be removed from this chat.")
     }
     .toolbar {
       toolbarItems()
@@ -135,10 +166,7 @@ struct ChatListView: View {
           }
           Section {
             Button("Settings", systemImage: "gear") {
-              isSettingPresented = true
-            }
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isSettingPresented)
+              isSettingPresented.toggle()
             }
           }
         }
@@ -147,12 +175,9 @@ struct ChatListView: View {
     ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
       if editMode != .active {
         Button {
-          self.isNewChatPresented = true
+          self.isNewChatPresented.toggle()
         } label: {
           PlusIcon()
-        }
-        .if(pref.haptics) {
-          $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isNewChatPresented)
         }
         .contextMenu {
           Button("New Chat", systemImage: "square.and.pencil") {}
@@ -173,11 +198,32 @@ struct ChatListView: View {
       if editMode == .active {
         HStack {
           Spacer()
-          Button("Delete") {
+          Button("Delete", role: .destructive) {
             isMultiDeleteConfirmPresented.toggle()
           }
+          .tint(.red)
           .disabled(selectedChatIDs.isEmpty)
         }
+      }
+    }
+  }
+
+  @ViewBuilder
+  func menuItems(chat: Chat) -> some View {
+    let msgCount = chat.messages.count
+    Button("Duplicate", systemImage: "document.on.document") {
+      duplicate(chat)
+    }
+    Section {
+      Button("Clear \(msgCount) Messages", systemImage: "paintbrush", role: .destructive) {
+        chatToClearMessages = chat
+        isClearMessageConfirmPresented.toggle()
+      }
+      .disabled(msgCount == 0)
+
+      Button("Delete", systemImage: "trash", role: .destructive) {
+        chatToDelete = chat
+        isDeleteConfirmPresented.toggle()
       }
     }
   }
@@ -198,6 +244,11 @@ struct ChatListView: View {
 
   private func removeChat(_ chat: Chat) {
     modelContext.delete(chat)
+  }
+
+  private func duplicate(_ chat: Chat) {
+    let newChat = chat.clone()
+    modelContext.insert(newChat)
   }
 }
 

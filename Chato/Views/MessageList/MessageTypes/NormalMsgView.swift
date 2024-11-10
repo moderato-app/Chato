@@ -149,11 +149,16 @@ struct NormalMsgView: View {
       }
     }
     .if(msg.status != .typing) {
-      $0.onTapGesture(count: 2) {
-        switchAction(pref.doubleTapAction)
-      }.onTapGesture(count: 3) {
-        switchAction(pref.trippleTapAction)
-      }
+      $0
+        .if(pref.doubleTapAction != .none) {
+          $0.onTapGesture(count: 2) {
+            switchAction(pref.doubleTapAction)
+          }
+        }.if(pref.trippleTapAction != .none) {
+          $0.onTapGesture(count: 3) {
+            switchAction(pref.trippleTapAction)
+          }
+        }
     }
   }
 

@@ -47,4 +47,20 @@ final class MessageMeta {
       endedAt: endedAt
     )
   }
+  
+  @Transient
+  var maybeTemperature: Double? {
+    doubleEqual(self.temperature, 1.0) ? nil : self.temperature
+  }
+
+  @Transient
+  var maybePresencePenalty: Double? {
+    doubleEqual(self.presencePenalty, 0.0) ? nil : self.presencePenalty
+  }
+
+  @Transient
+  var maybeFrequencyPenalty: Double? {
+    doubleEqual(self.frequencyPenalty, 0.0) ? nil : self.frequencyPenalty
+  }
+
 }

@@ -1,5 +1,4 @@
 import Combine
-import OpenAI
 import SwiftData
 import SwiftOpenAI
 import SwiftUI
@@ -110,6 +109,14 @@ extension InputAreaView {
       model: .custom(chat.option.model),
       frequencyPenalty: chat.option.maybeFrequencyPenalty,
       presencePenalty: chat.option.maybePresencePenalty,
+      temperature: chat.option.maybeTemperature
+    )
+
+    let streamParameters = ChatCompletionParameters(
+      messages: msgs,
+      model: .custom(chat.option.model),
+      frequencyPenalty: chat.option.maybeFrequencyPenalty,
+      presencePenalty: chat.option.maybePresencePenalty,
       temperature: chat.option.maybeTemperature,
       streamOptions: ChatCompletionParameters.StreamOptions(includeUsage: true)
     )
@@ -172,22 +179,22 @@ extension InputAreaView {
           let result = try await openAIService.startChat(parameters: parameters)
           Task { @MainActor in
             let content = result.choices[0].message.content ?? ""
+            userMsg.onSent()
             userMsg.meta?.promptTokens = result.usage.promptTokens
-            userMsg.meta?.endedAt = .now
             aiMsg.meta?.completionTokens = result.usage.completionTokens
             aiMsg.onEOF(text: content)
             em.messageEvent.send(.eof)
           }
         } else {
           print("using stream")
-          let stream = try await openAIService.startStreamedChat(parameters: parameters)
+          let stream = try await openAIService.startStreamedChat(parameters: streamParameters)
           for try await chunk in stream {
             Task { @MainActor in
               if aiMsg.meta?.startedAt == nil {
                 aiMsg.meta?.startedAt = .now
               }
-              if userMsg.meta?.endedAt == nil {
-                userMsg.meta?.endedAt = .now
+              if userMsg.status == .sending {
+                userMsg.onSent()
               }
               
               if let choice = chunk.choices.first {
@@ -223,8 +230,8 @@ extension InputAreaView {
           } else {
             aiMsg.onError(error.localizedDescription, .unknown)
           }
-          userMsg.meta?.endedAt = .now
-          print("partialResult error: \(info)")
+          userMsg.onSent()
+          print("partialResult error: \(error)")
           em.messageEvent.send(.err)
         }
       }

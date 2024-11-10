@@ -10,7 +10,7 @@ class EM: ObservableObject {
 
   let chatOptionPromptChangeEvent = PassthroughSubject<PersistentIdentifier?, Never>()
 
-  let messageCountChange = PassthroughSubject<PersistentIdentifier?, Never>()
+  let messageCountChange = PassthroughSubject<PersistentIdentifier, Never>()
 }
 
 enum MessageEventType {

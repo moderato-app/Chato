@@ -25,7 +25,6 @@ struct ModelContainerPreview<Content: View>: View {
 }
 
 struct LovelyPreview<Content: View>: View {
-  @State private var navigationContext = NavigationContext()
   @StateObject var storeVM: StoreVM = StoreVM();
 
   var content: () -> Content
@@ -39,7 +38,6 @@ struct LovelyPreview<Content: View>: View {
   var body: some View {
     content()
       .modelContainer(container)
-      .environment(navigationContext)
       .environmentObject(EM.shared)
       .environmentObject(storeVM)
       .environmentObject(Pref.shared)

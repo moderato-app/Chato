@@ -1,12 +1,10 @@
-import Haptico
-import SwiftData
 import SwiftUI
-import Throttler
 
 struct ChatDetailView: View {
-  let chat: Chat
+  @EnvironmentObject var pref: Pref
   @State private var isTutorialPresented = false
-  @EnvironmentObject private var pref: Pref
+
+  let chat: Chat
 
   var body: some View {
     ChatDetail(chat: chat)
@@ -23,6 +21,9 @@ struct ChatDetailView: View {
                 Text("Help")
                 Image(systemName: "accessibility")
               }
+            }
+            .if(pref.haptics) {
+              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isTutorialPresented)
             }
           }
         }

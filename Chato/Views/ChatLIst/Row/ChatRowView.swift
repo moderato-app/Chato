@@ -4,6 +4,8 @@ import SwiftUI
 struct ChatRowView: View {
   @Environment(\.modelContext) private var modelContext
   @Environment(\.editMode) private var editMode
+  @EnvironmentObject var em: EM
+
   @State private var message: Message?
 
   var chat: Chat
@@ -60,6 +62,11 @@ struct ChatRowView: View {
     }
     .onAppear {
       loadLatestMsg()
+    }
+    .onReceive(em.messageCountChange) { id in
+      if id == chat.persistentModelID {
+        loadLatestMsg()
+      }
     }
   }
 }

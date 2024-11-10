@@ -10,12 +10,11 @@ enum ChatSample {
       To make a cup of coffee, start by boiling water and measuring out 2 tablespoons of coffee grounds. Place the grounds in a filter and pour the hot water over them. Let it steep for 4 minutes, then remove the filter. Add any desired cream or sugar and enjoy!
       """, .assistant, .received),
       Message("", .assistant, .error, errorInfo: "To talk with ChatGPT, consider setting up your API key first", errorType: .apiKey)
-    ], order: 0
+    ]
   )
 
   static let emptyMessage = Chat(
-    name: "Emtpy",
-    order: 0
+    name: "Emtpy"
   )
 
   static let towMessages = Chat(
@@ -23,8 +22,7 @@ enum ChatSample {
     messages: [
       Message("What's the weather?", .user, .sent),
       Message("Pretty good!", .assistant, .received)
-    ],
-    order: 1
+    ]
   )
 
   static let manyMessages = Chat(
@@ -46,8 +44,7 @@ enum ChatSample {
 
       If you want to obtain a ChatGPT API Key for your own use, you should visit the OpenAI website, create an account or log into your existing account, and follow the OpenAI documentation on how to create and manage your API keys. Always remember to follow the security best practices recommended by OpenAI to prevent unauthorized use of your API key.
       """, .assistant, .received)
-    ],
-    order: 2
+    ]
   )
 
   static let markdownMessages = Chat(
@@ -128,8 +125,7 @@ enum ChatSample {
 
       [^1]: This is a footnote.
       """, .assistant, .received)
-    ],
-    order: 3
+    ]
   )
 
   static let previewChats = [emptyMessage, towMessages, manyMessages, markdownMessages]

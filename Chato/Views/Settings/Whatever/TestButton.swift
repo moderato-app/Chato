@@ -8,55 +8,57 @@ struct TestButton: View {
   @State private var runningTask: Task<Void, Never>? = nil
 
   var body: some View {
-    VStack(alignment: .leading, spacing: state == .none ? 0 : 10) {
-      HStack {
-        Button("Test", systemImage: "goforward") {
-          withAnimation(.spring) {
-            state = .inProgress
+    VStack(alignment: .leading, spacing: 2) {
+      Button("Test") {
+        state = .inProgress
+        runningTask = Task {
+          let r = await action()
+          Task { @MainActor in
+            state = r
           }
-          runningTask = Task {
-            let r = await action()
-            DispatchQueue.main.async {
-              withAnimation(.bouncy) {
-                state = r
-              }
-            }
-          }
-        }
-        .disabled(state == .inProgress)
-        .foregroundColor(state == .inProgress ? .secondary : .accentColor)
-        Spacer()
-        switch state {
-        case .none, .inProgress:
-          EmptyView()
-        case .succeeded:
-          Text("Good! 😀").foregroundColor(.green)
-        case .failed:
-          Text("Bad! ☹️").foregroundColor(.orange)
         }
       }
-      VStack(alignment: .leading) {
-        switch state {
-        case .none:
-          EmptyView()
-        case .inProgress:
-          Text("You: Hello!")
-          HStack {
-            Text("ChatGPT:  ")
-            ProgressView()
-          }
-        case .succeeded(let result):
-          Text("You: Hello!")
-          Text("ChatGPT: \(result)")
-        case .failed(let result):
-          Text("You: Hello!")
-          Text("ChatGPT: \(result)")
+      .disabled(state == .inProgress)
+      .foregroundStyle(.tint)
+
+      switch state {
+      case .none:
+        EmptyView()
+      case .inProgress, .succeeded, .failed:
+        VStack(alignment: .leading) {
+          Text("You: Hello!").foregroundStyle(.secondary)
+
+          Group { Text("ChatGPT: ").foregroundStyle(.secondary) + Text(textContent).foregroundStyle(textColor) }
+            .overlay(alignment: .trailing) {
+              if state == .inProgress {
+                ProgressView().scaleEffect(0.8).offset(x: 20)
+              }
+            }
         }
-      }.font(.footnote)
+      }
     }
     .onDisappear {
       runningTask?.cancel()
       runningTask = nil
+    }
+    .animation(.easeInOut, value: state)
+  }
+
+  var textContent: String {
+    switch state {
+    case .succeeded(let result), .failed(let result):
+      result
+    default:
+      ""
+    }
+  }
+
+  var textColor: Color {
+    switch state {
+    case .failed:
+      Color.orange
+    default:
+      Color.secondary
     }
   }
 }
@@ -68,7 +70,21 @@ public enum ActionState: Equatable {
 #Preview {
   Form {
     TestButton(action: succeedAction)
-    TestButton(action: failAction)
+    VStack(alignment: .leading) {
+      TestButton(action: failAction)
+      Text("You: Hello!")
+      HStack {
+        Text("ChatGPT:  ")
+        Text(" ").overlay { ProgressView().scaleEffect(0.8) }
+      }
+    }
+    VStack(alignment: .leading) {
+      TestButton(action: failAction)
+      Text("You: Hello!")
+      HStack {
+        Text("ChatGPT:  xxx")
+      }
+    }
   }
 }
 

@@ -3,8 +3,10 @@ import SwiftUI
 
 struct ChatRowView: View {
   @Environment(\.modelContext) private var modelContext
+  @Environment(\.editMode) private var editMode
 
   var chat: Chat
+
   @State private var message: Message?
 
   func loadLatestMsg() {
@@ -22,16 +24,26 @@ struct ChatRowView: View {
 
   var body: some View {
     // let _ = Self.printChagesWhenDebug()
+
     VStack(alignment: .leading) {
-      HStack {
+      HStack(alignment: .firstTextBaseline) {
         Text(chat.name)
-          .font(.headline)
+          .fontWeight(.semibold)
+          .lineLimit(1)
         Spacer()
         Text(formatAgo(from: chat.updatedAt))
-          .foregroundColor(.secondary)
-          .font(.footnote)
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+          .lineLimit(1)
+        if editMode?.wrappedValue.isEditing ?? false {
+        } else {
+          Image(systemName: "chevron.forward")
+            .foregroundStyle(.tertiary)
+            .fontWeight(.semibold)
+            .imageScale(.small)
+        }
       }
-      HStack {
+      Group {
         if chat.input.isMeaningful {
           Text(Image(systemName: "pencil.and.outline")).foregroundStyle(.primary) + Text(" " + chat.input.meaningfulString)
         } else {
@@ -43,11 +55,11 @@ struct ChatRowView: View {
           }
         }
       }
-      .foregroundColor(.secondary)
+      .font(.subheadline)
+      .foregroundStyle(.secondary)
       .lineLimit(2)
     }
     .onAppear {
-      print("loadLatestMsg()")
       loadLatestMsg()
     }
   }

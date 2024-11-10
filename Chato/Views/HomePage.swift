@@ -1,10 +1,8 @@
 import SwiftUI
 
 struct HomePage: View {
-  @Environment(\.safeAreaInsets) private var safeAreaInsets
   @Environment(\.colorScheme) private var colorScheme
   @EnvironmentObject var pref: Pref
-  @State var path: NavigationPath = .init()
 
   @State private var settingsDetent = PresentationDetent.medium
   @State private var isSettingPresented = false
@@ -13,7 +11,7 @@ struct HomePage: View {
 
   var body: some View {
 //    //let _ = Self.printChagesWhenDebug()
-    NavigationStack(path: $path) {
+    NavigationStack {
       ChatListView(searchString)
         .searchable(text: $searchString)	
         .animation(.easeInOut, value: searchString)

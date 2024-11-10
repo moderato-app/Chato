@@ -290,3 +290,40 @@ extension View {
     modifier(SizeDetector(size: size))
   }
 }
+
+
+#if canImport(UIKit)
+struct TransNaviModifier: ViewModifier {
+  init() {
+    let navBarAppearance = UINavigationBarAppearance()
+    navBarAppearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+    navBarAppearance.shadowColor = .clear
+    UINavigationBar.appearance().standardAppearance = navBarAppearance
+  }
+
+  func body(content: Content) -> some View {
+    content
+  }
+}
+#elseif canImport(AppKit)
+struct TransNaviModifier: ViewModifier {
+  init() {
+    let navBarAppearance = NSAppearance(named: .vibrantLight)
+    NSApplication.shared.appearance = navBarAppearance
+    
+    if let titleBar = NSApplication.shared.windows.first?.standardWindowButton(.closeButton)?.superview {
+      titleBar.layer?.backgroundColor = NSColor.clear.cgColor
+    }
+  }
+
+  func body(content: Content) -> some View {
+    content
+  }
+}
+#endif
+
+public extension View {
+  func transNavi() -> some View {
+    modifier(TransNaviModifier())
+  }
+}

@@ -69,4 +69,8 @@ extension ModelContext {
       }
     }
   }
+
+  func removePresetPrompts() throws {
+    try delete(model: Prompt.self, where: #Predicate<Prompt> { $0.preset })
+  }
 }

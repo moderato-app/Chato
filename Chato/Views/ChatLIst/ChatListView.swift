@@ -16,7 +16,6 @@ struct ChatListView: View {
   @State var isDeleteConfirmPresented: Bool = false
   @State var isMultiDeleteConfirmPresented: Bool = false
   @State var chatToDelete: Chat?
-  @State var uiState = UIState.shared
 
   @State var editMode: EditMode = .inactive
 
@@ -43,6 +42,12 @@ struct ChatListView: View {
             [.medium, .large],
             selection: $settingsDetent
           )
+      }
+      .if(pref.haptics) {
+        $0.sensoryFeedback(.impact(flexibility: .soft), trigger: editMode)
+          .sensoryFeedback(.impact(flexibility: .soft), trigger: isSettingPresented)
+          .sensoryFeedback(.impact(flexibility: .soft), trigger: isNewChatPresented)
+          .sensoryFeedback(.impact(flexibility: .soft), trigger: isMultiDeleteConfirmPresented)
       }
   }
 
@@ -97,6 +102,7 @@ struct ChatListView: View {
     ) {
       Button("Delete", role: .destructive) {
         removeChats(selectedChatIDs)
+        selectedChatIDs = .init()
       }
     } message: {
       Text("This chat will be deleted.")
@@ -135,10 +141,7 @@ struct ChatListView: View {
           }
           Section {
             Button("Settings", systemImage: "gear") {
-              isSettingPresented = true
-            }
-            .if(pref.haptics) {
-              $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isSettingPresented)
+              isSettingPresented.toggle()
             }
           }
         }
@@ -147,12 +150,9 @@ struct ChatListView: View {
     ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
       if editMode != .active {
         Button {
-          self.isNewChatPresented = true
+          self.isNewChatPresented.toggle()
         } label: {
           PlusIcon()
-        }
-        .if(pref.haptics) {
-          $0.sensoryFeedback(.impact(flexibility: .soft), trigger: isNewChatPresented)
         }
         .contextMenu {
           Button("New Chat", systemImage: "square.and.pencil") {}

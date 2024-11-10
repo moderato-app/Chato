@@ -84,11 +84,10 @@ struct PromptCreateView: View {
         messages.reIndex()
         focusedItemID = nil
       } label: {
-        Image(systemName: "plus.circle.fill")
-          .foregroundColor(.green)
+        Image(systemName: "plus")
           .font(.title)
       }
-      .buttonStyle(.plain)
+      .buttonStyle(.borderedProminent)
       .listRowBackground(Color.clear)
       .listRowInsets(EdgeInsets())
       .listRowSeparator(.hidden)

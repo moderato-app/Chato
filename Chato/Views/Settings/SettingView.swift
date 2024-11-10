@@ -152,7 +152,7 @@ struct SettingView: View {
         }
         #endif
 
-        Section("") {
+        Section {
           ProductView(id: cofferProductId)
             .productViewStyle(.compact)
 
@@ -166,6 +166,12 @@ struct SettingView: View {
                 }
               }
             }
+            .scrollIndicators(.hidden)
+          }
+        } footer: {
+          HStack(alignment: .center, spacing: 0) {
+            Image(systemName: "cup.and.saucer")
+            Text(" × \(storeVM.coffeeCount)")
           }
         }
         .textCase(.none)

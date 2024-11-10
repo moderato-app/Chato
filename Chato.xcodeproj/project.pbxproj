@@ -374,7 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				EBCAC0C52C96E5BC000A3DA1 /* SafariView.swift */,
-				EB64222C2B6F7C9300119DE6 /* Flaky */,
+				EB64222C2B6F7C9300119DE6 /* Whatever */,
 				EB64222F2B6F7C9300119DE6 /* Other */,
 				EB6422332B6F7C9300119DE6 /* SettingView.swift */,
 				EBB205BD2B8F2FCE00B046F6 /* ChatGPTSettingView.swift */,
@@ -382,14 +382,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		EB64222C2B6F7C9300119DE6 /* Flaky */ = {
+		EB64222C2B6F7C9300119DE6 /* Whatever */ = {
 			isa = PBXGroup;
 			children = (
 				EB64222D2B6F7C9300119DE6 /* TestButton.swift */,
 				EB64222E2B6F7C9300119DE6 /* ProxyView.swift */,
 				EB7906B92B979DEC00BB16D1 /* SelectTextView.swift */,
 			);
-			path = Flaky;
+			path = Whatever;
 			sourceTree = "<group>";
 		};
 		EB64222F2B6F7C9300119DE6 /* Other */ = {

@@ -1,4 +1,14 @@
 {
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
   "identifier" : "44169768",
   "nonRenewingSubscriptions" : [
 
@@ -12,12 +22,12 @@
         {
           "description" : "Thank you for making my day great!",
           "displayName" : "Buy me a coffee",
-          "locale" : "en_GB"
+          "locale" : "en_US"
         },
         {
           "description" : "Thank you for making my day great!",
           "displayName" : "Buy me a coffee",
-          "locale" : "en_US"
+          "locale" : "en_GB"
         }
       ],
       "productID" : "BuyMeACoffee",
@@ -29,7 +39,7 @@
     "_applicationInternalID" : "6478404197",
     "_developerTeamID" : "46PN73H4K6",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 737505118.47160101,
+    "_lastSynchronizedDate" : 752922633.41745901,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
@@ -84,7 +94,7 @@
 
   ],
   "version" : {
-    "major" : 3,
+    "major" : 4,
     "minor" : 0
   }
 }

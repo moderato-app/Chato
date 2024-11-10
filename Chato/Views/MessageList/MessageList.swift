@@ -3,9 +3,9 @@ import SwiftUI
 import VisualEffectView
 
 struct MessageList: View {
-  @EnvironmentObject var em: EM
-  @Environment(\.colorScheme) var colorScheme
-  @EnvironmentObject var pref: Pref
+  @EnvironmentObject private var em: EM
+  @Environment(\.colorScheme) private var colorScheme
+  @EnvironmentObject private var pref: Pref
   @State private var triggerHaptic: Bool = false
 
   @State private var lastMsgOnScreen = true
@@ -89,7 +89,7 @@ struct MessageList: View {
     } action: {
       scrollviewRect = $0
     }
-    .background(Rectangle().fill(.gray.opacity(0.0001)).containerRelativeFrame(.horizontal){v,a in v})
+    .background(Rectangle().fill(.gray.opacity(0.0001)).containerRelativeFrame(.horizontal) { v, _ in v })
     .defaultScrollAnchor(scrollIndicatorPresented ? .bottom : .top)
     .scrollPosition($position, anchor: .bottom)
     .onScrollTargetVisibilityChange(idType: PersistentIdentifier.self, threshold: 0.001) { onScreenIds in
@@ -108,7 +108,7 @@ struct MessageList: View {
           onMsgCountChange()
           position.scrollTo(edge: .bottom)
         }
-      }else if event == .countChanged{
+      } else if event == .countChanged {
         withAnimation {
           onMsgCountChange()
         }

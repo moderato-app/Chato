@@ -4,10 +4,9 @@ import SwiftUI
 struct ChatRowView: View {
   @Environment(\.modelContext) private var modelContext
   @Environment(\.editMode) private var editMode
+  @State private var message: Message?
 
   var chat: Chat
-
-  @State private var message: Message?
 
   func loadLatestMsg() {
     let chatId = chat.persistentModelID

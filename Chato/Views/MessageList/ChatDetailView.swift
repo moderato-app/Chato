@@ -6,7 +6,7 @@ import Throttler
 struct ChatDetailView: View {
   let chat: Chat
   @State private var isTutorialPresented = false
-  @EnvironmentObject var pref: Pref
+  @EnvironmentObject private var pref: Pref
 
   var body: some View {
     ChatDetail(chat: chat)
@@ -38,6 +38,7 @@ struct ChatDetailView: View {
 
 private struct ChatDetail: View {
   let chat: Chat
+
   @Environment(\.modelContext) private var modelContext
   @EnvironmentObject var em: EM
   @State private var isInfoPresented = false

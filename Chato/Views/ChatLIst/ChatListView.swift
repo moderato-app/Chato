@@ -35,13 +35,8 @@ struct ChatListView: View {
           .listRowSeparator(.hidden)
         ForEach(chats, id: \.self) { chat in
           NavigationLink(value: chat) {
-            if uiState.inChatView {
-              CaChatRowPreview(chatId: chat.persistentModelID)
-            } else {
-              ChatRowView(chat)
-            }
+            ChatRowView(chat: chat)
           }
-          .animation(.default, value: uiState.inChatView)
           .lovelyRow()
           .swipeActions {
             // Avoid using the `chat` variable in the confirm dialog. Swipe actions seem to re-calculate

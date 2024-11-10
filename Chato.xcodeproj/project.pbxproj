@@ -53,7 +53,6 @@
 		EB64226F2B6F7CB100119DE6 /* ChatoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB64226E2B6F7CB100119DE6 /* ChatoApp.swift */; };
 		EB6451F42B72B79500434D47 /* SQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6451F32B72B79500434D47 /* SQL.swift */; };
 		EB6E08E12B9BA0A800100DFE /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6E08E02B9BA0A800100DFE /* Cache.swift */; };
-		EB6E08E32B9BAD6300100DFE /* CaChatRowPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6E08E22B9BAD6300100DFE /* CaChatRowPreview.swift */; };
 		EB7646282B98990500B76236 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7646272B98990500B76236 /* Setting.swift */; };
 		EB7906B32B975FA200BB16D1 /* ChatRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7906B22B975FA200BB16D1 /* ChatRowView.swift */; };
 		EB7906B52B976CBA00BB16D1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7906B42B976CBA00BB16D1 /* Theme.swift */; };
@@ -162,7 +161,6 @@
 		EB6451F82B72CCDE00434D47 /* Chato.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chato.entitlements; sourceTree = "<group>"; };
 		EB6451FB2B72CEF400434D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EB6E08E02B9BA0A800100DFE /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
-		EB6E08E22B9BAD6300100DFE /* CaChatRowPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaChatRowPreview.swift; sourceTree = "<group>"; };
 		EB7646272B98990500B76236 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		EB7906B22B975FA200BB16D1 /* ChatRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRowView.swift; sourceTree = "<group>"; };
 		EB7906B42B976CBA00BB16D1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -491,7 +489,6 @@
 			isa = PBXGroup;
 			children = (
 				EB7906B22B975FA200BB16D1 /* ChatRowView.swift */,
-				EB6E08E22B9BAD6300100DFE /* CaChatRowPreview.swift */,
 			);
 			path = Row;
 			sourceTree = "<group>";
@@ -641,7 +638,6 @@
 				EBC857892C395CF600DE2252 /* MsgVM.swift in Sources */,
 				EBC857862C395CBA00DE2252 /* TextOutputFormat.swift in Sources */,
 				EBC857872C395CBA00DE2252 /* SplashCodeSyntaxHighlighter.swift in Sources */,
-				EB6E08E32B9BAD6300100DFE /* CaChatRowPreview.swift in Sources */,
 				EBB076272B94ABC6007328EF /* EnvTypeView.swift in Sources */,
 				EBB205BE2B8F2FCE00B046F6 /* ChatGPTSettingView.swift in Sources */,
 				EB58C3C12B85D9F500DF8DDB /* TestView.swift in Sources */,

@@ -4,6 +4,4 @@ import Foundation
 class UIState {
   static var shared = UIState()
   private init() {}
-
-  var inChatView = false
 }

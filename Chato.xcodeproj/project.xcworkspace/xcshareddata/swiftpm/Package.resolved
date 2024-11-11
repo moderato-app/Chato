@@ -1,15 +1,6 @@
 {
-  "originHash" : "5102feaeeb04bae99d89c22d43001820d5aea29107d777c6cd614c8f4c28495d",
+  "originHash" : "5a366234925c8bb73a8041fb8478dacb7c9125c2b4584a5406f6bb8d162a0d49",
   "pins" : [
-    {
-      "identity" : "bottomsheet",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/lucaszischka/BottomSheet",
-      "state" : {
-        "revision" : "720ddbd1371fef2a09cc1ab65fc503df37767f9c",
-        "version" : "3.1.1"
-      }
-    },
     {
       "identity" : "confettiswiftui",
       "kind" : "remoteSourceControl",
@@ -44,15 +35,6 @@
       "state" : {
         "revision" : "35afc9a6ee127b8f22a85a31aec2036a987478af",
         "version" : "0.2.6"
-      }
-    },
-    {
-      "identity" : "splash",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JohnSundell/Splash.git",
-      "state" : {
-        "revision" : "7f4df436eb78fe64fe2c32c58006e9949fa28ad8",
-        "version" : "0.16.0"
       }
     },
     {

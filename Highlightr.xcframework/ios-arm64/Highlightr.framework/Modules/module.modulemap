@@ -1,0 +1,11 @@
+framework module Highlightr {
+  umbrella header "Highlightr.h"
+  export *
+
+  module * { export * }
+}
+
+module Highlightr.Swift {
+  header "Highlightr-Swift.h"
+  requires objc
+}

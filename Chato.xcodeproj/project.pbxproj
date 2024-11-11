@@ -65,7 +65,6 @@
 		EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = EB80897C2CE12A100003BACD /* SwiftOpenAI */; };
 		EB8089802CE12A910003BACD /* APIClientKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80897F2CE12A910003BACD /* APIClientKey.swift */; };
 		EB8089822CE13C660003BACD /* MessageInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089812CE13C660003BACD /* MessageInfoView.swift */; };
-		EB80898B2CE145AF0003BACD /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = EB80898A2CE145AE0003BACD /* BottomSheet */; };
 		EB80898D2CE146440003BACD /* AdaptiveSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80898C2CE146440003BACD /* AdaptiveSheet.swift */; };
 		EB80898F2CE15E100003BACD /* OpenAIExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80898E2CE15E100003BACD /* OpenAIExt.swift */; };
 		EB88E3282CA2868800DA9F71 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB88E3272CA2868800DA9F71 /* State.swift */; };
@@ -73,6 +72,9 @@
 		EB8BBA382B8E264C002010FA /* NormalMsgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8BBA372B8E264C002010FA /* NormalMsgView.swift */; };
 		EB8DFFA12B98E87A00862A94 /* PromptCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8DFFA02B98E87A00862A94 /* PromptCreateView.swift */; };
 		EB8EE44F2CE2101300EDDE04 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8EE44E2CE2101300EDDE04 /* URL.swift */; };
+		EB8EE4532CE21BCE00EDDE04 /* Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8EE4522CE21BCE00EDDE04 /* Highlight.swift */; };
+		EB8EE45C2CE2265A00EDDE04 /* Highlightr.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */; };
+		EB8EE45D2CE2265A00EDDE04 /* Highlightr.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB8FB4F22C3940D60041833B /* MarkdownUI */; };
 		EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E72002BCAB5FB00D5B110 /* Product.swift */; };
 		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
@@ -95,9 +97,6 @@
 		EBC7C1342B98A380008409D0 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7C1332B98A380008409D0 /* Chat.swift */; };
 		EBC7C1362B98A386008409D0 /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7C1352B98A386008409D0 /* Prompt.swift */; };
 		EBC7C1382B98A61C008409D0 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7C1372B98A61C008409D0 /* Migration.swift */; };
-		EBC857802C39599800DE2252 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = EBC8577F2C39599800DE2252 /* Splash */; };
-		EBC857862C395CBA00DE2252 /* TextOutputFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC857842C395CBA00DE2252 /* TextOutputFormat.swift */; };
-		EBC857872C395CBA00DE2252 /* SplashCodeSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC857832C395CBA00DE2252 /* SplashCodeSyntaxHighlighter.swift */; };
 		EBC857892C395CF600DE2252 /* MsgVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC857882C395CF600DE2252 /* MsgVM.swift */; };
 		EBCAC0C62C96E5BC000A3DA1 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAC0C52C96E5BC000A3DA1 /* SafariView.swift */; };
 		EBCAC0C82C96F3B5000A3DA1 /* VersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAC0C72C96F3B5000A3DA1 /* VersionView.swift */; };
@@ -114,6 +113,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				EB8EE45D2CE2265A00EDDE04 /* Highlightr.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,6 +190,9 @@
 		EB8BBA372B8E264C002010FA /* NormalMsgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalMsgView.swift; sourceTree = "<group>"; };
 		EB8DFFA02B98E87A00862A94 /* PromptCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCreateView.swift; sourceTree = "<group>"; };
 		EB8EE44E2CE2101300EDDE04 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		EB8EE4512CE21AA500EDDE04 /* Highlightr */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Highlightr; path = ../Highlightr; sourceTree = "<group>"; };
+		EB8EE4522CE21BCE00EDDE04 /* Highlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlight.swift; sourceTree = "<group>"; };
+		EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Highlightr.xcframework; sourceTree = "<group>"; };
 		EB9E72002BCAB5FB00D5B110 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPicker.swift; sourceTree = "<group>"; };
 		EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPickerView.swift; sourceTree = "<group>"; };
@@ -210,8 +213,6 @@
 		EBC7C1332B98A380008409D0 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		EBC7C1352B98A386008409D0 /* Prompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompt.swift; sourceTree = "<group>"; };
 		EBC7C1372B98A61C008409D0 /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
-		EBC857832C395CBA00DE2252 /* SplashCodeSyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashCodeSyntaxHighlighter.swift; sourceTree = "<group>"; };
-		EBC857842C395CBA00DE2252 /* TextOutputFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextOutputFormat.swift; sourceTree = "<group>"; };
 		EBC857882C395CF600DE2252 /* MsgVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsgVM.swift; sourceTree = "<group>"; };
 		EBCAC0C52C96E5BC000A3DA1 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		EBCAC0C72C96F3B5000A3DA1 /* VersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionView.swift; sourceTree = "<group>"; };
@@ -231,9 +232,8 @@
 				EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */,
 				EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */,
 				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
+				EB8EE45C2CE2265A00EDDE04 /* Highlightr.xcframework in Frameworks */,
 				EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */,
-				EBC857802C39599800DE2252 /* Splash in Frameworks */,
-				EB80898B2CE145AF0003BACD /* BottomSheet in Frameworks */,
 				EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */,
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
 				EBD0114C2B98F2840046F235 /* Haptico in Frameworks */,
@@ -276,7 +276,6 @@
 				EBDEDC8A2C37FF6500C4F251 /* Ripple.swift */,
 				EB7906B42B976CBA00BB16D1 /* Theme.swift */,
 				EB0FC7DC2BEBF71F001BFD49 /* Icons.swift */,
-				EBC857852C395CBA00DE2252 /* SyntaxHighlighter */,
 			);
 			path = "Theme+Effect";
 			sourceTree = "<group>";
@@ -306,6 +305,7 @@
 				EB80897E2CE12A8F0003BACD /* Deps */,
 				EB3080AB2C3480BC002FEDB3 /* HapticsService.swift */,
 				EBF62A142CDF5AAB002353FA /* AudioService.swift */,
+				EB8EE4522CE21BCE00EDDE04 /* Highlight.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -313,6 +313,7 @@
 		EB4A0EE32B6F908D0065BCDC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EB8EE4512CE21AA500EDDE04 /* Highlightr */,
 				EBA73E2C2CDD2FD2007E480C /* VisualEffectView */,
 			);
 			name = Frameworks;
@@ -327,6 +328,7 @@
 				EB6422112B6F7BB000119DE6 /* Products */,
 				EB4A0EE32B6F908D0065BCDC /* Frameworks */,
 				EB6422232B6F7C0600119DE6 /* .gitignore */,
+				EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -570,15 +572,6 @@
 			name = Prompt;
 			sourceTree = "<group>";
 		};
-		EBC857852C395CBA00DE2252 /* SyntaxHighlighter */ = {
-			isa = PBXGroup;
-			children = (
-				EBC857832C395CBA00DE2252 /* SplashCodeSyntaxHighlighter.swift */,
-				EBC857842C395CBA00DE2252 /* TextOutputFormat.swift */,
-			);
-			path = SyntaxHighlighter;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -602,11 +595,9 @@
 				EBD0114B2B98F2840046F235 /* Haptico */,
 				EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */,
 				EB8FB4F22C3940D60041833B /* MarkdownUI */,
-				EBC8577F2C39599800DE2252 /* Splash */,
 				EBA73E2E2CDD3006007E480C /* VisualEffectView */,
 				EBB4EF282CDDC02200F38178 /* VisualEffectView */,
 				EB80897C2CE12A100003BACD /* SwiftOpenAI */,
-				EB80898A2CE145AE0003BACD /* BottomSheet */,
 			);
 			productName = Chato;
 			productReference = EB6422102B6F7BB000119DE6 /* Chato.app */;
@@ -643,10 +634,8 @@
 				EBD0114A2B98F2840046F235 /* XCRemoteSwiftPackageReference "Haptico" */,
 				EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
-				EBC8577E2C39599800DE2252 /* XCRemoteSwiftPackageReference "Splash" */,
 				EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */,
 				EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
-				EB8089892CE145AE0003BACD /* XCRemoteSwiftPackageReference "BottomSheet" */,
 			);
 			productRefGroup = EB6422112B6F7BB000119DE6 /* Products */;
 			projectDirPath = "";
@@ -685,8 +674,6 @@
 				EB8B955E2BC9B5DB00E018C4 /* CoffeeView.swift in Sources */,
 				EBDEDC8B2C37FF6500C4F251 /* Ripple.swift in Sources */,
 				EBC857892C395CF600DE2252 /* MsgVM.swift in Sources */,
-				EBC857862C395CBA00DE2252 /* TextOutputFormat.swift in Sources */,
-				EBC857872C395CBA00DE2252 /* SplashCodeSyntaxHighlighter.swift in Sources */,
 				EBB076272B94ABC6007328EF /* EnvTypeView.swift in Sources */,
 				EBB205BE2B8F2FCE00B046F6 /* ChatGPTSettingView.swift in Sources */,
 				EB58C3C12B85D9F500DF8DDB /* TestView.swift in Sources */,
@@ -707,6 +694,7 @@
 				EB1340042CDE592A00F5197E /* SendButtonTip.swift in Sources */,
 				EB6422582B6F7C9400119DE6 /* Other.swift in Sources */,
 				EB6422672B6F7C9400119DE6 /* Container.swift in Sources */,
+				EB8EE4532CE21BCE00EDDE04 /* Highlight.swift in Sources */,
 				EBB075C82B93949A007328EF /* PromptListView.swift in Sources */,
 				EBB3464A2C37F3F7003DB2CE /* MessageList.swift in Sources */,
 				EB8089722CE10CD20003BACD /* Pasteboard.swift in Sources */,
@@ -1008,14 +996,6 @@
 				revision = a9aa7214d6fdb113da56fb2be6d44b755ed4686c;
 			};
 		};
-		EB8089892CE145AE0003BACD /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/lucaszischka/BottomSheet";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.1.1;
-			};
-		};
 		EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
@@ -1038,14 +1018,6 @@
 			requirement = {
 				branch = master;
 				kind = branch;
-			};
-		};
-		EBC8577E2C39599800DE2252 /* XCRemoteSwiftPackageReference "Splash" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/JohnSundell/Splash.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.16.0;
 			};
 		};
 		EBCFF3932B6FF4CC00498E1E /* XCRemoteSwiftPackageReference "Throttler" */ = {
@@ -1077,11 +1049,6 @@
 			package = EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */;
 			productName = SwiftOpenAI;
 		};
-		EB80898A2CE145AE0003BACD /* BottomSheet */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EB8089892CE145AE0003BACD /* XCRemoteSwiftPackageReference "BottomSheet" */;
-			productName = BottomSheet;
-		};
 		EB8FB4F22C3940D60041833B /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
@@ -1100,11 +1067,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */;
 			productName = VisualEffectView;
-		};
-		EBC8577F2C39599800DE2252 /* Splash */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EBC8577E2C39599800DE2252 /* XCRemoteSwiftPackageReference "Splash" */;
-			productName = Splash;
 		};
 		EBCFF3942B6FF4CC00498E1E /* Throttler */ = {
 			isa = XCSwiftPackageProductDependency;

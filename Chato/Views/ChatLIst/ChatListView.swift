@@ -244,6 +244,11 @@ struct ChatListView: View {
   private func duplicate(_ chat: Chat) {
     let newChat = chat.clone()
     modelContext.insert(newChat)
+    do {
+      try modelContext.save()
+    } catch {
+      print("modelContext.insert(newChat): \(error)")
+    }
   }
 }
 

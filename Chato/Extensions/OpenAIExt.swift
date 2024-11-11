@@ -6,8 +6,7 @@ extension OpenAIService {
     let msgs: [ChatCompletionParameters.Message] = [.init(role: .user, content: .text("Hello"))]
     let parameters = ChatCompletionParameters(
       messages: msgs,
-      model: .gpt4omini,
-      streamOptions: .init(includeUsage: false)
+      model: .gpt4omini
     )
 
     let result = try await self.startChat(parameters: parameters)

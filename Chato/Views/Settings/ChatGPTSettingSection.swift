@@ -1,6 +1,6 @@
 import Haptico
-import SwiftUI
 import SwiftOpenAI
+import SwiftUI
 
 struct ChatGPTSettingSection: View {
   @EnvironmentObject var pref: Pref
@@ -47,15 +47,17 @@ struct ChatGPTSettingSection: View {
     } header: { Text("ChatGPT") } footer: {
       if !pref.gptApiKey.isEmpty {
         TestButton {
-          let openai = pref.gptEnableEndpoint ? OpenAIServiceFactory.service(apiKey: pref.gptApiKey, overrideBaseURL: pref.gptBaseURL) : OpenAIServiceFactory.service(apiKey: pref.gptApiKey)
+          let conf = URLSessionConfiguration.default
+          conf.timeoutIntervalForRequest = 5
+
+          let openai = pref.gptEnableEndpoint ? OpenAIServiceFactory.service(apiKey: pref.gptApiKey, configuration: conf, overrideBaseURL: pref.gptBaseURL) : OpenAIServiceFactory.service(apiKey: pref.gptApiKey, configuration: conf)
           do {
-            
             let res = try await openai.hello()
             HapticsService.shared.shake(.success)
             return .succeeded(res)
           } catch {
             HapticsService.shared.shake(.error)
-            return .failed(error.localizedDescription)
+            return .failed("\(error)")
           }
         }
         .font(.footnote)

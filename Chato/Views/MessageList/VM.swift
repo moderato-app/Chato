@@ -202,6 +202,7 @@ extension InputAreaView {
                 if let fr = choice.finishReason {
                   if case .string(let reason) = fr, reason == "stop" {
                     aiMsg.onEOF(text: "")
+                    em.messageEvent.send(.eof)
                   } else {
                     // if reason is not stop, something may be wrong
                     aiMsg.onError("finished reason: \(fr)", .unknown)
@@ -215,6 +216,7 @@ extension InputAreaView {
                   userMsg.meta?.promptTokens = usage.promptTokens
                   aiMsg.meta?.completionTokens = usage.completionTokens
                   aiMsg.onEOF(text: "")
+                  em.messageEvent.send(.eof)
                 } else {
                   print("no text in chunk, chunk: \(chunk)")
                 }

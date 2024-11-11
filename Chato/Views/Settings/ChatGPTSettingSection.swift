@@ -28,13 +28,13 @@ struct ChatGPTSettingSection: View {
         }
       }
       NavigationLink {
-        ProxyView($pref.gptEnableEndpoint, $pref.gptBaseURL)
-          .navigationTitle("Proxy")
+        EndpointView($pref.gptEnableEndpoint, $pref.gptBaseURL)
+          .navigationTitle("Endpoint")
           .toolbarTitleDisplayMode(.inline)
       } label: {
         HStack {
           Label {
-            Text("Proxy")
+            Text("Endpoint")
           } icon: {
             Image(systemName: "network")
               .foregroundColor(.accentColor)

@@ -45,15 +45,13 @@ struct MessageList: View {
       }
     }
   }
-  
-  @State var scrollviewRect = CGRect.zero
-  @State var vstackRect = CGRect.zero
-  var scrollIndicatorPresented: Bool {
-    vstackRect.height > scrollviewRect.height
-  }
 
+  @State var scrollviewHeight = CGFloat.zero
+  @State var vstackHeight = CGFloat.zero
+  @State var scrollIndicatorPresented  = false
 
   var body: some View {
+//    let _ = Self.printChagesWhenDebug()
     ScrollView {
       VStack(alignment: .leading) {
         ForEach(messages, id: \.self) { msg in
@@ -77,17 +75,12 @@ struct MessageList: View {
         }
         .padding(10)
       }
-      .onGeometryChange(for: CGRect.self) { proxy in
-        proxy.frame(in: .global)
+      .onGeometryChange(for: CGFloat.self) { proxy in
+        proxy.frame(in: .global).height
       } action: {
-        vstackRect = $0
+        scrollIndicatorPresented = $0 > UIScreen.main.bounds.height
       }
       .scrollTargetLayout()
-    }
-    .onGeometryChange(for: CGRect.self) { proxy in
-      proxy.frame(in: .global)
-    } action: {
-      scrollviewRect = $0
     }
     .background(Rectangle().fill(.gray.opacity(0.0001)).containerRelativeFrame(.horizontal) { v, _ in v })
     .defaultScrollAnchor(scrollIndicatorPresented ? .bottom : .top)

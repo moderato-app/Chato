@@ -7,21 +7,15 @@ struct NormalMsgView: View {
   static let theme = pandalong()
   @EnvironmentObject var em: EM
   @EnvironmentObject var pref: Pref
-  @Environment(\.colorScheme) var colorScheme
-
-#if os(macOS)
-  private static let fontSize = Font.title3
-#else
-  private static let fontSize = Font.body
-#endif
-
   @Environment(\.modelContext) private var modelContext
+
   var msg: Message
 
   @State private var showingSelectTextPopover: Bool = false
   @State var isDeleteConfirmPresented: Bool = false
   @State private var translationVisible = false
   @State private var isInfoPresented = false
+  @State private var softHaptics = false
 
   private let deleteCallback: () -> Void
   init(msg: Message, deleteCallback: @escaping () -> Void) {
@@ -30,7 +24,7 @@ struct NormalMsgView: View {
   }
 
   var body: some View {
-    //    //let _ = Self.printChagesWhenDebug()
+//    let _ = Self.printChagesWhenDebug()
     HStack(spacing: 0) {
       if msg.role == .user {
         Spacer()
@@ -53,6 +47,7 @@ struct NormalMsgView: View {
         Spacer()
       }
     }
+    .softFeedback(isInfoPresented, softHaptics)
     .sheet(isPresented: $showingSelectTextPopover) {
       SelectTextView(msg.message)
         .presentationDetents(detents())
@@ -85,11 +80,17 @@ struct NormalMsgView: View {
       if !msg.message.isEmpty {
         Group {
           if msg.role == .assistant {
-            Markdown(msg.message)
-              .markdownBlockStyle(\.codeBlock) {
-                codeBlock($0)
-              }
-              .markdownCodeSyntaxHighlighter(.splash(theme: Self.theme))
+            // don't highlight code on typing for better performance
+            if msg.status == .received || msg.status == .error {
+              Markdown(msg.message)
+              //                .markdownBlockStyle(\.codeBlock) {
+              //                  codeBlock($0)
+              //                }
+              // may crash due to bad address access
+              //               .markdownCodeSyntaxHighlighter(.splash(theme: Self.theme))
+            } else {
+              Markdown(msg.message)
+            }
           } else {
             Text(msg.message)
           }
@@ -97,7 +98,7 @@ struct NormalMsgView: View {
         .translationPresentation(isPresented: $translationVisible, text: msg.message) { trans in
           msg.message = trans
         }
-        .softFeedback(msg.message)
+        .weakFeedback(msg.message)
       }
       if msg.status == .error {
         ErrorView(msg.errorInfo, msg.errorType)
@@ -167,8 +168,10 @@ struct NormalMsgView: View {
     case .none:
       break
     case .reuse:
+      softHaptics.toggle()
       em.reUseTextEvent.send(targetText())
     case .copy:
+      softHaptics.toggle()
       UIPasteboard.general.string = targetText()
     case .showInfo:
       isInfoPresented.toggle()

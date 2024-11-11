@@ -37,7 +37,7 @@ extension NormalMsgView {
   }
 }
 
-#Preview("") {
+#Preview("1") {
   let c = """
   ```swift
   struct SplashCodeSyntaxHighlighter: CodeSyntaxHighlighter {

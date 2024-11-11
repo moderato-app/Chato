@@ -32,7 +32,7 @@ struct ChatRowView: View {
           .fontWeight(.semibold)
           .lineLimit(1)
         Spacer()
-        Text(formatAgo(from: chat.updatedAt))
+        Text(formatAgo(from: message?.updatedAt ?? chat.updatedAt))
           .font(.subheadline)
           .foregroundStyle(.secondary)
           .lineLimit(1)

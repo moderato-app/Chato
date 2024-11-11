@@ -201,13 +201,13 @@ extension InputAreaView {
                 let text = choice.delta.content ?? "\nchoice has no content\n"
                 if let fr = choice.finishReason {
                   if case .string(let reason) = fr, reason == "stop" {
-                    aiMsg.onEOF(text: "")
-                    em.messageEvent.send(.eof)
+//                    aiMsg.onEOF(text: "")
+//                    em.messageEvent.send(.eof)
+//                    skip eof; the last chunk's 'usage' isn't nil and it has no 'choices'
                   } else {
                     // if reason is not stop, something may be wrong
                     aiMsg.onError("finished reason: \(fr)", .unknown)
                   }
-                  return
                 } else {
                   aiMsg.onTyping(text: text)
                 }

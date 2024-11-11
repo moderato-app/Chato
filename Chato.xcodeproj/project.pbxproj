@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -72,6 +72,7 @@
 		EB8B955E2BC9B5DB00E018C4 /* CoffeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8B955D2BC9B5DB00E018C4 /* CoffeeView.swift */; };
 		EB8BBA382B8E264C002010FA /* NormalMsgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8BBA372B8E264C002010FA /* NormalMsgView.swift */; };
 		EB8DFFA12B98E87A00862A94 /* PromptCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8DFFA02B98E87A00862A94 /* PromptCreateView.swift */; };
+		EB8EE44F2CE2101300EDDE04 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8EE44E2CE2101300EDDE04 /* URL.swift */; };
 		EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB8FB4F22C3940D60041833B /* MarkdownUI */; };
 		EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E72002BCAB5FB00D5B110 /* Product.swift */; };
 		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
@@ -188,6 +189,8 @@
 		EB8B955D2BC9B5DB00E018C4 /* CoffeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeView.swift; sourceTree = "<group>"; };
 		EB8BBA372B8E264C002010FA /* NormalMsgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalMsgView.swift; sourceTree = "<group>"; };
 		EB8DFFA02B98E87A00862A94 /* PromptCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCreateView.swift; sourceTree = "<group>"; };
+		EB8EE4452CE20C1900EDDE04 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB8EE44E2CE2101300EDDE04 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		EB9E72002BCAB5FB00D5B110 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPicker.swift; sourceTree = "<group>"; };
 		EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPickerView.swift; sourceTree = "<group>"; };
@@ -217,6 +220,10 @@
 		EBF62A142CDF5AAB002353FA /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		EB8EE4462CE20C1900EDDE04 /* Test */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Test; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		EB64220D2B6F7BB000119DE6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -232,6 +239,13 @@
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
 				EBD0114C2B98F2840046F235 /* Haptico in Frameworks */,
 				EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB8EE4422CE20C1900EDDE04 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +331,7 @@
 			children = (
 				EB09AB092C57A3680052DD69 /* ci_scripts */,
 				EB6422122B6F7BB000119DE6 /* Chato */,
+				EB8EE4462CE20C1900EDDE04 /* Test */,
 				EB6422112B6F7BB000119DE6 /* Products */,
 				EB4A0EE32B6F908D0065BCDC /* Frameworks */,
 				EB6422232B6F7C0600119DE6 /* .gitignore */,
@@ -327,6 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				EB6422102B6F7BB000119DE6 /* Chato.app */,
+				EB8EE4452CE20C1900EDDE04 /* Test.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -507,6 +523,7 @@
 				EB64224E2B6F7C9300119DE6 /* SwiftData.swift */,
 				EB64224F2B6F7C9300119DE6 /* Basic.swift */,
 				EB80898E2CE15E100003BACD /* OpenAIExt.swift */,
+				EB8EE44E2CE2101300EDDE04 /* URL.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -604,6 +621,28 @@
 			productReference = EB6422102B6F7BB000119DE6 /* Chato.app */;
 			productType = "com.apple.product-type.application";
 		};
+		EB8EE4442CE20C1900EDDE04 /* Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB8EE44B2CE20C1900EDDE04 /* Build configuration list for PBXNativeTarget "Test" */;
+			buildPhases = (
+				EB8EE4412CE20C1900EDDE04 /* Sources */,
+				EB8EE4422CE20C1900EDDE04 /* Frameworks */,
+				EB8EE4432CE20C1900EDDE04 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				EB8EE4462CE20C1900EDDE04 /* Test */,
+			);
+			name = Test;
+			packageProductDependencies = (
+			);
+			productName = Test;
+			productReference = EB8EE4452CE20C1900EDDE04 /* Test.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -611,12 +650,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1520;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					EB64220F2B6F7BB000119DE6 = {
 						CreatedOnToolsVersion = 15.2;
 						LastSwiftMigration = 1520;
+					};
+					EB8EE4442CE20C1900EDDE04 = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -645,6 +687,7 @@
 			projectRoot = "";
 			targets = (
 				EB64220F2B6F7BB000119DE6 /* Chato */,
+				EB8EE4442CE20C1900EDDE04 /* Test */,
 			);
 		};
 /* End PBXProject section */
@@ -657,6 +700,13 @@
 				EBB075CE2B93A074007328EF /* prompts.json in Resources */,
 				EB64221D2B6F7BB100119DE6 /* Preview Assets.xcassets in Resources */,
 				EB64221A2B6F7BB100119DE6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB8EE4432CE20C1900EDDE04 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,6 +792,7 @@
 				EB7906B32B975FA200BB16D1 /* ChatRowView.swift in Sources */,
 				EB80898D2CE146440003BACD /* AdaptiveSheet.swift in Sources */,
 				EB4CD6882B9A582600E076AC /* DangerZoneView.swift in Sources */,
+				EB8EE44F2CE2101300EDDE04 /* URL.swift in Sources */,
 				EBB075CC2B939BEF007328EF /* PromptRowView.swift in Sources */,
 				EB64226A2B6F7C9400119DE6 /* ChatExample.swift in Sources */,
 				EB8089782CE119BB0003BACD /* ChatOption.swift in Sources */,
@@ -751,6 +802,13 @@
 				EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */,
 				EB4A0EEC2B6FD64F0065BCDC /* SwiftUI.swift in Sources */,
 				EB13D6682BC9C61F00B38A5E /* StoreKit.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB8EE4412CE20C1900EDDE04 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,6 +1017,41 @@
 			};
 			name = Release;
 		};
+		EB8EE4492CE20C1900EDDE04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 46PN73H4K6;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = the.future.app.chato.Test;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EB8EE44A2CE20C1900EDDE04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 46PN73H4K6;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = the.future.app.chato.Test;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -976,6 +1069,15 @@
 			buildConfigurations = (
 				EB6422212B6F7BB100119DE6 /* Debug */,
 				EB6422222B6F7BB100119DE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB8EE44B2CE20C1900EDDE04 /* Build configuration list for PBXNativeTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB8EE4492CE20C1900EDDE04 /* Debug */,
+				EB8EE44A2CE20C1900EDDE04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ProxyView: View {
+struct EndpointView: View {
   @Binding var useEndpoint: Bool
   @Binding var baseURL: String
 
@@ -52,5 +52,5 @@ struct ProxyView: View {
 #Preview {
   @Previewable @State var useEndpoint = false
   @Previewable @State var baseURL = "http://abc.com"
-  ProxyView($useEndpoint, $baseURL)
+  EndpointView($useEndpoint, $baseURL)
 }

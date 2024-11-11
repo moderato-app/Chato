@@ -94,25 +94,25 @@ struct InputAreaView: View {
           }
           .contextMenu {
             let count = chat.messages.count
-            if count >= 20 {
-              Section("Send with context length") {
+            Section("Send with context length") {
+              if count >= 20 {
                 Menu {
                   if count >= 20 { Button("20") { send(20) }}
-                  if count < 50 { Button("\(count) (max)") { send(count) }}
+                  if count < 50 { Button("\(count) (all messages)") { send(count) }}
                   if count >= 50 { Button("50") { send(50) }}
-                  if count > 50 { Button("\(count) (max)") { send(count) }}
+                  if count > 50 { Button("\(count) (all messages)") { send(count) }}
                 } label: {
                   Button("More") {}
                 }
-              }
-              ForEach([0, 1, 2, 3, 4, 6, 8, 10].reversed(), id: \.self) { i in
-                Button("\(i)") { send(i) }
-              }
-            } else {
-              if count > 10 { Button("\(count) (max)") { send(count) }}
-              ForEach((0 ... 10).reversed(), id: \.self) { i in
-                if i < count { Button("\(i)") { send(i) }}
-                if i == count { Button("\(i) (max)") { send(i) }}
+                ForEach([0, 1, 2, 3, 4, 6, 8, 10].reversed(), id: \.self) { i in
+                  Button("\(i)") { send(i) }
+                }
+              } else {
+                if count > 10 { Button("\(count) (all messages)") { send(count) }}
+                ForEach((0 ... 10).reversed(), id: \.self) { i in
+                  if i < count { Button("\(i)") { send(i) }}
+                  if i == count { Button("\(i) (all messages)") { send(i) }}
+                }
               }
             }
           }

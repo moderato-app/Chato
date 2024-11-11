@@ -75,7 +75,7 @@ func migratePref(asm: AppStateModel) {
   pref.colorScheme = Pref.AppColorScheme(rawValue: asm.colorScheme.rawValue) ?? .system
 
   pref.gptApiKey = asm.chatGPTConfig.apiKey
-  pref.gptBaseURL = "https://" + asm.chatGPTConfig.proxyHost
+  pref.gptEndpoint = "https://" + asm.chatGPTConfig.proxyHost
   pref.gptEnableEndpoint = asm.chatGPTConfig.userProxy
 
   if let opt = asm.lastUsedOption {

@@ -25,13 +25,19 @@ extension EnvironmentValues {
 class OpenAIServiceProvider: ObservableObject {
   let service: OpenAIService
 
-  init(apiKey: String, baseUrl: String? = nil) {
+  init(apiKey: String, endpint: String? = nil, timeout: TimeInterval = 120) {
     let conf = URLSessionConfiguration.default
-    conf.timeoutIntervalForRequest = 120
+    conf.timeoutIntervalForRequest = timeout
 
-    if let baseUrl{
-      self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf, overrideBaseURL: baseUrl)
-    }else{
+    if let endpint {
+      do {
+        let res = try parseURL(endpint)
+        self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf, overrideBaseURL: res.base, proxyPath: res.path)
+      } catch {
+        print("let res = try parseURL(endpint): \(error)")
+        self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf)
+      }
+    } else {
       self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf)
     }
   }

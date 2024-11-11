@@ -7,7 +7,8 @@ struct ContentView: View {
   @Environment(\.colorScheme) private var colorScheme
  
   var body: some View {
-    let openai = pref.gptEnableEndpoint ?  OpenAIServiceProvider(apiKey: pref.gptApiKey, baseUrl: pref.gptBaseURL) : OpenAIServiceProvider(apiKey: pref.gptApiKey)
+    
+    let openai = pref.gptEnableEndpoint ?  OpenAIServiceProvider(apiKey: pref.gptApiKey, endpint: pref.gptEndpoint) : OpenAIServiceProvider(apiKey: pref.gptApiKey)
 
     HomePage()
       .environmentObject(EM.shared)

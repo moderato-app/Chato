@@ -28,7 +28,7 @@ struct ChatGPTSettingSection: View {
         }
       }
       NavigationLink {
-        EndpointView($pref.gptEnableEndpoint, $pref.gptBaseURL)
+        EndpointView($pref.gptEnableEndpoint, $pref.gptEndpoint)
           .navigationTitle("Endpoint")
           .toolbarTitleDisplayMode(.inline)
       } label: {
@@ -47,12 +47,9 @@ struct ChatGPTSettingSection: View {
     } header: { Text("ChatGPT") } footer: {
       if !pref.gptApiKey.isEmpty {
         TestButton {
-          let conf = URLSessionConfiguration.default
-          conf.timeoutIntervalForRequest = 5
-
-          let openai = pref.gptEnableEndpoint ? OpenAIServiceFactory.service(apiKey: pref.gptApiKey, configuration: conf, overrideBaseURL: pref.gptBaseURL) : OpenAIServiceFactory.service(apiKey: pref.gptApiKey, configuration: conf)
+          let openai = pref.gptEnableEndpoint ? OpenAIServiceProvider(apiKey: pref.gptApiKey, endpint: pref.gptEndpoint, timeout: 5) : OpenAIServiceProvider(apiKey: pref.gptApiKey, timeout: 5)
           do {
-            let res = try await openai.hello()
+            let res = try await openai.service.hello()
             HapticsService.shared.shake(.success)
             return .succeeded(res)
           } catch {

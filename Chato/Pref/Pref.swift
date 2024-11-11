@@ -14,7 +14,7 @@ class Pref: ObservableObject {
   // ChatGPT
   @AppStorage("gptApiKey") var gptApiKey: String = ""
   @AppStorage("gptUseProxy") var gptEnableEndpoint: Bool = false
-  @AppStorage("gptBaseURL") var gptBaseURL: String = "https://api.openai.com"
+  @AppStorage("gptEndpoint") var gptEndpoint: String = "https://api.openai.com"
 
   // ChatGPT last used option
   @AppStorage("lastUsedModel") var lastUsedModel: String?
@@ -33,7 +33,7 @@ class Pref: ObservableObject {
     self.colorScheme = newPref.colorScheme
     self.gptApiKey = newPref.gptApiKey
     self.gptEnableEndpoint = newPref.gptEnableEndpoint
-    self.gptBaseURL = newPref.gptBaseURL
+    self.gptEndpoint = newPref.gptEndpoint
     self.lastUsedModel = newPref.lastUsedModel
     self.lastUsedContextLength = newPref.lastUsedContextLength
     self.lastUsedPromptId = newPref.lastUsedPromptId

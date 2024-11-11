@@ -1,10 +1,10 @@
+import Highlightr
 import MarkdownUI
 import SwiftData
 import SwiftUI
 import Translation
 
 struct NormalMsgView: View {
-  static let theme = pandalong()
   @EnvironmentObject var em: EM
   @EnvironmentObject var pref: Pref
   @Environment(\.modelContext) private var modelContext
@@ -83,11 +83,10 @@ struct NormalMsgView: View {
             // don't highlight code on typing for better performance
             if msg.status == .received || msg.status == .error {
               Markdown(msg.message)
-              //                .markdownBlockStyle(\.codeBlock) {
-              //                  codeBlock($0)
-              //                }
-              // may crash due to bad address access
-              //               .markdownCodeSyntaxHighlighter(.splash(theme: Self.theme))
+                .markdownBlockStyle(\.codeBlock) {
+                  codeBlock($0)
+                }
+                .markdownCodeSyntaxHighlighter(HI.shared)
             } else {
               Markdown(msg.message)
             }

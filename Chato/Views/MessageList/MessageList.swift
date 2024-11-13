@@ -48,13 +48,14 @@ struct MessageList: View {
 
   @State var scrollviewHeight = CGFloat.zero
   @State var vstackHeight = CGFloat.zero
-  @State var scrollIndicatorPresented  = false
+  @State var scrollIndicatorPresented = false
 
   var body: some View {
 //    let _ = Self.printChagesWhenDebug()
     ScrollView {
       VStack(alignment: .leading) {
         ForEach(messages, id: \.self) { msg in
+//          let _ = Self.printChagesWhenDebug()
           NormalMsgView(msg: msg, deleteCallback: onMsgCountChange)
             .id(msg.id)
             .if(pref.magicScrolling) { c in

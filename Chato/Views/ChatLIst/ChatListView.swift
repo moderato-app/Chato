@@ -34,6 +34,7 @@ struct ChatListView: View {
 
   var body: some View {
     list()
+      .softFeedback(editMode.isEditing, isSettingPresented, isNewChatPresented, isMultiDeleteConfirmPresented)
       .sheet(isPresented: $isSettingPresented) {
         SettingView()
           .preferredColorScheme(colorScheme)
@@ -46,7 +47,6 @@ struct ChatListView: View {
             selection: $settingsDetent
           )
       }
-      .softFeedback(editMode.isEditing, isSettingPresented, isNewChatPresented, isMultiDeleteConfirmPresented)
   }
 
   @State var selectedChatIDs = Set<PersistentIdentifier>()

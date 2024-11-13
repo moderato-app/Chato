@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct ChatDetailView: View {
-  @EnvironmentObject private var pref: Pref
   @Environment(\.colorScheme) private var colorScheme
   @State private var isTutorialPresented = false
   @State private var isSettingPresented = false
@@ -9,6 +8,7 @@ struct ChatDetailView: View {
   let chat: Chat
 
   var body: some View {
+//    let _ = Self.printChagesWhenDebug()
     ChatDetail(chat: chat)
       .navigationTitle(chat.name)
       .navigationBarTitleDisplayMode(.inline)
@@ -53,11 +53,9 @@ struct ChatDetailView: View {
 private struct ChatDetail: View {
   let chat: Chat
 
-  @Environment(\.modelContext) private var modelContext
   @EnvironmentObject var em: EM
   @State private var isInfoPresented = false
   @State private var isPromptPresented = false
-  @EnvironmentObject var pref: Pref
 
   init(chat: Chat) {
     self.chat = chat

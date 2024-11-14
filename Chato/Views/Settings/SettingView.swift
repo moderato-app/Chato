@@ -42,7 +42,7 @@ struct SettingView: View {
 
         Section {
           HStack {
-            Label("Haptics Feedback", systemImage: "iphone.gen2.radiowaves.left.and.right")
+            Label("Haptic Feedback", systemImage: "iphone.gen2.radiowaves.left.and.right")
               .symbolRenderingMode(.multicolor)
               .modifier(RippleEffect(at: .zero, trigger: pref.haptics))
             Toggle("", isOn: $pref.haptics)

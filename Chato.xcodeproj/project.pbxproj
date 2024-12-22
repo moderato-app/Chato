@@ -383,8 +383,6 @@
 		EB64221B2B6F7BB100119DE6 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				EB6422262B6F7C9300119DE6 /* ModelContainerPreview.swift */,
-				EBC1F8702D1845730008D5E7 /* ModelModelSample.swift */,
 				EB64221C2B6F7BB100119DE6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -499,6 +497,8 @@
 				EB6422482B6F7C9300119DE6 /* Container.swift */,
 				EB6451F32B72B79500434D47 /* SQL.swift */,
 				EBC7C1372B98A61C008409D0 /* Migration.swift */,
+				EB6422262B6F7C9300119DE6 /* ModelContainerPreview.swift */,
+				EBC1F8702D1845730008D5E7 /* ModelModelSample.swift */,
 				EB64224A2B6F7C9300119DE6 /* Data */,
 			);
 			path = Models;

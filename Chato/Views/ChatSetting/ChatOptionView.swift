@@ -3,13 +3,17 @@ import SwiftUI
 
 struct ChatOptionView: View {
   @EnvironmentObject var pref: Pref
+  @Environment(\.modelContext) private var modelContext
 
   @Bindable private var chatOption: ChatOption
   private let pickerNavi: Bool
 
+  @Query(sort: \ModelModel.modelId, order: .forward) var models: [ModelModel]
+
   init(_ chatOption: ChatOption, pickerNavi: Bool = false) {
     self.chatOption = chatOption
     self.pickerNavi = pickerNavi
+    _models = Query(sort: \ModelModel.modelId, order: .forward)
   }
 
   var body: some View {
@@ -30,8 +34,8 @@ struct ChatOptionView: View {
         Label("Model", systemImage: "book")
         Spacer()
         Picker("", selection: $chatOption.model) {
-          ForEach(chatGPTModels, id: \.value) { model in
-            Text("\(model.name)").tag(model.value)
+          ForEach(models, id: \.modelId) { model in
+            Text("\(model.resolvedName)").tag(model.modelId)
           }
         }
         .accentColor(.secondary)

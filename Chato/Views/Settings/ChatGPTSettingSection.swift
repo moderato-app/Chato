@@ -76,7 +76,7 @@ struct ChatGPTSettingSection: View {
         TestButton {
           let openai = pref.gptEnableEndpoint ? OpenAIServiceProvider(apiKey: pref.gptApiKey, endpint: pref.gptEndpoint, timeout: 5) : OpenAIServiceProvider(apiKey: pref.gptApiKey, timeout: 5)
           do {
-            let res = try await openai.service.hello()
+            let res = try await openai.service.hello(model: models.randomElement()?.modelId ?? Model.gpt4omini.value)
             HapticsService.shared.shake(.success)
             return .succeeded(res)
           } catch {

@@ -32,7 +32,6 @@
 		EB64221D2B6F7BB100119DE6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB64221C2B6F7BB100119DE6 /* Preview Assets.xcassets */; };
 		EB6422512B6F7C9300119DE6 /* ModelContainerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6422262B6F7C9300119DE6 /* ModelContainerPreview.swift */; };
 		EB6422552B6F7C9400119DE6 /* TestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB64222D2B6F7C9300119DE6 /* TestButton.swift */; };
-		EB6422562B6F7C9400119DE6 /* EndpointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB64222E2B6F7C9300119DE6 /* EndpointView.swift */; };
 		EB6422582B6F7C9400119DE6 /* Other.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6422322B6F7C9300119DE6 /* Other.swift */; };
 		EB6422592B6F7C9400119DE6 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6422332B6F7C9300119DE6 /* SettingView.swift */; };
 		EB64225A2B6F7C9400119DE6 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6422352B6F7C9300119DE6 /* ChatListView.swift */; };
@@ -58,7 +57,7 @@
 		EB80896E2CE103FD0003BACD /* ChatGPTSettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80896D2CE103FD0003BACD /* ChatGPTSettingSection.swift */; };
 		EB8089702CE10C980003BACD /* MessageMetaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80896F2CE10C980003BACD /* MessageMetaView.swift */; };
 		EB8089722CE10CD20003BACD /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089712CE10CD20003BACD /* Pasteboard.swift */; };
-		EB8089742CE117A40003BACD /* Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089732CE117A40003BACD /* Ext.swift */; };
+		EB8089742CE117A40003BACD /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089732CE117A40003BACD /* Haptics.swift */; };
 		EB8089762CE1199A0003BACD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089752CE1199A0003BACD /* Message.swift */; };
 		EB8089782CE119BB0003BACD /* ChatOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089772CE119BB0003BACD /* ChatOption.swift */; };
 		EB80897A2CE119DA0003BACD /* MessageMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8089792CE119DA0003BACD /* MessageMeta.swift */; };
@@ -94,6 +93,13 @@
 		EBB205BE2B8F2FCE00B046F6 /* ChatGPTSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB205BD2B8F2FCE00B046F6 /* ChatGPTSettingView.swift */; };
 		EBB3464A2C37F3F7003DB2CE /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB346492C37F3F7003DB2CE /* MessageList.swift */; };
 		EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBB4EF282CDDC02200F38178 /* VisualEffectView */; };
+		EBC1F7432D1834BA0008D5E7 /* AIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC1F7422D1834BA0008D5E7 /* AIClient.swift */; };
+		EBC1F7452D1837D60008D5E7 /* EndpointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC1F7442D1837D60008D5E7 /* EndpointView.swift */; };
+		EBC1F7472D183E7B0008D5E7 /* ModelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC1F7462D183E7B0008D5E7 /* ModelModel.swift */; };
+		EBC1F7DC2D1840650008D5E7 /* GPTModelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC1F7DB2D1840650008D5E7 /* GPTModelsView.swift */; };
+		EBC1F8712D1845730008D5E7 /* ModelModelSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC1F8702D1845730008D5E7 /* ModelModelSample.swift */; };
+		EBC1F9092D1853F50008D5E7 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = EBC1F9082D1853F50008D5E7 /* Fakery */; };
+		EBC1F90B2D1866700008D5E7 /* ModelRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC1F90A2D1866700008D5E7 /* ModelRowView.swift */; };
 		EBC7C1342B98A380008409D0 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7C1332B98A380008409D0 /* Chat.swift */; };
 		EBC7C1362B98A386008409D0 /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7C1352B98A386008409D0 /* Prompt.swift */; };
 		EBC7C1382B98A61C008409D0 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7C1372B98A61C008409D0 /* Migration.swift */; };
@@ -149,7 +155,6 @@
 		EB6422232B6F7C0600119DE6 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		EB6422262B6F7C9300119DE6 /* ModelContainerPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelContainerPreview.swift; sourceTree = "<group>"; };
 		EB64222D2B6F7C9300119DE6 /* TestButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButton.swift; sourceTree = "<group>"; };
-		EB64222E2B6F7C9300119DE6 /* EndpointView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndpointView.swift; sourceTree = "<group>"; };
 		EB6422322B6F7C9300119DE6 /* Other.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Other.swift; sourceTree = "<group>"; };
 		EB6422332B6F7C9300119DE6 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		EB6422352B6F7C9300119DE6 /* ChatListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListView.swift; sourceTree = "<group>"; };
@@ -177,7 +182,7 @@
 		EB80896D2CE103FD0003BACD /* ChatGPTSettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPTSettingSection.swift; sourceTree = "<group>"; };
 		EB80896F2CE10C980003BACD /* MessageMetaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMetaView.swift; sourceTree = "<group>"; };
 		EB8089712CE10CD20003BACD /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
-		EB8089732CE117A40003BACD /* Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
+		EB8089732CE117A40003BACD /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		EB8089752CE1199A0003BACD /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		EB8089772CE119BB0003BACD /* ChatOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatOption.swift; sourceTree = "<group>"; };
 		EB8089792CE119DA0003BACD /* MessageMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMeta.swift; sourceTree = "<group>"; };
@@ -210,6 +215,12 @@
 		EBB076262B94ABC6007328EF /* EnvTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvTypeView.swift; sourceTree = "<group>"; };
 		EBB205BD2B8F2FCE00B046F6 /* ChatGPTSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPTSettingView.swift; sourceTree = "<group>"; };
 		EBB346492C37F3F7003DB2CE /* MessageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
+		EBC1F7422D1834BA0008D5E7 /* AIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIClient.swift; sourceTree = "<group>"; };
+		EBC1F7442D1837D60008D5E7 /* EndpointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointView.swift; sourceTree = "<group>"; };
+		EBC1F7462D183E7B0008D5E7 /* ModelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelModel.swift; sourceTree = "<group>"; };
+		EBC1F7DB2D1840650008D5E7 /* GPTModelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTModelsView.swift; sourceTree = "<group>"; };
+		EBC1F8702D1845730008D5E7 /* ModelModelSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelModelSample.swift; sourceTree = "<group>"; };
+		EBC1F90A2D1866700008D5E7 /* ModelRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelRowView.swift; sourceTree = "<group>"; };
 		EBC7C1332B98A380008409D0 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		EBC7C1352B98A386008409D0 /* Prompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompt.swift; sourceTree = "<group>"; };
 		EBC7C1372B98A61C008409D0 /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
@@ -229,6 +240,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBC1F9092D1853F50008D5E7 /* Fakery in Frameworks */,
 				EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */,
 				EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */,
 				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
@@ -306,6 +318,7 @@
 				EB3080AB2C3480BC002FEDB3 /* HapticsService.swift */,
 				EBF62A142CDF5AAB002353FA /* AudioService.swift */,
 				EB8EE4522CE21BCE00EDDE04 /* Highlight.swift */,
+				EBC1F7422D1834BA0008D5E7 /* AIClient.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -354,7 +367,6 @@
 				EB64224D2B6F7C9300119DE6 /* Extensions */,
 				EB1671B72B8E69F300540426 /* Util */,
 				EB1340032CDE592A00F5197E /* Tips */,
-				EB6422252B6F7C9300119DE6 /* PreviewHelper */,
 				EB64221B2B6F7BB100119DE6 /* Preview Content */,
 				EB13D6672BC9C61F00B38A5E /* StoreKit.swift */,
 				EB9E72002BCAB5FB00D5B110 /* Product.swift */,
@@ -371,17 +383,11 @@
 		EB64221B2B6F7BB100119DE6 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				EB6422262B6F7C9300119DE6 /* ModelContainerPreview.swift */,
+				EBC1F8702D1845730008D5E7 /* ModelModelSample.swift */,
 				EB64221C2B6F7BB100119DE6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		EB6422252B6F7C9300119DE6 /* PreviewHelper */ = {
-			isa = PBXGroup;
-			children = (
-				EB6422262B6F7C9300119DE6 /* ModelContainerPreview.swift */,
-			);
-			path = PreviewHelper;
 			sourceTree = "<group>";
 		};
 		EB64222A2B6F7C9300119DE6 /* Views */ = {
@@ -397,7 +403,6 @@
 				EB64222B2B6F7C9300119DE6 /* Settings */,
 				EB6422392B6F7C9300119DE6 /* Whatever */,
 				EB58C3C02B85D9F500DF8DDB /* TestView.swift */,
-				EB8089732CE117A40003BACD /* Ext.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -418,9 +423,11 @@
 		EB64222C2B6F7C9300119DE6 /* Whatever */ = {
 			isa = PBXGroup;
 			children = (
+				EBC1F90A2D1866700008D5E7 /* ModelRowView.swift */,
+				EBC1F7442D1837D60008D5E7 /* EndpointView.swift */,
 				EB64222D2B6F7C9300119DE6 /* TestButton.swift */,
-				EB64222E2B6F7C9300119DE6 /* EndpointView.swift */,
 				EB7906B92B979DEC00BB16D1 /* SelectTextView.swift */,
+				EBC1F7DB2D1840650008D5E7 /* GPTModelsView.swift */,
 			);
 			path = Whatever;
 			sourceTree = "<group>";
@@ -485,6 +492,7 @@
 				EB7646272B98990500B76236 /* Setting.swift */,
 				EBC7C1332B98A380008409D0 /* Chat.swift */,
 				EB8089772CE119BB0003BACD /* ChatOption.swift */,
+				EBC1F7462D183E7B0008D5E7 /* ModelModel.swift */,
 				EB8089752CE1199A0003BACD /* Message.swift */,
 				EB8089792CE119DA0003BACD /* MessageMeta.swift */,
 				EBC7C1352B98A386008409D0 /* Prompt.swift */,
@@ -509,6 +517,7 @@
 		EB64224D2B6F7C9300119DE6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EB8089732CE117A40003BACD /* Haptics.swift */,
 				EB80898C2CE146440003BACD /* AdaptiveSheet.swift */,
 				EB8089712CE10CD20003BACD /* Pasteboard.swift */,
 				EBB075D72B93D44E007328EF /* String.swift */,
@@ -598,6 +607,7 @@
 				EBA73E2E2CDD3006007E480C /* VisualEffectView */,
 				EBB4EF282CDDC02200F38178 /* VisualEffectView */,
 				EB80897C2CE12A100003BACD /* SwiftOpenAI */,
+				EBC1F9082D1853F50008D5E7 /* Fakery */,
 			);
 			productName = Chato;
 			productReference = EB6422102B6F7BB000119DE6 /* Chato.app */;
@@ -636,6 +646,7 @@
 				EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */,
 				EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
+				EBC1F9072D1853F50008D5E7 /* XCRemoteSwiftPackageReference "Fakery" */,
 			);
 			productRefGroup = EB6422112B6F7BB000119DE6 /* Products */;
 			projectDirPath = "";
@@ -669,7 +680,7 @@
 				EB7646282B98990500B76236 /* Setting.swift in Sources */,
 				EB6422692B6F7C9400119DE6 /* ChatGPT.swift in Sources */,
 				EB18C9362C0AF2B3003A9465 /* VM.swift in Sources */,
-				EB8089742CE117A40003BACD /* Ext.swift in Sources */,
+				EB8089742CE117A40003BACD /* Haptics.swift in Sources */,
 				EB8DFFA12B98E87A00862A94 /* PromptCreateView.swift in Sources */,
 				EB8B955E2BC9B5DB00E018C4 /* CoffeeView.swift in Sources */,
 				EBDEDC8B2C37FF6500C4F251 /* Ripple.swift in Sources */,
@@ -681,9 +692,12 @@
 				EB80898F2CE15E100003BACD /* OpenAIExt.swift in Sources */,
 				EB4A0EEA2B6FC8940065BCDC /* ChatInfoView.swift in Sources */,
 				EB6422612B6F7C9400119DE6 /* InputAreaView.swift in Sources */,
+				EBC1F90B2D1866700008D5E7 /* ModelRowView.swift in Sources */,
 				EB6451F42B72B79500434D47 /* SQL.swift in Sources */,
 				EB1671C12B8E76B200540426 /* DoneStatusView.swift in Sources */,
+				EBC1F7472D183E7B0008D5E7 /* ModelModel.swift in Sources */,
 				EB2AF8472C19588D003C9292 /* DoneButton.swift in Sources */,
+				EBC1F7DC2D1840650008D5E7 /* GPTModelsView.swift in Sources */,
 				EB7906B82B977FD600BB16D1 /* EventManager.swift in Sources */,
 				EB88E3282CA2868800DA9F71 /* State.swift in Sources */,
 				EBA0F17B2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift in Sources */,
@@ -720,7 +734,6 @@
 				EB64225F2B6F7C9400119DE6 /* ChatDetailView.swift in Sources */,
 				EB58C3BF2B85D16000DF8DDB /* TutorialView.swift in Sources */,
 				EB6422592B6F7C9400119DE6 /* SettingView.swift in Sources */,
-				EB6422562B6F7C9400119DE6 /* EndpointView.swift in Sources */,
 				EB8089802CE12A910003BACD /* APIClientKey.swift in Sources */,
 				EB6E08E12B9BA0A800100DFE /* Cache.swift in Sources */,
 				EB0FC7DD2BEBF71F001BFD49 /* Icons.swift in Sources */,
@@ -732,7 +745,9 @@
 				EB64226C2B6F7C9400119DE6 /* Basic.swift in Sources */,
 				EBF62A152CDF5AAB002353FA /* AudioService.swift in Sources */,
 				EBCAC0C82C96F3B5000A3DA1 /* VersionView.swift in Sources */,
+				EBC1F8712D1845730008D5E7 /* ModelModelSample.swift in Sources */,
 				EBB075D82B93D44E007328EF /* String.swift in Sources */,
+				EBC1F7432D1834BA0008D5E7 /* AIClient.swift in Sources */,
 				EBCAC0C62C96E5BC000A3DA1 /* SafariView.swift in Sources */,
 				EB8089822CE13C660003BACD /* MessageInfoView.swift in Sources */,
 				EB7906B32B975FA200BB16D1 /* ChatRowView.swift in Sources */,
@@ -740,6 +755,7 @@
 				EB4CD6882B9A582600E076AC /* DangerZoneView.swift in Sources */,
 				EB8EE44F2CE2101300EDDE04 /* URL.swift in Sources */,
 				EBB075CC2B939BEF007328EF /* PromptRowView.swift in Sources */,
+				EBC1F7452D1837D60008D5E7 /* EndpointView.swift in Sources */,
 				EB64226A2B6F7C9400119DE6 /* ChatExample.swift in Sources */,
 				EB8089782CE119BB0003BACD /* ChatOption.swift in Sources */,
 				EB1671BD2B8E733500540426 /* ErrorView.swift in Sources */,
@@ -901,7 +917,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 18.0.4;
+				MARKETING_VERSION = 18.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = app.moderato.Chato.Chato.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -943,7 +959,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 18.0.4;
+				MARKETING_VERSION = 18.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = app.moderato.Chato.Chato;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1020,6 +1036,14 @@
 				kind = branch;
 			};
 		};
+		EBC1F9072D1853F50008D5E7 /* XCRemoteSwiftPackageReference "Fakery" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vadymmarkov/Fakery";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		EBCFF3932B6FF4CC00498E1E /* XCRemoteSwiftPackageReference "Throttler" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/boraseoksoon/Throttler.git";
@@ -1067,6 +1091,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */;
 			productName = VisualEffectView;
+		};
+		EBC1F9082D1853F50008D5E7 /* Fakery */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBC1F9072D1853F50008D5E7 /* XCRemoteSwiftPackageReference "Fakery" */;
+			productName = Fakery;
 		};
 		EBCFF3942B6FF4CC00498E1E /* Throttler */ = {
 			isa = XCSwiftPackageProductDependency;

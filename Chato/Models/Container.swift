@@ -1,7 +1,7 @@
 import Foundation
 import SwiftData
 
-let allSchema = Schema([AppStateModel.self, Chat.self, ChatOption.self, Prompt.self, PromptMessage.self, Functionality.self])
+let allSchema = Schema([AppStateModel.self, Chat.self, ChatOption.self, Prompt.self, PromptMessage.self, Functionality.self, ModelModel.self])
 
 extension ModelContainer {
   static var preview: () -> ModelContainer = {

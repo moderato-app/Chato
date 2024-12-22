@@ -1,9 +1,19 @@
 import Haptico
+import SwiftData
 import SwiftOpenAI
 import SwiftUI
 
 struct ChatGPTSettingSection: View {
   @EnvironmentObject var pref: Pref
+  @Environment(\.modelContext) private var modelContext
+
+  @State private var searchString = ""
+
+  @Query(sort: \ModelModel.pos, order: .reverse) var models: [ModelModel]
+
+  init() {
+    _models = Query()
+  }
 
   var body: some View {
     Section {
@@ -41,6 +51,23 @@ struct ChatGPTSettingSection: View {
           }
           Spacer()
           Text(pref.gptEnableEndpoint ? "On" : "Off")
+            .foregroundColor(.secondary)
+        }
+      }
+
+      NavigationLink {
+        GPTModelsView(searchString, selectedModelID: .constant(""))
+          .searchable(text: $searchString, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Models")
+      } label: {
+        HStack {
+          Label {
+            Text("Models")
+          } icon: {
+            Image(systemName: "cube")
+              .foregroundColor(.accentColor)
+          }
+          Spacer()
+          Text("\(models.count)")
             .foregroundColor(.secondary)
         }
       }

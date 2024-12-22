@@ -59,6 +59,7 @@ struct EndpointView: View {
         VStack(alignment: .leading, spacing: 10) {
           Text(verbatim: "For example")
           Text(Image(systemName: "checkmark.circle.fill")).foregroundColor(.green) + Text(verbatim: " https://api.openai.com")
+          Text(Image(systemName: "checkmark.circle.fill")).foregroundColor(.green) + Text(verbatim: " https://openrouter.ai/api")
           Text(Image(systemName: "checkmark.circle.fill")).foregroundColor(.green) + Text(verbatim: " https://abc.example.com")
           Text(Image(systemName: "checkmark.circle.fill")).foregroundColor(.green) + Text(verbatim: " http://192.168.0.1")
           Text(Image(systemName: "checkmark.circle.fill")).foregroundColor(.green) + Text(verbatim: " https://abc.example.com/path")

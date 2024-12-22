@@ -65,6 +65,10 @@ func addPreviewData(_ modelContext: ModelContext) throws {
   for c in ChatSample.previewChats {
     modelContext.insert(c)
   }
+  for c in ModelModel.samples {
+    modelContext.insert(c)
+  }
+  print("add preview data: \(ChatSample.previewChats.count) chats, \(ModelModel.samples.count) models")
   try? modelContext.save()
 }
 

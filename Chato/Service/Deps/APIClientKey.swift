@@ -2,7 +2,6 @@
 
 import Foundation
 import SwiftOpenAI
-
 import SwiftUI
 
 // Define your custom environment key
@@ -10,7 +9,12 @@ struct OpenAIServiceKey: EnvironmentKey {
   static let defaultValue: OpenAIService = OpenAIServiceFactory.service(apiKey: "your-default-api-key")
 }
 
-// Extend EnvironmentValues to include your custom key
+// Add new AIClient environment key
+struct AIClientKey: EnvironmentKey {
+  static let defaultValue: AIClientProtocol = AIClient.init(endpoint: "", apiKey: "")
+}
+
+// Extend EnvironmentValues to include both keys
 extension EnvironmentValues {
   var openAIService: OpenAIService {
     get {
@@ -18,6 +22,15 @@ extension EnvironmentValues {
     }
     set {
       self[OpenAIServiceKey.self] = newValue
+    }
+  }
+
+  var aiClient: AIClientProtocol {
+    get {
+      self[AIClientKey.self]
+    }
+    set {
+      self[AIClientKey.self] = newValue
     }
   }
 }
@@ -40,5 +53,14 @@ class OpenAIServiceProvider: ObservableObject {
     } else {
       self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf)
     }
+  }
+}
+
+// Add new AIClientProvider if needed
+class AIClientProvider: ObservableObject {
+  let service: AIClientProtocol
+
+  init(endpoint: String, apiKey: String, timeout: TimeInterval = 120) {
+    self.service = AIClient(endpoint: endpoint, apiKey: apiKey, timeout: timeout)
   }
 }

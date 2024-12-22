@@ -16,6 +16,13 @@ class Pref: ObservableObject {
   @AppStorage("gptUseProxy") var gptEnableEndpoint: Bool = false
   @AppStorage("gptEndpoint") var gptEndpoint: String = "https://api.openai.com"
 
+  var resolvedEndpoint: String {
+    if gptEnableEndpoint {
+      return gptEndpoint
+    }
+    return "https://api.openai.com"
+  }
+  
   // ChatGPT last used option
   @AppStorage("lastUsedModel") var lastUsedModel: String?
   @AppStorage("lastUsedContextLength") var lastUsedContextLength: Int?

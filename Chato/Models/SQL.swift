@@ -2,6 +2,18 @@ import Foundation
 import SwiftData
 
 extension ModelContext {
+  func updateModels(models: [ModelModel]) {
+    do {
+      try delete(model: ModelModel.self)
+      for model in models {
+        insert(model)
+      }
+      try save()
+    } catch {
+      print("error updating models: \(error.localizedDescription)")
+    }
+  }
+
   func getChat(chatId: PersistentIdentifier) -> Chat? {
     let predicate = #Predicate<Chat> { $0.persistentModelID == chatId }
     let fetcher = FetchDescriptor<Chat>(predicate: predicate, fetchLimit: 1)

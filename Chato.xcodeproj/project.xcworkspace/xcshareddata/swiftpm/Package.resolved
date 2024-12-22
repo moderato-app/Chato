@@ -1,5 +1,5 @@
 {
-  "originHash" : "5a366234925c8bb73a8041fb8478dacb7c9125c2b4584a5406f6bb8d162a0d49",
+  "originHash" : "4641e8b332c99c6db7c4650a649dad0937bb0df166c26cbcaaeeb37a57e04d69",
   "pins" : [
     {
       "identity" : "confettiswiftui",
@@ -8,6 +8,15 @@
       "state" : {
         "branch" : "master",
         "revision" : "469de4e43949815dc92570cc786922d8d1385b06"
+      }
+    },
+    {
+      "identity" : "fakery",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vadymmarkov/Fakery",
+      "state" : {
+        "branch" : "master",
+        "revision" : "f68f2ceaaf6782db234e4cbcd5f06dbeeb91af7e"
       }
     },
     {

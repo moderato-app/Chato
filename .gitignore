@@ -18,3 +18,5 @@ xcuserdata/
 
 **/*.playground/playground.xcworkspace/xcshareddata/*
 !**/*.playground/playground.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+buildServer.json

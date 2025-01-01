@@ -81,6 +81,8 @@
 		EBA0F1792CDF9BCB003043F7 /* WheelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */; };
 		EBA0F17B2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F17A2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift */; };
 		EBA0F17D2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F17C2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift */; };
+		EBA142072D253EFB0018CA75 /* HotSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EBA142062D253EFB0018CA75 /* HotSwiftUI */; };
+		EBA1420A2D253F1F0018CA75 /* HotReloading in Frameworks */ = {isa = PBXBuildFile; productRef = EBA142092D253F1F0018CA75 /* HotReloading */; };
 		EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E2E2CDD3006007E480C /* VisualEffectView */; };
 		EBA75D8C2C380C24003FC64D /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = EBA75D8B2C380C24003FC64D /* Ripple.metal */; };
 		EBB075C52B938AB8007328EF /* PromptSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB075C42B938AB8007328EF /* PromptSample.swift */; };
@@ -240,12 +242,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBA1420A2D253F1F0018CA75 /* HotReloading in Frameworks */,
 				EBC1F9092D1853F50008D5E7 /* Fakery in Frameworks */,
 				EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */,
 				EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */,
 				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
 				EB8EE45C2CE2265A00EDDE04 /* Highlightr.xcframework in Frameworks */,
 				EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */,
+				EBA142072D253EFB0018CA75 /* HotSwiftUI in Frameworks */,
 				EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */,
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
 				EBD0114C2B98F2840046F235 /* Haptico in Frameworks */,
@@ -592,6 +596,7 @@
 				EB64220D2B6F7BB000119DE6 /* Frameworks */,
 				EB64220E2B6F7BB000119DE6 /* Resources */,
 				EB58C3BB2B85C73B00DF8DDB /* Embed Frameworks */,
+				EBC34AE62D254FB600446483 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -608,6 +613,8 @@
 				EBB4EF282CDDC02200F38178 /* VisualEffectView */,
 				EB80897C2CE12A100003BACD /* SwiftOpenAI */,
 				EBC1F9082D1853F50008D5E7 /* Fakery */,
+				EBA142062D253EFB0018CA75 /* HotSwiftUI */,
+				EBA142092D253F1F0018CA75 /* HotReloading */,
 			);
 			productName = Chato;
 			productReference = EB6422102B6F7BB000119DE6 /* Chato.app */;
@@ -647,6 +654,8 @@
 				EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */,
 				EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
 				EBC1F9072D1853F50008D5E7 /* XCRemoteSwiftPackageReference "Fakery" */,
+				EBA142052D253EFB0018CA75 /* XCRemoteSwiftPackageReference "HotSwiftUI" */,
+				EBA142082D253F1F0018CA75 /* XCRemoteSwiftPackageReference "HotReloading" */,
 			);
 			productRefGroup = EB6422112B6F7BB000119DE6 /* Products */;
 			projectDirPath = "";
@@ -669,6 +678,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EBC34AE62D254FB600446483 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport RESOURCES=\"/Applications/InjectionIII.app/Contents/Resources\"\nif [ -f \"$RESOURCES/copy_bundle.sh\" ]; then\n    \"$RESOURCES/copy_bundle.sh\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EB64220C2B6F7BB000119DE6 /* Sources */ = {
@@ -902,6 +931,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Chato/Preview Content\"";
 				DEVELOPMENT_TEAM = 46PN73H4K6;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chato/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "ChatO Dev";
@@ -918,6 +948,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 18.0.5;
+				OTHER_LDFLAGS = (
+					"-Xlinker",
+					"-interposable",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.moderato.Chato.Chato.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -944,6 +978,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Chato/Preview Content\"";
 				DEVELOPMENT_TEAM = 46PN73H4K6;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chato/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ChatO;
@@ -1028,6 +1063,22 @@
 				kind = branch;
 			};
 		};
+		EBA142052D253EFB0018CA75 /* XCRemoteSwiftPackageReference "HotSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnno1962/HotSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		EBA142082D253F1F0018CA75 /* XCRemoteSwiftPackageReference "HotReloading" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnno1962/HotReloading";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.11;
+			};
+		};
 		EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/moderato-app/VisualEffectView";
@@ -1082,6 +1133,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
 			productName = ConfettiSwiftUI;
+		};
+		EBA142062D253EFB0018CA75 /* HotSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBA142052D253EFB0018CA75 /* XCRemoteSwiftPackageReference "HotSwiftUI" */;
+			productName = HotSwiftUI;
+		};
+		EBA142092D253F1F0018CA75 /* HotReloading */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBA142082D253F1F0018CA75 /* XCRemoteSwiftPackageReference "HotReloading" */;
+			productName = HotReloading;
 		};
 		EBA73E2E2CDD3006007E480C /* VisualEffectView */ = {
 			isa = XCSwiftPackageProductDependency;

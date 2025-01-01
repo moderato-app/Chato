@@ -1,8 +1,10 @@
 import SwiftUI
+@_exported import HotSwiftUI
 
 struct HomePage: View {
   @State var searchString = ""
-
+  @ObserveInjection var redraw
+  
   var body: some View {
 //    //let _ = Self.printChagesWhenDebug()
     NavigationStack {

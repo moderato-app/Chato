@@ -135,7 +135,7 @@ struct SettingView: View {
           .listRowBackground(Color.clear)
       }
       .animation(.default, value: colorScheme)
-      .confettiCannon(counter: $storeVM.coffeeCount, num: 100, radius: 400)
+      .confettiCannon(trigger: $storeVM.coffeeCount, num: 100, radius: 400)
       .toolbar {
         ToolbarItem(placement: .confirmationAction) {
           Button("Done") {

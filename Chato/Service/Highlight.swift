@@ -7,7 +7,7 @@ import SwiftUI
 
 struct HI: CodeSyntaxHighlighter {
   func highlightCode(_ code: String, language: String?) -> Text {
-    if let highlightedCode = highlightr.highlight(code, as: language) {
+    if let highlightedCode = Self.shared.highlightr.highlight(code, as: language) {
       return convertToText(highlightedCode)
     } else {
       return Text("")
@@ -15,10 +15,10 @@ struct HI: CodeSyntaxHighlighter {
   }
 
   static var shared = HI()
-  let highlightr: Highlightr
+  private let highlightr: Highlightr
 
   private init() {
-    highlightr = Highlightr()!
+    self.highlightr = Highlightr()!
     if !highlightr.setTheme(to: "panda-syntax-dark") {
       print("failed to load panda-syntax-dark.min.css")
     }

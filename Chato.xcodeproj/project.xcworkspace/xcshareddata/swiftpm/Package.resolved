@@ -1,5 +1,5 @@
 {
-  "originHash" : "fa4e46f02f7de3275861a0c94ef2360df3b78aeac3639c5a8b7587e5d2333068",
+  "originHash" : "659488a651db18d3af13bc407418fb72bd37f1c0311da97697d2aa27f0dff2fb",
   "pins" : [
     {
       "identity" : "confettiswiftui",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/simibac/ConfettiSwiftUI.git",
       "state" : {
         "branch" : "master",
-        "revision" : "469de4e43949815dc92570cc786922d8d1385b06"
+        "revision" : "77ce21c82cc5fa608ac921a0dea09dd85b5432c7"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gonzalezreal/NetworkImage",
       "state" : {
-        "revision" : "7aff8d1b31148d32c5933d75557d42f6323ee3d1",
-        "version" : "6.0.0"
+        "revision" : "2849f5323265386e200484b0d0f896e73c3411b9",
+        "version" : "6.0.1"
       }
     },
     {
@@ -101,12 +101,30 @@
       }
     },
     {
+      "identity" : "resolver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hmlongco/Resolver",
+      "state" : {
+        "revision" : "47602af1ac8d7952299fbd0bda3cfbd12cf3a8ca",
+        "version" : "1.5.1"
+      }
+    },
+    {
+      "identity" : "swift-cmark",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-cmark",
+      "state" : {
+        "revision" : "3ccff77b2dc5b96b77db3da0d68d28068593fa53",
+        "version" : "0.5.0"
+      }
+    },
+    {
       "identity" : "swift-markdown-ui",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gonzalezreal/swift-markdown-ui.git",
       "state" : {
-        "revision" : "9a8119b37e09a770367eeb26e05267c75d854053",
-        "version" : "2.3.1"
+        "revision" : "5f613358148239d0292c0cef674a3c2314737f9e",
+        "version" : "2.4.1"
       }
     },
     {
@@ -122,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/johnno1962/SwiftRegex5",
       "state" : {
-        "revision" : "9bf1537b1f902130bcef9aaec2ca4284afa933a6",
-        "version" : "6.1.2"
+        "revision" : "60fde2e2e3b691abb35ba4b67e3f0adc82f6d1f5",
+        "version" : "6.1.3"
       }
     },
     {

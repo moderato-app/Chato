@@ -20,28 +20,31 @@ struct MessageList: View {
   }
 
   func initMessageList() {
-    messages = chat.messages
-      .sorted(by: { a, b in a.createdAt > b.createdAt })
+    let newMessages = chat.messages
+      .sorted(by: { $0.createdAt > $1.createdAt })
       .prefix(total)
       .reversed()
+    print("Message list size changed from  \(messages.count) to \(newMessages.count)")
+    messages = Array(newMessages)
+  }
+
+  private func animateMessageListUpdate(_ animated: Bool) {
+    withAnimation(animated ? .easeInOut : .none) {
+      initMessageList()
+    }
   }
 
   func onMsgCountChange() {
-    // Skip animation if there are too many history messages to avoid clutter
     let anim = total <= 20
     total = 10
     Task.detached {
       try await Task.sleep(for: .seconds(0.05))
       Task { @MainActor in
-        withAnimation(anim ? .easeInOut : .none) {
-          initMessageList()
-        }
+        animateMessageListUpdate(anim)
       }
       try await Task.sleep(for: .seconds(1))
       Task { @MainActor in
-        withAnimation(anim ? .easeInOut : .none) {
-          initMessageList()
-        }
+        animateMessageListUpdate(anim)
       }
     }
   }
@@ -50,27 +53,27 @@ struct MessageList: View {
   @State var vstackHeight = CGFloat.zero
   @State var scrollIndicatorPresented = false
 
+  // Store the screen height as a constant
+  private let screenHeight = UIScreen.main.bounds.height
+
   var body: some View {
-//    let _ = Self.printChagesWhenDebug()
+    let _ = Self.printChagesWhenDebug()
     ScrollView {
       VStack(alignment: .leading) {
         ForEach(messages, id: \.self) { msg in
-//          let _ = Self.printChagesWhenDebug()
           NormalMsgView(msg: msg, deleteCallback: onMsgCountChange)
             .id(msg.id)
             .if(pref.magicScrolling) { c in
               c.visualEffect { content, proxy in
                 let frame = proxy.frame(in: .scrollView(axis: .vertical))
-                let distance = min(0, frame.height > UIScreen.main.bounds.height / 4 ? 0 : frame.minY)
-                var scale = (1 + distance / 700)
-                if scale < 0 {
-                  scale = 0
-                }
-                let y = scale < 0 ? 0 : -distance / 1.25
-                return content
-                  .scaleEffect(scale)
-                  .offset(y: y)
-                  .blur(radius: -distance / 50)
+                let distance = min(0, frame.height > screenHeight / 4 ? 0 : frame.minY)
+                let scale = max(0, 1 + distance / 700)
+                let y = scale == 0 ? 0 : -distance / 1.25
+                return
+                  content
+                    .scaleEffect(scale)
+                    .offset(y: y)
+                    .blur(radius: -distance / 50)
               }
             }
         }
@@ -83,7 +86,9 @@ struct MessageList: View {
       }
       .scrollTargetLayout()
     }
-    .background(Rectangle().fill(.gray.opacity(0.0001)).containerRelativeFrame(.horizontal) { v, _ in v })
+    .background(
+      Rectangle().fill(.gray.opacity(0.0001)).containerRelativeFrame(.horizontal) { v, _ in v }
+    )
     .defaultScrollAnchor(scrollIndicatorPresented ? .bottom : .top)
     .scrollPosition($position, anchor: .bottom)
     .onScrollTargetVisibilityChange(idType: PersistentIdentifier.self, threshold: 0.001) { onScreenIds in
@@ -112,10 +117,11 @@ struct MessageList: View {
       InputAreaView(chat: chat)
         .background(
           VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
-            .ignoresSafeArea(edges: .bottom))
+            .ignoresSafeArea(edges: .bottom)
+        )
         .overlay(alignment: .topTrailing) {
           HStack {
-            if !lastMsgOnScreen && messages.count > 0 {
+            if !lastMsgOnScreen && !messages.isEmpty {
               Button {
                 withAnimation {
                   position.scrollTo(edge: .bottom)

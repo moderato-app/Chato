@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EB0FC7DD2BEBF71F001BFD49 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0FC7DC2BEBF71F001BFD49 /* Icons.swift */; };
+		EB10F6DE2D89D89000875E0C /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = EB10F6DD2D89D89000875E0C /* Resolver */; };
 		EB1340042CDE592A00F5197E /* SendButtonTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1340022CDE592A00F5197E /* SendButtonTip.swift */; };
 		EB13D6682BC9C61F00B38A5E /* StoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB13D6672BC9C61F00B38A5E /* StoreKit.swift */; };
 		EB1671B62B8E633F00540426 /* ThinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671B52B8E633F00540426 /* ThinkingView.swift */; };
@@ -22,6 +23,7 @@
 		EB3060222B964438009F90E9 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3060212B964438009F90E9 /* HomePage.swift */; };
 		EB3080AC2C3480BC002FEDB3 /* HapticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3080AB2C3480BC002FEDB3 /* HapticsService.swift */; };
 		EB37B9A82C281A45002A1667 /* DebugZoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB37B9A72C281A45002A1667 /* DebugZoneView.swift */; };
+		EB44375E2D89E60500A387CF /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB44375D2D89E60500A387CF /* ConfettiSwiftUI */; };
 		EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = EB4A0EE42B6F908D0065BCDC /* OpenAI */; };
 		EB4A0EEA2B6FC8940065BCDC /* ChatInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4A0EE92B6FC8940065BCDC /* ChatInfoView.swift */; };
 		EB4A0EEC2B6FD64F0065BCDC /* SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4A0EEB2B6FD64F0065BCDC /* SwiftUI.swift */; };
@@ -67,16 +69,12 @@
 		EB80898D2CE146440003BACD /* AdaptiveSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80898C2CE146440003BACD /* AdaptiveSheet.swift */; };
 		EB80898F2CE15E100003BACD /* OpenAIExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80898E2CE15E100003BACD /* OpenAIExt.swift */; };
 		EB88E3282CA2868800DA9F71 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB88E3272CA2868800DA9F71 /* State.swift */; };
-		EB8B955E2BC9B5DB00E018C4 /* CoffeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8B955D2BC9B5DB00E018C4 /* CoffeeView.swift */; };
 		EB8BBA382B8E264C002010FA /* NormalMsgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8BBA372B8E264C002010FA /* NormalMsgView.swift */; };
 		EB8DFFA12B98E87A00862A94 /* PromptCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8DFFA02B98E87A00862A94 /* PromptCreateView.swift */; };
 		EB8EE44F2CE2101300EDDE04 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8EE44E2CE2101300EDDE04 /* URL.swift */; };
 		EB8EE4532CE21BCE00EDDE04 /* Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8EE4522CE21BCE00EDDE04 /* Highlight.swift */; };
-		EB8EE45C2CE2265A00EDDE04 /* Highlightr.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */; };
-		EB8EE45D2CE2265A00EDDE04 /* Highlightr.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB8FB4F22C3940D60041833B /* MarkdownUI */; };
 		EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E72002BCAB5FB00D5B110 /* Product.swift */; };
-		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
 		EBA0F1782CDF9BCB003043F7 /* WheelPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */; };
 		EBA0F1792CDF9BCB003043F7 /* WheelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */; };
 		EBA0F17B2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0F17A2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift */; };
@@ -112,16 +110,35 @@
 		EBD0114C2B98F2840046F235 /* Haptico in Frameworks */ = {isa = PBXBuildFile; productRef = EBD0114B2B98F2840046F235 /* Haptico */; };
 		EBDEDC8B2C37FF6500C4F251 /* Ripple.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDEDC8A2C37FF6500C4F251 /* Ripple.swift */; };
 		EBF62A152CDF5AAB002353FA /* AudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF62A142CDF5AAB002353FA /* AudioService.swift */; };
+		EBFADF022D89ED0900949053 /* Highlightr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBFADEFF2D89ED0100949053 /* Highlightr.framework */; };
+		EBFADF032D89ED0900949053 /* Highlightr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EBFADEFF2D89ED0100949053 /* Highlightr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EBFADEFE2D89ED0100949053 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBFADEF92D89ED0100949053 /* Highlightr.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8C2FB1C21F39118F00469D0D;
+			remoteInfo = "Highlightr-iOS";
+		};
+		EBFADF002D89ED0100949053 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBFADEF92D89ED0100949053 /* Highlightr.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8CD1AE161F391713000FDA02;
+			remoteInfo = "Highlightr-macOS";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		EB58C3BB2B85C73B00DF8DDB /* Embed Frameworks */ = {
+		EBFADF042D89ED0900949053 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EB8EE45D2CE2265A00EDDE04 /* Highlightr.xcframework in Embed Frameworks */,
+				EBFADF032D89ED0900949053 /* Highlightr.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -193,20 +210,16 @@
 		EB80898C2CE146440003BACD /* AdaptiveSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveSheet.swift; sourceTree = "<group>"; };
 		EB80898E2CE15E100003BACD /* OpenAIExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIExt.swift; sourceTree = "<group>"; };
 		EB88E3272CA2868800DA9F71 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
-		EB8B955D2BC9B5DB00E018C4 /* CoffeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeView.swift; sourceTree = "<group>"; };
 		EB8BBA372B8E264C002010FA /* NormalMsgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalMsgView.swift; sourceTree = "<group>"; };
 		EB8DFFA02B98E87A00862A94 /* PromptCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCreateView.swift; sourceTree = "<group>"; };
 		EB8EE44E2CE2101300EDDE04 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
-		EB8EE4512CE21AA500EDDE04 /* Highlightr */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Highlightr; path = ../Highlightr; sourceTree = "<group>"; };
 		EB8EE4522CE21BCE00EDDE04 /* Highlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlight.swift; sourceTree = "<group>"; };
-		EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Highlightr.xcframework; sourceTree = "<group>"; };
 		EB9E72002BCAB5FB00D5B110 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPicker.swift; sourceTree = "<group>"; };
 		EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPickerView.swift; sourceTree = "<group>"; };
 		EBA0F17A2CDF9CB3003043F7 /* ChatAdvancedOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAdvancedOptionView.swift; sourceTree = "<group>"; };
 		EBA0F17C2CDFA888003043F7 /* AdvancedOptionDoubleTapTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedOptionDoubleTapTip.swift; sourceTree = "<group>"; };
 		EBA256B02BCAD15000141F3E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		EBA73E2C2CDD2FD2007E480C /* VisualEffectView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = VisualEffectView; path = ../../../Downloads/VisualEffectView; sourceTree = "<group>"; };
 		EBA75D8B2C380C24003FC64D /* Ripple.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ripple.metal; sourceTree = "<group>"; };
 		EBB075C42B938AB8007328EF /* PromptSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptSample.swift; sourceTree = "<group>"; };
 		EBB075C72B93949A007328EF /* PromptListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptListView.swift; sourceTree = "<group>"; };
@@ -231,6 +244,7 @@
 		EBCAC0C72C96F3B5000A3DA1 /* VersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionView.swift; sourceTree = "<group>"; };
 		EBDEDC8A2C37FF6500C4F251 /* Ripple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ripple.swift; sourceTree = "<group>"; };
 		EBF62A142CDF5AAB002353FA /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
+		EBFADEF92D89ED0100949053 /* Highlightr.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Highlightr.xcodeproj; path = ../Highlightr/Highlightr.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -247,13 +261,14 @@
 				EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */,
 				EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */,
 				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
-				EB8EE45C2CE2265A00EDDE04 /* Highlightr.xcframework in Frameworks */,
 				EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */,
+				EB44375E2D89E60500A387CF /* ConfettiSwiftUI in Frameworks */,
+				EBFADF022D89ED0900949053 /* Highlightr.framework in Frameworks */,
 				EBA142072D253EFB0018CA75 /* HotSwiftUI in Frameworks */,
 				EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */,
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
 				EBD0114C2B98F2840046F235 /* Haptico in Frameworks */,
-				EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */,
+				EB10F6DE2D89D89000875E0C /* Resolver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,8 +345,7 @@
 		EB4A0EE32B6F908D0065BCDC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EB8EE4512CE21AA500EDDE04 /* Highlightr */,
-				EBA73E2C2CDD2FD2007E480C /* VisualEffectView */,
+				EBFADEF92D89ED0100949053 /* Highlightr.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -345,7 +359,6 @@
 				EB6422112B6F7BB000119DE6 /* Products */,
 				EB4A0EE32B6F908D0065BCDC /* Frameworks */,
 				EB6422232B6F7C0600119DE6 /* .gitignore */,
-				EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -441,7 +454,6 @@
 				EB6422322B6F7C9300119DE6 /* Other.swift */,
 				EB37B9A72C281A45002A1667 /* DebugZoneView.swift */,
 				EB4CD6872B9A582600E076AC /* DangerZoneView.swift */,
-				EB8B955D2BC9B5DB00E018C4 /* CoffeeView.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -585,6 +597,15 @@
 			name = Prompt;
 			sourceTree = "<group>";
 		};
+		EBFADEFA2D89ED0100949053 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EBFADEFF2D89ED0100949053 /* Highlightr.framework */,
+				EBFADF012D89ED0100949053 /* Highlightr.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -595,8 +616,7 @@
 				EB64220C2B6F7BB000119DE6 /* Sources */,
 				EB64220D2B6F7BB000119DE6 /* Frameworks */,
 				EB64220E2B6F7BB000119DE6 /* Resources */,
-				EB58C3BB2B85C73B00DF8DDB /* Embed Frameworks */,
-				EBC34AE62D254FB600446483 /* ShellScript */,
+				EBFADF042D89ED0900949053 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -607,7 +627,6 @@
 				EB4A0EE42B6F908D0065BCDC /* OpenAI */,
 				EBCFF3942B6FF4CC00498E1E /* Throttler */,
 				EBD0114B2B98F2840046F235 /* Haptico */,
-				EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */,
 				EB8FB4F22C3940D60041833B /* MarkdownUI */,
 				EBA73E2E2CDD3006007E480C /* VisualEffectView */,
 				EBB4EF282CDDC02200F38178 /* VisualEffectView */,
@@ -615,6 +634,8 @@
 				EBC1F9082D1853F50008D5E7 /* Fakery */,
 				EBA142062D253EFB0018CA75 /* HotSwiftUI */,
 				EBA142092D253F1F0018CA75 /* HotReloading */,
+				EB10F6DD2D89D89000875E0C /* Resolver */,
+				EB44375D2D89E60500A387CF /* ConfettiSwiftUI */,
 			);
 			productName = Chato;
 			productReference = EB6422102B6F7BB000119DE6 /* Chato.app */;
@@ -649,22 +670,46 @@
 				EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */,
 				EBCFF3932B6FF4CC00498E1E /* XCRemoteSwiftPackageReference "Throttler" */,
 				EBD0114A2B98F2840046F235 /* XCRemoteSwiftPackageReference "Haptico" */,
-				EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */,
 				EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
 				EBC1F9072D1853F50008D5E7 /* XCRemoteSwiftPackageReference "Fakery" */,
 				EBA142052D253EFB0018CA75 /* XCRemoteSwiftPackageReference "HotSwiftUI" */,
 				EBA142082D253F1F0018CA75 /* XCRemoteSwiftPackageReference "HotReloading" */,
+				EB10F6DC2D89D89000875E0C /* XCRemoteSwiftPackageReference "Resolver" */,
+				EB44375B2D89E5C800A387CF /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 			);
 			productRefGroup = EB6422112B6F7BB000119DE6 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = EBFADEFA2D89ED0100949053 /* Products */;
+					ProjectRef = EBFADEF92D89ED0100949053 /* Highlightr.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				EB64220F2B6F7BB000119DE6 /* Chato */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		EBFADEFF2D89ED0100949053 /* Highlightr.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Highlightr.framework;
+			remoteRef = EBFADEFE2D89ED0100949053 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EBFADF012D89ED0100949053 /* Highlightr.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Highlightr.framework;
+			remoteRef = EBFADF002D89ED0100949053 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		EB64220E2B6F7BB000119DE6 /* Resources */ = {
@@ -679,26 +724,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		EBC34AE62D254FB600446483 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport RESOURCES=\"/Applications/InjectionIII.app/Contents/Resources\"\nif [ -f \"$RESOURCES/copy_bundle.sh\" ]; then\n    \"$RESOURCES/copy_bundle.sh\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		EB64220C2B6F7BB000119DE6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -711,7 +736,6 @@
 				EB18C9362C0AF2B3003A9465 /* VM.swift in Sources */,
 				EB8089742CE117A40003BACD /* Haptics.swift in Sources */,
 				EB8DFFA12B98E87A00862A94 /* PromptCreateView.swift in Sources */,
-				EB8B955E2BC9B5DB00E018C4 /* CoffeeView.swift in Sources */,
 				EBDEDC8B2C37FF6500C4F251 /* Ripple.swift in Sources */,
 				EBC857892C395CF600DE2252 /* MsgVM.swift in Sources */,
 				EBB076272B94ABC6007328EF /* EnvTypeView.swift in Sources */,
@@ -1031,6 +1055,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EB10F6DC2D89D89000875E0C /* XCRemoteSwiftPackageReference "Resolver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Resolver";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.1;
+			};
+		};
+		EB44375B2D89E5C800A387CF /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MacPaw/OpenAI";
@@ -1051,16 +1091,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
 			requirement = {
-				kind = exactVersion;
-				version = 2.3.1;
-			};
-		};
-		EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI.git";
-			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
 			};
 		};
 		EBA142052D253EFB0018CA75 /* XCRemoteSwiftPackageReference "HotSwiftUI" */ = {
@@ -1114,6 +1146,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EB10F6DD2D89D89000875E0C /* Resolver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EB10F6DC2D89D89000875E0C /* XCRemoteSwiftPackageReference "Resolver" */;
+			productName = Resolver;
+		};
+		EB44375D2D89E60500A387CF /* ConfettiSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EB44375B2D89E5C800A387CF /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
+			productName = ConfettiSwiftUI;
+		};
 		EB4A0EE42B6F908D0065BCDC /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */;
@@ -1128,11 +1170,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
 			productName = MarkdownUI;
-		};
-		EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
-			productName = ConfettiSwiftUI;
 		};
 		EBA142062D253EFB0018CA75 /* HotSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

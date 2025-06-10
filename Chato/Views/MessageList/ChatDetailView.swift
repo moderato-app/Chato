@@ -67,40 +67,41 @@ private struct ChatDetail: View {
       .softFeedback(isPromptPresented, isInfoPresented)
       .toolbar {
         ToolbarItem(placement: .automatic) {
-          HStack(spacing: 0) {
-            Button {
-              self.isPromptPresented.toggle()
-            } label: {
-              PromptIcon(chatOption: chat.option)
-                .tint(.secondary)
-            }
-            .sheet(isPresented: $isPromptPresented) {
-              NavigationStack {
-                if let p = chat.option.prompt {
-                  PromptEditorView(p)
-                    .toolbar { Button("OK") { isPromptPresented.toggle() } }
-                } else {
-                  PromptCreateView { p in
-                    chat.option.prompt = p
-                  }
+          Button {
+            self.isPromptPresented.toggle()
+          } label: {
+            PromptIcon(chatOption: chat.option)
+              .tint(.secondary)
+          }
+          .sheet(isPresented: $isPromptPresented) {
+            NavigationStack {
+              if let p = chat.option.prompt {
+                PromptEditorView(p)
+                  .toolbar { Button("OK") { isPromptPresented.toggle() } }
+              } else {
+                PromptCreateView { p in
+                  chat.option.prompt = p
                 }
               }
+            }
+            .presentationDetents([.large])
+          }
+        }
+        ToolbarSpacer(.fixed)
+        ToolbarItem(placement: .automatic) {
+          Button {
+            self.isInfoPresented.toggle()
+          } label: {
+            ContextLengthCircle(chat.option.contextLength, chat.isBestModel)
+              .padding(2)
+              .clipShape(Circle())
+              .overlay(
+                Circle().stroke(Color.clear)
+              )
+          }
+          .sheet(isPresented: $isInfoPresented) {
+            ChatInfoView(chat: chat)
               .presentationDetents([.large])
-            }
-            Button {
-              self.isInfoPresented.toggle()
-            } label: {
-              ContextLengthCircle(chat.option.contextLength, chat.isBestModel)
-                .padding(2)
-                .clipShape(Circle())
-                .overlay(
-                  Circle().stroke(Color.clear)
-                )
-            }
-            .sheet(isPresented: $isInfoPresented) {
-              ChatInfoView(chat: chat)
-                .presentationDetents([.large])
-            }
           }
         }
       }

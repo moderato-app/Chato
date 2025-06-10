@@ -26,7 +26,6 @@ struct HomePage: View {
           }
         }
         .navigationTitle("Chats")
-        .transNavi()
     }
     .navigationViewStyle(StackNavigationViewStyle())
   }

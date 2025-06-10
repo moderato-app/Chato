@@ -26,17 +26,8 @@ struct SettingView: View {
             .selectionFeedback(pref.colorScheme)
           }
 
-          HStack {
-            Label("3D Scrolling", systemImage: "cube")
-              .symbolRenderingMode(.multicolor)
-            Toggle("", isOn: $pref.magicScrolling.animation())
-          }
-        } header: { Text("Appearance") } footer: {
-          if pref.magicScrolling {
-            Text("Move messages to the background when it goes off-screen.")
-          }
-        }
-        .textCase(.none)
+        } header: { Text("Appearance") }
+          .textCase(.none)
 
         ChatGPTSettingSection()
 

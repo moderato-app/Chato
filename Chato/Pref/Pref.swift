@@ -7,7 +7,6 @@ class Pref: ObservableObject {
   @AppStorage("haptics") var haptics: Bool = true
   @AppStorage("doubleTapAction") var doubleTapAction: DoubleTapAction = .reuse
   @AppStorage("trippleTapAction") var trippleTapAction: DoubleTapAction = .showInfo
-  @AppStorage("magicScrolling") var magicScrolling: Bool = true
 
   @AppStorage("colorScheme") var colorScheme: AppColorScheme = .system
 
@@ -36,7 +35,6 @@ class Pref: ObservableObject {
     let newPref = Pref()
     self.haptics = newPref.haptics
     self.doubleTapAction = newPref.doubleTapAction
-    self.magicScrolling = newPref.magicScrolling
     self.colorScheme = newPref.colorScheme
     self.gptApiKey = newPref.gptApiKey
     self.gptEnableEndpoint = newPref.gptEnableEndpoint

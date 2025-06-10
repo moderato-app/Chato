@@ -63,19 +63,6 @@ struct MessageList: View {
         ForEach(messages, id: \.self) { msg in
           NormalMsgView(msg: msg, deleteCallback: onMsgCountChange)
             .id(msg.id)
-            .if(pref.magicScrolling) { c in
-              c.visualEffect { content, proxy in
-                let frame = proxy.frame(in: .scrollView(axis: .vertical))
-                let distance = min(0, frame.height > screenHeight / 4 ? 0 : frame.minY)
-                let scale = max(0, 1 + distance / 700)
-                let y = scale == 0 ? 0 : -distance / 1.25
-                return
-                  content
-                    .scaleEffect(scale)
-                    .offset(y: y)
-                    .blur(radius: -distance / 50)
-              }
-            }
         }
         .padding(10)
       }
@@ -96,11 +83,6 @@ struct MessageList: View {
     }
     .scrollDismissesKeyboard(.interactively)
     .removeFocusOnTap()
-    .safeAreaInset(edge: .top, spacing: 0) {
-      VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
-        .ignoresSafeArea(edges: .top)
-        .frame(height: 0)
-    }
     .onReceive(em.messageEvent) { event in
       if event == .new {
         withAnimation {

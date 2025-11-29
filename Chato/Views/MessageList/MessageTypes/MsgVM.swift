@@ -62,7 +62,6 @@ extension NormalMsgView {
     .markdownBlockStyle(\.codeBlock) {
       codeBlock2($0)
     }
-    .markdownCodeSyntaxHighlighter(HI.shared)
 }
 
 @ViewBuilder

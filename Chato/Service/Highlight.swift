@@ -1,29 +1,8 @@
 // Created for Chato in 2024
 
 import Foundation
-import Highlightr
 import MarkdownUI
 import SwiftUI
-
-struct HI: CodeSyntaxHighlighter {
-  func highlightCode(_ code: String, language: String?) -> Text {
-    if let highlightedCode = highlightr.highlight(code, as: language) {
-      return convertToText(highlightedCode)
-    } else {
-      return Text("")
-    }
-  }
-
-  static var shared = HI()
-  let highlightr: Highlightr
-
-  private init() {
-    highlightr = Highlightr()!
-    if !highlightr.setTheme(to: "panda-syntax-dark") {
-      print("failed to load panda-syntax-dark.min.css")
-    }
-  }
-}
 
 private func convertToText(_ attributedString: NSAttributedString) -> Text {
   var result = Text("") // Start with an empty Text

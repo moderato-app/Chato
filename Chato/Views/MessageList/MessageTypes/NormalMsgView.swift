@@ -86,7 +86,6 @@ struct NormalMsgView: View {
                 .markdownBlockStyle(\.codeBlock) {
                   codeBlock($0)
                 }
-                .markdownCodeSyntaxHighlighter(HI.shared)
             } else {
               Markdown(msg.message)
             }

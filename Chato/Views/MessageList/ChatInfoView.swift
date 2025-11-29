@@ -24,7 +24,7 @@ struct ChatInfoView: View {
           ChatOptionView(chat.option)
         }.textCase(.none)
 
-        Section("Advanced") {
+        Section("Parameters") {
           ChatAdvancedOptionView(chat.option)
         }
         .textCase(.none)

@@ -140,7 +140,9 @@ struct MessageList: View {
     .softFeedback(triggerHaptic)
     .onAppear {
       initMessageList()
-      position.scrollTo(edge: .bottom)
+      Task {
+          position.scrollTo(edge: .bottom)
+      }
     }
     .refreshable {
       if messages.count == total {

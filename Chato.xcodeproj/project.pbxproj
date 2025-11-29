@@ -33,7 +33,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		EB6422102B6F7BB000119DE6 /* Chato.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chato.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB6422102B6F7BB000119DE6 /* Chato.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Chato.app; path = "/Users/clement/projects/wenzel/ChatO-iOSWorkspace/Chato/build/Debug-iphoneos/Chato.app"; sourceTree = "<absolute>"; };
 		EB6422232B6F7C0600119DE6 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,17 +82,8 @@
 				EB1B46E72EDAF69800FD053A /* ci_scripts */,
 				EB1B48862EDAF7F900FD053A /* Chato */,
 				EB8EE4462CE20C1900EDDE04 /* Test */,
-				EB6422112B6F7BB000119DE6 /* Products */,
 				EB6422232B6F7C0600119DE6 /* .gitignore */,
 			);
-			sourceTree = "<group>";
-		};
-		EB6422112B6F7BB000119DE6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EB6422102B6F7BB000119DE6 /* Chato.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,7 +158,7 @@
 				EBC1F9072D1853F50008D5E7 /* XCRemoteSwiftPackageReference "Fakery" */,
 				EB1B46DD2EDAF0AD00FD053A /* XCRemoteSwiftPackageReference "AIProxySwift" */,
 			);
-			productRefGroup = EB6422112B6F7BB000119DE6 /* Products */;
+			productRefGroup = EB6422072B6F7BB000119DE6;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

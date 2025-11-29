@@ -1,4 +1,5 @@
 import Foundation
+import os
 import SwiftData
 
 let allSchema = Schema([AppStateModel.self, Chat.self, ChatOption.self, Prompt.self, PromptMessage.self, Functionality.self, ModelModel.self])
@@ -14,7 +15,7 @@ extension ModelContainer {
     }
     let c = container
     Task { @MainActor in
-      print(c.mainContext.sqliteCommand)
+      AppLogger.data.debug("\(c.mainContext.sqliteCommand)")
       try migrate(c.mainContext)
       try addPreviewData(c.mainContext)
     }
@@ -30,7 +31,7 @@ extension ModelContainer {
     }
     let c = container
     Task { @MainActor in
-      print(c.mainContext.sqliteCommand)
+      AppLogger.data.debug("\(c.mainContext.sqliteCommand)")
       try migrate(c.mainContext)
     }
     return container

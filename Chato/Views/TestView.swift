@@ -1,4 +1,5 @@
 import CoreHaptics
+import os
 import SwiftUI
 
 struct TestView: View {
@@ -22,7 +23,7 @@ struct TestView: View {
           engine = try CHHapticEngine()
           try engine?.start()
       } catch {
-          print("There was an error creating the engine: \(error.localizedDescription)")
+          AppLogger.error.error("There was an error creating the engine: \(error.localizedDescription)")
       }
   }
 
@@ -43,7 +44,7 @@ struct TestView: View {
       let player = try engine?.makePlayer(with: pattern)
       try player?.start(atTime: 0)
     } catch {
-      print("Failed to play pattern: \(error.localizedDescription).")
+      AppLogger.error.error("Failed to play pattern: \(error.localizedDescription)")
     }
   }
 }

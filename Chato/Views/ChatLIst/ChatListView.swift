@@ -1,3 +1,4 @@
+import os
 import SwiftData
 import SwiftUI
 
@@ -247,7 +248,12 @@ struct ChatListView: View {
     do {
       try modelContext.save()
     } catch {
-      print("modelContext.insert(newChat): \(error)")
+      AppLogger.logError(.from(
+        error: error,
+        operation: "Insert new chat",
+        component: "ChatListView",
+        userMessage: "Failed to create chat"
+      ))
     }
   }
 }

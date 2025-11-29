@@ -1,5 +1,6 @@
 import Fakery
 import Foundation
+import os
 
 extension ModelModel {
 //  static var samples: [ModelModel] = {
@@ -26,7 +27,12 @@ extension ModelModel {
         ModelModel(modelId: m.id, name: m.name)
       }
     } catch {
-      print("Failed to load model models: \(error)")
+      AppLogger.logError(.from(
+        error: error,
+        operation: "Load model data",
+        component: "ModelModelSample",
+        userMessage: nil
+      ))
       return []
     }
   }()

@@ -1,4 +1,5 @@
 import Foundation
+import os
 import SwiftData
 
 extension ModelContext {
@@ -10,7 +11,7 @@ extension ModelContext {
       }
       try save()
     } catch {
-      print("error updating models: \(error.localizedDescription)")
+      AppLogger.data.error("error updating models: \(error.localizedDescription)")
     }
   }
 
@@ -21,7 +22,7 @@ extension ModelContext {
       let chat = try fetch(fetcher).first
       return chat
     } catch {
-      print("error query chat, chat: \(chatId), err: \(error.localizedDescription)")
+      AppLogger.data.error("error query chat, chat: \(String(describing: chatId)), err: \(error.localizedDescription)")
       return nil
     }
   }
@@ -33,7 +34,7 @@ extension ModelContext {
       let message = try fetch(fetcher).first
       return message
     } catch {
-      print("error query chat, chat: \(messageId), err: \(error.localizedDescription)")
+      AppLogger.data.error("error query message, messageId: \(String(describing: messageId)), err: \(error.localizedDescription)")
       return nil
     }
   }

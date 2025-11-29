@@ -1,4 +1,5 @@
 import ConfettiSwiftUI
+import os
 import StoreKit
 import SwiftUI
 
@@ -151,10 +152,10 @@ struct SettingView: View {
   func buy(product: Product) async {
     do {
       if try await storeVM.purchase(product) != nil {
-        print("purchase succeeded")
+        AppLogger.audit.info("purchase succeeded")
       }
     } catch {
-      print("purchase failed")
+      AppLogger.error.error("purchase failed: \(error.localizedDescription)")
     }
   }
 

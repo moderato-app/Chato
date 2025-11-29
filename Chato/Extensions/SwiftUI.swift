@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import os
 import SwiftData
 import SwiftUI
 import Throttler
@@ -249,14 +250,14 @@ struct RectDetector: ViewModifier {
         GeometryReader { proxy in
           Color.clear.onAppear {
             self.rect = proxy.frame(in: .global)
-            print("newRect: \(self.rect)")
-            print("newRect.maxY: \(self.rect.maxY)")
+            AppLogger.ui.debug("newRect: \(String(describing: self.rect))")
+            AppLogger.ui.debug("newRect.maxY: \(self.rect.maxY)")
           }
           .onChange(of: proxy.frame(in: .global)) { _, newRect in
             self.rect = newRect
-            print("newRect: \(newRect)")
-            print("newRect.maxY: \(newRect.maxY)")
-            print("newRect.height: \(newRect.height)")
+            AppLogger.ui.debug("newRect: \(String(describing: newRect))")
+            AppLogger.ui.debug("newRect.maxY: \(newRect.maxY)")
+            AppLogger.ui.debug("newRect.height: \(newRect.height)")
           }
         }
       )

@@ -1,6 +1,7 @@
 // Created for PopAI in 2024
 
 import Foundation
+import os
 import SwiftOpenAI
 import SwiftUI
 
@@ -47,7 +48,12 @@ class OpenAIServiceProvider: ObservableObject {
         let res = try parseURL(endpint)
         self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf, overrideBaseURL: res.base, proxyPath: res.path)
       } catch {
-        print("let res = try parseURL(endpint): \(error)")
+        AppLogger.logError(.from(
+          error: error,
+          operation: "Parse URL",
+          component: "OpenAIServiceProvider",
+          userMessage: nil
+        ))
         self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf)
       }
     } else {

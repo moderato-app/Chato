@@ -1,5 +1,6 @@
 import AVFoundation
 import Foundation
+import os
 
 
 struct AudioService {
@@ -13,7 +14,7 @@ struct AudioService {
             audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
             audioPlayer?.prepareToPlay()
         } catch {
-            print("Error loading sound file: \(error)")
+            AppLogger.error.error("Error loading sound file: \(error.localizedDescription)")
         }
     }
   }

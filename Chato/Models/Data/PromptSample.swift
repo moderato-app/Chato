@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 struct PromptSample: Decodable {
   enum CodingKeys: CodingKey {
@@ -40,7 +41,12 @@ extension PromptSample {
       let promptSample = try JSONDecoder().decode(PromptSample.self, from: data)
       return promptSample
     } catch {
-      print("Failed to load PromptSample.")
+      AppLogger.logError(.from(
+        error: error,
+        operation: "Load prompt samples",
+        component: "PromptSample",
+        userMessage: nil
+      ))
       return PromptSample()
     }
   }

@@ -24,9 +24,9 @@ struct DebugZoneView: View {
           } catch {
             AppLogger.logError(.from(
               error: error,
-              operation: "填充提示词",
+              operation: "Fill prompts",
               component: "DebugZoneView",
-              userMessage: "填充提示词失败"
+              userMessage: "Failed to fill prompts"
             ))
           }
         }
@@ -37,9 +37,9 @@ struct DebugZoneView: View {
           } catch {
             AppLogger.logError(.from(
               error: error,
-              operation: "删除预设提示词",
+              operation: "Remove preset prompts",
               component: "DebugZoneView",
-              userMessage: "删除预设提示词失败"
+              userMessage: "Failed to remove preset prompts"
             ))
           }
         }

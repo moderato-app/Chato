@@ -1,50 +1,50 @@
 import Foundation
 import os
 
-/// 统一的日志管理系统
-/// 使用 Apple 原生 OSLog，支持结构化日志、敏感信息保护和审计追踪
+/// Unified logging management system
+/// Uses Apple's native OSLog, supports structured logging, sensitive information protection, and audit tracking
 public final class AppLogger {
   
-  // MARK: - Subsystem 定义
+  // MARK: - Subsystem Definition
   
-  /// 应用标识符，用于 OSLog subsystem
+  /// Application identifier for OSLog subsystem
   private static let subsystem = Bundle.main.bundleIdentifier ?? "app.moderato.Chato.Chato"
   
-  // MARK: - 日志分类
+  // MARK: - Log Categories
   
-  /// 网络请求相关日志
+  /// Network request related logs
   public static let network = Logger(subsystem: subsystem, category: "network")
   
-  /// UI 交互相关日志
+  /// UI interaction related logs
   public static let ui = Logger(subsystem: subsystem, category: "ui")
   
-  /// 数据处理日志
+  /// Data processing logs
   public static let data = Logger(subsystem: subsystem, category: "data")
   
-  /// 错误和异常日志
+  /// Error and exception logs
   public static let error = Logger(subsystem: subsystem, category: "error")
   
-  /// 安全和审计日志
+  /// Security and audit logs
   public static let audit = Logger(subsystem: subsystem, category: "audit")
   
-  /// 性能监控日志
+  /// Performance monitoring logs
   public static let performance = Logger(subsystem: subsystem, category: "performance")
   
-  // MARK: - 审计追踪
+  // MARK: - Audit Tracking
   
-  /// 审计日志条目结构
+  /// Audit log entry structure
   public struct AuditEntry {
     let timestamp: Date
-    let actor: String          // 执行操作的主体（用户ID、会话ID等）
-    let action: String          // 执行的操作
-    let resource: String?       // 操作的资源（可选）
-    let outcome: AuditOutcome   // 操作结果
-    let details: [String: Any]? // 额外详情（可选）
+    let actor: String          // Entity performing the operation (user ID, session ID, etc.)
+    let action: String          // Operation performed
+    let resource: String?       // Resource being operated on (optional)
+    let outcome: AuditOutcome   // Operation result
+    let details: [String: Any]? // Additional details (optional)
     
     public enum AuditOutcome: String {
-      case success = "成功"
-      case failure = "失败"
-      case partial = "部分成功"
+      case success = "success"
+      case failure = "failure"
+      case partial = "partial"
     }
   }
   
@@ -63,54 +63,54 @@ public final class AppLogger {
     return string
   }
 
-  /// 记录审计日志
-  /// - Parameter entry: 审计条目
+  /// Log audit entry
+  /// - Parameter entry: Audit entry
   public static func logAudit(_ entry: AuditEntry) {
     let timestamp = Self.iso8601Formatter.string(from: entry.timestamp)
     let resource = entry.resource ?? "N/A"
     let details = Self.jsonString(from: entry.details)
   
     audit.notice("""
-      [审计] 时间:\(timestamp) | \
-      操作者:\(entry.actor, privacy: .private) | \
-      动作:\(entry.action) | \
-      资源:\(resource) | \
-      结果:\(entry.outcome.rawValue) | \
-      详情:\(details, privacy: .private)
+      [Audit] Time:\(timestamp) | \
+      Actor:\(entry.actor, privacy: .private) | \
+      Action:\(entry.action) | \
+      Resource:\(resource) | \
+      Outcome:\(entry.outcome.rawValue) | \
+      Details:\(details, privacy: .private)
       """)
   }
   
-  // MARK: - 结构化错误日志
+  // MARK: - Structured Error Logging
   
-  /// 结构化错误信息
+  /// Structured error information
   public struct ErrorContext {
     let error: Error
-    let operation: String       // 失败的操作
-    let component: String        // 出错的组件
-    let userMessage: String?     // 用户友好的消息（可选）
-    let metadata: [String: Any]? // 附加元数据
+    let operation: String       // Failed operation
+    let component: String        // Component where error occurred
+    let userMessage: String?     // User-friendly message (optional)
+    let metadata: [String: Any]? // Additional metadata
   }
   
-  /// 记录结构化错误
-  /// - Parameter context: 错误上下文
-  /// - Returns: 返回用户友好的错误消息
+  /// Log structured error
+  /// - Parameter context: Error context
+  /// - Returns: Returns user-friendly error message
   @discardableResult
   public static func logError(_ context: ErrorContext) -> String {
-    // 内部调试信息（完整错误）
+    // Internal debug information (full error)
     error.error("""
-      [错误] 组件:\(context.component) | \
-      操作:\(context.operation) | \
-      错误:\(context.error.localizedDescription, privacy: .private) | \
-      元数据:\(context.metadata?.description ?? "{}", privacy: .private)
+      [Error] Component:\(context.component) | \
+      Operation:\(context.operation) | \
+      Error:\(context.error.localizedDescription, privacy: .private) | \
+      Metadata:\(context.metadata?.description ?? "{}", privacy: .private)
       """)
     
-    // 返回脱敏的用户消息
-    return context.userMessage ?? "操作失败，请稍后重试"
+    // Return sanitized user message
+    return context.userMessage ?? "Operation failed, please try again later"
   }
   
-  // MARK: - 性能追踪
+  // MARK: - Performance Tracking
   
-  /// 性能测量会话
+  /// Performance measurement session
   public class PerformanceSession {
     private let operation: String
     private let startTime: Date
@@ -118,74 +118,74 @@ public final class AppLogger {
     init(operation: String) {
       self.operation = operation
       self.startTime = Date()
-      performance.debug("⏱️ 开始性能测量: \(operation)")
+      performance.debug("⏱️ Starting performance measurement: \(operation)")
     }
     
-    /// 结束性能测量
+    /// End performance measurement
     public func end() {
       let duration = Date().timeIntervalSince(startTime)
       
-      // 根据耗时选择日志级别
+      // Choose log level based on duration
       if duration > 1.0 {
-        performance.warning("⚠️ 性能警告: \(self.operation) 耗时 \(duration, format: .fixed(precision: 3))秒")
+        performance.warning("⚠️ Performance warning: \(self.operation) took \(duration, format: .fixed(precision: 3))s")
       } else {
-        performance.info("✅ 性能测量: \(self.operation) 耗时 \(duration, format: .fixed(precision: 3))秒")
+        performance.info("✅ Performance measurement: \(self.operation) took \(duration, format: .fixed(precision: 3))s")
       }
     }
   }
   
-  /// 开始性能测量
-  /// - Parameter operation: 操作名称
-  /// - Returns: 性能会话对象
+  /// Start performance measurement
+  /// - Parameter operation: Operation name
+  /// - Returns: Performance session object
   public static func startPerformanceTracking(_ operation: String) -> PerformanceSession {
     return PerformanceSession(operation: operation)
   }
   
-  // MARK: - 数据验证日志
+  // MARK: - Data Validation Logging
   
-  /// 记录数据验证失败
+  /// Log data validation failure
   /// - Parameters:
-  ///   - field: 字段名
-  ///   - reason: 失败原因
-  ///   - value: 原始值（会被标记为敏感）
+  ///   - field: Field name
+  ///   - reason: Failure reason
+  ///   - value: Original value (will be marked as sensitive)
   public static func logValidationFailure(field: String, reason: String, value: Any?) {
     data.warning("""
-      [验证失败] 字段:\(field) | \
-      原因:\(reason) | \
-      值:\(String(describing: value), privacy: .private)
+      [Validation Failed] Field:\(field) | \
+      Reason:\(reason) | \
+      Value:\(String(describing: value), privacy: .private)
       """)
   }
   
-  // MARK: - 便捷方法
+  // MARK: - Convenience Methods
   
-  /// 记录网络请求开始
+  /// Log network request start
   public static func logNetworkRequest(url: String, method: String = "GET") {
-    network.info("📤 网络请求 [\(method)] \(url, privacy: .public)")
+    network.info("📤 Network request [\(method)] \(url, privacy: .public)")
   }
   
-  /// 记录网络响应
+  /// Log network response
   public static func logNetworkResponse(url: String, statusCode: Int, duration: TimeInterval) {
     if (200..<300).contains(statusCode) {
-      network.info("📥 网络响应 [\(statusCode)] \(url, privacy: .public) - 耗时: \(duration, format: .fixed(precision: 3))秒")
+      network.info("📥 Network response [\(statusCode)] \(url, privacy: .public) - Duration: \(duration, format: .fixed(precision: 3))s")
     } else {
-      network.error("❌ 网络错误 [\(statusCode)] \(url, privacy: .public) - 耗时: \(duration, format: .fixed(precision: 3))秒")
+      network.error("❌ Network error [\(statusCode)] \(url, privacy: .public) - Duration: \(duration, format: .fixed(precision: 3))s")
     }
   }
   
-  /// 记录 UI 事件
+  /// Log UI event
   public static func logUIEvent(component: String, action: String, details: String? = nil) {
     if let details = details {
-      ui.debug("🎯 UI事件 [\(component)] \(action) - \(details)")
+      ui.debug("🎯 UI event [\(component)] \(action) - \(details)")
     } else {
-      ui.debug("🎯 UI事件 [\(component)] \(action)")
+      ui.debug("🎯 UI event [\(component)] \(action)")
     }
   }
 }
 
-// MARK: - 扩展：便捷的审计日志构建器
+// MARK: - Extension: Convenient Audit Log Builder
 
 public extension AppLogger.AuditEntry {
-  /// 快速创建成功的审计条目
+  /// Quickly create a successful audit entry
   static func success(
     actor: String,
     action: String,
@@ -202,7 +202,7 @@ public extension AppLogger.AuditEntry {
     )
   }
   
-  /// 快速创建失败的审计条目
+  /// Quickly create a failed audit entry
   static func failure(
     actor: String,
     action: String,
@@ -220,10 +220,10 @@ public extension AppLogger.AuditEntry {
   }
 }
 
-// MARK: - 扩展：便捷的错误上下文构建器
+// MARK: - Extension: Convenient Error Context Builder
 
 public extension AppLogger.ErrorContext {
-  /// 从操作和错误快速创建错误上下文
+  /// Quickly create error context from operation and error
   static func from(
     error: Error,
     operation: String,

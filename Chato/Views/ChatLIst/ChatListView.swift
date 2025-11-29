@@ -250,9 +250,9 @@ struct ChatListView: View {
     } catch {
       AppLogger.logError(.from(
         error: error,
-        operation: "插入新聊天",
+        operation: "Insert new chat",
         component: "ChatListView",
-        userMessage: "创建聊天失败"
+        userMessage: "Failed to create chat"
       ))
     }
   }

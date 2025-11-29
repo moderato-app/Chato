@@ -1,4 +1,3 @@
-import Highlightr
 import MarkdownUI
 import SwiftData
 import SwiftUI

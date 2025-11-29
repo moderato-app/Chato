@@ -162,9 +162,9 @@ extension InputAreaView {
     } catch {
       AppLogger.logError(.from(
         error: error,
-        operation: "保存消息",
+        operation: "Save message",
         component: "MessageListVM",
-        userMessage: "保存失败，请重试"
+        userMessage: "Failed to save, please try again"
       ))
       return
     }

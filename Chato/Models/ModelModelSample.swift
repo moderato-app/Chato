@@ -29,7 +29,7 @@ extension ModelModel {
     } catch {
       AppLogger.logError(.from(
         error: error,
-        operation: "加载模型数据",
+        operation: "Load model data",
         component: "ModelModelSample",
         userMessage: nil
       ))

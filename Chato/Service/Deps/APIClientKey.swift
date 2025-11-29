@@ -50,7 +50,7 @@ class OpenAIServiceProvider: ObservableObject {
       } catch {
         AppLogger.logError(.from(
           error: error,
-          operation: "解析URL",
+          operation: "Parse URL",
           component: "OpenAIServiceProvider",
           userMessage: nil
         ))

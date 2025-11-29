@@ -43,7 +43,7 @@ extension PromptSample {
     } catch {
       AppLogger.logError(.from(
         error: error,
-        operation: "加载提示词样本",
+        operation: "Load prompt samples",
         component: "PromptSample",
         userMessage: nil
       ))

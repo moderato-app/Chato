@@ -73,8 +73,6 @@
 		EB8DFFA12B98E87A00862A94 /* PromptCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8DFFA02B98E87A00862A94 /* PromptCreateView.swift */; };
 		EB8EE44F2CE2101300EDDE04 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8EE44E2CE2101300EDDE04 /* URL.swift */; };
 		EB8EE4532CE21BCE00EDDE04 /* Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8EE4522CE21BCE00EDDE04 /* Highlight.swift */; };
-		EB8EE45C2CE2265A00EDDE04 /* Highlightr.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */; };
-		EB8EE45D2CE2265A00EDDE04 /* Highlightr.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB8FB4F22C3940D60041833B /* MarkdownUI */; };
 		EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E72002BCAB5FB00D5B110 /* Product.swift */; };
 		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
@@ -121,7 +119,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EB8EE45D2CE2265A00EDDE04 /* Highlightr.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,7 +196,6 @@
 		EB8EE44E2CE2101300EDDE04 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		EB8EE4512CE21AA500EDDE04 /* Highlightr */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Highlightr; path = ../Highlightr; sourceTree = "<group>"; };
 		EB8EE4522CE21BCE00EDDE04 /* Highlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlight.swift; sourceTree = "<group>"; };
-		EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Highlightr.xcframework; sourceTree = "<group>"; };
 		EB9E72002BCAB5FB00D5B110 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		EBA0F1762CDF9BCB003043F7 /* WheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPicker.swift; sourceTree = "<group>"; };
 		EBA0F1772CDF9BCB003043F7 /* WheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPickerView.swift; sourceTree = "<group>"; };
@@ -247,7 +243,6 @@
 				EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */,
 				EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */,
 				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
-				EB8EE45C2CE2265A00EDDE04 /* Highlightr.xcframework in Frameworks */,
 				EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */,
 				EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */,
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
@@ -346,7 +341,6 @@
 				EB6422112B6F7BB000119DE6 /* Products */,
 				EB4A0EE32B6F908D0065BCDC /* Frameworks */,
 				EB6422232B6F7C0600119DE6 /* .gitignore */,
-				EB8EE45A2CE2263500EDDE04 /* Highlightr.xcframework */,
 			);
 			sourceTree = "<group>";
 		};

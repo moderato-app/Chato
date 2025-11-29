@@ -11,7 +11,7 @@ struct ChatoApp: App {
     } catch {
       AppLogger.logError(.from(
         error: error,
-        operation: "配置 Tips",
+        operation: "Configure Tips",
         component: "ChatoApp",
         userMessage: nil
       ))

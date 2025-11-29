@@ -21,9 +21,19 @@ jobs:
         uses: yukiarrr/ios-build-action@v1.12.0
         with:
           project-path: Chato.xcodeproj
+          # Required GitHub Secrets (set in repository Settings → Secrets):
+          # - CERTIFICATES_P12: Base64-encoded .p12 certificate file
+          # - CERTIFICATES_P12_PASSWORD: Password for the .p12 certificate
+          # - MOBILEPROVISION: Base64-encoded .mobileprovision file (App Store Distribution)
+          # - CODE_SIGN_IDENTITY: Exact certificate name (e.g., "Apple Distribution: Your Name")
+          # - TEAM_ID: Your Apple Developer Team ID
+          # Note: If build fails with "provisioning profile expired", update MOBILEPROVISION secret
+          # See .github/CI_TROUBLESHOOTING.md for detailed instructions
           p12-base64: ${{ secrets.CERTIFICATES_P12 }}
           certificate-password: ${{secrets.CERTIFICATES_P12_PASSWORD}}
           mobileprovision-base64: ${{ secrets.MOBILEPROVISION }}
           code-signing-identity: ${{ secrets.CODE_SIGN_IDENTITY }}
           team-id: ${{ secrets.TEAM_ID }}
-#          workspace-path: Unity-iPhone.xcworkspace # optional
+          export-method: app-store
+          configuration: Release
+          output-path: output.ipa

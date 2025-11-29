@@ -31,6 +31,8 @@ class Pref: ObservableObject {
   // Fill data record
   @AppStorage("fillDataRecordGreeting") var fillDataRecordGreeting: Bool = false
   @AppStorage("fillDataRecordPrompts") var fillDataRecordPrompts: Bool = false
+  
+  @AppStorage("migratedToProviderModel") var migratedToProviderModel: Bool = false
 
   func reset() {
     let newPref = Pref()

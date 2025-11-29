@@ -8,12 +8,16 @@ struct ChatOptionView: View {
   @Bindable private var chatOption: ChatOption
   private let pickerNavi: Bool
 
-  @Query(sort: \ModelModel.modelId, order: .forward) var models: [ModelModel]
+  @Query private var allModels: [ModelEntity]
+  @State private var showingModelSelection = false
 
   init(_ chatOption: ChatOption, pickerNavi: Bool = false) {
     self.chatOption = chatOption
     self.pickerNavi = pickerNavi
-    _models = Query(sort: \ModelModel.modelId, order: .forward)
+  }
+  
+  private var selectedModel: ModelEntity? {
+    allModels.first { $0.id == chatOption.model }
   }
 
   var body: some View {
@@ -30,19 +34,33 @@ struct ChatOptionView: View {
         }
       }
 
-      HStack {
-        Label("Model", systemImage: "book")
-        Spacer()
-        Picker("", selection: $chatOption.model) {
-          ForEach(models, id: \.modelId) { model in
-            Text("\(model.resolvedName)").tag(model.modelId)
+      Button {
+        showingModelSelection = true
+      } label: {
+        HStack {
+          Label("Model", systemImage: "book")
+          Spacer()
+          if let model = selectedModel {
+            VStack(alignment: .trailing, spacing: 2) {
+              Text(model.resolvedName)
+                .foregroundColor(.secondary)
+              if let provider = model.provider {
+                Text(provider.displayName)
+                  .font(.caption2)
+                  .foregroundColor(Color(uiColor: .tertiaryLabel))
+              }
+            }
+          } else {
+            Text(chatOption.model)
+              .foregroundColor(.secondary)
           }
+          Image(systemName: "chevron.right")
+            .font(.caption)
+            .foregroundColor(Color(uiColor: .tertiaryLabel))
         }
-        .accentColor(.secondary)
-        .labelsHidden()
-        .modifier(SwitchablePickerStyle(isNavi: pickerNavi))
-        .selectionFeedback(chatOption.model)
       }
+      .buttonStyle(.plain)
+      
       VStack(alignment: .leading) {
         Label("Context Length", systemImage: "square.3.layers.3d.down.left")
         Picker("Context Length", selection: $chatOption.contextLength) {
@@ -54,6 +72,9 @@ struct ChatOptionView: View {
         .pickerStyle(.segmented)
         .selectionFeedback(chatOption.contextLength)
       }
+    }
+    .sheet(isPresented: $showingModelSelection) {
+      ModelSelectionView(selectedModelId: $chatOption.model)
     }
   }
 }

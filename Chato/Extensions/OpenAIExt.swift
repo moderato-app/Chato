@@ -1,15 +1,16 @@
 import Foundation
-import SwiftOpenAI
+import AIProxy
 
+fileprivate let timeout: UInt = 60
 extension OpenAIService {
   func hello(model: String) async throws -> String {
-    let msgs: [ChatCompletionParameters.Message] = [.init(role: .user, content: .text("Hello"))]
-    let parameters = ChatCompletionParameters(
-      messages: msgs,
-      model: .custom(model)
+    let msgs: [OpenAIChatCompletionRequestBody.Message] = [.user(content: .text("Hello"))]
+    let parameters = OpenAIChatCompletionRequestBody(
+      model: model,
+      messages: msgs
     )
 
-    let result = try await self.startChat(parameters: parameters)
+    let result = try await self.chatCompletionRequest(body: parameters, secondsToWait: timeout)
     return result.choices[0].message.content ?? ""
   }
 }

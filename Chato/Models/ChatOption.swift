@@ -18,7 +18,7 @@ final class ChatOption {
   @Attribute(originalName: "frequency_penalty") var frequencyPenalty: Double = 0
   // An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
 
-  init(model: String = defaultGPTModel.value, contextLength: Int = 2, prompt: Prompt? = nil) {
+  init(model: String = "gpt-4o-mini", contextLength: Int = 2, prompt: Prompt? = nil) {
     self.model = model
     self.contextLength = contextLength
     self.prompt = prompt

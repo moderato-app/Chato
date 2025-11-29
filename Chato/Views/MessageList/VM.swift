@@ -1,8 +1,8 @@
+import AIProxy
 import Combine
-import SwiftData
-import SwiftOpenAI
-import SwiftUI
 import os
+import SwiftData
+import SwiftUI
 
 extension InputAreaView {
   static let whiteSpaces: [Character] = ["\n", " ", "\t"]
@@ -83,11 +83,7 @@ extension InputAreaView {
   }
 
   func ask2(text: String, contextLength: Int) {
-    let isO1 = chat.option.model.contains("o1-")
-    let timeout: Double = isO1 ? 120.0 : 15.0
-    AppLogger.network.debug("using timeout: \(timeout), contextLength: \(contextLength)")
-
-    var msgs: [ChatCompletionParameters.Message] = [.init(role: .user, content: .text(text))]
+    var msgs: [OpenAIChatCompletionRequestBody.Message] = [.user(content: .text(text))]
 
     var actualCL = 0
     if contextLength > 0 {
@@ -95,31 +91,38 @@ extension InputAreaView {
       actualCL = hist.count
 
       for item in hist.sorted().reversed() {
-        let msg: ChatCompletionParameters.Message = .init(role: item.role == .user ? .user : (item.role == .assistant ? .assistant : .system), content: .text(item.message.isMeaningful ? item.message : item.errorInfo))
+        let msg: OpenAIChatCompletionRequestBody.Message
+        switch item.role {
+        case .user:
+          msg = .user(content: .text(item.message.isMeaningful ? item.message : item.errorInfo))
+        case .assistant:
+          msg = .assistant(content: .text(item.message.isMeaningful ? item.message : item.errorInfo))
+        default:
+          msg = .system(content: .text(item.message.isMeaningful ? item.message : item.errorInfo))
+        }
         msgs.insert(msg, at: 0)
       }
     }
 
     chat.option.prompt?.messages.sorted().reversed().forEach {
-      let msg: ChatCompletionParameters.Message = .init(role: $0.role == .assistant ? .assistant : ($0.role == .user || isO1 ? .user : .system), content: .text($0.content))
+      let msg: OpenAIChatCompletionRequestBody.Message
+      if $0.role == .assistant {
+        msg = .assistant(content: .text($0.content))
+      } else if $0.role == .user {
+        msg = .user(content: .text($0.content))
+      } else {
+        msg = .system(content: .text($0.content))
+      }
       msgs.insert(msg, at: 0)
     }
 
-    let parameters = ChatCompletionParameters(
+    let streamParameters = OpenAIChatCompletionRequestBody(
+      model: chat.option.model,
       messages: msgs,
-      model: .custom(chat.option.model),
       frequencyPenalty: chat.option.maybeFrequencyPenalty,
       presencePenalty: chat.option.maybePresencePenalty,
+      stream: true,
       temperature: chat.option.maybeTemperature
-    )
-
-    let streamParameters = ChatCompletionParameters(
-      messages: msgs,
-      model: .custom(chat.option.model),
-      frequencyPenalty: chat.option.maybeFrequencyPenalty,
-      presencePenalty: chat.option.maybePresencePenalty,
-      temperature: chat.option.maybeTemperature,
-      streamOptions: ChatCompletionParameters.StreamOptions(includeUsage: true)
     )
 
     AppLogger.network.debug("using temperature: \(String(describing: chat.option.maybeTemperature)), presencePenalty: \(String(describing: chat.option.maybePresencePenalty)), frequencyPenalty: \(String(describing: chat.option.maybeFrequencyPenalty))")
@@ -127,7 +130,15 @@ extension InputAreaView {
     AppLogger.network.debug("===whole message list begins===")
 
     for (i, m) in msgs.enumerated() {
-      AppLogger.network.debug("\(i).\(m.role): \(String(describing: m.content))")
+      let roleStr: String
+      switch m {
+      case .user: roleStr = "user"
+      case .assistant: roleStr = "assistant"
+      case .system: roleStr = "system"
+      case .developer: roleStr = "developer"
+      case .tool: roleStr = "tool"
+      }
+      AppLogger.network.debug("\(i).\(roleStr): \(String(describing: m))")
     }
 
     AppLogger.network.debug("===whole message list ends===")
@@ -177,56 +188,34 @@ extension InputAreaView {
 
     Task.detached {
       do {
-        if isO1 {
-          AppLogger.network.info("not using stream")
+        AppLogger.network.info("using stream")
+        let stream = try await openAIService.streamingChatCompletionRequest(body: streamParameters, secondsToWait: 60)
+        for try await chunk in stream {
           Task { @MainActor in
-            aiMsg.meta?.startedAt = .now
-          }
-          let result = try await openAIService.startChat(parameters: parameters)
-          Task { @MainActor in
-            let content = result.choices[0].message.content ?? ""
-            userMsg.onSent()
-            userMsg.meta?.promptTokens = result.usage.promptTokens
-            aiMsg.meta?.completionTokens = result.usage.completionTokens
-            aiMsg.onEOF(text: content)
-            em.messageEvent.send(.eof)
-          }
-        } else {
-          AppLogger.network.info("using stream")
-          let stream = try await openAIService.startStreamedChat(parameters: streamParameters)
-          for try await chunk in stream {
-            Task { @MainActor in
-              if aiMsg.meta?.startedAt == nil {
-                aiMsg.meta?.startedAt = .now
-              }
-              if userMsg.status == .sending {
-                userMsg.onSent()
-              }
+            if aiMsg.meta?.startedAt == nil {
+              aiMsg.meta?.startedAt = .now
+            }
+            if userMsg.status == .sending {
+              userMsg.onSent()
+            }
 
-              if let choice = chunk.choices.first {
-                let text = choice.delta.content ?? "\nchoice has no content\n"
-                if let fr = choice.finishReason {
-                  if case .string(let reason) = fr {
-                    AppLogger.network.debug("finished reason: \(reason)")
-                    aiMsg.onEOF(text: "")
-                    em.messageEvent.send(.eof)
-////                    skip eof; the last chunk's 'usage' isn't nil and it has no 'choices'
-//                  } else {
-//                    // if reason is not stop, something may be wrong
-//                    aiMsg.onError("finished reason: \(fr)", .unknown)
-                  }
-                } else {
-                  aiMsg.onTyping(text: text)
-                }
+            if let choice = chunk.choices.first {
+              let text = choice.delta.content ?? "\nchoice has no content\n"
+              if let fr = choice.finishReason {
+                AppLogger.network.debug("finished reason: \(fr)")
+                aiMsg.onEOF(text: "")
+                em.messageEvent.send(.eof)
               } else {
-                if let usage = chunk.usage {
-                  userMsg.meta?.promptTokens = usage.promptTokens
-                  aiMsg.meta?.completionTokens = usage.completionTokens
-                  aiMsg.onEOF(text: "")
-                  em.messageEvent.send(.eof)
-                } else {
-                  AppLogger.network.debug("no text in chunk, chunk: \(String(describing: chunk))")
-                }
+                aiMsg.onTyping(text: text)
+              }
+            } else {
+              if let usage = chunk.usage {
+                userMsg.meta?.promptTokens = usage.promptTokens
+                aiMsg.meta?.completionTokens = usage.completionTokens
+                aiMsg.onEOF(text: "")
+                em.messageEvent.send(.eof)
+              } else {
+                AppLogger.network.debug("no text in chunk, chunk: \(String(describing: chunk))")
               }
             }
           }

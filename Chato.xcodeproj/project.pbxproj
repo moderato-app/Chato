@@ -18,6 +18,7 @@
 		EB1671C12B8E76B200540426 /* DoneStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1671C02B8E76B200540426 /* DoneStatusView.swift */; };
 		EB18C9362C0AF2B3003A9465 /* VM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18C9352C0AF2B3003A9465 /* VM.swift */; };
 		EB18C93B2C0B1075003A9465 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18C93A2C0B1075003A9465 /* Pref.swift */; };
+		EB1B46DF2EDAF0AD00FD053A /* AIProxy in Frameworks */ = {isa = PBXBuildFile; productRef = EB1B46DE2EDAF0AD00FD053A /* AIProxy */; };
 		EB2AF8472C19588D003C9292 /* DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2AF8462C19588D003C9292 /* DoneButton.swift */; };
 		EB3060222B964438009F90E9 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3060212B964438009F90E9 /* HomePage.swift */; };
 		EB3080AC2C3480BC002FEDB3 /* HapticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3080AB2C3480BC002FEDB3 /* HapticsService.swift */; };
@@ -110,6 +111,7 @@
 		EBD0114C2B98F2840046F235 /* Haptico in Frameworks */ = {isa = PBXBuildFile; productRef = EBD0114B2B98F2840046F235 /* Haptico */; };
 		EBDEDC8B2C37FF6500C4F251 /* Ripple.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDEDC8A2C37FF6500C4F251 /* Ripple.swift */; };
 		EBF62A152CDF5AAB002353FA /* AudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF62A142CDF5AAB002353FA /* AudioService.swift */; };
+		EBF62A162CDF5AAB002353FA /* AppLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF62A172CDF5AAB002353FA /* AppLogger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -229,6 +231,7 @@
 		EBCAC0C72C96F3B5000A3DA1 /* VersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionView.swift; sourceTree = "<group>"; };
 		EBDEDC8A2C37FF6500C4F251 /* Ripple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ripple.swift; sourceTree = "<group>"; };
 		EBF62A142CDF5AAB002353FA /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
+		EBF62A172CDF5AAB002353FA /* AppLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -249,6 +252,7 @@
 				EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */,
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
 				EBD0114C2B98F2840046F235 /* Haptico in Frameworks */,
+				EB1B46DF2EDAF0AD00FD053A /* AIProxy in Frameworks */,
 				EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,6 +321,7 @@
 				EB80897E2CE12A8F0003BACD /* Deps */,
 				EB3080AB2C3480BC002FEDB3 /* HapticsService.swift */,
 				EBF62A142CDF5AAB002353FA /* AudioService.swift */,
+				EBF62A172CDF5AAB002353FA /* AppLogger.swift */,
 				EB8EE4522CE21BCE00EDDE04 /* Highlight.swift */,
 				EBC1F7422D1834BA0008D5E7 /* AIClient.swift */,
 			);
@@ -608,6 +613,7 @@
 				EBB4EF282CDDC02200F38178 /* VisualEffectView */,
 				EB80897C2CE12A100003BACD /* SwiftOpenAI */,
 				EBC1F9082D1853F50008D5E7 /* Fakery */,
+				EB1B46DE2EDAF0AD00FD053A /* AIProxy */,
 			);
 			productName = Chato;
 			productReference = EB6422102B6F7BB000119DE6 /* Chato.app */;
@@ -647,6 +653,7 @@
 				EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */,
 				EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
 				EBC1F9072D1853F50008D5E7 /* XCRemoteSwiftPackageReference "Fakery" */,
+				EB1B46DD2EDAF0AD00FD053A /* XCRemoteSwiftPackageReference "AIProxySwift" */,
 			);
 			productRefGroup = EB6422112B6F7BB000119DE6 /* Products */;
 			projectDirPath = "";
@@ -744,6 +751,7 @@
 				EB1671BB2B8E71D800540426 /* SendingStatusView.swift in Sources */,
 				EB64226C2B6F7C9400119DE6 /* Basic.swift in Sources */,
 				EBF62A152CDF5AAB002353FA /* AudioService.swift in Sources */,
+				EBF62A162CDF5AAB002353FA /* AppLogger.swift in Sources */,
 				EBCAC0C82C96F3B5000A3DA1 /* VersionView.swift in Sources */,
 				EBC1F8712D1845730008D5E7 /* ModelModelSample.swift in Sources */,
 				EBB075D82B93D44E007328EF /* String.swift in Sources */,
@@ -996,6 +1004,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EB1B46DD2EDAF0AD00FD053A /* XCRemoteSwiftPackageReference "AIProxySwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lzell/AIProxySwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.132.0;
+			};
+		};
 		EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MacPaw/OpenAI";
@@ -1063,6 +1079,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EB1B46DE2EDAF0AD00FD053A /* AIProxy */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EB1B46DD2EDAF0AD00FD053A /* XCRemoteSwiftPackageReference "AIProxySwift" */;
+			productName = AIProxy;
+		};
 		EB4A0EE42B6F908D0065BCDC /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */;

@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import os
 
 @Model
 final class Message: Comparable {
@@ -58,7 +59,7 @@ final class Message: Comparable {
       self.updatedAt = Date.now
       self.meta?.endedAt = Date.now
     case .sent, .thinking, .typing, .received, .error:
-      print("Error: onSent is invalid, current status: \(self.status.rawValue)")
+      AppLogger.error.error("Error: onSent is invalid, current status: \(self.status.rawValue)")
     }
   }
 
@@ -73,7 +74,7 @@ final class Message: Comparable {
         self.meta?.startedAt = .now
       }
     case .sending, .sent, .received, .error:
-      print("Error: onTyping is invalid, current status: \(self.status.rawValue)")
+      AppLogger.error.error("Error: onTyping is invalid, current status: \(self.status.rawValue)")
     }
   }
 
@@ -85,7 +86,7 @@ final class Message: Comparable {
       self.updatedAt = Date.now
       self.meta?.endedAt = Date.now
     case .sending, .sent, .received, .error:
-      print("Error: onEOF is invalid, current status: \(self.status.rawValue)")
+      AppLogger.error.error("Error: onEOF is invalid, current status: \(self.status.rawValue)")
     }
   }
 
@@ -99,8 +100,8 @@ final class Message: Comparable {
       self.meta?.endedAt = Date.now
       self.meta?.startedAt = .now
     case .error, .received, .sent:
-      print("Error: onError is invalid, current status: \(self.status.rawValue)")
-      print("errorInfo:\(errorInfo) errorType:\(errorType)")
+      AppLogger.error.error("Error: onError is invalid, current status: \(self.status.rawValue)")
+      AppLogger.error.error("errorInfo:\(errorInfo) errorType:\(errorType.rawValue)")
     }
   }
 }

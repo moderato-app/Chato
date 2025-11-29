@@ -1,5 +1,6 @@
 import SwiftUI
 import TipKit
+import os
 
 struct DebugZoneView: View {
   @Environment(\.modelContext) var modelContext
@@ -21,7 +22,12 @@ struct DebugZoneView: View {
           do {
             try fillPrompts(modelContext, save: true)
           } catch {
-            print("try fillPrompts(modelContext,save: true) :\(error)")
+            AppLogger.logError(.from(
+              error: error,
+              operation: "填充提示词",
+              component: "DebugZoneView",
+              userMessage: "填充提示词失败"
+            ))
           }
         }
         Button("Remove Preset Prompts", systemImage: "trash", role: .destructive) {
@@ -29,7 +35,12 @@ struct DebugZoneView: View {
             try modelContext.removePresetPrompts()
             try modelContext.save()
           } catch {
-            print("try fillPrompts(modelContext,save: true) :\(error)")
+            AppLogger.logError(.from(
+              error: error,
+              operation: "删除预设提示词",
+              component: "DebugZoneView",
+              userMessage: "删除预设提示词失败"
+            ))
           }
         }
       }

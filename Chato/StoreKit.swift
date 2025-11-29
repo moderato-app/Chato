@@ -1,4 +1,5 @@
 import Foundation
+import os
 import StoreKit
 
 typealias RenewalInfo = StoreKit.Product.SubscriptionInfo.RenewalInfo
@@ -36,11 +37,11 @@ class StoreVM: ObservableObject {
     
   deinit {
     updateListenerTask?.cancel()
-    print("listenForTransactions ended...")
+    AppLogger.audit.debug("listenForTransactions ended...")
   }
-    
+  
   func listenForTransactions() -> Task<Void, Error> {
-    print("listenForTransactions started...")
+    AppLogger.audit.debug("listenForTransactions started...")
     return Task.detached {
       // Iterate through any transactions that don't come from a direct call to `purchase()`.
       for await result in Transaction.updates {
@@ -49,7 +50,7 @@ class StoreVM: ObservableObject {
           await self.updateCustomerProductStatus()
           await transaction.finish()
         } catch {
-          print("transaction failed verification")
+          AppLogger.error.error("transaction failed verification: \(error.localizedDescription)")
         }
       }
     }
@@ -62,7 +63,7 @@ class StoreVM: ObservableObject {
       // request from the app store using the product ids (hardcoded)
       presetProducts = try await Product.products(for: productIds)
     } catch {
-      print("Failed product request from app store server: \(error)")
+      AppLogger.error.error("Failed product request from app store server: \(error.localizedDescription)")
     }
   }
     
@@ -144,7 +145,7 @@ class StoreVM: ObservableObject {
           if let consume = presetProducts.first(where: { $0.id == transaction.productID }) {
             purchasedConsumable.append(consume)
             if consume.id == cofferProductId {
-              print("coffee +1")
+              AppLogger.audit.info("coffee +1")
               coffeeCount += 1
             }
           }
@@ -154,7 +155,7 @@ class StoreVM: ObservableObject {
         // Always finish a transaction.
         await transaction.finish()
       } catch {
-        print("failed updating products")
+        AppLogger.error.error("failed updating products: \(error.localizedDescription)")
       }
     }
   }

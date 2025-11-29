@@ -2,6 +2,7 @@ import Combine
 import SwiftData
 import SwiftOpenAI
 import SwiftUI
+import os
 
 extension InputAreaView {
   static let whiteSpaces: [Character] = ["\n", " ", "\t"]
@@ -11,7 +12,7 @@ extension InputAreaView {
     cancellable = subject
       .debounce(for: .seconds(1), scheduler: RunLoop.main)
       .sink { value in
-        print("chat.input = value")
+        AppLogger.ui.debug("chat.input = value")
         chat.input = value
       }
   }
@@ -74,9 +75,9 @@ extension InputAreaView {
       do {
         try await Task.sleep(nanoseconds: 100_000_000)
         inputText = ""
-        print("inputText cleared")
+        AppLogger.ui.debug("inputText cleared")
       } catch {
-        print("delayClearInput: \(error.localizedDescription)")
+        AppLogger.error.error("delayClearInput: \(error.localizedDescription)")
       }
     }
   }
@@ -84,7 +85,7 @@ extension InputAreaView {
   func ask2(text: String, contextLength: Int) {
     let isO1 = chat.option.model.contains("o1-")
     let timeout: Double = isO1 ? 120.0 : 15.0
-    print("using timeout: \(timeout), contextLength: \(contextLength)")
+    AppLogger.network.debug("using timeout: \(timeout), contextLength: \(contextLength)")
 
     var msgs: [ChatCompletionParameters.Message] = [.init(role: .user, content: .text(text))]
 
@@ -121,15 +122,15 @@ extension InputAreaView {
       streamOptions: ChatCompletionParameters.StreamOptions(includeUsage: true)
     )
 
-    print("using temperature: \(String(describing: chat.option.maybeTemperature)), presencePenalty: \(String(describing: chat.option.maybePresencePenalty)), frequencyPenalty: \(String(describing: chat.option.maybeFrequencyPenalty))")
+    AppLogger.network.debug("using temperature: \(String(describing: chat.option.maybeTemperature)), presencePenalty: \(String(describing: chat.option.maybePresencePenalty)), frequencyPenalty: \(String(describing: chat.option.maybeFrequencyPenalty))")
 
-    print("===whole message list begins===")
+    AppLogger.network.debug("===whole message list begins===")
 
     for (i, m) in msgs.enumerated() {
-      print("\(i).\(m.role): \(m.content)")
+      AppLogger.network.debug("\(i).\(m.role): \(String(describing: m.content))")
     }
 
-    print("===whole message list ends===")
+    AppLogger.network.debug("===whole message list ends===")
 
     var userMsg = Message(text, .user, .sending)
     userMsg.chat = chat
@@ -159,7 +160,12 @@ extension InputAreaView {
       userMsg = modelContext.getMessage(messageId: userMsg.id).unsafelyUnwrapped
       aiMsg = modelContext.getMessage(messageId: aiMsg.id).unsafelyUnwrapped
     } catch {
-      print("Error: Failed to save messages into model container: \(error.localizedDescription)")
+      AppLogger.logError(.from(
+        error: error,
+        operation: "保存消息",
+        component: "MessageListVM",
+        userMessage: "保存失败，请重试"
+      ))
       return
     }
 
@@ -172,7 +178,7 @@ extension InputAreaView {
     Task.detached {
       do {
         if isO1 {
-          print("not using stream")
+          AppLogger.network.info("not using stream")
           Task { @MainActor in
             aiMsg.meta?.startedAt = .now
           }
@@ -186,7 +192,7 @@ extension InputAreaView {
             em.messageEvent.send(.eof)
           }
         } else {
-          print("using stream")
+          AppLogger.network.info("using stream")
           let stream = try await openAIService.startStreamedChat(parameters: streamParameters)
           for try await chunk in stream {
             Task { @MainActor in
@@ -201,7 +207,7 @@ extension InputAreaView {
                 let text = choice.delta.content ?? "\nchoice has no content\n"
                 if let fr = choice.finishReason {
                   if case .string(let reason) = fr {
-                    print("finished reason: \(reason)")
+                    AppLogger.network.debug("finished reason: \(reason)")
                     aiMsg.onEOF(text: "")
                     em.messageEvent.send(.eof)
 ////                    skip eof; the last chunk's 'usage' isn't nil and it has no 'choices'
@@ -219,7 +225,7 @@ extension InputAreaView {
                   aiMsg.onEOF(text: "")
                   em.messageEvent.send(.eof)
                 } else {
-                  print("no text in chunk, chunk: \(chunk)")
+                  AppLogger.network.debug("no text in chunk, chunk: \(String(describing: chunk))")
                 }
               }
             }
@@ -234,7 +240,7 @@ extension InputAreaView {
             aiMsg.onError(info, .unknown)
           }
           userMsg.onSent()
-          print("partialResult error: \(error)")
+          AppLogger.error.error("partialResult error: \(error)")
           em.messageEvent.send(.err)
         }
       }

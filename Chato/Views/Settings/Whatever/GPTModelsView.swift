@@ -3,6 +3,7 @@
 import Foundation
 import SwiftData
 import SwiftUI
+import os
 
 struct GPTModelsView: View {
   private static let sortOrder = [SortDescriptor(\ModelModel.pos, order: .reverse)]
@@ -73,9 +74,9 @@ struct GPTModelsView: View {
     .animation(.default, value: fetchStatus)
     .environment(\.editMode, $editMode)
     .onAppear {
-      print("modelsByProvider count \(modelsByProvider.count)")
+      AppLogger.ui.debug("modelsByProvider count \(modelsByProvider.count)")
 
-      print("models count \(models.count)")
+      AppLogger.ui.debug("models count \(models.count)")
     }
   }
 

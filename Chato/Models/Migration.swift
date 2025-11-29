@@ -1,4 +1,5 @@
 import Foundation
+import os
 import SwiftData
 
 func migrate(_ modelContext: ModelContext) throws {
@@ -68,12 +69,12 @@ func addPreviewData(_ modelContext: ModelContext) throws {
   for c in ModelModel.samples {
     modelContext.insert(c)
   }
-  print("add preview data: \(ChatSample.previewChats.count) chats, \(ModelModel.samples.count) models")
+  AppLogger.data.info("add preview data: \(ChatSample.previewChats.count) chats, \(ModelModel.samples.count) models")
   try? modelContext.save()
 }
 
 func migratePref(asm: AppStateModel) {
-  print("migrating pref")
+  AppLogger.data.info("migrating pref")
   let pref = Pref.shared
 
   pref.colorScheme = Pref.AppColorScheme(rawValue: asm.colorScheme.rawValue) ?? .system

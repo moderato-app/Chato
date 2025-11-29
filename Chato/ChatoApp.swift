@@ -1,6 +1,7 @@
 import SwiftData
 import SwiftUI
 import TipKit
+import os
 
 @main
 struct ChatoApp: App {
@@ -8,7 +9,12 @@ struct ChatoApp: App {
     do {
       try Tips.configure()
     } catch {
-      print("failed to try? Tips.configure(): \(error)")
+      AppLogger.logError(.from(
+        error: error,
+        operation: "配置 Tips",
+        component: "ChatoApp",
+        userMessage: nil
+      ))
     }
   }
 

@@ -1,3 +1,4 @@
+import os
 import SwiftData
 import SwiftUI
 
@@ -19,7 +20,7 @@ struct ChatRowView: View {
     do {
       message = try modelContext.fetch(fetcher).first
     } catch {
-      print("message = try modelContext.fetch(fetcher).first :\(error)")
+      AppLogger.data.error("message = try modelContext.fetch(fetcher).first :\(error.localizedDescription)")
     }
   }
 

@@ -7,18 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EB13D6682BC9C61F00B38A5E /* StoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB13D6672BC9C61F00B38A5E /* StoreKit.swift */; };
 		EB1B46DF2EDAF0AD00FD053A /* AIProxy in Frameworks */ = {isa = PBXBuildFile; productRef = EB1B46DE2EDAF0AD00FD053A /* AIProxy */; };
 		EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = EB4A0EE42B6F908D0065BCDC /* OpenAI */; };
-		EB64221A2B6F7BB100119DE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB6422192B6F7BB100119DE6 /* Assets.xcassets */; };
-		EB64226F2B6F7CB100119DE6 /* ChatoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB64226E2B6F7CB100119DE6 /* ChatoApp.swift */; };
-		EB7906B82B977FD600BB16D1 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7906B72B977FD600BB16D1 /* EventManager.swift */; };
 		EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = EB80897C2CE12A100003BACD /* SwiftOpenAI */; };
 		EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB8FB4F22C3940D60041833B /* MarkdownUI */; };
-		EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E72002BCAB5FB00D5B110 /* Product.swift */; };
 		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
 		EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E2E2CDD3006007E480C /* VisualEffectView */; };
-		EBB075CE2B93A074007328EF /* prompts.json in Resources */ = {isa = PBXBuildFile; fileRef = EBB075CD2B93A074007328EF /* prompts.json */; };
 		EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBB4EF282CDDC02200F38178 /* VisualEffectView */; };
 		EBC1F9092D1853F50008D5E7 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = EBC1F9082D1853F50008D5E7 /* Fakery */; };
 		EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */ = {isa = PBXBuildFile; productRef = EBCFF3942B6FF4CC00498E1E /* Throttler */; };
@@ -39,34 +33,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		EB13D6672BC9C61F00B38A5E /* StoreKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreKit.swift; sourceTree = "<group>"; };
-		EB13D6692BC9D40C00B38A5E /* PurchaseSync.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PurchaseSync.storekit; sourceTree = "<group>"; };
 		EB6422102B6F7BB000119DE6 /* Chato.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chato.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		EB6422192B6F7BB100119DE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EB6422232B6F7C0600119DE6 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		EB64226E2B6F7CB100119DE6 /* ChatoApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatoApp.swift; sourceTree = "<group>"; };
-		EB6451F82B72CCDE00434D47 /* Chato.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chato.entitlements; sourceTree = "<group>"; };
-		EB6451FB2B72CEF400434D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		EB7906B72B977FD600BB16D1 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		EB8EE4512CE21AA500EDDE04 /* Highlightr */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Highlightr; path = ../Highlightr; sourceTree = "<group>"; };
-		EB9E72002BCAB5FB00D5B110 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
-		EBA256B02BCAD15000141F3E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		EBA73E2C2CDD2FD2007E480C /* VisualEffectView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = VisualEffectView; path = ../../../Downloads/VisualEffectView; sourceTree = "<group>"; };
-		EBB075CD2B93A074007328EF /* prompts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = prompts.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EB1B48E72EDAF7F900FD053A /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+				PrivacyInfo.xcprivacy,
+				PurchaseSync.storekit,
+			);
+			target = EB64220F2B6F7BB000119DE6 /* Chato */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EB1B46E72EDAF69800FD053A /* ci_scripts */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ci_scripts; sourceTree = "<group>"; };
-		EB1B46E92EDAF6C000FD053A /* Pref */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Pref; sourceTree = "<group>"; };
-		EB1B46EC2EDAF6C900FD053A /* State */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = State; sourceTree = "<group>"; };
-		EB1B46F52EDAF6CD00FD053A /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
-		EB1B470C2EDAF6D100FD053A /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
-		EB1B47202EDAF6D400FD053A /* Theme+Effect */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Theme+Effect"; sourceTree = "<group>"; };
-		EB1B472E2EDAF6E000FD053A /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
-		EB1B473A2EDAF6E200FD053A /* Util */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Util; sourceTree = "<group>"; };
-		EB1B473F2EDAF6E400FD053A /* Tips */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tips; sourceTree = "<group>"; };
-		EB1B47432EDAF6E800FD053A /* Preview Content */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Preview Content"; sourceTree = "<group>"; };
-		EB1B47DF2EDAF7A500FD053A /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
+		EB1B48862EDAF7F900FD053A /* Chato */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (EB1B48E72EDAF7F900FD053A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Chato; sourceTree = "<group>"; };
 		EB8EE4462CE20C1900EDDE04 /* Test */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Test; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -104,7 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				EB1B46E72EDAF69800FD053A /* ci_scripts */,
-				EB6422122B6F7BB000119DE6 /* Chato */,
+				EB1B48862EDAF7F900FD053A /* Chato */,
 				EB8EE4462CE20C1900EDDE04 /* Test */,
 				EB6422112B6F7BB000119DE6 /* Products */,
 				EB4A0EE32B6F908D0065BCDC /* Frameworks */,
@@ -118,33 +105,6 @@
 				EB6422102B6F7BB000119DE6 /* Chato.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		EB6422122B6F7BB000119DE6 /* Chato */ = {
-			isa = PBXGroup;
-			children = (
-				EB64226E2B6F7CB100119DE6 /* ChatoApp.swift */,
-				EB7906B72B977FD600BB16D1 /* EventManager.swift */,
-				EB1B46E92EDAF6C000FD053A /* Pref */,
-				EB1B46EC2EDAF6C900FD053A /* State */,
-				EB1B46F52EDAF6CD00FD053A /* Service */,
-				EB1B470C2EDAF6D100FD053A /* Models */,
-				EB1B47202EDAF6D400FD053A /* Theme+Effect */,
-				EB1B47DF2EDAF7A500FD053A /* Views */,
-				EB1B472E2EDAF6E000FD053A /* Extensions */,
-				EB1B473A2EDAF6E200FD053A /* Util */,
-				EB1B473F2EDAF6E400FD053A /* Tips */,
-				EB1B47432EDAF6E800FD053A /* Preview Content */,
-				EB13D6672BC9C61F00B38A5E /* StoreKit.swift */,
-				EB9E72002BCAB5FB00D5B110 /* Product.swift */,
-				EB6451F82B72CCDE00434D47 /* Chato.entitlements */,
-				EB6422192B6F7BB100119DE6 /* Assets.xcassets */,
-				EBB075CD2B93A074007328EF /* prompts.json */,
-				EB13D6692BC9D40C00B38A5E /* PurchaseSync.storekit */,
-				EBA256B02BCAD15000141F3E /* PrivacyInfo.xcprivacy */,
-				EB6451FB2B72CEF400434D47 /* Info.plist */,
-			);
-			path = Chato;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,16 +124,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				EB1B46E92EDAF6C000FD053A /* Pref */,
-				EB1B46EC2EDAF6C900FD053A /* State */,
-				EB1B46F52EDAF6CD00FD053A /* Service */,
-				EB1B470C2EDAF6D100FD053A /* Models */,
-				EB1B47202EDAF6D400FD053A /* Theme+Effect */,
-				EB1B472E2EDAF6E000FD053A /* Extensions */,
-				EB1B473A2EDAF6E200FD053A /* Util */,
-				EB1B473F2EDAF6E400FD053A /* Tips */,
-				EB1B47432EDAF6E800FD053A /* Preview Content */,
-				EB1B47DF2EDAF7A500FD053A /* Views */,
+				EB1B48862EDAF7F900FD053A /* Chato */,
 			);
 			name = Chato;
 			packageProductDependencies = (
@@ -242,8 +193,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBB075CE2B93A074007328EF /* prompts.json in Resources */,
-				EB64221A2B6F7BB100119DE6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,10 +203,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB64226F2B6F7CB100119DE6 /* ChatoApp.swift in Sources */,
-				EB7906B82B977FD600BB16D1 /* EventManager.swift in Sources */,
-				EB9E72012BCAB5FB00D5B110 /* Product.swift in Sources */,
-				EB13D6682BC9C61F00B38A5E /* StoreKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

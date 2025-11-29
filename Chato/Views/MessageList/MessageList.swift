@@ -46,8 +46,6 @@ struct MessageList: View {
     }
   }
 
-  @State var scrollviewHeight = CGFloat.zero
-  @State var vstackHeight = CGFloat.zero
   @State var scrollIndicatorPresented = false
 
   var body: some View {
@@ -76,15 +74,22 @@ struct MessageList: View {
         }
         .padding(10)
       }
-      .onGeometryChange(for: CGFloat.self) { proxy in
-        proxy.frame(in: .global).height
-      } action: {
-        scrollIndicatorPresented = $0 > UIScreen.main.bounds.height
+      .background {
+        GeometryReader { proxy in
+          Color.clear
+            .onChange(of: proxy.size.height, initial: true) { oldValue, newValue in
+              // 使用防抖避免频繁更新
+              let shouldPresent = newValue > UIScreen.main.bounds.height
+              if scrollIndicatorPresented != shouldPresent {
+                scrollIndicatorPresented = shouldPresent
+              }
+            }
+        }
       }
       .scrollTargetLayout()
     }
     .background(Rectangle().fill(.gray.opacity(0.0001)).containerRelativeFrame(.horizontal) { v, _ in v })
-    .defaultScrollAnchor(scrollIndicatorPresented ? .bottom : .top)
+    .defaultScrollAnchor(.bottom)
     .scrollPosition($position, anchor: .bottom)
     .onScrollTargetVisibilityChange(idType: PersistentIdentifier.self, threshold: 0.001) { onScreenIds in
       lastMsgOnScreen = onScreenIds.contains(where: { it in it == messages.last?.persistentModelID })
@@ -114,7 +119,8 @@ struct MessageList: View {
           VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
             .ignoresSafeArea(edges: .bottom))
         .overlay(alignment: .topTrailing) {
-          HStack {
+          // 将offset放在外层，避免位置变化被动画化
+          Group {
             if !lastMsgOnScreen && messages.count > 0 {
               Button {
                 withAnimation {

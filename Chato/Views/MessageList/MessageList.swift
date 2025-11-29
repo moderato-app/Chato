@@ -78,7 +78,7 @@ struct MessageList: View {
         GeometryReader { proxy in
           Color.clear
             .onChange(of: proxy.size.height, initial: true) { oldValue, newValue in
-              // 使用防抖避免频繁更新
+              // Use debouncing to avoid frequent updates
               let shouldPresent = newValue > UIScreen.main.bounds.height
               if scrollIndicatorPresented != shouldPresent {
                 scrollIndicatorPresented = shouldPresent
@@ -119,7 +119,7 @@ struct MessageList: View {
           VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
             .ignoresSafeArea(edges: .bottom))
         .overlay(alignment: .topTrailing) {
-          // 将offset放在外层，避免位置变化被动画化
+          // Place offset on outer layer to avoid position changes being animated
           Group {
             if !lastMsgOnScreen && messages.count > 0 {
               Button {

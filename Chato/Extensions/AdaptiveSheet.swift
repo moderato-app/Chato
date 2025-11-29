@@ -54,7 +54,7 @@ struct AdaptiveSheetModifier<SheetContent: View>: ViewModifier {
   func body(content: Content) -> some View {
     content
       .background(
-        sheetContent // 在此获取尺寸，防止初次弹出抖动
+        sheetContent // Get size here to prevent initial popup jitter
           .background(
             GeometryReader { proxy in
               Color.clear

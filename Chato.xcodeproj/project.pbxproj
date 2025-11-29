@@ -35,8 +35,6 @@
 /* Begin PBXFileReference section */
 		EB6422102B6F7BB000119DE6 /* Chato.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chato.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB6422232B6F7C0600119DE6 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		EB8EE4512CE21AA500EDDE04 /* Highlightr */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Highlightr; path = ../Highlightr; sourceTree = "<group>"; };
-		EBA73E2C2CDD2FD2007E480C /* VisualEffectView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = VisualEffectView; path = ../../../Downloads/VisualEffectView; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -78,15 +76,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EB4A0EE32B6F908D0065BCDC /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				EB8EE4512CE21AA500EDDE04 /* Highlightr */,
-				EBA73E2C2CDD2FD2007E480C /* VisualEffectView */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		EB6422072B6F7BB000119DE6 = {
 			isa = PBXGroup;
 			children = (
@@ -94,7 +83,6 @@
 				EB1B48862EDAF7F900FD053A /* Chato */,
 				EB8EE4462CE20C1900EDDE04 /* Test */,
 				EB6422112B6F7BB000119DE6 /* Products */,
-				EB4A0EE32B6F908D0065BCDC /* Frameworks */,
 				EB6422232B6F7C0600119DE6 /* .gitignore */,
 			);
 			sourceTree = "<group>";

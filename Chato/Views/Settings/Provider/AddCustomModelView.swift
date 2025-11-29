@@ -1,8 +1,8 @@
 // Created for Chato in 2025
 
-import SwiftUI
-import SwiftData
 import os
+import SwiftData
+import SwiftUI
 
 struct AddCustomModelView: View {
   @Environment(\.modelContext) private var modelContext
@@ -55,11 +55,11 @@ struct AddCustomModelView: View {
     let contextLengthInt = Int(contextLength)
     
     let model = ModelEntity(
-      id: modelId,
-      name: modelName.isEmpty ? nil : modelName,
+      provider: provider,
+      modelId: modelId,
+      modelName: modelName.isEmpty ? nil : modelName,
       contextLength: contextLengthInt,
       isCustom: true,
-      provider: provider
     )
     
     modelContext.insert(model)
@@ -78,4 +78,3 @@ struct AddCustomModelView: View {
   return AddCustomModelView(provider: provider)
     .modelContainer(container)
 }
-

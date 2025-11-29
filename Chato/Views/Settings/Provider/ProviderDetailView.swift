@@ -1,8 +1,8 @@
 // Created for Chato in 2025
 
-import SwiftUI
-import SwiftData
 import os
+import SwiftData
+import SwiftUI
 
 struct ProviderDetailView: View {
   @Environment(\.modelContext) private var modelContext
@@ -20,7 +20,7 @@ struct ProviderDetailView: View {
     }
     return provider.models.filter { model in
       model.resolvedName.localizedStandardContains(searchText) ||
-      model.id.localizedStandardContains(searchText)
+        model.modelId.localizedStandardContains(searchText)
     }.sorted { model1, model2 in
       if model1.favorited != model2.favorited {
         return model1.favorited
@@ -198,22 +198,22 @@ struct ProviderDetailView: View {
     let existingModels = provider.models
     
     for modelInfo in modelInfos {
-      if let existingModel = existingModels.first(where: { $0.id == modelInfo.id && !$0.isCustom }) {
-        existingModel.name = modelInfo.name
+      if let existingModel = existingModels.first(where: { $0.modelId == modelInfo.id && !$0.isCustom }) {
+        existingModel.modelName = modelInfo.name
         existingModel.contextLength = modelInfo.contextLength
       } else {
         let newModel = ModelEntity(
-          id: modelInfo.id,
-          name: modelInfo.name,
+          provider: provider,
+          modelId: modelInfo.id,
+          modelName: modelInfo.name,
           contextLength: modelInfo.contextLength,
-          provider: provider
         )
         modelContext.insert(newModel)
       }
     }
     
     let modelIDs = Set(modelInfos.map { $0.id })
-    let modelsToDelete = existingModels.filter { !$0.isCustom && !modelIDs.contains($0.id) }
+    let modelsToDelete = existingModels.filter { !$0.isCustom && !modelIDs.contains($0.modelId) }
     for model in modelsToDelete {
       modelContext.delete(model)
     }
@@ -287,4 +287,3 @@ private enum FetchStatus: Equatable {
       .modelContainer(container)
   }
 }
-

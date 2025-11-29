@@ -10,15 +10,15 @@ struct TutorialView: View {
     NavigationView {
       VStack(alignment: .leading) {
         Text("The context length number ") +
-          Text(Image(systemName: contextLengthCircle(option.contextLength, option.isBestModel))).foregroundStyle(.secondary) +
+          Text(Image(systemName: contextLengthCircle(option.contextLength))).foregroundStyle(.secondary) +
           Text(" determines how many previous messages accompany your input when sent to ChatGPT.")
 
         Divider()
 
         Text("The circle ") +
-          Text(Image(systemName: contextLengthCircle(option.contextLength, true))).foregroundStyle(.secondary) +
+          Text(Image(systemName: contextLengthCircle(option.contextLength))).foregroundStyle(.secondary) +
           Text(" of best models(GPT-4o, o1-preview and o1-mini) is more noticeable than the circle ") +
-          Text(Image(systemName: contextLengthCircle(option.contextLength, false))).foregroundStyle(.secondary) +
+          Text(Image(systemName: contextLengthCircle(option.contextLength))).foregroundStyle(.secondary) +
           Text(" of other models.")
 
         Spacer()

@@ -14,11 +14,6 @@ final class Chat: NewAtFront {
   @Relationship(deleteRule: .cascade, originalName: "option")
   var option: ChatOption
 
-  @Transient
-  var isBestModel: Bool {
-    self.option.isBestModel
-  }
-
   init(name: String, messages: [Message] = [Message](), option: ChatOption = ChatOption()) {
     self.name = name
     self.messages = messages

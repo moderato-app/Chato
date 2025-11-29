@@ -10,6 +10,7 @@ struct NewChatView: View {
   @FocusState private var isFocused: Bool
   @State private var triggerHaptic: Bool = false
   @State private var detent = PresentationDetent.medium
+  @Query(sort: \UsedModel.createdAt) private var usedModels: [UsedModel]
 
   private var chatNamePlaceHolder: String {
     if let prompt = chatOption.prompt {
@@ -39,7 +40,9 @@ struct NewChatView: View {
               chatName = chatNamePlaceHolder
             }
 
-            pref.lastUsedModel = chatOption.model
+            if let model = chatOption.model {
+              modelContext.insert(UsedModel(model: model))
+            }
             pref.lastUsedContextLength = chatOption.contextLength
 
             dismiss()
@@ -82,9 +85,7 @@ struct NewChatView: View {
   }
 
   func load() {
-    if let model = pref.lastUsedModel {
-      chatOption.model = model
-    }
+    chatOption.model = usedModels.first?.model
     if let cl = pref.lastUsedContextLength {
       chatOption.contextLength = cl
     }

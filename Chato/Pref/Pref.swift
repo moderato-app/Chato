@@ -24,7 +24,6 @@ class Pref: ObservableObject {
   }
   
   // ChatGPT last used option
-  @AppStorage("lastUsedModel") var lastUsedModel: String?
   @AppStorage("lastUsedContextLength") var lastUsedContextLength: Int?
   @AppStorage("lastUsedPromptId") var lastUsedPromptId: String?
 
@@ -43,7 +42,6 @@ class Pref: ObservableObject {
     self.gptApiKey = newPref.gptApiKey
     self.gptEnableEndpoint = newPref.gptEnableEndpoint
     self.gptEndpoint = newPref.gptEndpoint
-    self.lastUsedModel = newPref.lastUsedModel
     self.lastUsedContextLength = newPref.lastUsedContextLength
     self.lastUsedPromptId = newPref.lastUsedPromptId
     self.fillDataRecordGreeting = newPref.fillDataRecordGreeting

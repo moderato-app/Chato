@@ -13,12 +13,6 @@ extension String {
     self.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
-  var isBestModel: Bool {
-    self.contains("gpt-4o") && self != "gpt-4o-mini" ||
-      self == "o1-preview" ||
-      self == "o1-mini"
-  }
-
   var containsEmoji: Bool {
     return self.unicodeScalars.contains { $0.properties.isEmoji }
   }

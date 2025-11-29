@@ -12,7 +12,7 @@ final class Provider {
   @Attribute(originalName: "type") var type: ProviderType
   @Attribute(originalName: "createdAt") var createdAt: Date
   
-  @Relationship(deleteRule: .cascade, originalName: "models")
+  @Relationship(deleteRule: .cascade, originalName: "models",inverse: \ModelEntity.provider)
   var models: [ModelEntity]
   
   init(

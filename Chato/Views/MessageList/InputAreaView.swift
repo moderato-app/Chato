@@ -116,6 +116,7 @@ struct InputAreaView: View {
               }
             }
           }
+          .disabled(chat.option.model == nil)
           .popoverTip(SendButtonTip.instance, arrowEdge: .top)
       }
     }
@@ -129,6 +130,9 @@ struct InputAreaView: View {
   }
 
   func send(_ contextLength: Int) {
+    guard let model = chat.option.model else {
+      return
+    }
     let copy = inputText
     inputText = ""
     Task.detached {
@@ -136,7 +140,7 @@ struct InputAreaView: View {
     }
     isTextEditorFocused = false
     Task {
-      ask2(text: copy, contextLength: contextLength)
+      ask2(text: copy, contextLength: contextLength, model: model)
     }
   }
 }

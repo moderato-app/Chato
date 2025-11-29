@@ -3,7 +3,6 @@ import SwiftData
 
 @Model
 final class ChatOption {
-  @Attribute(originalName: "model") var model: String
   @Attribute(originalName: "context_length") var contextLength: Int
   @Relationship(originalName: "prompt") var prompt: Prompt?
   // temperature  number or null  Optional  Defaults to 1
@@ -17,25 +16,22 @@ final class ChatOption {
 //  Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   @Attribute(originalName: "frequency_penalty") var frequencyPenalty: Double = 0
   // An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  @Relationship(originalName: "option")
+  var model: ModelEntity?
 
-  init(model: String = "gpt-4o-mini", contextLength: Int = 2, prompt: Prompt? = nil) {
+  init(model: ModelEntity? = nil, contextLength: Int = 2, prompt: Prompt? = nil) {
     self.model = model
     self.contextLength = contextLength
     self.prompt = prompt
   }
 
-  init(model: String, contextLength: Int, prompt: Prompt? = nil, temperature: Double, presencePenalty: Double, frequencyPenalty: Double) {
+  init(model: ModelEntity? = nil, contextLength: Int, prompt: Prompt? = nil, temperature: Double, presencePenalty: Double, frequencyPenalty: Double) {
     self.model = model
     self.contextLength = contextLength
     self.prompt = prompt
     self.temperature = temperature
     self.presencePenalty = presencePenalty
     self.frequencyPenalty = frequencyPenalty
-  }
-
-  @Transient
-  var isBestModel: Bool {
-    self.model.isBestModel
   }
 
   @Transient

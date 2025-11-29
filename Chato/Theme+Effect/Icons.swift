@@ -42,7 +42,7 @@ struct SendIconLight: View {
       .font(font)
       .fontWeight(.light)
       .if(colorScheme == .light) { $0.foregroundStyle(.background) }
-      .if(colorScheme == .dark) { $0.foregroundStyle(Color(hex:"343434")) }
+      .if(colorScheme == .dark) { $0.foregroundStyle(Color(hex: "343434")) }
       .overlay {
         Image(systemName: "arrow.up.circle")
           .font(font)
@@ -172,28 +172,19 @@ struct PlusIcon: View {
 struct ContextLengthCircle: View {
   @Environment(\.colorScheme) var colorScheme
   let contextLength: Int
-  let powerful: Bool
 
-  init(_ contextLength: Int, _ powerful: Bool) {
+  init(_ contextLength: Int) {
     self.contextLength = contextLength
-    self.powerful = powerful
   }
 
   var body: some View {
-    if powerful {
-      Image(systemName: contextLengthCircle(contextLength, powerful))
-        .symbolRenderingMode(.monochrome)
-        .fontWeight(.semibold)
-        .tint(.secondary)
-    } else {
-      Image(systemName: contextLengthCircle(contextLength, powerful))
-        .symbolRenderingMode(.monochrome)
-        .tint(.secondary)
-    }
+    Image(systemName: contextLengthCircle(contextLength))
+      .symbolRenderingMode(.monochrome)
+      .tint(.secondary)
   }
 }
 
-func contextLengthCircle(_ contextLength: Int, _ powerful: Bool) -> String {
+func contextLengthCircle(_ contextLength: Int) -> String {
   var name: String
   if contextLength == 0 {
     name = "circle"
@@ -203,10 +194,6 @@ func contextLengthCircle(_ contextLength: Int, _ powerful: Bool) -> String {
     name = "infinity.circle"
   } else {
     name = "questionmark.circle"
-  }
-
-  if powerful {
-    name += ".fill"
   }
 
   return name

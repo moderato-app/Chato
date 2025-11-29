@@ -11,7 +11,7 @@ struct ModelSelectionView: View {
   @Query(filter: #Predicate<Provider> { $0.enabled }) private var providers: [Provider]
   @Query private var allModels: [ModelEntity]
   
-  @Binding var selectedModelId: String
+  @Bindable var chatOption: ChatOption
   @State private var searchText = ""
   
   private var favoritedModels: [ModelEntity] {
@@ -32,7 +32,7 @@ struct ModelSelectionView: View {
     }
     return allModels.filter { model in
       model.resolvedName.localizedStandardContains(searchText) ||
-      model.id.localizedStandardContains(searchText)
+      model.modelId.localizedStandardContains(searchText)
     }
   }
   
@@ -49,7 +49,7 @@ struct ModelSelectionView: View {
             ForEach(favoritedModels) { model in
               ModelSelectionRow(
                 model: model,
-                isSelected: model.id == selectedModelId,
+                isSelected: model.id == chatOption.model?.id,
                 showProvider: true
               ) {
                 selectModel(model)
@@ -66,7 +66,7 @@ struct ModelSelectionView: View {
             ForEach(group.models) { model in
               ModelSelectionRow(
                 model: model,
-                isSelected: model.id == selectedModelId,
+                isSelected: model.id == chatOption.model?.id,
                 showProvider: false
               ) {
                 selectModel(model)
@@ -113,7 +113,7 @@ struct ModelSelectionView: View {
   }
   
   private func selectModel(_ model: ModelEntity) {
-    selectedModelId = model.id
+    chatOption.model = model
     dismiss()
   }
 }
@@ -133,8 +133,8 @@ struct ModelSelectionRow: View {
             .foregroundColor(.primary)
           
           HStack(spacing: 8) {
-            if showProvider, let provider = model.provider {
-              Label(provider.displayName, systemImage: provider.iconName)
+            if showProvider {
+              Label(model.provider.displayName, systemImage: model.provider.iconName)
                 .font(.caption)
                 .foregroundColor(.secondary)
             }
@@ -170,18 +170,3 @@ struct ModelSelectionRow: View {
     .buttonStyle(.plain)
   }
 }
-
-#Preview {
-  let container = ModelContainer.preview()
-  let provider = Provider(type: .openAI, alias: "OpenAI", apiKey: "test")
-  container.mainContext.insert(provider)
-  
-  let model1 = ModelEntity(id: "gpt-4o", name: "GPT-4o", favorited: true, provider: provider)
-  let model2 = ModelEntity(id: "gpt-4o-mini", name: "GPT-4o Mini", provider: provider)
-  container.mainContext.insert(model1)
-  container.mainContext.insert(model2)
-  
-  return ModelSelectionView(selectedModelId: .constant("gpt-4o"))
-    .modelContainer(container)
-}
-

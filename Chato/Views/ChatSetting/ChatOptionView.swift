@@ -15,9 +15,9 @@ struct ChatOptionView: View {
     self.chatOption = chatOption
     self.pickerNavi = pickerNavi
   }
-  
+
   private var selectedModel: ModelEntity? {
-    allModels.first { $0.id == chatOption.model }
+    allModels.first { $0.id == chatOption.model?.id }
   }
 
   var body: some View {
@@ -44,14 +44,12 @@ struct ChatOptionView: View {
             VStack(alignment: .trailing, spacing: 2) {
               Text(model.resolvedName)
                 .foregroundColor(.secondary)
-              if let provider = model.provider {
-                Text(provider.displayName)
-                  .font(.caption2)
-                  .foregroundColor(Color(uiColor: .tertiaryLabel))
-              }
+              Text(model.provider.displayName)
+                .font(.caption2)
+                .foregroundColor(Color(uiColor: .tertiaryLabel))
             }
           } else {
-            Text(chatOption.model)
+            Text(chatOption.model?.resolvedName ?? "")
               .foregroundColor(.secondary)
           }
           Image(systemName: "chevron.right")
@@ -60,7 +58,7 @@ struct ChatOptionView: View {
         }
       }
       .buttonStyle(.plain)
-      
+
       VStack(alignment: .leading) {
         Label("Context Length", systemImage: "square.3.layers.3d.down.left")
         Picker("Context Length", selection: $chatOption.contextLength) {
@@ -74,7 +72,7 @@ struct ChatOptionView: View {
       }
     }
     .sheet(isPresented: $showingModelSelection) {
-      ModelSelectionView(selectedModelId: $chatOption.model)
+      ModelSelectionView(chatOption: chatOption)
     }
   }
 }

@@ -90,7 +90,7 @@ private struct ChatDetail: View {
             Button {
               self.isInfoPresented.toggle()
             } label: {
-              ContextLengthCircle(chat.option.contextLength, chat.isBestModel)
+              ContextLengthCircle(chat.option.contextLength)
                 .padding(2)
                 .clipShape(Circle())
                 .overlay(

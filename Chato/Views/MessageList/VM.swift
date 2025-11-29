@@ -82,7 +82,7 @@ extension InputAreaView {
     }
   }
 
-  func ask2(text: String, contextLength: Int) {
+  func ask2(text: String, contextLength: Int, model: ModelEntity) {
     var msgs: [OpenAIChatCompletionRequestBody.Message] = [.user(content: .text(text))]
 
     var actualCL = 0
@@ -117,7 +117,7 @@ extension InputAreaView {
     }
 
     let streamParameters = OpenAIChatCompletionRequestBody(
-      model: chat.option.model,
+      model: model.modelId,
       messages: msgs,
       frequencyPenalty: chat.option.maybeFrequencyPenalty,
       presencePenalty: chat.option.maybePresencePenalty,
@@ -145,7 +145,7 @@ extension InputAreaView {
 
     var userMsg = Message(text, .user, .sending)
     userMsg.chat = chat
-    userMsg.meta = .init(model: chat.option.model,
+    userMsg.meta = .init(model: model.modelId,
                          contextLength: contextLength,
                          actual_contextLength: actualCL,
                          promptName: chat.option.prompt?.name,
@@ -156,7 +156,7 @@ extension InputAreaView {
 
     var aiMsg = Message("", .assistant, .thinking)
     aiMsg.chat = chat
-    aiMsg.meta = .init(model: chat.option.model,
+    aiMsg.meta = .init(model: model.modelId,
                        contextLength: contextLength,
                        actual_contextLength: actualCL,
                        promptName: chat.option.prompt?.name,

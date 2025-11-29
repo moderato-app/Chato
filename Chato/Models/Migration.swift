@@ -86,7 +86,6 @@ func migratePref(asm: AppStateModel) {
   pref.gptEnableEndpoint = asm.chatGPTConfig.userProxy
 
   if let opt = asm.lastUsedOption {
-    pref.lastUsedModel = opt.model
     pref.lastUsedContextLength = opt.contextLength
   }
 
@@ -134,12 +133,12 @@ func migrateToProviderModel(_ modelContext: ModelContext) throws {
   
   for oldModel in existingModels {
     let newModel = ModelEntity(
-      id: oldModel.modelId,
-      name: oldModel.name,
+      provider: openAIProvider,
+      modelId: oldModel.modelId,
+      modelName: oldModel.name,
       contextLength: oldModel.contextLength,
       favorited: false,
       isCustom: false,
-      provider: openAIProvider
     )
     modelContext.insert(newModel)
   }

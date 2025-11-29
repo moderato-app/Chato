@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		EB1B46DF2EDAF0AD00FD053A /* AIProxy in Frameworks */ = {isa = PBXBuildFile; productRef = EB1B46DE2EDAF0AD00FD053A /* AIProxy */; };
 		EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = EB4A0EE42B6F908D0065BCDC /* OpenAI */; };
-		EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = EB80897C2CE12A100003BACD /* SwiftOpenAI */; };
 		EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB8FB4F22C3940D60041833B /* MarkdownUI */; };
 		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
 		EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E2E2CDD3006007E480C /* VisualEffectView */; };
@@ -62,7 +61,6 @@
 			files = (
 				EBC1F9092D1853F50008D5E7 /* Fakery in Frameworks */,
 				EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */,
-				EB80897D2CE12A100003BACD /* SwiftOpenAI in Frameworks */,
 				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
 				EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */,
 				EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */,
@@ -114,7 +112,6 @@
 				EB8FB4F22C3940D60041833B /* MarkdownUI */,
 				EBA73E2E2CDD3006007E480C /* VisualEffectView */,
 				EBB4EF282CDDC02200F38178 /* VisualEffectView */,
-				EB80897C2CE12A100003BACD /* SwiftOpenAI */,
 				EBC1F9082D1853F50008D5E7 /* Fakery */,
 				EB1B46DE2EDAF0AD00FD053A /* AIProxy */,
 			);
@@ -154,7 +151,6 @@
 				EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */,
-				EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
 				EBC1F9072D1853F50008D5E7 /* XCRemoteSwiftPackageReference "Fakery" */,
 				EB1B46DD2EDAF0AD00FD053A /* XCRemoteSwiftPackageReference "AIProxySwift" */,
 			);
@@ -430,14 +426,6 @@
 				version = 0.2.6;
 			};
 		};
-		EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/moderato-app/SwiftOpenAI.git";
-			requirement = {
-				kind = revision;
-				revision = a9aa7214d6fdb113da56fb2be6d44b755ed4686c;
-			};
-		};
 		EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
@@ -498,11 +486,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */;
 			productName = OpenAI;
-		};
-		EB80897C2CE12A100003BACD /* SwiftOpenAI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EB80897B2CE12A100003BACD /* XCRemoteSwiftPackageReference "SwiftOpenAI" */;
-			productName = SwiftOpenAI;
 		};
 		EB8FB4F22C3940D60041833B /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,6 +1,6 @@
 import Haptico
 import SwiftData
-import SwiftOpenAI
+import AIProxy
 import SwiftUI
 
 struct ChatGPTSettingSection: View {
@@ -76,7 +76,7 @@ struct ChatGPTSettingSection: View {
         TestButton {
           let openai = pref.gptEnableEndpoint ? OpenAIServiceProvider(apiKey: pref.gptApiKey, endpint: pref.gptEndpoint, timeout: 5) : OpenAIServiceProvider(apiKey: pref.gptApiKey, timeout: 5)
           do {
-            let res = try await openai.service.hello(model: models.randomElement()?.modelId ?? Model.gpt4omini.value)
+            let res = try await openai.service.hello(model: models.randomElement()?.modelId ?? "gpt-4o-mini")
             HapticsService.shared.shake(.success)
             return .succeeded(res)
           } catch {

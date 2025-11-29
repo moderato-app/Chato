@@ -1,5 +1,5 @@
 {
-  "originHash" : "aa0b25044e6eedc5d69697a46466662762f8ba095c8529db9ebfc1aefe913ade",
+  "originHash" : "6a017d9f62acd9a8c65146403a766fb990667dc5f1b734d3e767388874ae0ce7",
   "pins" : [
     {
       "identity" : "aiproxyswift",
@@ -62,14 +62,6 @@
       "state" : {
         "revision" : "9a8119b37e09a770367eeb26e05267c75d854053",
         "version" : "2.3.1"
-      }
-    },
-    {
-      "identity" : "swiftopenai",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/moderato-app/SwiftOpenAI.git",
-      "state" : {
-        "revision" : "a9aa7214d6fdb113da56fb2be6d44b755ed4686c"
       }
     },
     {

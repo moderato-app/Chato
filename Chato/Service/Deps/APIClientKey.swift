@@ -2,12 +2,12 @@
 
 import Foundation
 import os
-import SwiftOpenAI
+import AIProxy
 import SwiftUI
 
 // Define your custom environment key
 struct OpenAIServiceKey: EnvironmentKey {
-  static let defaultValue: OpenAIService = OpenAIServiceFactory.service(apiKey: "your-default-api-key")
+  static let defaultValue: OpenAIService = AIProxy.openAIDirectService(unprotectedAPIKey: "your-default-api-key")
 }
 
 // Add new AIClient environment key
@@ -40,13 +40,10 @@ class OpenAIServiceProvider: ObservableObject {
   let service: OpenAIService
 
   init(apiKey: String, endpint: String? = nil, timeout: TimeInterval = 120) {
-    let conf = URLSessionConfiguration.default
-    conf.timeoutIntervalForRequest = timeout
-
     if let endpint {
       do {
         let res = try parseURL(endpint)
-        self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf, overrideBaseURL: res.base, proxyPath: res.path)
+        self.service = AIProxy.openAIDirectService(unprotectedAPIKey: apiKey, baseURL: res.base)
       } catch {
         AppLogger.logError(.from(
           error: error,
@@ -54,10 +51,10 @@ class OpenAIServiceProvider: ObservableObject {
           component: "OpenAIServiceProvider",
           userMessage: nil
         ))
-        self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf)
+        self.service = AIProxy.openAIDirectService(unprotectedAPIKey: apiKey)
       }
     } else {
-      self.service = OpenAIServiceFactory.service(apiKey: apiKey, configuration: conf)
+      self.service = AIProxy.openAIDirectService(unprotectedAPIKey: apiKey)
     }
   }
 }

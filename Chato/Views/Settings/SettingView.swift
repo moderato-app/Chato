@@ -39,6 +39,22 @@ struct SettingView: View {
         }
         .textCase(.none)
 
+        Section {
+          NavigationLink {
+            ProvidersView()
+          } label: {
+            Label {
+              Text("Providers")
+            } icon: {
+              Image(systemName: "cube.box")
+                .foregroundColor(.accentColor)
+            }
+          }
+        } header: {
+          Text("AI Models")
+        }
+        .textCase(.none)
+
         ChatGPTSettingSection()
 
         Section {

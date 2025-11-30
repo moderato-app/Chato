@@ -9,6 +9,7 @@ let allSchema = Schema([
   PromptMessage.self,
   Provider.self,
   ModelEntity.self,
+  UsedModel.self
 ])
 
 extension ModelContainer {

@@ -1,8 +1,8 @@
 // Created for Chato in 2025
 
-import SwiftUI
-import SwiftData
 import os
+import SwiftData
+import SwiftUI
 
 struct ModelSelectionView: View {
   @Environment(\.dismiss) private var dismiss
@@ -31,7 +31,7 @@ struct ModelSelectionView: View {
     }
     return allModels.filter { model in
       model.resolvedName.localizedStandardContains(searchText) ||
-      model.modelId.localizedStandardContains(searchText)
+        model.modelId.localizedStandardContains(searchText)
     }
   }
   
@@ -41,74 +41,65 @@ struct ModelSelectionView: View {
   }
   
   var body: some View {
-    NavigationStack {
-      List {
-        if !favoritedModels.isEmpty && searchText.isEmpty {
-          Section {
-            ForEach(favoritedModels) { model in
-              ModelSelectionRow(
-                model: model,
-                isSelected: model.id == chatOption.model?.id,
-                showProvider: true
-              ) {
-                selectModel(model)
-              }
-            }
-          } header: {
-            Label("Favorites", systemImage: "star.fill")
-              .foregroundColor(.yellow)
-          }
-        }
-        
-        ForEach(groupedProviders, id: \.provider.id) { group in
-          Section {
-            ForEach(group.models) { model in
-              ModelSelectionRow(
-                model: model,
-                isSelected: model.id == chatOption.model?.id,
-                showProvider: false
-              ) {
-                selectModel(model)
-              }
-            }
-          } header: {
-            HStack {
-              Image(systemName: group.provider.iconName)
-              Text(group.provider.displayName)
+    List {
+      if !favoritedModels.isEmpty && searchText.isEmpty {
+        Section {
+          ForEach(favoritedModels) { model in
+            ModelSelectionRow(
+              model: model,
+              isSelected: model.id == chatOption.model?.id,
+              showProvider: true
+            ) {
+              selectModel(model)
             }
           }
+        } header: {
+          Label("Favorites", systemImage: "star.fill")
+            .foregroundColor(.yellow)
         }
+      }
         
-        if !searchText.isEmpty && filteredModels.isEmpty {
-          ContentUnavailableView.search
-        }
-        
-        if providers.isEmpty && allModels.isEmpty {
-          Section {
-            ContentUnavailableView {
-              Label("No Models Available", systemImage: "cube.box")
-            } description: {
-              Text("Add providers in Settings to get started")
-            } actions: {
-              Button("Open Settings") {
-                dismiss()
-              }
-              .buttonStyle(.borderedProminent)
+      ForEach(groupedProviders, id: \.provider.id) { group in
+        Section {
+          ForEach(group.models) { model in
+            ModelSelectionRow(
+              model: model,
+              isSelected: model.id == chatOption.model?.id,
+              showProvider: false
+            ) {
+              selectModel(model)
             }
+          }
+        } header: {
+          HStack {
+            Image(systemName: group.provider.iconName)
+            Text(group.provider.displayName)
           }
         }
       }
-      .searchable(text: $searchText, prompt: "Search models")
-      .navigationTitle("Select Model")
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .cancellationAction) {
-          Button("Cancel") {
-            dismiss()
+        
+      if !searchText.isEmpty && filteredModels.isEmpty {
+        ContentUnavailableView.search
+      }
+        
+      if providers.isEmpty && allModels.isEmpty {
+        Section {
+          ContentUnavailableView {
+            Label("No Models Available", systemImage: "cube.box")
+          } description: {
+            Text("Add providers in Settings to get started")
+          } actions: {
+            Button("Open Settings") {
+              dismiss()
+            }
+            .buttonStyle(.borderedProminent)
           }
         }
       }
     }
+    .searchable(text: $searchText, prompt: "Search models")
+    .navigationTitle("Select Model")
+    .navigationBarTitleDisplayMode(.inline)
   }
   
   private func selectModel(_ model: ModelEntity) {

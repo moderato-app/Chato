@@ -43,15 +43,7 @@ final class Provider {
   }
   
   var allModelsSorted: [ModelEntity] {
-    models.sorted { model1, model2 in
-      if model1.favorited != model2.favorited {
-        return model1.favorited
-      }
-      if model1.isCustom != model2.isCustom {
-        return model1.isCustom
-      }
-      return model1.resolvedName < model2.resolvedName
-    }
+    ModelEntity.smartSort(models)
   }
 }
 

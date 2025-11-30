@@ -431,8 +431,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI.git";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.3;
 			};
 		};
 		EBB4EF272CDDC02200F38178 /* XCRemoteSwiftPackageReference "VisualEffectView" */ = {

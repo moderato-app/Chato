@@ -7,7 +7,6 @@ let allSchema = Schema([
   ChatOption.self,
   Prompt.self,
   PromptMessage.self,
-  ModelModel.self,
   Provider.self,
   ModelEntity.self,
 ])

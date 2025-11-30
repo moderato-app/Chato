@@ -28,7 +28,7 @@ struct NewChatView: View {
             .focused($isFocused)
         }.textCase(.none)
 
-        Section("ChatGPT") {
+        Section("General") {
           ChatOptionView(chatOption)
         }.textCase(.none)
       }
@@ -73,6 +73,8 @@ struct NewChatView: View {
           PromptListView(chatOption: chatOption)
         case NavigationRoute.newPrompt:
           PromptCreateView { _ in }
+        case NavigationRoute.modelSelection:
+          ModelSelectionView(chatOption: chatOption)
         default:
           Text("navigationDestination not found for string: \(str)")
         }

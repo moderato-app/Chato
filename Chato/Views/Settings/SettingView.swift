@@ -70,7 +70,7 @@ struct SettingView: View {
               .foregroundColor(.accentColor)
           }
         } header: {
-          Text("AI Models")
+          Text("AI Providers")
         }
         .textCase(.none)
 

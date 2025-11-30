@@ -4,7 +4,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class ModelModel: Sortable {
+final class ModelModel {
   @Attribute(.unique, originalName: "modelId") var modelId: String
   @Attribute(originalName: "name") var name: String?
   @Attribute(originalName: "info") var info: String?
@@ -21,11 +21,6 @@ final class ModelModel: Sortable {
     self.contextLength = contextLength
     self.pos = Int(Date().timeIntervalSince1970 * 1000)
   }
-
-}
-
-protocol Sortable: AnyObject {
-  var pos: Int { get set }
 }
 
 // Dictionary to map model IDs to their names

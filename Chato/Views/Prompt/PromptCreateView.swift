@@ -2,7 +2,6 @@ import SwiftUI
 
 struct PromptCreateView: View {
   @Environment(\.modelContext) private var modelContext
-  @Environment(\.presentationMode) var presentationMode
   @Environment(\.colorScheme) var colorScheme
   @Environment(\.dismiss) var dismiss
 

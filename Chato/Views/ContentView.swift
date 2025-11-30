@@ -4,7 +4,6 @@ import SwiftUI
 struct ContentView: View {
   @StateObject private var storeVM = StoreVM()
   @StateObject private var pref = Pref.shared
-  @Environment(\.colorScheme) private var colorScheme
 
   var body: some View {
     let openai = OpenAIServiceProvider(apiKey: pref.gptApiKey, endpint: pref.resolvedEndpoint)

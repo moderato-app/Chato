@@ -2,8 +2,6 @@ import SwiftData
 import SwiftUI
 
 struct ErrorView: View {
-  @EnvironmentObject var pref: Pref
-
   let errorInfo: String
   let errorType: Message.MessageErrorType
   let provider: Provider?

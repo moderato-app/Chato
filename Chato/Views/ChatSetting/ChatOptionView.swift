@@ -2,18 +2,13 @@ import SwiftData
 import SwiftUI
 
 struct ChatOptionView: View {
-  @EnvironmentObject var pref: Pref
-  @Environment(\.modelContext) private var modelContext
-
   @Bindable private var chatOption: ChatOption
-  private let pickerNavi: Bool
 
   @Query private var allModels: [ModelEntity]
   @State private var showingModelSelection = false
 
-  init(_ chatOption: ChatOption, pickerNavi: Bool = false) {
+  init(_ chatOption: ChatOption) {
     self.chatOption = chatOption
-    self.pickerNavi = pickerNavi
   }
 
   private var selectedModel: ModelEntity? {

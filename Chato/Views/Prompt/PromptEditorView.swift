@@ -3,10 +3,7 @@ import SwiftUI
 
 struct PromptEditorView: View {
   @Environment(\.modelContext) private var modelContext
-  @Environment(\.presentationMode) var presentationMode
   @Environment(\.colorScheme) var colorScheme
-  @Environment(\.dismiss) var dismiss
-  @EnvironmentObject var pref: Pref
 
   @Bindable var prompt: Prompt
   @FocusState private var focusedItemID: String?

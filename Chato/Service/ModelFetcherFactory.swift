@@ -24,14 +24,12 @@ struct ModelFetcherFactory {
          .eachAI,
          .fireworksAI,
          .brave:
-      return GenericStaticModelFetcher(providerType: providerType)
+      return GenericStaticModelFetcher()
     }
   }
 }
 
 struct GenericStaticModelFetcher: ModelFetcher {
-  let providerType: ProviderType
-  
   func fetchModels(apiKey: String, endpoint: String?) async throws -> [ModelInfo] {
     return []
   }

@@ -5,16 +5,16 @@
 ## 扫描统计
 
 - **初始警告数**: 100+
-- **当前警告数**: **38** (第四阶段删除后)
-- **已删除代码**: 50+ 项
+- **当前警告数**: **14** (第五阶段删除后)
+- **已删除代码**: 70+ 项
 - **扫描工具**: Periphery
 - **项目**: Chato
 
 ## 📊 清理效果
 
-- **减少率**: ~62% (从 100+ 减少到 38)
+- **减少率**: ~86% (从 100+ 减少到 14)
 - **已删除文件**: 8 个完整文件
-- **已删除代码项**: 50+ 个函数/属性/类型
+- **已删除代码项**: 70+ 个函数/属性/类型
 
 ## ✅ 已删除的代码
 
@@ -178,6 +178,65 @@
 
 35. **Views/Settings/SettingView+Purchase.swift**
     - ✅ 删除 `buy(product:)` 函数
+
+**构建状态**: ✅ 构建成功，无错误
+
+### 第五阶段删除（已验证构建成功）
+
+36. **Views/ChatLIst/ChatListView.swift**
+    - ✅ 删除 `pref` EnvironmentObject
+
+37. **Views/ChatLIst/NewChatView.swift**
+    - ✅ 删除 `detent` State 属性
+
+38. **Views/ChatSetting/ChatAdvancedOptionView.swift**
+    - ✅ 删除 `pref` EnvironmentObject
+    - ✅ 删除 `pickerNavi` 参数
+
+39. **Views/ChatSetting/ChatOptionView.swift**
+    - ✅ 删除 `pref` EnvironmentObject
+    - ✅ 删除 `modelContext` Environment
+    - ✅ 删除 `pickerNavi` 属性
+
+40. **Views/ChatSetting/ModelSelectionView.swift**
+    - ✅ 删除 `modelContext` Environment
+
+41. **Views/ContentView.swift**
+    - ✅ 删除 `colorScheme` Environment
+
+42. **Views/MessageList/InputAreaView.swift**
+    - ✅ 删除 `pref` EnvironmentObject
+    - ✅ 删除 `contextLength` State 属性
+
+43. **Views/MessageList/MessageTypes/ErrorView.swift**
+    - ✅ 删除 `pref` EnvironmentObject
+
+44. **Views/MessageList/MessageTypes/StatusView.swift**
+    - ✅ 删除 `colorScheme` Environment
+
+45. **Views/MessageList/MessageTypes/ThinkingView.swift**
+    - ✅ 删除 `animationInterval` 属性
+
+46. **Views/Prompt/PromptCreateView.swift**
+    - ✅ 删除 `presentationMode` Environment
+
+47. **Views/Prompt/PromptEditorView.swift**
+    - ✅ 删除 `presentationMode` Environment
+    - ✅ 删除 `dismiss` Environment
+    - ✅ 删除 `pref` EnvironmentObject
+
+48. **Views/Prompt/PromptListView.swift**
+    - ✅ 删除 `ListPrompt` 中的 `isCreatePromptPresented` State
+    - ✅ 删除 `ListPromptNoQuery` 中的 `pref` EnvironmentObject
+
+49. **Views/Settings/Provider/ProviderDetailView.swift**
+    - ✅ 删除 `dismiss` Environment
+
+50. **Models/ModelModel.swift**
+    - ✅ 删除 `Sortable` 协议（冗余，从未作为存在类型使用）
+
+51. **Service/ModelFetcherFactory.swift**
+    - ✅ 删除 `GenericStaticModelFetcher.providerType` 属性
 
 **构建状态**: ✅ 构建成功，无错误
 

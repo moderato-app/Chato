@@ -5,7 +5,6 @@ import SwiftData
 import os
 
 struct ModelSelectionView: View {
-  @Environment(\.modelContext) private var modelContext
   @Environment(\.dismiss) private var dismiss
   
   @Query(filter: #Predicate<Provider> { $0.enabled }) private var providers: [Provider]

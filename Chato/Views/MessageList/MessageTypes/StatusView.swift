@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct StateView: View {
-  @Environment(\.colorScheme) private var colorScheme
-
   var msg: Message
 
   var body: some View {

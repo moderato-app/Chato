@@ -46,28 +46,12 @@ extension Array where Element == ModelEntity {
   func groupedByProvider() -> [(provider: Provider, models: [ModelEntity])] {
     let grouped = Dictionary(grouping: self) { $0.provider }
     return grouped.compactMap { provider, value in
-      let sortedModels = value.sorted { model1, model2 in
-        if model1.favorited != model2.favorited {
-          return model1.favorited
-        }
-        if model1.isCustom != model2.isCustom {
-          return model1.isCustom
-        }
-        return model1.resolvedName < model2.resolvedName
-      }
+      let sortedModels = ModelEntity.smartSort(value)
       return (provider: provider, models: sortedModels)
     }.sorted { $0.provider.displayName < $1.provider.displayName }
   }
 
   var favorited: [ModelEntity] {
-    filter { $0.favorited }.sorted { model1, model2 in
-      if model1.favorited != model2.favorited {
-        return model1.favorited
-      }
-      if model1.isCustom != model2.isCustom {
-        return model1.isCustom
-      }
-      return model1.resolvedName < model2.resolvedName
-    }
+    ModelEntity.smartSort(filter { $0.favorited })
   }
 }

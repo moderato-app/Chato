@@ -16,18 +16,11 @@ struct ProviderDetailView: View {
     if searchText.isEmpty {
       return provider.allModelsSorted
     }
-    return provider.models.filter { model in
+    let filtered = provider.models.filter { model in
       model.resolvedName.localizedStandardContains(searchText) ||
         model.modelId.localizedStandardContains(searchText)
-    }.sorted { model1, model2 in
-      if model1.favorited != model2.favorited {
-        return model1.favorited
-      }
-      if model1.isCustom != model2.isCustom {
-        return model1.isCustom
-      }
-      return model1.resolvedName < model2.resolvedName
     }
+    return ModelEntity.smartSort(filtered)
   }
   
   var body: some View {
@@ -42,6 +35,7 @@ struct ProviderDetailView: View {
       
       modelSection()
     }
+    .animation(.default, value: filteredModels.map { $0.persistentModelID })
     .searchable(text: $searchText, prompt: "Search models")
     .navigationTitle(provider.displayName)
     .navigationBarTitleDisplayMode(.inline)
@@ -208,7 +202,9 @@ struct ModelRow: View {
       Spacer()
       
       Button {
-        model.favorited.toggle()
+        withAnimation {
+          model.favorited.toggle()
+        }
       } label: {
         Image(systemName: model.favorited ? "star.fill" : "star")
           .foregroundColor(model.favorited ? .yellow : .gray)

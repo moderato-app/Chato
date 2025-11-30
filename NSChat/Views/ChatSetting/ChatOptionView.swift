@@ -44,9 +44,6 @@ struct ChatOptionView: View {
             Text(chatOption.model?.resolvedName ?? "")
               .foregroundColor(.secondary)
           }
-          Image(systemName: "chevron.right")
-            .font(.caption)
-            .foregroundColor(Color(uiColor: .tertiaryLabel))
         }
       }
 

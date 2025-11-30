@@ -5,10 +5,8 @@ extension SettingView {
   var providersSection: some View {
     Section {
       if providers.isEmpty {
-        ContentUnavailableView {
-          Label("No Providers", systemImage: "cube.box")
-        } description: {
-          Text("Add a provider to get started")
+        EmptyProviderCard {
+          showingAddProvider = true
         }
       } else {
         ForEach(providers) { provider in
@@ -19,13 +17,6 @@ extension SettingView {
           }
         }
         .onDelete(perform: deleteProviders)
-      }
-      
-      Button {
-        showingAddProvider = true
-      } label: {
-        Label("Add Provider", systemImage: "plus.circle.fill")
-          .foregroundColor(.accentColor)
       }
     } header: {
       Text("AI Providers")

@@ -27,10 +27,8 @@ extension SettingView {
   }
   
   func deleteProviders(at offsets: IndexSet) {
-    for index in offsets {
-      let provider = providers[index]
-      modelContext.delete(provider)
-    }
+    providersToDelete = offsets.map { providers[$0] }
+    isDeleteProviderConfirmPresented = true
   }
 }
 

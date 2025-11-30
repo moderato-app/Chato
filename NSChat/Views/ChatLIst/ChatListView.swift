@@ -13,6 +13,7 @@ struct ChatListView: View {
 
   @State private var settingsDetent = PresentationDetent.medium
   @State private var isSettingPresented = false
+  @State private var isSettingWithAddProvider = false
   @State private var isNewChatPresented = false
   @State private var isAddProviderPresented = false
 
@@ -38,9 +39,11 @@ struct ChatListView: View {
     list()
       .softFeedback(editMode.isEditing, isSettingPresented, isNewChatPresented, isMultiDeleteConfirmPresented)
       .sheet(isPresented: $isSettingPresented) {
-        SettingView()
+        SettingView(autoShowAddProvider: isSettingWithAddProvider)
           .preferredColorScheme(colorScheme)
           .presentationDetents([.large])
+      } onDismiss: {
+        isSettingWithAddProvider = false
       }
       .sheet(isPresented: $isNewChatPresented) {
         NewChatView()
@@ -174,6 +177,7 @@ struct ChatListView: View {
           }
           Section {
             Button("Settings", systemImage: "gear") {
+              isSettingWithAddProvider = false
               isSettingPresented.toggle()
             }
           }
@@ -218,41 +222,10 @@ struct ChatListView: View {
 
   @ViewBuilder
   func emptyProviderCard() -> some View {
-    VStack(spacing: 16) {
-      Image(systemName: "cube.box")
-        .font(.system(size: 48))
-        .foregroundStyle(.secondary)
-
-      Text("No AI Provider")
-        .font(.headline)
-
-      Text("Add an AI provider to start chatting")
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
-
-      Button {
-        isAddProviderPresented = true
-      } label: {
-        HStack {
-          Image(systemName: "plus.circle.fill")
-            .backgroundStyle(.foreground)
-          Text("Add Provider")
-        }
-      }
-      .buttonStyle(.borderedProminent)
-      .controlSize(.regular)
+    EmptyProviderCard {
+      isSettingWithAddProvider = true
+      isSettingPresented = true
     }
-    .frame(maxWidth: .infinity)
-    .padding(.vertical, 24)
-    .padding(.horizontal, 20)
-    .background {
-      RoundedRectangle(cornerRadius: 12)
-        .fill(Color(uiColor: .secondarySystemBackground))
-    }
-    .listRowInsets(SwiftUICore.EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))
-    .listRowBackground(Color.clear)
-    .listRowSeparator(.hidden)
   }
 
   @ViewBuilder

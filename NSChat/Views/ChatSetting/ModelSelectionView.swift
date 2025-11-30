@@ -4,6 +4,7 @@ import os
 
 struct ModelSelectionView: View {
   @Environment(\.dismiss) private var dismiss
+  @Environment(\.colorScheme) private var colorScheme
 
   @Query(filter: #Predicate<Provider> { $0.enabled }) private var providers: [Provider]
   @Query private var allModels: [ModelEntity]
@@ -12,6 +13,7 @@ struct ModelSelectionView: View {
   @State private var searchText = ""
   @State private var expandedProviders: Set<PersistentIdentifier> = []
   @State private var favoritesExpanded = true
+  @State private var isSettingPresented = false
 
   var body: some View {
     ModelSelectionContent(
@@ -21,8 +23,16 @@ struct ModelSelectionView: View {
       searchText: $searchText,
       expandedProviders: $expandedProviders,
       favoritesExpanded: $favoritesExpanded,
-      dismiss: dismiss
+      dismiss: dismiss,
+      onAddProvider: {
+        isSettingPresented = true
+      }
     )
+    .sheet(isPresented: $isSettingPresented) {
+      SettingView(autoShowAddProvider: true)
+        .preferredColorScheme(colorScheme)
+        .presentationDetents([.large])
+    }
   }
 }
 
@@ -34,6 +44,7 @@ struct ModelSelectionContent: View {
   @Binding var expandedProviders: Set<PersistentIdentifier>
   @Binding var favoritesExpanded: Bool
   let dismiss: DismissAction
+  let onAddProvider: () -> Void
 
   private func favoritedModels() -> [ModelEntity] {
     let filtered = allModels.filter { $0.favorited }
@@ -186,20 +197,9 @@ struct ModelSelectionContent: View {
     }
 
     if providers.isEmpty && allModels.isEmpty {
-      noModelsView
-    }
-  }
-
-  private var noModelsView: some View {
-    ContentUnavailableView {
-      Label("No Models Available", systemImage: "cube.box")
-    } description: {
-      Text("Add providers in Settings to get started")
-    } actions: {
-      Button("Open Settings") {
-        dismiss()
+      EmptyProviderCard {
+        onAddProvider()
       }
-      .buttonStyle(.borderedProminent)
     }
   }
 

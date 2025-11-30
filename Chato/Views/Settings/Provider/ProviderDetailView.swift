@@ -10,7 +10,8 @@ struct ProviderDetailView: View {
   
   @State private var showingAddModel = false
   @State private var searchText = ""
-  @State private var fetchStatus: FetchStatus = .idle
+  @State private var fetchedModels: [ModelInfo] = []
+  @State private var fetchStatus: ProviderFetchStatus = .idle
    
   private var filteredModels: [ModelEntity] {
     if searchText.isEmpty {
@@ -32,7 +33,14 @@ struct ProviderDetailView: View {
   
   var body: some View {
     List {
-      editSections()
+      ProviderConfigurationForm(
+        providerType: $provider.type,
+        alias: $provider.alias,
+        apiKey: $provider.apiKey,
+        endpoint: $provider.endpoint,
+        enabled: $provider.enabled
+      )
+      
       modelSection()
     }
     .searchable(text: $searchText, prompt: "Search models")
@@ -50,42 +58,10 @@ struct ProviderDetailView: View {
     .sheet(isPresented: $showingAddModel) {
       AddCustomModelView(provider: provider)
     }
-  }
-  
-  @ViewBuilder
-  private func editSections() -> some View {
-    Section {
-      Picker("Provider Type", selection: $provider.type) {
-        ForEach(ProviderType.allCases, id: \.self) { type in
-          Label {
-            Text(type.displayName)
-          } icon: {
-            Image(systemName: type.iconName)
-          }
-          .tag(type)
-        }
+    .onChange(of: fetchedModels) { _, newModels in
+      if !newModels.isEmpty {
+        updateModelsInDatabase(with: newModels)
       }
-    } header: {
-      Text("Type")
-    }
-    
-    Section {
-      TextField("Alias (Optional)", text: $provider.alias)
-      
-      TextField("API Key", text: $provider.apiKey)
-        .textContentType(.password)
-      
-      TextField("Endpoint (Optional)", text: $provider.endpoint)
-        .textContentType(.URL)
-        .autocapitalization(.none)
-    } header: {
-      Text("Configuration")
-    } footer: {
-      Text("Leave endpoint empty to use default")
-    }
-    
-    Section {
-      Toggle("Enabled", isOn: $provider.enabled)
     }
   }
   
@@ -161,7 +137,7 @@ struct ProviderDetailView: View {
         )
         
         await MainActor.run {
-          updateModels(with: modelInfos)
+          fetchedModels = modelInfos
           fetchStatus = .success(modelInfos.count)
           
           AppLogger.data.info("Fetched \(modelInfos.count) models for \(provider.displayName)")
@@ -180,7 +156,7 @@ struct ProviderDetailView: View {
     }
   }
   
-  private func updateModels(with modelInfos: [ModelInfo]) {
+  private func updateModelsInDatabase(with modelInfos: [ModelInfo]) {
     let existingModels = provider.models
     
     for modelInfo in modelInfos {
@@ -192,7 +168,7 @@ struct ProviderDetailView: View {
           provider: provider,
           modelId: modelInfo.id,
           modelName: modelInfo.name,
-          contextLength: modelInfo.contextLength,
+          contextLength: modelInfo.contextLength
         )
         modelContext.insert(newModel)
       }
@@ -239,26 +215,6 @@ struct ModelRow: View {
           .foregroundColor(model.favorited ? .yellow : .gray)
       }
       .buttonStyle(.plain)
-    }
-  }
-}
-
-private enum FetchStatus: Equatable {
-  case idle
-  case fetching
-  case success(Int)
-  case error(String)
-  
-  static func == (lhs: FetchStatus, rhs: FetchStatus) -> Bool {
-    switch (lhs, rhs) {
-    case (.idle, .idle), (.fetching, .fetching):
-      return true
-    case (.success(let l), .success(let r)):
-      return l == r
-    case (.error(let l), .error(let r)):
-      return l == r
-    default:
-      return false
     }
   }
 }

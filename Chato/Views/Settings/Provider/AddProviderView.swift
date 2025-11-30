@@ -13,43 +13,35 @@ struct AddProviderView: View {
   @State private var apiKey: String = ""
   @State private var endpoint: String = ""
   @State private var enabled: Bool = true
+  @State private var fetchedModels: [ModelInfo] = []
+  @State private var fetchStatus: ProviderFetchStatus = .idle
+  
+  private var displayName: String {
+    if !alias.isEmpty {
+      return alias
+    }
+    return selectedType.displayName
+  }
   
   var body: some View {
     NavigationStack {
-      Form {
-        Section {
-          Picker("Provider Type", selection: $selectedType) {
-            ForEach(ProviderType.allCases, id: \.self) { type in
-              Label {
-                Text(type.displayName)
-              } icon: {
-                Image(systemName: type.iconName)
-              }
-              .tag(type)
-            }
-          }
-        } header: {
-          Text("Type")
-        }
+      List {
+        ProviderConfigurationForm(
+          providerType: $selectedType,
+          alias: $alias,
+          apiKey: $apiKey,
+          endpoint: $endpoint,
+          enabled: $enabled
+        )
         
-        Section {
-          TextField("Alias (Optional)", text: $alias)
-          
-          TextField("API Key", text: $apiKey)
-            .textContentType(.password)
-          
-          TextField("Endpoint (Optional)", text: $endpoint)
-            .textContentType(.URL)
-            .autocapitalization(.none)
-        } header: {
-          Text("Configuration")
-        } footer: {
-          Text("Leave endpoint empty to use default")
-        }
-        
-        Section {
-          Toggle("Enabled", isOn: $enabled)
-        }
+        ModelManagementSection(
+          providerType: selectedType,
+          apiKey: apiKey,
+          endpoint: endpoint,
+          providerDisplayName: displayName,
+          fetchedModels: $fetchedModels,
+          fetchStatus: $fetchStatus
+        )
       }
       .navigationTitle("Add Provider")
       .navigationBarTitleDisplayMode(.inline)
@@ -61,8 +53,8 @@ struct AddProviderView: View {
         }
         
         ToolbarItem(placement: .confirmationAction) {
-          Button("Add") {
-            addProvider()
+          Button("Save") {
+            saveProvider()
           }
           .disabled(apiKey.isEmpty)
         }
@@ -70,7 +62,7 @@ struct AddProviderView: View {
     }
   }
   
-  private func addProvider() {
+  private func saveProvider() {
     let provider = Provider(
       type: selectedType,
       alias: alias,
@@ -81,11 +73,27 @@ struct AddProviderView: View {
     
     modelContext.insert(provider)
     
-    AppLogger.data.info("Added new provider: \(provider.displayName)")
+    for modelInfo in fetchedModels {
+      let model = ModelEntity(
+        provider: provider,
+        modelId: modelInfo.id,
+        modelName: modelInfo.name,
+        contextLength: modelInfo.contextLength
+      )
+      modelContext.insert(model)
+    }
+    
+    AppLogger.data.info("Added new provider: \(provider.displayName) with \(fetchedModels.count) models")
     
     dismiss()
   }
 }
+
+#Preview {
+  AddProviderView()
+    .modelContainer(ModelContainer.preview())
+}
+
 
 #Preview {
   AddProviderView()

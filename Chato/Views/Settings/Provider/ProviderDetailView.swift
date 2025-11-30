@@ -112,7 +112,7 @@ struct ProviderDetailView: View {
         Text("Models (\(provider.models.count))")
         Spacer()
         if fetchStatus != .fetching {
-          Button("Fetch") {
+          Button("Refresh") {
             fetchModels()
           }
           .font(.caption)

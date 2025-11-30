@@ -1,5 +1,6 @@
 import AVFoundation
 import SwiftUI
+import os
 
 fileprivate let steps = 10
 
@@ -14,23 +15,37 @@ struct WheelPicker: View {
   let defaultValue: Int
   let spacing: CGFloat
   let haptic: Bool
+  let debounceDelay: Duration
   
   private let defaultIndex: Int
   @State private var actualIndex: Int
+  @State private var localValue: Double
   @State private var loaded: Bool
   @State private var indicatorX: CGFloat = .zero
   @State private var defaultIndexX: CGFloat = .zero
+  @State private var debounceTask: Task<Void, Never>?
 
-  init(value: Binding<Double>, start: Int, end: Int, defaultValue: Int, spacing: CGFloat = 13, haptic: Bool = true) {
+  init(
+    value: Binding<Double>,
+    start: Int,
+    end: Int,
+    defaultValue: Int,
+    spacing: CGFloat = 13,
+    haptic: Bool = true,
+    debounceDelay: Duration = .milliseconds(300)
+  ) {
     self._value = value
     self.start = start
     self.end = end
     self.defaultValue = defaultValue
     self.spacing = spacing
     self.haptic = haptic
+    self.debounceDelay = debounceDelay
     
     self.defaultIndex = Int(round((Double(defaultValue) - Double(start)) * 10))
-    self._actualIndex = State(initialValue: Int(round((value.wrappedValue - Double(start)) * Double(steps))))
+    let initialValue = value.wrappedValue
+    self._actualIndex = State(initialValue: Int(round((initialValue - Double(start)) * Double(steps))))
+    self._localValue = State(initialValue: initialValue)
     self._loaded = State(initialValue: false)
   }
 
@@ -125,41 +140,70 @@ struct WheelPicker: View {
       }
       .safeAreaPadding(.horizontal, hPadding)
     }
-    .onChange(of: actualIndex) { _, b in
-      if loaded && !isUpdating{
-        isUpdating = true
-        withAnimation{
-          value = indexToValue(b)
+    .onChange(of: actualIndex) { _, newIndex in
+      guard loaded else { return }
+      
+      // Update local value immediately for smooth UI
+      let newValue = indexToValue(newIndex)
+      localValue = newValue
+      
+      // Play haptic feedback
+      if haptic {
+        AudioServicesPlayAlertSound(SystemSoundID(1460))
+      }
+      
+      // Debounce: cancel previous task and schedule new one
+      debounceTask?.cancel()
+      debounceTask = Task {
+        do {
+          try await Task.sleep(for: debounceDelay)
+          guard !Task.isCancelled else { return }
+          
+          // Update external binding only after delay
+          await MainActor.run {
+            if !doubleEqual(value, newValue) {
+              withAnimation {
+                value = newValue
+              }
+              AppLogger.ui.debug("WheelPicker: Updated external value to \(newValue, format: .fixed(precision: 2))")
+            }
+          }
+        } catch {
+          // Task was cancelled, ignore
         }
-        if haptic{
-          AudioServicesPlayAlertSound(SystemSoundID(1460))
-        }
-        isUpdating = false
       }
     }
-    .onChange(of: value) { _, b in
-      if loaded && !isUpdating{
-        isUpdating = true
-        withAnimation{
-          actualIndex = valueToIndex(b)
+    .onChange(of: value) { oldValue, newValue in
+      guard loaded else { return }
+      guard !doubleEqual(oldValue, newValue) else { return }
+      
+      // Only update if external value changed from outside
+      let currentLocal = indexToValue(actualIndex)
+      if !doubleEqual(currentLocal, newValue) {
+        withAnimation {
+          actualIndex = valueToIndex(newValue)
+          localValue = newValue
         }
-        if haptic{
-          AudioServicesPlayAlertSound(SystemSoundID(1460))
-        }
-        isUpdating = false
+        AppLogger.ui.debug("WheelPicker: External value changed to \(newValue, format: .fixed(precision: 2))")
+      }
+    }
+    .onDisappear {
+      // Flush any pending changes when view disappears
+      debounceTask?.cancel()
+      if !doubleEqual(value, localValue) {
+        value = localValue
       }
     }
   }
-  
-  @State private var isUpdating = false
 
   var status: Status {
-    if actualIndex == defaultIndex{
-      return Status.equal
-    } else if actualIndex < defaultIndex {
-      return Status.smaller
+    let compareIndex = valueToIndex(localValue)
+    if compareIndex == defaultIndex {
+      return .equal
+    } else if compareIndex < defaultIndex {
+      return .smaller
     } else {
-      return Status.bigger
+      return .bigger
     }
   }
   

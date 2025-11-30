@@ -12,9 +12,17 @@ struct WheelPickerView: View {
   let spacing: CGFloat
   
   @State private var rippleTrigger = 0
-  @State private var disabled = false
+  @State private var resetTask: Task<Void, Never>?
 
-  init(name: String, value: Binding<Double>, start: Int, end: Int, defaultValue: Int, systemImage: String, spacing: CGFloat = 13) {
+  init(
+    name: String,
+    value: Binding<Double>,
+    start: Int,
+    end: Int,
+    defaultValue: Int,
+    systemImage: String,
+    spacing: CGFloat = 13
+  ) {
     self.name = name
     self._value = value
     self.start = start
@@ -26,7 +34,7 @@ struct WheelPickerView: View {
   
   var numberType: NumberType {
     if doubleEqual(Double(defaultValue), value) {
-      return NumberType.dft("\(defaultValue)")
+      return .dft("\(defaultValue)")
     } else if value < Double(defaultValue) {
       return .smaller(String(format: "%.1f", value))
     } else {
@@ -68,36 +76,46 @@ struct WheelPickerView: View {
       }
       .background(Rectangle().fill(.gray.opacity(0.0001)))
 
-      WheelPicker(value: $value, start: start, end: end, defaultValue: defaultValue,spacing: spacing, haptic: pref.haptics)
-        .frame(height: 50)
+      WheelPicker(
+        value: $value,
+        start: start,
+        end: end,
+        defaultValue: defaultValue,
+        spacing: spacing,
+        haptic: pref.haptics
+      )
+      .frame(height: 50)
     }
-    .disabled(disabled)
     .onTapGesture(count: 2) {
-      value = Double(defaultValue)
-      // disable slider before animation ends
-      disabled = true
-      Task.detached{
-        try await  Task.sleep(for: .seconds(0.3))
-        Task{@MainActor in
-          disabled = false
-        }
-      }
-
-      Task.detached{
-        Task{@MainActor in
-          rippleTrigger += 1
-        }
-      }
+      resetToDefault()
     }
     .grayscale(doubleEqual(Double(defaultValue), value) ? 1 : 0)
     .opacity(doubleEqual(Double(defaultValue), value) ? 0.35 : 1)
+    .onDisappear {
+      resetTask?.cancel()
+    }
+  }
+  
+  private func resetToDefault() {
+    guard !doubleEqual(Double(defaultValue), value) else { return }
+    
+    withAnimation {
+      value = Double(defaultValue)
+      rippleTrigger += 1
+    }
   }
 }
 
 #Preview {
   @Previewable @State var value = 0.3
   Form {
-    WheelPickerView(name: "Temperature", value: $value,start: -1, end: 1,defaultValue: 0, systemImage: "thermometer.medium")
+    WheelPickerView(
+      name: "Temperature",
+      value: $value,
+      start: -1,
+      end: 1,
+      defaultValue: 0,
+      systemImage: "thermometer.medium"
+    )
   }
 }
-

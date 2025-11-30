@@ -229,6 +229,12 @@ struct ChatListView: View {
       isSettingWithAddProvider = true
       isSettingPresented = true
     }
+    .background {
+      RoundedRectangle(cornerRadius: 12)
+        .fill(Color(uiColor: .secondarySystemBackground))
+    }
+    .listRowBackground(Color.clear)
+    .listRowSeparator(.hidden)
   }
 
   @ViewBuilder

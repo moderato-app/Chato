@@ -31,13 +31,6 @@ struct EmptyProviderCard: View {
     .frame(maxWidth: .infinity)
     .padding(.vertical, 24)
     .padding(.horizontal, 20)
-    .background {
-      RoundedRectangle(cornerRadius: 12)
-        .fill(Color(uiColor: .secondarySystemBackground))
-    }
-    .listRowInsets(SwiftUICore.EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))
-    .listRowBackground(Color.clear)
-    .listRowSeparator(.hidden)
   }
 }
 

@@ -69,9 +69,9 @@ struct NewChatView: View {
       .navigationDestination(for: Prompt.self) { PromptEditorView($0) }
       .navigationDestination(for: String.self) { str in
         switch str {
-        case "prompt list":
+        case NavigationRoute.promptList:
           PromptListView(chatOption: chatOption)
-        case "new prompt":
+        case NavigationRoute.newPrompt:
           PromptCreateView { _ in }
         default:
           Text("navigationDestination not found for string: \(str)")

@@ -5,7 +5,6 @@ struct ChatOptionView: View {
   @Bindable private var chatOption: ChatOption
 
   @Query private var allModels: [ModelEntity]
-  @State private var showingModelSelection = false
 
   init(_ chatOption: ChatOption) {
     self.chatOption = chatOption
@@ -18,7 +17,7 @@ struct ChatOptionView: View {
   var body: some View {
     // let _ = Self.printChagesWhenDebug()
     Group {
-      NavigationLink(value: "prompt list") {
+      NavigationLink(value: NavigationRoute.promptList) {
         HStack {
           Label("Prompt", systemImage: "warninglight")
           if let name = chatOption.prompt?.name {
@@ -29,9 +28,7 @@ struct ChatOptionView: View {
         }
       }
 
-      Button {
-        showingModelSelection = true
-      } label: {
+      NavigationLink(value: NavigationRoute.modelSelection) {
         HStack {
           Label("Model", systemImage: "book")
           Spacer()
@@ -52,7 +49,6 @@ struct ChatOptionView: View {
             .foregroundColor(Color(uiColor: .tertiaryLabel))
         }
       }
-      .buttonStyle(.plain)
 
       VStack(alignment: .leading) {
         Label("Context Length", systemImage: "square.3.layers.3d.down.left")
@@ -65,9 +61,6 @@ struct ChatOptionView: View {
         .pickerStyle(.segmented)
         .selectionFeedback(chatOption.contextLength)
       }
-    }
-    .sheet(isPresented: $showingModelSelection) {
-      ModelSelectionView(chatOption: chatOption)
     }
   }
 }

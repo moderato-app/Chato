@@ -42,27 +42,6 @@ final class Provider {
     type.iconName
   }
   
-  var favoritedModels: [ModelEntity] {
-    models.filter { $0.favorited }.sorted { model1, model2 in
-      if model1.favorited != model2.favorited {
-        return model1.favorited
-      }
-      if model1.isCustom != model2.isCustom {
-        return model1.isCustom
-      }
-      return model1.resolvedName < model2.resolvedName
-    }
-  }
-  
-  var nonFavoritedModels: [ModelEntity] {
-    models.filter { !$0.favorited }.sorted { model1, model2 in
-      if model1.isCustom != model2.isCustom {
-        return model1.isCustom
-      }
-      return model1.resolvedName < model2.resolvedName
-    }
-  }
-  
   var allModelsSorted: [ModelEntity] {
     models.sorted { model1, model2 in
       if model1.favorited != model2.favorited {

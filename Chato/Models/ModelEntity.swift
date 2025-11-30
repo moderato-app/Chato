@@ -40,10 +40,6 @@ final class ModelEntity {
   var resolvedName: String {
     modelName ?? modelId
   }
-
-  var displayName: String {
-    return "\(provider.displayName) / \(resolvedName)"
-  }
 }
 
 extension Array where Element == ModelEntity {

@@ -50,6 +50,49 @@
 
 **构建状态**: ✅ 构建成功，无错误
 
+### 第二阶段删除（已验证构建成功）
+
+12. **Extensions/SwiftUI.swift**
+    - ✅ 删除 `SwitchablePickerStyle` ViewModifier
+    - ✅ 删除 `apply(transform:)` 函数
+    - ✅ 删除 `SwitchableScrollView` ViewModifier
+    - ✅ 删除 `KeyboardResponder` 类
+    - ✅ 删除 `SafeAreaInsetsKey` 和 `safeAreaInsets` 环境值
+    - ✅ 删除 `swiftUiInsets` 扩展
+    - ✅ 删除 `ViewOffsetKey` PreferenceKey
+    - ✅ 删除 `YRange` 结构体（yMin, yMax 未使用）
+    - ✅ 删除 `ViewPoint` PreferenceKey
+    - ✅ 删除 `heightPercent(_:)` 函数
+    - ✅ 删除 `allDetents` 属性（保留 mediumDetents 和 largeDetents）
+    - ✅ 删除 `Color.random` 属性
+    - ✅ 删除 `printChagesWhenDebug()` 函数
+    - ✅ 删除 `RectDetector` 和 `detectRect(_:)`
+    - ✅ 删除 `SizeDetector` 和 `detectSize(_:)`
+    - ✅ 删除 `SelectableModifier` 和 `selectable()` 函数
+    - ⚠️ 保留 `RemoveFocusOnTapModifier`（在 MessageList 中使用）
+
+13. **Models/Message.swift**
+    - ✅ 删除 `senderName` 属性
+
+14. **Models/ModelEntity.swift**
+    - ✅ 删除 `displayName` 属性
+
+15. **Models/ModelModel.swift**
+    - ✅ 删除 `sortOrder` 属性
+    - ✅ 删除 `provider` 计算属性
+    - ✅ 删除 `reIndex()` 扩展函数
+    - ✅ 删除 `Sortable` 协议的 `sortOrder` 要求（保留 `pos`）
+
+16. **Models/Provider.swift**
+    - ✅ 删除 `favoritedModels` 计算属性
+    - ✅ 删除 `nonFavoritedModels` 计算属性
+
+17. **Views/Widget/WheelPicker.swift**
+    - ✅ 删除 `valueToIndex(_: Int)` 重载函数
+    - ⚠️ 保留 `defaultValue`（在 init 中用于计算 defaultIndex）
+
+**构建状态**: ✅ 构建成功，无错误
+
 ## 未使用代码分类
 
 ### 🔴 高优先级 - 可以安全删除

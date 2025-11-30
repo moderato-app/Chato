@@ -3,20 +3,17 @@ import os
 
 struct PromptSample: Decodable {
   enum CodingKeys: CodingKey {
-    case languageCodes, prompts
+    case prompts
   }
 
-  let languageCodes: [String]
   let prompts: [Prompt]
 
   init() {
-    self.languageCodes = .init()
     self.prompts = .init()
   }
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.languageCodes = try container.decode([String].self, forKey: .languageCodes)
     self.prompts = try container.decode([Prompt].self, forKey: .prompts)
   }
 }

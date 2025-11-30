@@ -93,6 +93,52 @@
 
 **构建状态**: ✅ 构建成功，无错误
 
+### 第三阶段删除（已验证构建成功）
+
+18. **Models/Setting.swift**
+    - ✅ 删除 `computedColorScheme` 属性（Pref.swift 中有相同的实现）
+
+19. **Models/Data/ChatGPT.swift**
+    - ✅ 删除 `apiKeyExplainLlinks` 常量
+    - ✅ 删除 `apiKeyExplain` 常量
+
+20. **Models/Data/PromptSample.swift**
+    - ✅ 删除 `languageCodes` 属性和相关的 CodingKeys
+
+21. **Service/AppLogger.swift**
+    - ✅ 删除 `performance` Logger
+    - ✅ 删除 `AuditEntry` 结构体和相关方法
+    - ✅ 删除 `iso8601Formatter` 和 `jsonString(from:)` 函数
+    - ✅ 删除 `logAudit(_:)` 函数
+    - ✅ 删除 `PerformanceSession` 类和 `startPerformanceTracking(_:)` 函数
+    - ✅ 删除 `logValidationFailure(field:reason:value:)` 函数
+    - ✅ 删除 `logUIEvent(component:action:details:)` 函数
+    - ✅ 删除 `AuditEntry` 扩展
+
+22. **Service/AIClient.swift**
+    - ✅ 删除 `AIModel` 中未使用的属性：`created`, `architecture`, `pricing`, `topProvider`, `perRequestLimits`
+    - ✅ 删除 `Architecture` 结构体（`modality`, `tokenizer`, `instructType`）
+    - ✅ 删除 `Pricing` 结构体（`prompt`, `completion`, `image`, `request`）
+    - ✅ 删除 `TopProvider` 结构体（`contextLength`, `maxCompletionTokens`, `isModerated`）
+
+23. **StoreKit.swift**
+    - ✅ 删除 `RenewalInfo` 类型别名
+    - ✅ 删除 `RenewalState` 类型别名
+    - ✅ 删除 `subscriptionGroupStatus` 属性
+    - ⚠️ 保留 `coffeeCount`（在 SettingView 中使用）
+    - ⚠️ 保留 `purchase(_:)` 函数（在 SettingView+Purchase 中使用）
+    - ⚠️ 保留 `StoreError`（在 StoreKit.swift 内部使用）
+
+24. **Service/ModelFetcherFactory.swift**
+    - ⚠️ 保留 `providerType`（在初始化时使用）
+
+25. **Theme+Effect/Icons.swift**
+    - ✅ 删除 `SendIconLight` 结构体
+    - ✅ 删除 `SendIcon` 结构体
+    - ⚠️ 保留 `colorScheme`（在 ToBottomIcon 中使用）
+
+**构建状态**: ✅ 构建成功，无错误
+
 ## 未使用代码分类
 
 ### 🔴 高优先级 - 可以安全删除

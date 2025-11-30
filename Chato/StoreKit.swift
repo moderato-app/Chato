@@ -2,15 +2,10 @@ import Foundation
 import os
 import StoreKit
 
-typealias RenewalInfo = StoreKit.Product.SubscriptionInfo.RenewalInfo
-typealias RenewalState = StoreKit.Product.SubscriptionInfo.RenewalState
-
-
 class StoreVM: ObservableObject {
   @Published private(set) var presetProducts: [Product] = []
   @Published private(set) var purchasedSubscriptions: [Product] = []
   @Published private(set) var purchasedConsumable: [Product] = []
-  @Published private(set) var subscriptionGroupStatus: RenewalState?
 
   @Published public var coffeeCount: Int {
     didSet {

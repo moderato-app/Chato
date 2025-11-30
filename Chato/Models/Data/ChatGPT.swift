@@ -62,9 +62,3 @@ let contextLengthChoices = [
   ContextLength.infinite
 ]
 
-let apiKeyExplainLlinks = [
-  ("How to get your ChatGPT API key?", "https://www.merge.dev/blog/chatgpt-api-key"),
-  ("OpenAI’s official API keys webpage", "https://platform.openai.com/api-keys")
-]
-
-let apiKeyExplain = "OpenAI offers an API that lets developers add GPT models, like ChatGPT, to their apps. A ChatGPT API key is a unique code you need to access and use the OpenAI API. Each key is tied to a specific user or organization and must be kept private because it grants access to the API and any associated costs."

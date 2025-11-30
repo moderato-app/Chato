@@ -63,54 +63,13 @@ struct ModelResponse: Codable {
 }
 
 struct AIModel: Codable {
-  // OpenAI
   let id: String
-  let created: Int
-
-  // OpenRouter
   let name: String?
   let description: String?
   let contextLength: Int?
-  let architecture: Architecture?
-  let pricing: Pricing?
-  let topProvider: TopProvider?
-  let perRequestLimits: String?
 
   enum CodingKeys: String, CodingKey {
-    case id, name, created, description
+    case id, name, description
     case contextLength
-    case architecture, pricing
-    case topProvider
-    case perRequestLimits
-  }
-}
-
-struct Architecture: Codable {
-  let modality: String?
-  let tokenizer: String?
-  let instructType: String?
-
-  enum CodingKeys: String, CodingKey {
-    case modality, tokenizer
-    case instructType
-  }
-}
-
-struct Pricing: Codable {
-  let prompt: String?
-  let completion: String?
-  let image: String?
-  let request: String?
-}
-
-struct TopProvider: Codable {
-  let contextLength: Int?
-  let maxCompletionTokens: Int?
-  let isModerated: Bool?
-
-  enum CodingKeys: String, CodingKey {
-    case contextLength
-    case maxCompletionTokens
-    case isModerated
   }
 }

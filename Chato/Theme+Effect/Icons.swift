@@ -29,52 +29,6 @@ struct ClearIcon: View {
   }
 }
 
-struct SendIconLight: View {
-  @Environment(\.colorScheme) var colorScheme
-  let font: Font
-
-  init(_ font: Font = .body) {
-    self.font = font
-  }
-
-  var body: some View {
-    Image(systemName: "circle.fill")
-      .font(font)
-      .fontWeight(.light)
-      .if(colorScheme == .light) { $0.foregroundStyle(.background) }
-      .if(colorScheme == .dark) { $0.foregroundStyle(Color(hex: "343434")) }
-      .overlay {
-        Image(systemName: "arrow.up.circle")
-          .font(font)
-          .fontWeight(.light)
-          .symbolRenderingMode(.monochrome)
-          .foregroundColor(.green)
-      }
-  }
-}
-
-struct SendIcon: View {
-  let font: Font
-
-  init(_ font: Font = .body) {
-    self.font = font
-  }
-
-  var body: some View {
-    Image(systemName: "circle.fill")
-      .font(font)
-      .fontWeight(.light)
-      .foregroundStyle(.background)
-      .overlay {
-        Image(systemName: "arrow.up.circle.fill")
-          .font(font)
-          .fontWeight(.light)
-          .symbolRenderingMode(.palette)
-          .tint(.green)
-          .foregroundStyle(.background, .green, .green)
-      }
-  }
-}
 
 struct ToBottomIcon: View {
   @Environment(\.colorScheme) var colorScheme

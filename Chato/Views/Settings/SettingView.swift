@@ -6,167 +6,36 @@ import SwiftUI
 
 struct SettingView: View {
   @EnvironmentObject var pref: Pref
-  @Environment(\.dismiss) private var dismiss
+  @Environment(\.dismiss) var dismiss
   @Environment(\.colorScheme) var colorScheme
-  @Environment(\.modelContext) private var modelContext
+  @Environment(\.modelContext) var modelContext
   @EnvironmentObject var storeVM: StoreVM
   
-  @Query(sort: \Provider.createdAt, order: .reverse) private var providers: [Provider]
+  @Query(sort: \Provider.createdAt, order: .reverse) var providers: [Provider]
   
-  @State private var showingAddProvider = false
+  @State var showingAddProvider = false
 
   var body: some View {
     NavigationView {
       List {
-        Section {
-          VStack(alignment: .leading) {
-            Label("Color Scheme", systemImage: "paintpalette")
-              .symbolRenderingMode(.multicolor)
-              .modifier(RippleEffect(at: .zero, trigger: pref.colorScheme))
-            Picker("", selection: $pref.colorScheme) {
-              ForEach(Pref.AppColorScheme.allCases, id: \.self) { c in
-                Text("\(c.rawValue)")
-              }
-            }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-            .selectionFeedback(pref.colorScheme)
-          }
-
-          HStack {
-            Label("3D Scrolling", systemImage: "cube")
-              .symbolRenderingMode(.multicolor)
-            Toggle("", isOn: $pref.magicScrolling.animation())
-          }
-        } header: { Text("Appearance") } footer: {
-          if pref.magicScrolling {
-            Text("Move messages to the background when it goes off-screen.")
-          }
-        }
-        .textCase(.none)
-
-        Section {
-          if providers.isEmpty {
-            ContentUnavailableView {
-              Label("No Providers", systemImage: "cube.box")
-            } description: {
-              Text("Add a provider to get started")
-            }
-          } else {
-            ForEach(providers) { provider in
-              NavigationLink {
-                ProviderDetailView(provider: provider)
-              } label: {
-                ProviderRow(provider: provider)
-              }
-            }
-            .onDelete(perform: deleteProviders)
-          }
-          
-          Button {
-            showingAddProvider = true
-          } label: {
-            Label("Add Provider", systemImage: "plus.circle.fill")
-              .foregroundColor(.accentColor)
-          }
-        } header: {
-          Text("AI Providers")
-        }
-        .textCase(.none)
-
+        appearanceSection
+        
+        providersSection
+        
         ChatGPTSettingSection()
-
-        Section {
-          HStack {
-            Label("Haptic Feedback", systemImage: "iphone.gen2.radiowaves.left.and.right")
-              .symbolRenderingMode(.multicolor)
-              .modifier(RippleEffect(at: .zero, trigger: pref.haptics))
-            Toggle("", isOn: $pref.haptics)
-          }
-          HStack {
-            Label("Double Tap", systemImage: "hand.tap")
-              .symbolRenderingMode(.multicolor)
-            Spacer()
-            Picker("Double Tap", selection: $pref.doubleTapAction.animation()) {
-              ForEach(DoubleTapAction.allCases, id: \.self) { c in
-                Text("\(c.rawValue)")
-              }
-            }
-            .labelsHidden()
-            .selectionFeedback(pref.doubleTapAction)
-          }
-          HStack {
-            Label("Tripple Tap", systemImage: "hand.tap")
-              .symbolRenderingMode(.multicolor)
-            Spacer()
-            Picker("Tripple Tap", selection: $pref.trippleTapAction.animation()) {
-              ForEach(DoubleTapAction.allCases, id: \.self) { c in
-                Text("\(c.rawValue)")
-              }
-            }
-            .labelsHidden()
-            .selectionFeedback(pref.trippleTapAction)
-          }
-        } header: { Text("App") } footer: {
-          if pref.doubleTapAction == .reuse {
-            Text("Double-tap a message to input it, and double-tap again to withdraw.")
-          }
-          if pref.trippleTapAction == .reuse {
-            Text("Tripple-tap a message to input it, and tripple-tap again to withdraw.")
-          }
-        }
-        .textCase(.none)
-
+        
+        appSection
+        
         OtherViewGroup()
-
-        NavigationLink {
-          DangerZoneView()
-        } label: {
-          Label {
-            Text("Danger Zone")
-          } icon: {
-            Image(systemName: "exclamationmark.circle")
-              .foregroundColor(.pink)
-          }
-        }
-
+        
+        dangerZoneLink
+        
         #if DEBUG
-        NavigationLink {
-          DebugZoneView()
-        } label: {
-          Label {
-            Text("Debug")
-          } icon: {
-            Image(systemName: "ladybug.circle")
-              .foregroundColor(.teal)
-          }
-        }
+        debugZoneLink
         #endif
-
-        Section {
-          ProductView(id: cofferProductId)
-            .productViewStyle(.compact)
-
-          if storeVM.coffeeCount > 0 {
-            let icons = CoffeeIcons(storeVM.coffeeCount)
-            ScrollView(.horizontal) {
-              HStack {
-                ForEach(icons.indices, id: \.self) { i in
-                  Image(systemName: icons[i])
-                    .foregroundColor(randomColor(i))
-                }
-              }
-            }
-            .scrollIndicators(.hidden)
-          }
-        } footer: {
-          HStack(alignment: .center, spacing: 0) {
-            Image(systemName: "cup.and.saucer")
-            Text(" × \(storeVM.coffeeCount)")
-          }
-        }
-        .textCase(.none)
-
+        
+        purchaseSection
+        
         Color.clear.frame(height: 100)
           .listRowBackground(Color.clear)
       }
@@ -184,76 +53,6 @@ struct SettingView: View {
       }
       .navigationTitle("Settings")
       .navigationBarTitleDisplayMode(.inline)
-    }
-  }
-
-  func buy(product: Product) async {
-    do {
-      if try await storeVM.purchase(product) != nil {
-        AppLogger.audit.info("purchase succeeded")
-      }
-    } catch {
-      AppLogger.error.error("purchase failed: \(error.localizedDescription)")
-    }
-  }
-
-  func CoffeeIcons(_ count: Int) -> [String] {
-    return (0 ..< count).map { i in
-      if i % 2 == 0 {
-        return "cup.and.saucer"
-      } else {
-        return "cup.and.saucer.fill"
-      }
-    }
-  }
-
-  func randomColor(_ i: Int) -> Color {
-    let colors = [Color.primary,
-                  Color.secondary,
-                  Color.blue,
-                  Color.pink,
-                  Color.green,
-                  Color.yellow,
-                  Color.teal,
-                  Color.indigo,
-                  Color.yellow,
-                  Color.purple,
-                  Color.cyan]
-    return colors[i % colors.count]
-  }
-  
-  private func deleteProviders(at offsets: IndexSet) {
-    for index in offsets {
-      let provider = providers[index]
-      modelContext.delete(provider)
-    }
-  }
-}
-
-struct ProviderRow: View {
-  let provider: Provider
-  
-  var body: some View {
-    HStack {
-      Image(systemName: provider.iconName)
-        .foregroundColor(.accentColor)
-        .frame(width: 24, height: 24)
-      
-      VStack(alignment: .leading, spacing: 4) {
-        Text(provider.displayName)
-          .font(.body)
-        
-        Text("\(provider.models.count) models")
-          .font(.caption)
-          .foregroundColor(.secondary)
-      }
-      
-      Spacer()
-      
-      if !provider.enabled {
-        Image(systemName: "exclamationmark.triangle")
-          .foregroundColor(.orange)
-      }
     }
   }
 }

@@ -1,6 +1,5 @@
 import SwiftUI
 
-let companyEmail = "support@moderato.app"
 let privacyHTTPS = "https://chato.moderato.app/privacy"
 let termsHTTPS = "https://chato.moderato.app/terms"
 let testFlightHTTPS = "https://testflight.apple.com/join/axaO3S26"

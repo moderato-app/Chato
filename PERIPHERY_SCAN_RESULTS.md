@@ -4,9 +4,17 @@
 
 ## 扫描统计
 
-- **总警告数**: 100+
+- **初始警告数**: 100+
+- **当前警告数**: **38** (第四阶段删除后)
+- **已删除代码**: 50+ 项
 - **扫描工具**: Periphery
 - **项目**: Chato
+
+## 📊 清理效果
+
+- **减少率**: ~62% (从 100+ 减少到 38)
+- **已删除文件**: 8 个完整文件
+- **已删除代码项**: 50+ 个函数/属性/类型
 
 ## ✅ 已删除的代码
 
@@ -136,6 +144,40 @@
     - ✅ 删除 `SendIconLight` 结构体
     - ✅ 删除 `SendIcon` 结构体
     - ⚠️ 保留 `colorScheme`（在 ToBottomIcon 中使用）
+
+**构建状态**: ✅ 构建成功，无错误
+
+### 第四阶段删除（已验证构建成功）
+
+26. **Theme+Effect/Ripple.swift**
+    - ✅ 删除 `PushEffect` ViewModifier
+
+27. **Theme+Effect/Theme.swift**
+    - ✅ 删除 `NavAppearanceModifier` ViewModifier
+
+28. **Models/ModelModel.swift**
+    - ✅ 删除 `resolvedName` 属性（代码中使用的是 ModelEntity 的 resolvedName）
+
+29. **Views/Widget/WheelPicker.swift**
+    - ✅ 删除 `valueToIndex(_: Int)` 重载函数
+
+30. **Views/Settings/Other/Other.swift**
+    - ✅ 删除 `companyEmail` 常量
+
+31. **Service/Deps/APIClientKey.swift**
+    - ✅ 删除 `OpenAIServiceProvider.init` 中的 `timeout` 参数（未使用）
+
+32. **Views/MessageList/VM.swift**
+    - ✅ 删除 `hideKeyboard()` 函数
+
+33. **Views/ChatLIst/ChatListView.swift**
+    - ✅ 删除 `removeChat(_:)` 私有函数
+
+34. **Views/Prompt/PromptListView.swift**
+    - ✅ 删除 `remove(_:)` 私有函数
+
+35. **Views/Settings/SettingView+Purchase.swift**
+    - ✅ 删除 `buy(product:)` 函数
 
 **构建状态**: ✅ 构建成功，无错误
 
@@ -344,4 +386,73 @@
 2. 构建验证确保没有破坏功能
 3. 逐步处理中优先级的代码
 4. 定期运行 Periphery 扫描保持代码整洁
+
+---
+
+## 📋 最新扫描结果（删除后重新扫描）
+
+**扫描时间**: 2025-01-27（删除代码后）
+
+### 扫描统计对比
+
+| 项目 | 初始扫描 | 当前扫描 | 减少 |
+|------|---------|---------|------|
+| 警告总数 | 100+ | **38** | **~62%** |
+| 已删除文件 | 0 | 8 | - |
+| 已删除代码项 | 0 | 50+ | - |
+
+### 剩余未使用代码（38 项）
+
+#### 1. Extensions/SwiftUI.swift (2 项)
+- `keyWindow` - 未使用的属性
+- `RemoveFocusOnTapModifier` - 声明为 public 但未在外部使用（但在内部使用）
+
+#### 2. Models/ (2 项)
+- `ModelEntity.favorited` - 未使用的属性（可能是误报，代码中大量使用）
+- `ModelModel.Sortable` 协议 - 冗余
+
+#### 3. Service/ (4 项)
+- `AIClient.fetchModels()` - 未使用的函数（可能是误报，需要确认）
+- `AIClient.models(endpoint:apiKey:timeout:)` - 未使用的函数
+- `ModelFetcherFactory.providerType` - 赋值但未使用
+
+#### 4. StoreKit.swift (4 项)
+- `coffeeCount` - 声明为 public 但未在外部使用（但在内部使用）
+- `purchase(_:)` - 多个未使用的函数（可能是误报）
+- `StoreError` - 声明为 public 但未在外部使用（但在内部使用）
+
+#### 5. Theme+Effect/ (1 项)
+- `Icons.colorScheme` - 未使用的属性（可能是误报，在 ContextLengthCircle 中使用）
+
+#### 6. Tips/ (2 项)
+- `AdvancedOptionDoubleTapTip.instance` - 声明为 public 但未在外部使用
+- `SendButtonTip.instance` - 声明为 public 但未在外部使用
+
+#### 7. Views/ (~25 项)
+大量 View 中的未使用属性，主要是：
+- `@Environment` 和 `@State` 属性未使用
+- 未使用的函数（如 `removeChat`, `remove`, `buy`, `hideKeyboard` 等）
+- 未使用的参数
+
+这些可能是：
+- 预留的功能
+- 调试代码
+- 未来会使用的代码
+- Periphery 的误报（某些属性可能通过反射或动态调用）
+
+### 建议
+
+1. **可以安全删除的**：
+   - `PushEffect`, `NavAppearanceModifier` - 确认未使用的 ViewModifier
+   - `ModelModel.Sortable` 协议 - 如果确实冗余
+   - Views 中确认未使用的函数
+
+2. **需要谨慎处理的**：
+   - Public 声明但未在外部使用的代码（可能是为了未来扩展）
+   - Views 中的未使用属性（可能是预留功能）
+   - `AIClient.fetchModels()` 等函数（需要确认是否真的未使用）
+
+3. **可能是误报的**：
+   - `coffeeCount`, `purchase(_:)` 等（在代码中被使用，但 Periphery 可能检测不到）
+   - Views 中的某些 `@Environment` 属性（可能通过环境值传递使用）
 

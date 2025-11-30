@@ -22,9 +22,6 @@ final class ModelModel: Sortable {
     self.pos = Int(Date().timeIntervalSince1970 * 1000)
   }
 
-  var resolvedName: String {
-    name ?? modelNames[modelId] ?? modelId
-  }
 }
 
 protocol Sortable: AnyObject {

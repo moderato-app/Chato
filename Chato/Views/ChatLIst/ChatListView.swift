@@ -238,9 +238,6 @@ struct ChatListView: View {
     updatedItems.reIndex()
   }
 
-  private func removeChat(_ chat: Chat) {
-    modelContext.delete(chat)
-  }
 
   private func duplicate(_ chat: Chat) {
     let newChat = chat.clone()

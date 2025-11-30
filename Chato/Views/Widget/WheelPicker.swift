@@ -186,10 +186,6 @@ struct WheelPicker: View {
   func valueToIndex(_ value: Double) -> Int {
     return Int(round((value - Double(start)) * Double(steps)))
   }
-
-  func valueToIndex(_ value: Int) -> Int {
-    return Int(round((Double(value) - Double(start)) * Double(steps)))
-  }
 }
 
 #Preview("GPTWheelPicker") {

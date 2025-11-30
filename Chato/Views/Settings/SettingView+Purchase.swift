@@ -30,14 +30,5 @@ extension SettingView {
     .textCase(.none)
   }
   
-  func buy(product: Product) async {
-    do {
-      if try await storeVM.purchase(product) != nil {
-        AppLogger.audit.info("purchase succeeded")
-      }
-    } catch {
-      AppLogger.error.error("purchase failed: \(error.localizedDescription)")
-    }
-  }
 }
 

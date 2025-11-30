@@ -5,7 +5,7 @@ import SwiftData
 
 @Model
 final class ModelEntity {
-  @Attribute(.unique, originalName: "modelId") var modelId: String
+  @Attribute(originalName: "modelId") var modelId: String = ""
   @Attribute(originalName: "modelName") var modelName: String?
   @Attribute(originalName: "contextLength") var contextLength: Int?
   @Attribute(originalName: "favorited") var favorited: Bool

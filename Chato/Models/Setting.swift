@@ -56,17 +56,6 @@ extension AppStateModel: Hashable {
     case dark = "Dark"
   }
 
-  @Transient
-  var computedColorScheme: ColorScheme? {
-    switch colorScheme {
-    case .light:
-      return ColorScheme.light
-    case .dark:
-      return ColorScheme.dark
-    case .system:
-      return nil
-    }
-  }
 }
 
 extension Functionality {

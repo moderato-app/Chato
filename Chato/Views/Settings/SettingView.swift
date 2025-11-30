@@ -1,13 +1,19 @@
 import ConfettiSwiftUI
 import os
 import StoreKit
+import SwiftData
 import SwiftUI
 
 struct SettingView: View {
   @EnvironmentObject var pref: Pref
   @Environment(\.dismiss) private var dismiss
   @Environment(\.colorScheme) var colorScheme
+  @Environment(\.modelContext) private var modelContext
   @EnvironmentObject var storeVM: StoreVM
+  
+  @Query(sort: \Provider.createdAt, order: .reverse) private var providers: [Provider]
+  
+  @State private var showingAddProvider = false
 
   var body: some View {
     NavigationView {
@@ -40,15 +46,28 @@ struct SettingView: View {
         .textCase(.none)
 
         Section {
-          NavigationLink {
-            ProvidersView()
-          } label: {
-            Label {
-              Text("Providers")
-            } icon: {
-              Image(systemName: "cube.box")
-                .foregroundColor(.accentColor)
+          if providers.isEmpty {
+            ContentUnavailableView {
+              Label("No Providers", systemImage: "cube.box")
+            } description: {
+              Text("Add a provider to get started")
             }
+          } else {
+            ForEach(providers) { provider in
+              NavigationLink {
+                ProviderDetailView(provider: provider)
+              } label: {
+                ProviderRow(provider: provider)
+              }
+            }
+            .onDelete(perform: deleteProviders)
+          }
+          
+          Button {
+            showingAddProvider = true
+          } label: {
+            Label("Add Provider", systemImage: "plus.circle.fill")
+              .foregroundColor(.accentColor)
           }
         } header: {
           Text("AI Models")
@@ -153,6 +172,9 @@ struct SettingView: View {
       }
       .animation(.default, value: colorScheme)
       .confettiCannon(counter: $storeVM.coffeeCount, num: 100, radius: 400)
+      .sheet(isPresented: $showingAddProvider) {
+        AddProviderView()
+      }
       .toolbar {
         ToolbarItem(placement: .confirmationAction) {
           Button("Done") {
@@ -198,6 +220,41 @@ struct SettingView: View {
                   Color.purple,
                   Color.cyan]
     return colors[i % colors.count]
+  }
+  
+  private func deleteProviders(at offsets: IndexSet) {
+    for index in offsets {
+      let provider = providers[index]
+      modelContext.delete(provider)
+    }
+  }
+}
+
+struct ProviderRow: View {
+  let provider: Provider
+  
+  var body: some View {
+    HStack {
+      Image(systemName: provider.iconName)
+        .foregroundColor(.accentColor)
+        .frame(width: 24, height: 24)
+      
+      VStack(alignment: .leading, spacing: 4) {
+        Text(provider.displayName)
+          .font(.body)
+        
+        Text("\(provider.models.count) models")
+          .font(.caption)
+          .foregroundColor(.secondary)
+      }
+      
+      Spacer()
+      
+      if !provider.enabled {
+        Image(systemName: "exclamationmark.triangle")
+          .foregroundColor(.orange)
+      }
+    }
   }
 }
 

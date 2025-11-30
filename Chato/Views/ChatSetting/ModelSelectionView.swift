@@ -38,15 +38,8 @@ struct ModelSelectionContent: View {
   let dismiss: DismissAction
   
   private var favoritedModels: [ModelEntity] {
-    allModels.filter { $0.favorited }.sorted { model1, model2 in
-      if model1.favorited != model2.favorited {
-        return model1.favorited
-      }
-      if model1.isCustom != model2.isCustom {
-        return model1.isCustom
-      }
-      return model1.resolvedName < model2.resolvedName
-    }
+    let filtered = allModels.filter { $0.favorited }
+    return ModelEntity.smartSort(filtered)
   }
   
   private var filteredModels: [ModelEntity] {
@@ -65,23 +58,26 @@ struct ModelSelectionContent: View {
   }
   
   var body: some View {
-    List {
-      favoritesSection
-      providerSections
-      emptyStateViews
-    }
-    .searchable(text: $searchText, prompt: "Search models")
-    .navigationTitle("Select Model")
-    .navigationBarTitleDisplayMode(.inline)
-    .toolbar {
-      ToolbarItem(placement: .topBarTrailing) {
-        Button("Done") {
-          dismiss()
+    ScrollViewReader { proxy in
+      List {
+        favoritesSection
+        providerSections
+        emptyStateViews
+      }
+      .searchable(text: $searchText, prompt: "Search models")
+      .navigationTitle("Select Model")
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          Button("Done") {
+            dismiss()
+          }
         }
       }
-    }
-    .onAppear {
-      expandInitialSections()
+      .onAppear {
+        expandInitialSections()
+        scrollToSelectedModel(proxy: proxy)
+      }
     }
   }
   
@@ -104,6 +100,7 @@ struct ModelSelectionContent: View {
         ) {
           selectModel(model)
         }
+        .id(model.id)
       }
     } label: {
       Label("Favorites", systemImage: "star.fill")
@@ -130,6 +127,7 @@ struct ModelSelectionContent: View {
         ) {
           selectModel(model)
         }
+        .id(model.id)
       }
     } label: {
       HStack {
@@ -137,6 +135,7 @@ struct ModelSelectionContent: View {
         Text(group.provider.displayName)
       }
     }
+    .tint(.secondary)
   }
   
   private func providerBinding(for providerId: PersistentIdentifier) -> Binding<Bool> {
@@ -177,8 +176,28 @@ struct ModelSelectionContent: View {
   }
   
   private func expandInitialSections() {
-    if expandedProviders.isEmpty {
-      expandedProviders = Set(groupedProviders.map { $0.provider.id })
+    guard expandedProviders.isEmpty else { return }
+    
+    // Check if selected model exists and is not in favorites
+    if let selectedModel = chatOption.model,
+       !favoritedModels.contains(where: { $0.id == selectedModel.id }) {
+      // Find and expand only the provider containing the selected model
+      if let providerGroup = groupedProviders.first(where: { group in
+        group.models.contains(where: { $0.id == selectedModel.id })
+      }) {
+        expandedProviders = [providerGroup.provider.id]
+      }
+    }
+    // Otherwise, all providers remain collapsed (only favorites is expanded)
+  }
+  
+  private func scrollToSelectedModel(proxy: ScrollViewProxy) {
+    guard let selectedModel = chatOption.model else { return }
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+      withAnimation {
+        proxy.scrollTo(selectedModel.id, anchor: .center)
+      }
     }
   }
   

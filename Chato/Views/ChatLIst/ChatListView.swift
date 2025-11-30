@@ -149,7 +149,7 @@ struct ChatListView: View {
         }.fontWeight(.semibold)
       } else {
         Menu("", systemImage: "ellipsis.circle") {
-          NavigationLink(value: "prompt list") {
+          NavigationLink(value: NavigationRoute.promptList) {
             Label("Prompts", systemImage: "p.square")
           }
           if !chats.isEmpty {

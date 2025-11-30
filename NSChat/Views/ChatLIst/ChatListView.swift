@@ -42,8 +42,11 @@ struct ChatListView: View {
         SettingView(autoShowAddProvider: isSettingWithAddProvider)
           .preferredColorScheme(colorScheme)
           .presentationDetents([.large])
-      } onDismiss: {
-        isSettingWithAddProvider = false
+      }
+      .onChange(of: isSettingPresented) { oldValue, newValue in
+        if !newValue {
+          isSettingWithAddProvider = false
+        }
       }
       .sheet(isPresented: $isNewChatPresented) {
         NewChatView()

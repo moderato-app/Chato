@@ -10,19 +10,7 @@ class Pref: ObservableObject {
   @AppStorage("magicScrolling") var magicScrolling: Bool = true
 
   @AppStorage("colorScheme") var colorScheme: AppColorScheme = .system
-
-  // ChatGPT
-  @AppStorage("gptApiKey") var gptApiKey: String = ""
-  @AppStorage("gptUseProxy") var gptEnableEndpoint: Bool = false
-  @AppStorage("gptEndpoint") var gptEndpoint: String = "https://api.openai.com"
-
-  var resolvedEndpoint: String {
-    if gptEnableEndpoint {
-      return gptEndpoint
-    }
-    return "https://api.openai.com"
-  }
-  
+ 
   // ChatGPT last used option
   @AppStorage("lastUsedContextLength") var lastUsedContextLength: Int?
   @AppStorage("lastUsedPromptId") var lastUsedPromptId: String?
@@ -30,8 +18,6 @@ class Pref: ObservableObject {
   // Fill data record
   @AppStorage("fillDataRecordGreeting") var fillDataRecordGreeting: Bool = false
   @AppStorage("fillDataRecordPrompts") var fillDataRecordPrompts: Bool = false
-  
-  @AppStorage("migratedToProviderModel") var migratedToProviderModel: Bool = false
 
   func reset() {
     let newPref = Pref()
@@ -39,9 +25,6 @@ class Pref: ObservableObject {
     self.doubleTapAction = newPref.doubleTapAction
     self.magicScrolling = newPref.magicScrolling
     self.colorScheme = newPref.colorScheme
-    self.gptApiKey = newPref.gptApiKey
-    self.gptEnableEndpoint = newPref.gptEnableEndpoint
-    self.gptEndpoint = newPref.gptEndpoint
     self.lastUsedContextLength = newPref.lastUsedContextLength
     self.lastUsedPromptId = newPref.lastUsedPromptId
     self.fillDataRecordGreeting = newPref.fillDataRecordGreeting

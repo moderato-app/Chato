@@ -9,10 +9,12 @@ struct ChatListView: View {
   @Environment(\.colorScheme) private var colorScheme
   @EnvironmentObject var em: EM
   @Query(sort: \Chat.createdAt) private var chats: [Chat]
+  @Query private var providers: [Provider]
 
   @State private var settingsDetent = PresentationDetent.medium
   @State private var isSettingPresented = false
   @State private var isNewChatPresented = false
+  @State private var isAddProviderPresented = false
 
   @State var isDeleteConfirmPresented: Bool = false
   @State var isMultiDeleteConfirmPresented: Bool = false
@@ -47,6 +49,10 @@ struct ChatListView: View {
             selection: $settingsDetent
           )
       }
+      .sheet(isPresented: $isAddProviderPresented) {
+        AddProviderView()
+          .preferredColorScheme(colorScheme)
+      }
   }
 
   @State var selectedChatIDs = Set<PersistentIdentifier>()
@@ -54,6 +60,12 @@ struct ChatListView: View {
   @ViewBuilder
   func list() -> some View {
     List(selection: $selectedChatIDs) {
+      if providers.isEmpty {
+        Section {
+          emptyProviderCard()
+        }
+      }
+
       ForEach(chats, id: \.persistentModelID) { chat in
         ChatRowView(chat: chat)
           .listRowInsets(SwiftUICore.EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 10))
@@ -204,6 +216,44 @@ struct ChatListView: View {
   }
 
   @ViewBuilder
+  func emptyProviderCard() -> some View {
+    VStack(spacing: 16) {
+      Image(systemName: "cube.box")
+        .font(.system(size: 48))
+        .foregroundStyle(.secondary)
+
+      Text("No AI Provider")
+        .font(.headline)
+
+      Text("Add an AI provider to start chatting")
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        .multilineTextAlignment(.center)
+
+      Button {
+        isAddProviderPresented = true
+      } label: {
+        HStack {
+          Image(systemName: "plus.circle.fill")
+            .backgroundStyle(.foreground)
+          Text("Add Provider")
+        }
+      }
+      .buttonStyle(.borderedProminent)
+      .controlSize(.regular)
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.vertical, 24)
+    .padding(.horizontal, 20)
+    .background {
+      RoundedRectangle(cornerRadius: 12)
+        .fill(Color(uiColor: .secondarySystemBackground))
+    }
+    .listRowInsets(SwiftUICore.EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))
+    .listRowBackground(Color.clear)
+  }
+
+  @ViewBuilder
   func menuItems(chat: Chat) -> some View {
     let msgCount = chat.messages.count
     Button("Duplicate", systemImage: "document.on.document") {
@@ -236,7 +286,6 @@ struct ChatListView: View {
     updatedItems.move(fromOffsets: source, toOffset: destination)
     updatedItems.reIndex()
   }
-
 
   private func duplicate(_ chat: Chat) {
     let newChat = chat.clone()

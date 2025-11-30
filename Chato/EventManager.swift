@@ -3,7 +3,6 @@ import SwiftData
 
 class EM: ObservableObject {
   static let shared = EM()
-  let exampleEvent = PassthroughSubject<Void, Never>()
   let messageEvent = PassthroughSubject<MessageEventType, Never>()
 
   let reUseTextEvent = PassthroughSubject<String, Never>()

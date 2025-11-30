@@ -98,7 +98,7 @@ struct NormalMsgView: View {
         .weakFeedback(msg.message)
       }
       if msg.status == .error {
-        ErrorView(msg.errorInfo, msg.errorType)
+        ErrorView(msg.errorInfo, msg.errorType, provider: msg.chat?.option.model?.provider)
           .translationPresentation(isPresented: $translationVisible, text: msg.errorInfo) { trans in
             msg.errorInfo = trans
           }

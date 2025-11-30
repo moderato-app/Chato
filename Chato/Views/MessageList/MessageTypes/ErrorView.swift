@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 
 struct ErrorView: View {
@@ -5,12 +6,14 @@ struct ErrorView: View {
 
   let errorInfo: String
   let errorType: Message.MessageErrorType
+  let provider: Provider?
 
   @State private var isSettingPresented = false
 
-  init(_ errorInfo: String, _ errorType: Message.MessageErrorType) {
+  init(_ errorInfo: String, _ errorType: Message.MessageErrorType, provider: Provider? = nil) {
     self.errorInfo = errorInfo
     self.errorType = errorType
+    self.provider = provider
   }
 
   var body: some View {
@@ -49,12 +52,16 @@ struct ErrorView: View {
         .foregroundColor(.orange)
     }
     .sheet(isPresented: $isSettingPresented) {
-      ChatGPTSettingView()
-        .presentationDetents([.medium])
+      if let provider = provider {
+        NavigationStack {
+          ProviderDetailView(provider: provider)
+        }
+        .presentationDetents([.large])
+      }
     }
   }
 }
 
 #Preview {
-  ErrorView("So Bad", .apiKey)
+  ErrorView("So Bad", Message.MessageErrorType.apiKey, provider: nil)
 }

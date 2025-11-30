@@ -24,9 +24,3 @@ struct ChatGPTSettingView: View {
     }
   }
 }
-
-#Preview("SettingView") {
-  LovelyPreview {
-    ChatGPTSettingView()
-  }
-}

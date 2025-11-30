@@ -93,8 +93,5 @@ struct ChatGPTSettingSection: View {
 
 #Preview("SettingView") {
   LovelyPreview {
-    Form {
-      ChatGPTSettingSection()
-    }
   }
 }

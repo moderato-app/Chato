@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		EB1B46DF2EDAF0AD00FD053A /* AIProxy in Frameworks */ = {isa = PBXBuildFile; productRef = EB1B46DE2EDAF0AD00FD053A /* AIProxy */; };
-		EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = EB4A0EE42B6F908D0065BCDC /* OpenAI */; };
 		EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB8FB4F22C3940D60041833B /* MarkdownUI */; };
 		EB9E72042BCAB7DF00D5B110 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */; };
 		EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */ = {isa = PBXBuildFile; productRef = EBA73E2E2CDD3006007E480C /* VisualEffectView */; };
@@ -61,7 +60,6 @@
 			files = (
 				EBC1F9092D1853F50008D5E7 /* Fakery in Frameworks */,
 				EBCFF3952B6FF4CC00498E1E /* Throttler in Frameworks */,
-				EB4A0EE52B6F908D0065BCDC /* OpenAI in Frameworks */,
 				EBA73E2F2CDD3006007E480C /* VisualEffectView in Frameworks */,
 				EBB4EF292CDDC02200F38178 /* VisualEffectView in Frameworks */,
 				EB8FB4F32C3940D60041833B /* MarkdownUI in Frameworks */,
@@ -106,7 +104,6 @@
 			);
 			name = Chato;
 			packageProductDependencies = (
-				EB4A0EE42B6F908D0065BCDC /* OpenAI */,
 				EBCFF3942B6FF4CC00498E1E /* Throttler */,
 				EBD0114B2B98F2840046F235 /* Haptico */,
 				EB9E72032BCAB7DF00D5B110 /* ConfettiSwiftUI */,
@@ -146,7 +143,6 @@
 			);
 			mainGroup = EB6422072B6F7BB000119DE6;
 			packageReferences = (
-				EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */,
 				EBCFF3932B6FF4CC00498E1E /* XCRemoteSwiftPackageReference "Throttler" */,
 				EBD0114A2B98F2840046F235 /* XCRemoteSwiftPackageReference "Haptico" */,
 				EB9E72022BCAB7DF00D5B110 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
@@ -419,14 +415,6 @@
 				minimumVersion = 0.132.0;
 			};
 		};
-		EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MacPaw/OpenAI";
-			requirement = {
-				kind = exactVersion;
-				version = 0.2.6;
-			};
-		};
 		EB8FB4F12C3940D60041833B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
@@ -482,11 +470,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EB1B46DD2EDAF0AD00FD053A /* XCRemoteSwiftPackageReference "AIProxySwift" */;
 			productName = AIProxy;
-		};
-		EB4A0EE42B6F908D0065BCDC /* OpenAI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EB6422702B6F7D1800119DE6 /* XCRemoteSwiftPackageReference "OpenAI" */;
-			productName = OpenAI;
 		};
 		EB8FB4F22C3940D60041833B /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;

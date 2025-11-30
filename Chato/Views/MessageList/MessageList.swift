@@ -1,7 +1,13 @@
+import os
 import SwiftData
 import SwiftUI
 import VisualEffectView
-import os
+
+private struct ScrollState: Equatable {
+  let contentHeight: CGFloat
+  let containerHeight: CGFloat
+  let contentOffsetY: CGFloat
+}
 
 struct MessageList: View {
   @EnvironmentObject private var em: EM
@@ -13,7 +19,6 @@ struct MessageList: View {
   @State private var position = ScrollPosition()
   @State private var messages: [Message] = []
   @State private var total = 10
-  @State private var screenHeight: CGFloat = 0
 
   let chat: Chat
 
@@ -46,26 +51,6 @@ struct MessageList: View {
         }
       }
     }
-  }
-
-  func updateShowToBottomButton(with geometry: ScrollGeometry) {
-    let contentHeight = geometry.contentSize.height
-    let containerHeight = geometry.containerSize.height
-    let contentOffsetY = geometry.contentOffset.y
-    
-    // Calculate distance from current position to bottom
-    // Distance = total content height - (current offset + visible height)
-    let distanceToBottom = contentHeight - (contentOffsetY + containerHeight)
-    
-    // Show button if distance is greater than 1.5 screen heights
-    let threshold = screenHeight * 1.5
-    let shouldShow = distanceToBottom >= threshold
-    
-    if shouldShow != showToBottomButton {
-      showToBottomButton = shouldShow
-    }
-    
-    AppLogger.ui.debug("Scroll position - contentHeight: \(contentHeight), containerHeight: \(containerHeight), offset: \(contentOffsetY), distanceToBottom: \(distanceToBottom), threshold: \(threshold), showButton: \(shouldShow)")
   }
 
   @State var scrollIndicatorPresented = false
@@ -115,8 +100,14 @@ struct MessageList: View {
     .scrollPosition($position, anchor: .bottom)
     .scrollDismissesKeyboard(.interactively)
     .removeFocusOnTap()
-    .onScrollPhaseChange { _, _, context in
-      updateShowToBottomButton(with: context.geometry)
+    .onScrollGeometryChange(for: ScrollState.self) { geometry in
+      ScrollState(
+        contentHeight: geometry.contentSize.height,
+        containerHeight: geometry.containerSize.height,
+        contentOffsetY: geometry.contentOffset.y
+      )
+    } action: { _, newValue in
+      updateShowToBottomButton(newValue)
     }
     .safeAreaInset(edge: .top, spacing: 0) {
       VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
@@ -164,7 +155,6 @@ struct MessageList: View {
     }
     .softFeedback(triggerHaptic)
     .onAppear {
-      screenHeight = UIScreen.main.bounds.height
       initMessageList()
       Task {
         position.scrollTo(edge: .bottom)
@@ -184,6 +174,27 @@ struct MessageList: View {
 
   var visualTint: Color {
     colorScheme == .dark ? .black : .white
+  }
+
+  fileprivate func updateShowToBottomButton(_ scrollState: ScrollState) {
+    let contentHeight = scrollState.contentHeight
+    let containerHeight = scrollState.containerHeight
+    let contentOffsetY = scrollState.contentOffsetY
+
+    // Calculate distance from current position to bottom
+    // Distance = total content height - (current offset + visible height)
+    let distanceToBottom = contentHeight - (contentOffsetY + containerHeight)
+
+    // Show button if distance is greater than 1.5 container heights
+    // Using containerHeight directly ensures proper response to screen rotation
+    let threshold = containerHeight * 1.5
+    let shouldShow = distanceToBottom >= threshold
+
+    if shouldShow != showToBottomButton {
+      showToBottomButton = shouldShow
+    }
+
+    AppLogger.ui.debug("Scroll position - contentHeight: \(contentHeight), containerHeight: \(containerHeight), offset: \(contentOffsetY), distanceToBottom: \(distanceToBottom), threshold: \(threshold), showButton: \(shouldShow)")
   }
 }
 

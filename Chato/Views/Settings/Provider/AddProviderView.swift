@@ -73,9 +73,9 @@ struct AddProviderView: View {
   private func addProvider() {
     let provider = Provider(
       type: selectedType,
-      alias: alias.isEmpty ? nil : alias,
+      alias: alias,
       apiKey: apiKey,
-      endpoint: endpoint.isEmpty ? nil : endpoint,
+      endpoint: endpoint,
       enabled: enabled
     )
     

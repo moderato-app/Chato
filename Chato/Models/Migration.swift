@@ -20,7 +20,7 @@ func migrate(_ modelContext: ModelContext) throws {
   try? modelContext.save()
 
   try? fillData(modelContext)
-  
+
   try? migrateToProviderModel(modelContext)
 }
 
@@ -97,40 +97,40 @@ func migratePref(asm: AppStateModel) {
 
 func migrateToProviderModel(_ modelContext: ModelContext) throws {
   let pref = Pref.shared
-  
+
   guard !pref.migratedToProviderModel else {
     AppLogger.data.info("Already migrated to Provider model")
     return
   }
-  
+
   AppLogger.data.info("Starting migration to Provider model")
-  
+
   let existingModels = try modelContext.fetch(FetchDescriptor<ModelModel>())
-  
+
   guard !existingModels.isEmpty else {
     AppLogger.data.info("No existing models to migrate")
     pref.migratedToProviderModel = true
     return
   }
-  
+
   let existingProviders = try modelContext.fetch(FetchDescriptor<Provider>())
   let existingAIModels = try modelContext.fetch(FetchDescriptor<ModelEntity>())
-  
+
   if !existingProviders.isEmpty || !existingAIModels.isEmpty {
     AppLogger.data.info("Provider/AIModel data already exists, skipping migration")
     pref.migratedToProviderModel = true
     return
   }
-  
+
   let openAIProvider = Provider(
     type: .openAI,
-    alias: nil,
-    apiKey: pref.gptApiKey.isEmpty ? nil : pref.gptApiKey,
-    endpoint: pref.gptEnableEndpoint ? pref.gptEndpoint : nil,
+    alias: "",
+    apiKey: pref.gptApiKey,
+    endpoint: pref.gptEnableEndpoint ? pref.gptEndpoint : "",
     enabled: true
   )
   modelContext.insert(openAIProvider)
-  
+
   for oldModel in existingModels {
     let newModel = ModelEntity(
       provider: openAIProvider,
@@ -142,10 +142,10 @@ func migrateToProviderModel(_ modelContext: ModelContext) throws {
     )
     modelContext.insert(newModel)
   }
-  
+
   try modelContext.save()
-  
+
   pref.migratedToProviderModel = true
-  
+
   AppLogger.data.info("Successfully migrated \(existingModels.count) models to Provider model")
 }

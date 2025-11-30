@@ -5,10 +5,10 @@ import SwiftData
 
 @Model
 final class Provider {
-  @Attribute(originalName: "alias") var alias: String?
-  @Attribute(originalName: "apiKey") var apiKey: String?
+  @Attribute(originalName: "alias") var alias: String = ""
+  @Attribute(originalName: "apiKey") var apiKey: String = ""
   @Attribute(originalName: "enabled") var enabled: Bool
-  @Attribute(originalName: "endpoint") var endpoint: String?
+  @Attribute(originalName: "endpoint") var endpoint: String = ""
   @Attribute(originalName: "type") var type: ProviderType
   @Attribute(originalName: "createdAt") var createdAt: Date
   
@@ -17,9 +17,9 @@ final class Provider {
   
   init(
     type: ProviderType,
-    alias: String? = nil,
-    apiKey: String? = nil,
-    endpoint: String? = nil,
+    alias: String = "",
+    apiKey: String = "",
+    endpoint: String = "",
     enabled: Bool = true
   ) {
     self.type = type
@@ -32,7 +32,7 @@ final class Provider {
   }
   
   var displayName: String {
-    if let alias = alias, !alias.isEmpty {
+    if !alias.isEmpty {
       return alias
     }
     return type.displayName

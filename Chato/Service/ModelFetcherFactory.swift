@@ -7,13 +7,14 @@ struct ModelFetcherFactory {
     switch providerType {
     case .openAI:
       return OpenAIModelFetcher()
+    case .openRouter:
+      return OpenRouterModelFetcher()
     case .anthropic,
          .gemini,
          .groq,
          .mistral,
          .deepSeek,
          .perplexity,
-         .openRouter,
          .stabilityAI,
          .deepL,
          .togetherAI,

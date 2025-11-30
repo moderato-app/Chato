@@ -1,65 +1,63 @@
 // Created for Chato in 2025
 
-import SwiftUI
-import SwiftData
 import os
+import SwiftData
+import SwiftUI
 
 struct ProvidersView: View {
   @Environment(\.modelContext) private var modelContext
   @Environment(\.dismiss) private var dismiss
   
-  @Query(sort: \Provider.createdAt) private var providers: [Provider]
+  @Query(sort: \Provider.createdAt, order: .reverse) private var providers: [Provider]
   
   @State private var showingAddProvider = false
   @State private var selectedProvider: Provider?
   
   var body: some View {
-    NavigationStack {
-      List {
-        if providers.isEmpty {
-          ContentUnavailableView {
-            Label("No Providers", systemImage: "cube.box")
-          } description: {
-            Text("Add a provider to get started")
-          } actions: {
-            Button("Add Provider") {
-              showingAddProvider = true
-            }
-            .buttonStyle(.borderedProminent)
+    List {
+      if providers.isEmpty {
+        ContentUnavailableView {
+          Label("No Providers", systemImage: "cube.box")
+        } description: {
+          Text("Add a provider to get started")
+        } actions: {
+          Button("Add Provider") {
+            showingAddProvider = true
           }
-        } else {
-          ForEach(providers) { provider in
-            NavigationLink {
-              ProviderDetailView(provider: provider)
-            } label: {
-              ProviderRow(provider: provider)
-            }
+          .buttonStyle(.borderedProminent)
+        }
+      } else {
+        ForEach(providers) { provider in
+          NavigationLink {
+            ProviderDetailView(provider: provider)
+          } label: {
+            ProviderRow(provider: provider)
           }
-          .onDelete(perform: deleteProviders)
+        }
+        .onDelete(perform: deleteProviders)
+      }
+    }
+    .navigationTitle("Providers")
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .confirmationAction) {
+        Button("Done") {
+          dismiss()
         }
       }
-      .navigationTitle("Providers")
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .confirmationAction) {
-          Button("Done") {
-            dismiss()
-          }
-        }
         
-        if !providers.isEmpty {
-          ToolbarItem(placement: .primaryAction) {
-            Button {
-              showingAddProvider = true
-            } label: {
-              Image(systemName: "plus")
-            }
+      if !providers.isEmpty {
+        ToolbarItem(placement: .primaryAction) {
+          Button {
+            showingAddProvider = true
+          } label: {
+            Image(systemName: "plus")
           }
         }
       }
-      .sheet(isPresented: $showingAddProvider) {
-        AddProviderView()
-      }
+    }
+    .sheet(isPresented: $showingAddProvider) {
+      AddProviderView()
     }
   }
   
@@ -103,4 +101,3 @@ struct ProviderRow: View {
   ProvidersView()
     .modelContainer(ModelContainer.preview())
 }
-

@@ -5,7 +5,6 @@ import SwiftUI
 
 struct InputAreaView: View {
   @Environment(\.modelContext) var modelContext
-  @Environment(\.openAIService) var openAIService
   @EnvironmentObject var em: EM
 
   @FocusState private var isTextEditorFocused: Bool

@@ -20,6 +20,7 @@ enum ProviderType: Int32, Codable, CaseIterable {
   case deepSeek = 14
   case fireworksAI = 15
   case brave = 16
+  case mock = 999
 
   var displayName: String {
     switch self {
@@ -40,6 +41,7 @@ enum ProviderType: Int32, Codable, CaseIterable {
     case .deepSeek: return "DeepSeek"
     case .fireworksAI: return "Fireworks AI"
     case .brave: return "Brave"
+    case .mock: return "Mock"
     }
   }
 
@@ -62,6 +64,7 @@ enum ProviderType: Int32, Codable, CaseIterable {
     case .deepSeek: return "arrow.down.to.line"
     case .fireworksAI: return "sparkle"
     case .brave: return "shield"
+    case .mock: return "wand.and.stars"
     }
   }
 }

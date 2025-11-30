@@ -1,4 +1,3 @@
-import AIProxy
 import Combine
 import os
 import SwiftData
@@ -77,66 +76,65 @@ extension InputAreaView {
   }
 
   func ask2(text: String, contextLength: Int, model: ModelEntity) {
-    var msgs: [OpenAIChatCompletionRequestBody.Message] = [.user(content: .text(text))]
-
+    // Get provider from model
+    let provider = model.provider
+    
+    // Build ChatMessage array (unified format)
+    var chatMessages: [ChatMessage] = []
+    
+    // Add prompt messages first (if any)
+    chat.option.prompt?.messages.sorted().reversed().forEach {
+      let msgType: ChatMessage.MessageType
+      switch $0.role {
+      case .assistant:
+        msgType = .assistant
+      case .user:
+        msgType = .user
+      case .system:
+        msgType = .system
+      }
+      chatMessages.append(ChatMessage(type: msgType, content: $0.content))
+    }
+    
+    // Add context messages (history)
     var actualCL = 0
     if contextLength > 0 {
       let hist = self.modelContext.recentMessgagesEarlyOnTop(chatId: chat.persistentModelID, limit: contextLength)
       actualCL = hist.count
-
+      
       for item in hist.sorted().reversed() {
-        let msg: OpenAIChatCompletionRequestBody.Message
+        let msgType: ChatMessage.MessageType
+        let content = item.message.isMeaningful ? item.message : item.errorInfo
         switch item.role {
         case .user:
-          msg = .user(content: .text(item.message.isMeaningful ? item.message : item.errorInfo))
+          msgType = .user
         case .assistant:
-          msg = .assistant(content: .text(item.message.isMeaningful ? item.message : item.errorInfo))
-        default:
-          msg = .system(content: .text(item.message.isMeaningful ? item.message : item.errorInfo))
+          msgType = .assistant
+        case .system:
+          msgType = .system
         }
-        msgs.insert(msg, at: 0)
+        chatMessages.append(ChatMessage(type: msgType, content: content))
       }
     }
-
-    chat.option.prompt?.messages.sorted().reversed().forEach {
-      let msg: OpenAIChatCompletionRequestBody.Message
-      if $0.role == .assistant {
-        msg = .assistant(content: .text($0.content))
-      } else if $0.role == .user {
-        msg = .user(content: .text($0.content))
-      } else {
-        msg = .system(content: .text($0.content))
-      }
-      msgs.insert(msg, at: 0)
-    }
-
-    let streamParameters = OpenAIChatCompletionRequestBody(
-      model: model.modelId,
-      messages: msgs,
-      frequencyPenalty: chat.option.maybeFrequencyPenalty,
-      presencePenalty: chat.option.maybePresencePenalty,
-      stream: true,
-      temperature: chat.option.maybeTemperature
-    )
-
+    
+    // Add current user message
+    chatMessages.append(ChatMessage(type: .user, content: text))
+    
+    // Log message list
     AppLogger.network.debug("using temperature: \(String(describing: chat.option.maybeTemperature)), presencePenalty: \(String(describing: chat.option.maybePresencePenalty)), frequencyPenalty: \(String(describing: chat.option.maybeFrequencyPenalty))")
-
     AppLogger.network.debug("===whole message list begins===")
-
-    for (i, m) in msgs.enumerated() {
+    for (i, m) in chatMessages.enumerated() {
       let roleStr: String
-      switch m {
+      switch m.type {
       case .user: roleStr = "user"
       case .assistant: roleStr = "assistant"
       case .system: roleStr = "system"
-      case .developer: roleStr = "developer"
-      case .tool: roleStr = "tool"
       }
-      AppLogger.network.debug("\(i).\(roleStr): \(String(describing: m))")
+      AppLogger.network.debug("\(i).\(roleStr): \(m.content)")
     }
-
     AppLogger.network.debug("===whole message list ends===")
-
+    
+    // Create user and AI messages in SwiftData
     var userMsg = Message(text, .user, .sending)
     userMsg.chat = chat
     userMsg.meta = .init(model: model.modelId,
@@ -147,7 +145,7 @@ extension InputAreaView {
                          presencePenalty: chat.option.presencePenalty,
                          frequencyPenalty: chat.option.frequencyPenalty,
                          promptTokens: nil, completionTokens: nil, startedAt: Date.now, endedAt: nil)
-
+    
     var aiMsg = Message("", .assistant, .thinking)
     aiMsg.chat = chat
     aiMsg.meta = .init(model: model.modelId,
@@ -158,9 +156,9 @@ extension InputAreaView {
                        presencePenalty: chat.option.presencePenalty,
                        frequencyPenalty: chat.option.frequencyPenalty,
                        promptTokens: nil, completionTokens: nil, startedAt: nil, endedAt: nil)
-
+    
     do {
-      // it seems model data can only stay consistent when all the ops happen in a non-breakable main actor
+      // Save messages to SwiftData
       try modelContext.save()
       userMsg = modelContext.getMessage(messageId: userMsg.id).unsafelyUnwrapped
       aiMsg = modelContext.getMessage(messageId: aiMsg.id).unsafelyUnwrapped
@@ -173,48 +171,70 @@ extension InputAreaView {
       ))
       return
     }
-
+    
+    // Notify new message event
     Task.detached {
       Task { @MainActor in
         em.messageEvent.send(.new)
       }
     }
-
-    Task.detached {
-      do {
-        AppLogger.network.info("using stream")
-        let stream = try await openAIService.streamingChatCompletionRequest(body: streamParameters, secondsToWait: 60)
-        for try await chunk in stream {
-          Task { @MainActor in
-            if aiMsg.meta?.startedAt == nil {
-              aiMsg.meta?.startedAt = .now
-            }
-            if userMsg.status == .sending {
-              userMsg.onSent()
-            }
-
-            if let choice = chunk.choices.first {
-              let text = choice.delta.content ?? "\nchoice has no content\n"
-              if let fr = choice.finishReason {
-                AppLogger.network.debug("finished reason: \(fr)")
-                aiMsg.onEOF(text: "")
-                em.messageEvent.send(.eof)
-              } else {
-                aiMsg.onTyping(text: text)
-              }
-            } else {
-              if let usage = chunk.usage {
-                userMsg.meta?.promptTokens = usage.promptTokens
-                aiMsg.meta?.completionTokens = usage.completionTokens
-                aiMsg.onEOF(text: "")
-                em.messageEvent.send(.eof)
-              } else {
-                AppLogger.network.debug("no text in chunk, chunk: \(String(describing: chunk))")
-              }
-            }
+    
+    // Create service using factory
+    let service = ChatStreamingServiceFactory.createService(for: provider.type)
+    
+    // Build config based on provider type
+    let config: StreamingServiceConfig
+    if provider.type == .mock {
+      config = .mock(wordCount: 50)
+    } else if provider.type == .openAI {
+      config = .openAI(
+        apiKey: provider.apiKey,
+        modelID: model.modelId,
+        endpoint: provider.endpoint.isEmpty ? nil : provider.endpoint
+      )
+    } else if provider.type == .openRouter {
+      config = .openRouter(
+        apiKey: provider.apiKey,
+        modelID: model.modelId
+      )
+    } else {
+      // Fallback to mock for unsupported providers
+      AppLogger.error.error("[MessageListVM] ⚠️ Unsupported provider: \(provider.type.displayName), using Mock")
+      config = .mock(wordCount: 50)
+    }
+    
+    // Call streaming service
+    service.streamChatCompletion(
+      messages: chatMessages,
+      config: config,
+      onStart: {
+        Task { @MainActor in
+          if aiMsg.meta?.startedAt == nil {
+            aiMsg.meta?.startedAt = .now
+          }
+          if userMsg.status == .sending {
+            userMsg.onSent()
           }
         }
-      } catch {
+      },
+      onDelta: { deltaText, fullText in
+        Task { @MainActor in
+          if aiMsg.meta?.startedAt == nil {
+            aiMsg.meta?.startedAt = .now
+          }
+          if userMsg.status == .sending {
+            userMsg.onSent()
+          }
+          aiMsg.onTyping(text: deltaText)
+        }
+      },
+      onComplete: { finalText in
+        Task { @MainActor in
+          aiMsg.onEOF(text: "")
+          em.messageEvent.send(.eof)
+        }
+      },
+      onError: { error in
         Task { @MainActor in
           let info = "\(error)"
           if info.lowercased().contains("api key") || info.lowercased().contains("apikey") {
@@ -223,10 +243,10 @@ extension InputAreaView {
             aiMsg.onError(info, .unknown)
           }
           userMsg.onSent()
-          AppLogger.error.error("partialResult error: \(error)")
+          AppLogger.error.error("streaming error: \(error)")
           em.messageEvent.send(.err)
         }
       }
-    }
+    )
   }
 }

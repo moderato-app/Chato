@@ -12,6 +12,30 @@ struct ModelSelectionView: View {
   
   @Bindable var chatOption: ChatOption
   @State private var searchText = ""
+  @State private var expandedProviders: Set<PersistentIdentifier> = []
+  @State private var favoritesExpanded = true
+  
+  var body: some View {
+    ModelSelectionContent(
+      chatOption: chatOption,
+      providers: providers,
+      allModels: allModels,
+      searchText: $searchText,
+      expandedProviders: $expandedProviders,
+      favoritesExpanded: $favoritesExpanded,
+      dismiss: dismiss
+    )
+  }
+}
+
+struct ModelSelectionContent: View {
+  @Bindable var chatOption: ChatOption
+  let providers: [Provider]
+  let allModels: [ModelEntity]
+  @Binding var searchText: String
+  @Binding var expandedProviders: Set<PersistentIdentifier>
+  @Binding var favoritesExpanded: Bool
+  let dismiss: DismissAction
   
   private var favoritedModels: [ModelEntity] {
     allModels.filter { $0.favorited }.sorted { model1, model2 in
@@ -42,69 +66,124 @@ struct ModelSelectionView: View {
   
   var body: some View {
     List {
-      if !favoritedModels.isEmpty && searchText.isEmpty {
-        Section {
-          ForEach(favoritedModels) { model in
-            ModelSelectionRow(
-              model: model,
-              isSelected: model.id == chatOption.model?.id,
-              showProvider: true
-            ) {
-              selectModel(model)
-            }
-          }
-        } header: {
-          Label("Favorites", systemImage: "star.fill")
-            .foregroundColor(.yellow)
-        }
-      }
-        
-      ForEach(groupedProviders, id: \.provider.id) { group in
-        Section {
-          ForEach(group.models) { model in
-            ModelSelectionRow(
-              model: model,
-              isSelected: model.id == chatOption.model?.id,
-              showProvider: false
-            ) {
-              selectModel(model)
-            }
-          }
-        } header: {
-          HStack {
-            Image(systemName: group.provider.iconName)
-            Text(group.provider.displayName)
-          }
-        }
-      }
-        
-      if !searchText.isEmpty && filteredModels.isEmpty {
-        ContentUnavailableView.search
-      }
-        
-      if providers.isEmpty && allModels.isEmpty {
-        Section {
-          ContentUnavailableView {
-            Label("No Models Available", systemImage: "cube.box")
-          } description: {
-            Text("Add providers in Settings to get started")
-          } actions: {
-            Button("Open Settings") {
-              dismiss()
-            }
-            .buttonStyle(.borderedProminent)
-          }
-        }
-      }
+      favoritesSection
+      providerSections
+      emptyStateViews
     }
     .searchable(text: $searchText, prompt: "Search models")
     .navigationTitle("Select Model")
     .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .topBarTrailing) {
+        Button("Done") {
+          dismiss()
+        }
+      }
+    }
+    .onAppear {
+      expandInitialSections()
+    }
+  }
+  
+  @ViewBuilder
+  private var favoritesSection: some View {
+    if !favoritedModels.isEmpty && searchText.isEmpty {
+      favoritesSectionContent
+    }
+  }
+  
+  private var favoritesSectionContent: some View {
+    DisclosureGroup(
+      isExpanded: $favoritesExpanded
+    ) {
+      ForEach(favoritedModels) { model in
+        ModelSelectionRow(
+          model: model,
+          isSelected: model.id == chatOption.model?.id,
+          showProvider: true
+        ) {
+          selectModel(model)
+        }
+      }
+    } label: {
+      Label("Favorites", systemImage: "star.fill")
+        .foregroundColor(.yellow)
+    }
+  }
+  
+  @ViewBuilder
+  private var providerSections: some View {
+    ForEach(groupedProviders, id: \.provider.id) { group in
+      providerSection(for: group)
+    }
+  }
+  
+  private func providerSection(for group: (provider: Provider, models: [ModelEntity])) -> some View {
+    DisclosureGroup(
+      isExpanded: providerBinding(for: group.provider.id)
+    ) {
+      ForEach(group.models) { model in
+        ModelSelectionRow(
+          model: model,
+          isSelected: model.id == chatOption.model?.id,
+          showProvider: false
+        ) {
+          selectModel(model)
+        }
+      }
+    } label: {
+      HStack {
+        Image(systemName: group.provider.iconName)
+        Text(group.provider.displayName)
+      }
+    }
+  }
+  
+  private func providerBinding(for providerId: PersistentIdentifier) -> Binding<Bool> {
+    Binding(
+      get: { expandedProviders.contains(providerId) },
+      set: { isExpanded in
+        if isExpanded {
+          expandedProviders.insert(providerId)
+        } else {
+          expandedProviders.remove(providerId)
+        }
+      }
+    )
+  }
+  
+  @ViewBuilder
+  private var emptyStateViews: some View {
+    if !searchText.isEmpty && filteredModels.isEmpty {
+      ContentUnavailableView.search
+    }
+    
+    if providers.isEmpty && allModels.isEmpty {
+      noModelsView
+    }
+  }
+  
+  private var noModelsView: some View {
+    ContentUnavailableView {
+      Label("No Models Available", systemImage: "cube.box")
+    } description: {
+      Text("Add providers in Settings to get started")
+    } actions: {
+      Button("Open Settings") {
+        dismiss()
+      }
+      .buttonStyle(.borderedProminent)
+    }
+  }
+  
+  private func expandInitialSections() {
+    if expandedProviders.isEmpty {
+      expandedProviders = Set(groupedProviders.map { $0.provider.id })
+    }
   }
   
   private func selectModel(_ model: ModelEntity) {
     chatOption.model = model
-    dismiss()
   }
 }
 
@@ -116,7 +195,13 @@ struct ModelSelectionRow: View {
   
   var body: some View {
     Button(action: action) {
-      HStack {
+      HStack(spacing: 12) {
+        if model.favorited {
+          Image(systemName: "star.fill")
+            .foregroundColor(.yellow)
+            .font(.caption)
+        }
+        
         VStack(alignment: .leading, spacing: 4) {
           Text(model.resolvedName)
             .font(.body)
@@ -145,17 +230,12 @@ struct ModelSelectionRow: View {
         
         Spacer()
         
-        if model.favorited {
-          Image(systemName: "star.fill")
-            .foregroundColor(.yellow)
-            .font(.caption)
-        }
-        
         if isSelected {
           Image(systemName: "checkmark")
             .foregroundColor(.accentColor)
         }
       }
+      .contentShape(Rectangle())
     }
     .buttonStyle(.plain)
   }

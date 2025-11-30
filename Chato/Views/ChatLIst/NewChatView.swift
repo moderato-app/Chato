@@ -9,7 +9,6 @@ struct NewChatView: View {
   @State var chatOption: ChatOption = .init()
   @FocusState private var isFocused: Bool
   @State private var triggerHaptic: Bool = false
-  @State private var detent = PresentationDetent.medium
   @Query(sort: \UsedModel.createdAt) private var usedModels: [UsedModel]
 
   private var chatNamePlaceHolder: String {

@@ -7,11 +7,9 @@ struct InputAreaView: View {
   @Environment(\.modelContext) var modelContext
   @Environment(\.openAIService) var openAIService
   @EnvironmentObject var em: EM
-  @EnvironmentObject var pref: Pref
 
   @FocusState private var isTextEditorFocused: Bool
   @State var inputText = ""
-  @State var contextLength = 0
 
   @State var cancellable: AnyCancellable?
 

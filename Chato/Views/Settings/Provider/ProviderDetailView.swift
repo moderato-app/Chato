@@ -4,7 +4,6 @@ import SwiftUI
 
 struct ProviderDetailView: View {
   @Environment(\.modelContext) private var modelContext
-  @Environment(\.dismiss) private var dismiss
 
   @Bindable var provider: Provider
   

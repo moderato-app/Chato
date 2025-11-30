@@ -2,11 +2,9 @@ import SwiftData
 import SwiftUI
 
 struct ChatAdvancedOptionView: View {
-  @EnvironmentObject var pref: Pref
-
   @Bindable private var chatOption: ChatOption
 
-  init(_ chatOption: ChatOption, pickerNavi: Bool = false) {
+  init(_ chatOption: ChatOption) {
     self.chatOption = chatOption
   }
 

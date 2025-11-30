@@ -7,7 +7,6 @@ struct ChatListView: View {
 
   @Environment(\.modelContext) private var modelContext
   @Environment(\.colorScheme) private var colorScheme
-  @EnvironmentObject var pref: Pref
   @EnvironmentObject var em: EM
   @Query(sort: \Chat.createdAt) private var chats: [Chat]
 

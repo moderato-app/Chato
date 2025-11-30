@@ -18,7 +18,6 @@ private struct ListPrompt: View {
 
   var chatOption: ChatOption?
   @Query(sort: \Prompt.order, order: .reverse) private var prompts: [Prompt]
-  @State var isCreatePromptPresented = false
 
   init(chatOption: ChatOption? = nil, searchString: String) {
     self.chatOption = chatOption
@@ -37,7 +36,6 @@ private struct ListPrompt: View {
 private struct ListPromptNoQuery: View {
   @Environment(\.modelContext) private var modelContext
   @EnvironmentObject var em: EM
-  @EnvironmentObject var pref: Pref
 
   @State var promptToDelete: Prompt?
   @State var isDeleteConfirmPresented: Bool = false

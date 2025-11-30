@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ThinkingView: View {
   private let maxDots = 3
-  private let animationInterval = 0.5
 
   @State private var dotCount = 0
   private let timer = Timer.publish(every: 0.33, on: .main, in: .common).autoconnect()

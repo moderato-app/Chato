@@ -84,7 +84,7 @@ struct GPTModelsView: View {
   func toolbarItems() -> some ToolbarContent {
     ToolbarItem(placement: .navigationBarTrailing) {
       HStack {
-        Button("Fetch") {
+        Button("Refresh") {
           fetchModels()
         }.disabled(fetchStatus == .fetching)
 //        if !models.isEmpty {

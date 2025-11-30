@@ -1,12 +1,17 @@
 // Created for Chato in 2025
 
 import Foundation
+import os
 
 struct OpenAIModelFetcher: ModelFetcher {
   func fetchModels(apiKey: String, endpoint: String?) async throws -> [ModelInfo] {
-    let urlString = endpoint ?? "https://api.openai.com/v1/models"
+    // Use default endpoint if endpoint is nil, empty, or only whitespace
+    let urlString = (endpoint?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
+      ? "https://api.openai.com/v1/models"
+      : endpoint!
     
     guard let url = URL(string: urlString) else {
+      AppLogger.error.error("[OpenAIModelFetcher] Invalid URL: \(urlString, privacy: .public)")
       throw ModelFetchError.invalidURL
     }
     
@@ -15,11 +20,19 @@ struct OpenAIModelFetcher: ModelFetcher {
     request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.timeoutInterval = 30
     
+    AppLogger.logNetworkRequest(url: urlString, method: "GET")
+    let startTime = Date()
+    
     let (data, response) = try await URLSession.shared.data(for: request)
     
+    let duration = Date().timeIntervalSince(startTime)
+    
     guard let httpResponse = response as? HTTPURLResponse else {
+      AppLogger.error.error("[OpenAIModelFetcher] Invalid response type")
       throw ModelFetchError.invalidResponse
     }
+    
+    AppLogger.logNetworkResponse(url: urlString, statusCode: httpResponse.statusCode, duration: duration)
     
     guard httpResponse.statusCode == 200 else {
       throw ModelFetchError.apiError("HTTP \(httpResponse.statusCode)")
@@ -34,6 +47,8 @@ struct OpenAIModelFetcher: ModelFetcher {
     
     let decoder = JSONDecoder()
     guard let modelsResponse = try? decoder.decode(OpenAIModelsResponse.self, from: data) else {
+      let dataPreview = String(data: data.prefix(200), encoding: .utf8) ?? "Unable to decode as UTF-8"
+      AppLogger.error.error("[OpenAIModelFetcher] Decoding error | Data size: \(data.count) bytes | Preview: \(dataPreview, privacy: .private)")
       throw ModelFetchError.decodingError("Failed to decode OpenAI models response")
     }
     

@@ -1,20 +1,5 @@
 import Foundation
 
-enum EnvType {
-  case testFlight, debug, product
-}
-
-var currentEnvType: EnvType {
-  if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
-    return .debug
-  }
-  #if DEBUG
-    return .debug
-  #else
-    return .product
-  #endif
-}
-
 func formatAgo(from date: Date) -> String {
   let now = Date()
   let calendar = Calendar.current

@@ -3,30 +3,6 @@ import os
 import SwiftData
 
 extension ModelContext {
-  func updateModels(models: [ModelModel]) {
-    do {
-      try delete(model: ModelModel.self)
-      for model in models {
-        insert(model)
-      }
-      try save()
-    } catch {
-      AppLogger.data.error("error updating models: \(error.localizedDescription)")
-    }
-  }
-
-  func getChat(chatId: PersistentIdentifier) -> Chat? {
-    let predicate = #Predicate<Chat> { $0.persistentModelID == chatId }
-    let fetcher = FetchDescriptor<Chat>(predicate: predicate, fetchLimit: 1)
-    do {
-      let chat = try fetch(fetcher).first
-      return chat
-    } catch {
-      AppLogger.data.error("error query chat, chat: \(String(describing: chatId)), err: \(error.localizedDescription)")
-      return nil
-    }
-  }
-
   func getMessage(messageId: PersistentIdentifier) -> Message? {
     let predicate = #Predicate<Message> { $0.persistentModelID == messageId }
     let fetcher = FetchDescriptor<Message>(predicate: predicate, fetchLimit: 1)

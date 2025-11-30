@@ -25,8 +25,4 @@ public extension View {
   func selectionFeedback<T>(_ triggers: T...) -> some View where T: Equatable {
     modifier(SoftFeedbackModifier(sensor: .selection, triggers: triggers))
   }
-
-  func successFeedback<T>(_ triggers: T...) -> some View where T: Equatable {
-    modifier(SoftFeedbackModifier(sensor: .impact(flexibility: .rigid), triggers: triggers))
-  }
 }

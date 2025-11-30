@@ -10,9 +10,11 @@ struct WheelPickerView: View {
   let defaultValue: Int
   let systemImage: String
   let spacing: CGFloat
-  
+
+  @State private var realTimeValue: Double
   @State private var rippleTrigger = 0
-  @State private var resetTask: Task<Void, Never>?
+  @State private var debounceTask: Task<Void, Never>?
+  @State var resetTrigger: Int = 0
 
   init(
     name: String,
@@ -24,6 +26,7 @@ struct WheelPickerView: View {
     spacing: CGFloat = 13
   ) {
     self.name = name
+    self.realTimeValue = value.wrappedValue
     self._value = value
     self.start = start
     self.end = end
@@ -31,14 +34,14 @@ struct WheelPickerView: View {
     self.systemImage = systemImage
     self.spacing = spacing
   }
-  
+
   var numberType: NumberType {
-    if doubleEqual(Double(defaultValue), value) {
+    if doubleEqual(Double(defaultValue), realTimeValue) {
       return .dft("\(defaultValue)")
-    } else if value < Double(defaultValue) {
-      return .smaller(String(format: "%.1f", value))
+    } else if realTimeValue < Double(defaultValue) {
+      return .smaller(String(format: "%.1f", realTimeValue))
     } else {
-      return .bigger(String(format: "%.1f", value))
+      return .bigger(String(format: "%.1f", realTimeValue))
     }
   }
 
@@ -70,39 +73,62 @@ struct WheelPickerView: View {
           }
           .foregroundStyle(.secondary)
           .fontWeight(.semibold)
-          .contentTransition(.numericText(value: value))
-          .animation(.snappy(duration: 0.1), value: value)
+          .contentTransition(.numericText(value: realTimeValue))
+          .animation(.snappy(duration: 0.1), value: realTimeValue)
         }
       }
       .background(Rectangle().fill(.gray.opacity(0.0001)))
 
-      WheelPicker(
-        value: $value,
-        start: start,
-        end: end,
-        defaultValue: defaultValue,
-        spacing: spacing,
-        haptic: pref.haptics
-      )
-      .frame(height: 50)
+      wheelPicker.frame(height: 50)
     }
     .onTapGesture(count: 2) {
-      resetToDefault()
+      resetTrigger += 1
     }
-    .grayscale(doubleEqual(Double(defaultValue), value) ? 1 : 0)
-    .opacity(doubleEqual(Double(defaultValue), value) ? 0.35 : 1)
+    .grayscale(doubleEqual(Double(defaultValue), realTimeValue) ? 1 : 0)
+    .opacity(doubleEqual(Double(defaultValue), realTimeValue) ? 0.35 : 1)
+    .onChange(of: realTimeValue) { _, newValue in
+      // Debounce: cancel previous task and schedule new one
+      debounceTask?.cancel()
+      debounceTask = Task {
+        do {
+          try await Task.sleep(for: .milliseconds(250))
+          guard !Task.isCancelled else { return }
+
+          // Update external binding only after delay
+          await MainActor.run {
+            if !doubleEqual(value, newValue) {
+              withAnimation {
+                value = newValue
+              }
+              AppLogger.ui.debug("WheelPicker: Updated external value to \(newValue, format: .fixed(precision: 2))")
+            }
+          }
+        } catch {
+          // Task was cancelled, ignore
+        }
+      }
+    }
     .onDisappear {
-      resetTask?.cancel()
+      // Flush any pending changes when view disappears
+      debounceTask?.cancel()
+      if !doubleEqual(value, realTimeValue) {
+        value = realTimeValue
+      }
     }
   }
-  
-  private func resetToDefault() {
-    guard !doubleEqual(Double(defaultValue), value) else { return }
-    
-    withAnimation {
-      value = Double(defaultValue)
-      rippleTrigger += 1
-    }
+
+  @ViewBuilder
+  private var wheelPicker: some View {
+    WheelPicker(
+      value: $realTimeValue,
+      resetTrigger: $resetTrigger,
+      start: start,
+      end: end,
+      defaultValue: defaultValue,
+      spacing: spacing,
+      haptic: pref.haptics
+    )
+    .frame(height: 50)
   }
 }
 

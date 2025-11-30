@@ -148,12 +148,6 @@ private struct ListPromptNoQuery: View {
     }
   }
 
-  private func remove(_ indexSet: IndexSet) {
-    for index in indexSet {
-      let toDelete = myPrompts[index]
-      modelContext.delete(toDelete)
-    }
-  }
 
   func onMove(prompts: [Prompt], from source: IndexSet, to destination: Int) {
     var updatedItems = prompts

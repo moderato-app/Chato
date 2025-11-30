@@ -39,7 +39,7 @@ extension EnvironmentValues {
 class OpenAIServiceProvider: ObservableObject {
   let service: OpenAIService
 
-  init(apiKey: String, endpint: String? = nil, timeout: TimeInterval = 120) {
+  init(apiKey: String, endpint: String? = nil) {
     if let endpint {
       do {
         let res = try parseURL(endpint)

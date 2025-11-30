@@ -83,24 +83,6 @@ struct RPView: View {
   .padding(.horizontal)
 }
 
-struct PushEffect<T: Equatable>: ViewModifier {
-  var trigger: T
-
-  func body(content: Content) -> some View {
-    content.keyframeAnimator(
-      initialValue: 1.0,
-      trigger: trigger
-    ) { view, value in
-      view.visualEffect { view, _ in
-        view.scaleEffect(value)
-      }
-    } keyframes: { _ in
-      SpringKeyframe(0.95, duration: 0.2, spring: .snappy)
-      SpringKeyframe(1.0, duration: 0.2, spring: .bouncy)
-    }
-  }
-}
-
 /// A modifer that performs a ripple effect to its content whenever its
 /// trigger value changes.
 struct RippleEffect<T: Equatable>: ViewModifier {

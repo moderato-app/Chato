@@ -1,19 +1,17 @@
-// Created for Chato in 2025
-
 import os
 import SwiftData
 import SwiftUI
 
 struct ProviderDetailView: View {
   @Environment(\.modelContext) private var modelContext
+  @Environment(\.dismiss) private var dismiss
+
+  @Bindable var provider: Provider
   
-  let provider: Provider
-  
-  @State private var isEditing = false
   @State private var showingAddModel = false
   @State private var searchText = ""
   @State private var fetchStatus: FetchStatus = .idle
-  
+   
   private var filteredModels: [ModelEntity] {
     if searchText.isEmpty {
       return provider.allModelsSorted
@@ -34,105 +32,92 @@ struct ProviderDetailView: View {
   
   var body: some View {
     List {
-      Section {
-        HStack {
-          Label {
-            Text("Provider Type")
-          } icon: {
-            Image(systemName: provider.iconName)
-              .foregroundColor(.accentColor)
-          }
-          Spacer()
-          Text(provider.type.displayName)
-            .foregroundColor(.secondary)
-        }
-        
-        if let alias = provider.alias {
-          HStack {
-            Label("Alias", systemImage: "tag")
-            Spacer()
-            Text(alias)
-              .foregroundColor(.secondary)
-          }
-        }
-        
-        if let endpoint = provider.endpoint {
-          HStack {
-            Label("Endpoint", systemImage: "network")
-            Spacer()
-            Text(endpoint)
-              .foregroundColor(.secondary)
-              .lineLimit(1)
-              .truncationMode(.middle)
-          }
-        }
-      } header: {
-        Text("Information")
-      }
-      
-      Section {
-        if fetchStatus != .idle {
-          fetchStatusRow()
-        }
-        
-        if filteredModels.isEmpty && searchText.isEmpty && fetchStatus == .idle {
-          ContentUnavailableView {
-            Label("No Models", systemImage: "cube.transparent")
-          } description: {
-            Text("Fetch models from the provider or add custom models")
-          }
-        } else {
-          ForEach(filteredModels) { model in
-            ModelRow(model: model)
-          }
-        }
-      } header: {
-        HStack {
-          Text("Models (\(provider.models.count))")
-          Spacer()
-          if fetchStatus != .fetching {
-            Button("Fetch") {
-              fetchModels()
-            }
-            .font(.caption)
-          }
-        }
-      }
+      editSections()
+      modelSection()
     }
     .searchable(text: $searchText, prompt: "Search models")
     .navigationTitle(provider.displayName)
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {
       ToolbarItem(placement: .primaryAction) {
-        Menu {
-          Button {
-            isEditing = true
-          } label: {
-            Label("Edit Provider", systemImage: "pencil")
-          }
-          
-          Button {
-            showingAddModel = true
-          } label: {
-            Label("Add Custom Model", systemImage: "plus.circle")
-          }
-          
-          Button {
-            fetchModels()
-          } label: {
-            Label("Fetch Models", systemImage: "arrow.clockwise")
-          }
-          .disabled(fetchStatus == .fetching)
+        Button {
+          showingAddModel = true
         } label: {
-          Image(systemName: "ellipsis.circle")
+          Label("Add Custom Model", systemImage: "plus.circle")
         }
       }
     }
-    .sheet(isPresented: $isEditing) {
-      EditProviderView(provider: provider)
-    }
     .sheet(isPresented: $showingAddModel) {
       AddCustomModelView(provider: provider)
+    }
+  }
+  
+  @ViewBuilder
+  private func editSections() -> some View {
+    Section {
+      Picker("Provider Type", selection: $provider.type) {
+        ForEach(ProviderType.allCases, id: \.self) { type in
+          Label {
+            Text(type.displayName)
+          } icon: {
+            Image(systemName: type.iconName)
+          }
+          .tag(type)
+        }
+      }
+    } header: {
+      Text("Type")
+    }
+    
+    Section {
+      TextField("Alias (Optional)", text: $provider.alias)
+      
+      TextField("API Key", text: $provider.apiKey)
+        .textContentType(.password)
+      
+      TextField("Endpoint (Optional)", text: $provider.endpoint)
+        .textContentType(.URL)
+        .autocapitalization(.none)
+    } header: {
+      Text("Configuration")
+    } footer: {
+      Text("Leave endpoint empty to use default")
+    }
+    
+    Section {
+      Toggle("Enabled", isOn: $provider.enabled)
+    }
+  }
+  
+  @ViewBuilder
+  private func modelSection() -> some View {
+    Section {
+      if fetchStatus != .idle {
+        fetchStatusRow()
+      }
+      
+      if filteredModels.isEmpty && searchText.isEmpty && fetchStatus == .idle {
+        ContentUnavailableView {
+          Label("No Models", systemImage: "cube.transparent")
+        } description: {
+          Text("Fetch models from the provider or add custom models")
+        }
+      } else {
+        ForEach(filteredModels) { model in
+          ModelRow(model: model)
+        }
+      }
+    } header: {
+      HStack {
+        Text("Models (\(provider.models.count))")
+        Spacer()
+        if fetchStatus != .fetching {
+          Button("Fetch") {
+            fetchModels()
+          }
+          .font(.caption)
+        }
+      }
     }
   }
   
@@ -159,7 +144,8 @@ struct ProviderDetailView: View {
   }
   
   private func fetchModels() {
-    guard let apiKey = provider.apiKey else {
+    let apiKey = provider.apiKey
+    if apiKey.isEmpty {
       fetchStatus = .error("API Key is required")
       return
     }

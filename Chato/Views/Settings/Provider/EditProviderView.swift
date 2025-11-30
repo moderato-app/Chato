@@ -1,7 +1,7 @@
 // Created for Chato in 2025
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct EditProviderView: View {
   @Environment(\.dismiss) private var dismiss
@@ -75,9 +75,9 @@ struct EditProviderView: View {
   }
   
   private func saveChanges() {
-    provider.alias = alias.isEmpty ? nil : alias
+    provider.alias = alias
     provider.apiKey = apiKey
-    provider.endpoint = endpoint.isEmpty ? nil : endpoint
+    provider.endpoint = endpoint
     provider.enabled = enabled
     
     dismiss()
@@ -92,4 +92,3 @@ struct EditProviderView: View {
   return EditProviderView(provider: provider)
     .modelContainer(container)
 }
-

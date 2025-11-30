@@ -12,6 +12,24 @@ extension ModelEntity {
   /// 3. If numbers are the same, more numbers come first
   /// 4. If numbers are identical, sort alphabetically
   static func smartSort(_ models: [ModelEntity]) -> [ModelEntity] {
+    sortModels(models, prioritizeFavorited: true)
+  }
+  
+  /// Sort models by version numbers and name, without favorited priority
+  /// Sorting rules:
+  /// 1. Extract numbers from name, larger numbers come first
+  /// 2. If numbers are the same, more numbers come first
+  /// 3. If numbers are identical, sort alphabetically
+  static func versionSort(_ models: [ModelEntity]) -> [ModelEntity] {
+    sortModels(models, prioritizeFavorited: false)
+  }
+  
+  /// Internal sort implementation
+  /// - Parameters:
+  ///   - models: Models to sort
+  ///   - prioritizeFavorited: Whether to prioritize favorited models
+  /// - Returns: Sorted models array
+  private static func sortModels(_ models: [ModelEntity], prioritizeFavorited: Bool) -> [ModelEntity] {
     // Pre-process: extract numbers once for each model to avoid repeated calculations
     let modelsWithNumbers = models.map { model in
       (model: model, numbers: extractNumbers(from: model.resolvedName))
@@ -24,8 +42,8 @@ extension ModelEntity {
       let numbers1 = item1.numbers
       let numbers2 = item2.numbers
       
-      // Rule 1: Favorited models come first
-      if model1.favorited != model2.favorited {
+      // Rule 1: Favorited models come first (optional)
+      if prioritizeFavorited && model1.favorited != model2.favorited {
         return model1.favorited && !model2.favorited
       }
       

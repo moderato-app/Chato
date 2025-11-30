@@ -1,14 +1,22 @@
+import os
 import SwiftData
 import SwiftUI
 import VisualEffectView
+
+private struct ScrollState: Equatable {
+  let contentHeight: CGFloat
+  let containerHeight: CGFloat
+  let contentOffsetY: CGFloat
+}
 
 struct MessageList: View {
   @EnvironmentObject private var em: EM
   @Environment(\.colorScheme) private var colorScheme
   @EnvironmentObject private var pref: Pref
+  @Environment(\.screenHeight) private var screenHeight
   @State private var triggerHaptic: Bool = false
 
-  @State private var lastMsgOnScreen = true
+  @State private var showToBottomButton = false
   @State private var position = ScrollPosition()
   @State private var messages: [Message] = []
   @State private var total = 10
@@ -50,7 +58,8 @@ struct MessageList: View {
 
   var body: some View {
 //    let _ = Self.printChagesWhenDebug()
-    ScrollView {
+    let currentScreenHeight = screenHeight
+    return ScrollView {
       VStack(alignment: .leading) {
         ForEach(messages, id: \.self) { msg in
 //          let _ = Self.printChagesWhenDebug()
@@ -59,7 +68,7 @@ struct MessageList: View {
             .if(pref.magicScrolling) { c in
               c.visualEffect { content, proxy in
                 let frame = proxy.frame(in: .scrollView(axis: .vertical))
-                let distance = min(0, frame.height > UIScreen.main.bounds.height / 4 ? 0 : frame.minY)
+                let distance = min(0, frame.height > currentScreenHeight / 4 ? 0 : frame.minY)
                 var scale = (1 + distance / 700)
                 if scale < 0 {
                   scale = 0
@@ -77,9 +86,9 @@ struct MessageList: View {
       .background {
         GeometryReader { proxy in
           Color.clear
-            .onChange(of: proxy.size.height, initial: true) { oldValue, newValue in
+            .onChange(of: proxy.size.height, initial: true) { _, newValue in
               // Use debouncing to avoid frequent updates
-              let shouldPresent = newValue > UIScreen.main.bounds.height
+              let shouldPresent = newValue > currentScreenHeight
               if scrollIndicatorPresented != shouldPresent {
                 scrollIndicatorPresented = shouldPresent
               }
@@ -91,11 +100,17 @@ struct MessageList: View {
     .background(Rectangle().fill(.gray.opacity(0.0001)).containerRelativeFrame(.horizontal) { v, _ in v })
     .defaultScrollAnchor(.bottom)
     .scrollPosition($position, anchor: .bottom)
-    .onScrollTargetVisibilityChange(idType: PersistentIdentifier.self, threshold: 0.001) { onScreenIds in
-      lastMsgOnScreen = onScreenIds.contains(where: { it in it == messages.last?.persistentModelID })
-    }
     .scrollDismissesKeyboard(.interactively)
     .removeFocusOnTap()
+    .onScrollGeometryChange(for: ScrollState.self) { geometry in
+      ScrollState(
+        contentHeight: geometry.contentSize.height,
+        containerHeight: geometry.containerSize.height,
+        contentOffsetY: geometry.contentOffset.y
+      )
+    } action: { _, newValue in
+      updateShowToBottomButton(newValue)
+    }
     .safeAreaInset(edge: .top, spacing: 0) {
       VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
         .ignoresSafeArea(edges: .top)
@@ -120,25 +135,22 @@ struct MessageList: View {
             .ignoresSafeArea(edges: .bottom))
         .overlay(alignment: .topTrailing) {
           // Place offset on outer layer to avoid position changes being animated
-          Group {
-            if !lastMsgOnScreen && messages.count > 0 {
-              Button {
-                withAnimation {
-                  position.scrollTo(edge: .bottom)
-                }
-                Task.detached {
-                  try await Task.sleep(for: .seconds(0.2))
-                  Task { @MainActor in
-                    triggerHaptic.toggle()
-                  }
-                }
-              } label: {
-                ToBottomIcon()
-              }
-              .transition(.scale.combined(with: .opacity))
+          Button {
+            withAnimation {
+              position.scrollTo(edge: .bottom)
             }
+            Task.detached {
+              try await Task.sleep(for: .seconds(0.2))
+              Task { @MainActor in
+                triggerHaptic.toggle()
+              }
+            }
+          } label: {
+            ToBottomIcon()
           }
-          .animation(.default, value: lastMsgOnScreen)
+          .scaleEffect(showToBottomButton ? 1 : 0)
+          .opacity(showToBottomButton ? 1 : 0)
+          .animation(.default, value: showToBottomButton)
           .offset(y: -60)
           .offset(x: -15)
         }
@@ -147,7 +159,7 @@ struct MessageList: View {
     .onAppear {
       initMessageList()
       Task {
-          position.scrollTo(edge: .bottom)
+        position.scrollTo(edge: .bottom)
       }
     }
     .refreshable {
@@ -164,6 +176,27 @@ struct MessageList: View {
 
   var visualTint: Color {
     colorScheme == .dark ? .black : .white
+  }
+
+  fileprivate func updateShowToBottomButton(_ scrollState: ScrollState) {
+    let contentHeight = scrollState.contentHeight
+    let containerHeight = scrollState.containerHeight
+    let contentOffsetY = scrollState.contentOffsetY
+
+    // Calculate distance from current position to bottom
+    // Distance = total content height - (current offset + visible height)
+    let distanceToBottom = contentHeight - (contentOffsetY + containerHeight)
+
+    // Show button if distance is greater than 1.5 container heights
+    // Using containerHeight directly ensures proper response to screen rotation
+    let threshold = containerHeight * 1.5
+    let shouldShow = distanceToBottom >= threshold
+
+    if shouldShow != showToBottomButton {
+      showToBottomButton = shouldShow
+    }
+
+    AppLogger.ui.debug("Scroll position - contentHeight: \(contentHeight), containerHeight: \(containerHeight), offset: \(contentOffsetY), distanceToBottom: \(distanceToBottom), threshold: \(threshold), showButton: \(shouldShow)")
   }
 }
 

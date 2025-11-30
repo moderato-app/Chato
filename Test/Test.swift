@@ -1,5 +1,3 @@
-// Created for Chato in 2024
-
 import Foundation
 import Testing
 

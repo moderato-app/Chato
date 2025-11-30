@@ -64,6 +64,7 @@ struct ChatListView: View {
         Section {
           emptyProviderCard()
         }
+        .listSectionSeparator(.hidden)
       }
 
       ForEach(chats, id: \.persistentModelID) { chat in
@@ -251,6 +252,7 @@ struct ChatListView: View {
     }
     .listRowInsets(SwiftUICore.EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))
     .listRowBackground(Color.clear)
+    .listRowSeparator(.hidden)
   }
 
   @ViewBuilder

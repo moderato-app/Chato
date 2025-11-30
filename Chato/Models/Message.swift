@@ -109,10 +109,6 @@ final class Message: Comparable {
 extension Message {
   enum MessageRole: String, CaseIterable, Codable {
     case assistant, system, user
-
-    var senderName: String {
-      self == .user ? "You" : self.rawValue.capitalized
-    }
   }
 
   enum MessageStatus: String, CaseIterable, Codable {

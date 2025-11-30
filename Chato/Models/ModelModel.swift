@@ -22,33 +22,13 @@ final class ModelModel: Sortable {
     self.pos = Int(Date().timeIntervalSince1970 * 1000)
   }
 
-  var sortOrder: SortOrder { .reverse }
-
   var resolvedName: String {
     name ?? modelNames[modelId] ?? modelId
-  }
-
-  var provider: String {
-    let sp = modelId.split(separator: "/")
-    if sp.count == 1 {
-      return ""
-    } else {
-      return String(sp[0])
-    }
-  }
-}
-
-extension Array where Element == ModelModel {
-  func reIndex() {
-    for (index, item) in enumerated() {
-      item.pos = index
-    }
   }
 }
 
 protocol Sortable: AnyObject {
   var pos: Int { get set }
-  var sortOrder: SortOrder { get }
 }
 
 // Dictionary to map model IDs to their names

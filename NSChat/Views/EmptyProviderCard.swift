@@ -1,0 +1,43 @@
+import SwiftUI
+
+struct EmptyProviderCard: View {
+  let onAddProvider: () -> Void
+  
+  var body: some View {
+    VStack(spacing: 16) {
+      Image(systemName: "cube.box")
+        .font(.system(size: 48))
+        .foregroundStyle(.secondary)
+
+      Text("No AI Provider")
+        .font(.headline)
+
+      Text("Add a provider to get started")
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        .multilineTextAlignment(.center)
+
+      Button {
+        onAddProvider()
+      } label: {
+        HStack {
+          Image(systemName: "plus.circle.fill")
+            .backgroundStyle(.foreground)
+          Text("Add Provider")
+        }
+      }
+      .buttonStyle(.borderedProminent)
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.vertical, 24)
+    .padding(.horizontal, 20)
+    .background {
+      RoundedRectangle(cornerRadius: 12)
+        .fill(Color(uiColor: .secondarySystemBackground))
+    }
+    .listRowInsets(SwiftUICore.EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))
+    .listRowBackground(Color.clear)
+    .listRowSeparator(.hidden)
+  }
+}
+

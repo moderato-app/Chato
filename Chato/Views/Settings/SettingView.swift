@@ -21,9 +21,7 @@ struct SettingView: View {
         appearanceSection
         
         providersSection
-        
-        ChatGPTSettingSection()
-        
+                
         appSection
         
         OtherViewGroup()

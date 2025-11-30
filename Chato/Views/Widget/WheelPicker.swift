@@ -1,36 +1,49 @@
 import AVFoundation
+import os
 import SwiftUI
 
-fileprivate let steps = 10
+private let steps = 10
 
-fileprivate enum Role {
+private enum Role {
   case primary, secondary, ordinary
 }
 
 struct WheelPicker: View {
   @Binding var value: Double
+  @Binding var resetTrigger: Int
+
   let start: Int
   let end: Int
   let defaultValue: Int
   let spacing: CGFloat
   let haptic: Bool
-  
+
   private let defaultIndex: Int
   @State private var actualIndex: Int
   @State private var loaded: Bool
   @State private var indicatorX: CGFloat = .zero
   @State private var defaultIndexX: CGFloat = .zero
 
-  init(value: Binding<Double>, start: Int, end: Int, defaultValue: Int, spacing: CGFloat = 13, haptic: Bool = true) {
+  init(
+    value: Binding<Double>,
+    resetTrigger: Binding<Int>,
+    start: Int,
+    end: Int,
+    defaultValue: Int,
+    spacing: CGFloat = 13,
+    haptic: Bool = true,
+  ) {
     self._value = value
+    self._resetTrigger = resetTrigger
     self.start = start
     self.end = end
     self.defaultValue = defaultValue
     self.spacing = spacing
     self.haptic = haptic
-    
+
     self.defaultIndex = Int(round((Double(defaultValue) - Double(start)) * 10))
-    self._actualIndex = State(initialValue: Int(round((value.wrappedValue - Double(start)) * Double(steps))))
+    let initialValue = value.wrappedValue
+    self._actualIndex = State(initialValue: Int(round((initialValue - Double(start)) * Double(steps))))
     self._loaded = State(initialValue: false)
   }
 
@@ -70,13 +83,12 @@ struct WheelPicker: View {
                     .offset(y: -10)
                     .animation(.default, value: actualIndex)
                     .padding(3)
-                    .onTapGesture { withAnimation { actualIndex = i }}
+                    .onTapGesture { withAnimation { reset() }}
                     .onGeometryChange(for: CGFloat.self) { proxy in
                       proxy.frame(in: .global).midX
-                    } action:{
+                    } action: {
                       defaultIndexX = $0
                     }
-
                 }
               }
           }
@@ -103,18 +115,18 @@ struct WheelPicker: View {
           .frame(width: 2, height: 25)
           .onGeometryChange(for: CGFloat.self) { proxy in
             proxy.frame(in: .global).midX
-          } action:{
+          } action: {
             indicatorX = $0
           }
-          .overlay(alignment: .trailing){
-            if status == .bigger && indicatorX > defaultIndexX{
+          .overlay(alignment: .trailing) {
+            if status == .bigger && indicatorX > defaultIndexX {
               Rectangle()
                 .fill(indicatorColor.opacity(0.2))
                 .frame(width: indicatorX - defaultIndexX + 1.5, height: 25)
             }
           }
-          .overlay(alignment: .leading){
-            if status == .smaller && defaultIndexX > indicatorX{
+          .overlay(alignment: .leading) {
+            if status == .smaller && defaultIndexX > indicatorX {
               Rectangle()
                 .fill(indicatorColor.opacity(0.2))
                 .frame(width: defaultIndexX - indicatorX + 1.5, height: 25)
@@ -125,44 +137,42 @@ struct WheelPicker: View {
       }
       .safeAreaPadding(.horizontal, hPadding)
     }
-    .onChange(of: actualIndex) { _, b in
-      if loaded && !isUpdating{
-        isUpdating = true
-        withAnimation{
-          value = indexToValue(b)
-        }
-        if haptic{
-          AudioServicesPlayAlertSound(SystemSoundID(1460))
-        }
-        isUpdating = false
+    .onChange(of: resetTrigger) { _, newTrigger in
+      if newTrigger != 0 {
+        withAnimation { reset() }
       }
     }
-    .onChange(of: value) { _, b in
-      if loaded && !isUpdating{
-        isUpdating = true
-        withAnimation{
-          actualIndex = valueToIndex(b)
+    .onChange(of: actualIndex) { _, newIndex in
+      guard loaded else { return }
+
+      // Update local value immediately for smooth UI
+      let newValue = indexToValue(newIndex)
+
+      if !doubleEqual(value, newValue) {
+        withAnimation {
+          value = newValue
         }
-        if haptic{
-          AudioServicesPlayAlertSound(SystemSoundID(1460))
-        }
-        isUpdating = false
+        AppLogger.ui.debug("WheelPicker: value changed to \(newValue, format: .fixed(precision: 2))")
+      }
+
+      // Play haptic feedback
+      if haptic {
+        AudioServicesPlayAlertSound(SystemSoundID(1460))
       }
     }
   }
-  
-  @State private var isUpdating = false
 
   var status: Status {
-    if actualIndex == defaultIndex{
-      return Status.equal
-    } else if actualIndex < defaultIndex {
-      return Status.smaller
+    let compareIndex = valueToIndex(value)
+    if compareIndex == defaultIndex {
+      return .equal
+    } else if compareIndex < defaultIndex {
+      return .smaller
     } else {
-      return Status.bigger
+      return .bigger
     }
   }
-  
+
   var indicatorColor: Color {
     switch status {
     case .bigger:
@@ -174,21 +184,25 @@ struct WheelPicker: View {
     }
   }
 
+  func reset() {
+    actualIndex = defaultIndex
+  }
 
   enum Status: Equatable {
     case smaller, bigger, equal
   }
 
-  func indexToValue(_ index: Int) -> Double {
+  private func indexToValue(_ index: Int) -> Double {
     return Double(index) / Double(steps) + Double(start)
   }
 
-  func valueToIndex(_ value: Double) -> Int {
+  private func valueToIndex(_ value: Double) -> Int {
     return Int(round((value - Double(start)) * Double(steps)))
   }
 }
 
 #Preview("GPTWheelPicker") {
   @Previewable @State var value = 0.3
-  WheelPicker(value: $value, start: -1, end: 1, defaultValue: 0)
+  @Previewable @State var resetTrigger = 1
+  WheelPicker(value: $value, resetTrigger: $resetTrigger, start: -1, end: 1, defaultValue: 0)
 }

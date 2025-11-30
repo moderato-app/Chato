@@ -13,6 +13,7 @@ struct MessageList: View {
   @EnvironmentObject private var em: EM
   @Environment(\.colorScheme) private var colorScheme
   @EnvironmentObject private var pref: Pref
+  @Environment(\.screenHeight) private var screenHeight
   @State private var triggerHaptic: Bool = false
 
   @State private var showToBottomButton = false
@@ -57,7 +58,8 @@ struct MessageList: View {
 
   var body: some View {
 //    let _ = Self.printChagesWhenDebug()
-    ScrollView {
+    let currentScreenHeight = screenHeight
+    return ScrollView {
       VStack(alignment: .leading) {
         ForEach(messages, id: \.self) { msg in
 //          let _ = Self.printChagesWhenDebug()
@@ -66,7 +68,7 @@ struct MessageList: View {
             .if(pref.magicScrolling) { c in
               c.visualEffect { content, proxy in
                 let frame = proxy.frame(in: .scrollView(axis: .vertical))
-                let distance = min(0, frame.height > UIScreen.main.bounds.height / 4 ? 0 : frame.minY)
+                let distance = min(0, frame.height > currentScreenHeight / 4 ? 0 : frame.minY)
                 var scale = (1 + distance / 700)
                 if scale < 0 {
                   scale = 0
@@ -86,7 +88,7 @@ struct MessageList: View {
           Color.clear
             .onChange(of: proxy.size.height, initial: true) { _, newValue in
               // Use debouncing to avoid frequent updates
-              let shouldPresent = newValue > UIScreen.main.bounds.height
+              let shouldPresent = newValue > currentScreenHeight
               if scrollIndicatorPresented != shouldPresent {
                 scrollIndicatorPresented = shouldPresent
               }

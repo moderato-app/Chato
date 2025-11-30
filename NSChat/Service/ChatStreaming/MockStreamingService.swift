@@ -13,7 +13,7 @@ class MockStreamingService: ChatStreamingServiceProtocol {
   
   /// Background queue for handling streaming requests
   private let streamingQueue = DispatchQueue(
-    label: "com.chato.mockstreaming",
+    label: bundleName + ".mockstreaming",
     qos: .userInitiated
   )
   
@@ -175,4 +175,3 @@ class MockStreamingService: ChatStreamingServiceProtocol {
     return finalWords.joined(separator: " ") + " ⚠️"
   }
 }
-

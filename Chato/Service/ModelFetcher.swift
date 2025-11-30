@@ -6,7 +6,7 @@ protocol ModelFetcher {
   func fetchModels(apiKey: String, endpoint: String?) async throws -> [ModelInfo]
 }
 
-struct ModelInfo: Sendable {
+struct ModelInfo: Sendable, Equatable {
   let id: String
   let name: String
   let contextLength: Int?

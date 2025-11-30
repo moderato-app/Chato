@@ -37,24 +37,54 @@ struct ModelSelectionContent: View {
   @Binding var favoritesExpanded: Bool
   let dismiss: DismissAction
   
-  private var favoritedModels: [ModelEntity] {
+  private func favoritedModels() -> [ModelEntity] {
     let filtered = allModels.filter { $0.favorited }
-    return ModelEntity.smartSort(filtered)
+    let sorted = ModelEntity.smartSort(filtered)
+    return sorted
+  }
+  
+  private func searchKeywords() -> [String] {
+    return parseSearchText(searchText)
   }
   
   private var filteredModels: [ModelEntity] {
-    if searchText.isEmpty {
+    let keywords = searchKeywords()
+    if keywords.isEmpty {
       return allModels
     }
-    return allModels.filter { model in
-      model.resolvedName.localizedStandardContains(searchText) ||
-        model.modelId.localizedStandardContains(searchText)
+    let filtered = allModels.filter { model in
+      let nameMatches = matchesKeywords(text: model.resolvedName, keywords: keywords)
+      let idMatches = matchesKeywords(text: model.modelId, keywords: keywords)
+      return nameMatches || idMatches
+    }
+    return filtered
+  }
+  
+  private func parseSearchText(_ text: String) -> [String] {
+    let separators = CharacterSet(charactersIn: " ,")
+    let keywords = text.components(separatedBy: separators)
+      .map { $0.trimmingCharacters(in: .whitespaces) }
+      .filter { !$0.isEmpty }
+    return keywords
+  }
+  
+  private func matchesKeywords(text: String, keywords: [String]) -> Bool {
+    guard !keywords.isEmpty else { return true }
+    
+    let lowercasedText = text.lowercased()
+    return keywords.contains { keyword in
+      lowercasedText.contains(keyword.lowercased())
     }
   }
   
   private var groupedProviders: [(provider: Provider, models: [ModelEntity])] {
-    let filtered = searchText.isEmpty ? allModels : filteredModels
-    return filtered.groupedByProvider()
+    let modelsToGroup: [ModelEntity]
+    if searchText.isEmpty {
+      modelsToGroup = allModels
+    } else {
+      modelsToGroup = filteredModels
+    }
+    return modelsToGroup.groupedByProvider()
   }
   
   var body: some View {
@@ -83,28 +113,26 @@ struct ModelSelectionContent: View {
   
   @ViewBuilder
   private var favoritesSection: some View {
-    if !favoritedModels.isEmpty && searchText.isEmpty {
-      favoritesSectionContent
-    }
-  }
-  
-  private var favoritesSectionContent: some View {
-    DisclosureGroup(
-      isExpanded: $favoritesExpanded
-    ) {
-      ForEach(favoritedModels) { model in
-        ModelSelectionRow(
-          model: model,
-          isSelected: model.id == chatOption.model?.id,
-          showProvider: true
-        ) {
-          selectModel(model)
+    let favorited = favoritedModels()
+    if !favorited.isEmpty && searchText.isEmpty {
+      DisclosureGroup(
+        isExpanded: $favoritesExpanded
+      ) {
+        ForEach(favorited) { model in
+          ModelSelectionRow(
+            model: model,
+            isSelected: model.id == chatOption.model?.id,
+            showProvider: true,
+            searchKeywords: searchKeywords()
+          ) {
+            selectModel(model)
+          }
+          .id(model.id)
         }
-        .id(model.id)
+      } label: {
+        Label("Favorites", systemImage: "star.fill")
+          .foregroundColor(.yellow)
       }
-    } label: {
-      Label("Favorites", systemImage: "star.fill")
-        .foregroundColor(.yellow)
     }
   }
   
@@ -123,7 +151,8 @@ struct ModelSelectionContent: View {
         ModelSelectionRow(
           model: model,
           isSelected: model.id == chatOption.model?.id,
-          showProvider: false
+          showProvider: false,
+          searchKeywords: searchKeywords()
         ) {
           selectModel(model)
         }
@@ -179,8 +208,9 @@ struct ModelSelectionContent: View {
     guard expandedProviders.isEmpty else { return }
     
     // Check if selected model exists and is not in favorites
+    let favorited = favoritedModels()
     if let selectedModel = chatOption.model,
-       !favoritedModels.contains(where: { $0.id == selectedModel.id }) {
+       !favorited.contains(where: { $0.id == selectedModel.id }) {
       // Find and expand only the provider containing the selected model
       if let providerGroup = groupedProviders.first(where: { group in
         group.models.contains(where: { $0.id == selectedModel.id })
@@ -210,52 +240,96 @@ struct ModelSelectionRow: View {
   let model: ModelEntity
   let isSelected: Bool
   let showProvider: Bool
+  let searchKeywords: [String]
   let action: () -> Void
   
   var body: some View {
-    Button(action: action) {
-      HStack(spacing: 12) {
-        if model.favorited {
-          Image(systemName: "star.fill")
-            .foregroundColor(.yellow)
-            .font(.caption)
-        }
-        
-        VStack(alignment: .leading, spacing: 4) {
-          Text(model.resolvedName)
+    HStack(spacing: 12) {
+      Button(action: action) {
+        HStack(spacing: 12) {
+          VStack(alignment: .leading, spacing: 4) {
+            HighlightedText(
+              text: model.resolvedName,
+              keywords: searchKeywords
+            )
             .font(.body)
             .foregroundColor(.primary)
-          
-          HStack(spacing: 8) {
-            if showProvider {
-              Label(model.provider.displayName, systemImage: model.provider.iconName)
-                .font(.caption)
-                .foregroundColor(.secondary)
-            }
             
-            if model.isCustom {
-              Label("Custom", systemImage: "wrench")
-                .font(.caption2)
-                .foregroundColor(.blue)
-            }
-            
-            if let contextLength = model.contextLength {
-              Text("\(contextLength)k")
-                .font(.caption)
-                .foregroundColor(.secondary)
+            HStack(spacing: 8) {
+              if showProvider {
+                Label(model.provider.displayName, systemImage: model.provider.iconName)
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
+              
+              if model.isCustom {
+                Label("Custom", systemImage: "wrench")
+                  .font(.caption2)
+                  .foregroundColor(.blue)
+              }
+              
+              if let contextLength = model.contextLength {
+                Text("\(contextLength)k")
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
             }
           }
+          
+          Spacer()
+          
+          if isSelected {
+            Image(systemName: "checkmark")
+              .foregroundColor(.accentColor)
+          }
         }
-        
-        Spacer()
-        
-        if isSelected {
-          Image(systemName: "checkmark")
-            .foregroundColor(.accentColor)
-        }
+        .contentShape(Rectangle())
       }
-      .contentShape(Rectangle())
+      .buttonStyle(.plain)
+      
+      Button {
+        withAnimation {
+          model.favorited.toggle()
+        }
+      } label: {
+        Image(systemName: model.favorited ? "star.fill" : "star")
+          .foregroundColor(model.favorited ? .yellow : .gray)
+      }
+      .buttonStyle(.plain)
     }
-    .buttonStyle(.plain)
+  }
+}
+
+struct HighlightedText: View {
+  let text: String
+  let keywords: [String]
+  
+  var body: some View {
+    if keywords.isEmpty {
+      Text(text)
+    } else {
+      Text(attributedString)
+    }
+  }
+  
+  private var attributedString: AttributedString {
+    var attributed = AttributedString(text)
+    
+    let lowercasedText = text.lowercased()
+    
+    for keyword in keywords {
+      let lowercasedKeyword = keyword.lowercased()
+      var searchRange = lowercasedText.startIndex..<lowercasedText.endIndex
+      
+      while let range = lowercasedText.range(of: lowercasedKeyword, options: [], range: searchRange) {
+        if let attributedRange = Range(range, in: attributed) {
+          attributed[attributedRange].backgroundColor = .yellow.opacity(0.3)
+          attributed[attributedRange].font = .body.bold()
+        }
+        searchRange = range.upperBound..<lowercasedText.endIndex
+      }
+    }
+    
+    return attributed
   }
 }

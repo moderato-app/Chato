@@ -10,7 +10,12 @@ class Pref: ObservableObject {
   @AppStorage("magicScrolling") var magicScrolling: Bool = true
 
   @AppStorage("colorScheme") var colorScheme: AppColorScheme = .system
- 
+
+  // ChatGPT
+  @AppStorage("gptApiKey") var gptApiKey: String = ""
+  @AppStorage("gptUseProxy") var gptEnableEndpoint: Bool = false
+  @AppStorage("gptEndpoint") var gptEndpoint: String = "https://api.openai.com"
+
   // ChatGPT last used option
   @AppStorage("lastUsedContextLength") var lastUsedContextLength: Int?
   @AppStorage("lastUsedPromptId") var lastUsedPromptId: String?

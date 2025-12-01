@@ -3,6 +3,7 @@ import SwiftData
 
 @Model
 final class ChatOption {
+  @Attribute(originalName: "model") var oldModel: String = ""
   @Attribute(originalName: "context_length") var contextLength: Int
   @Relationship(originalName: "prompt") var prompt: Prompt?
   // temperature  number or null  Optional  Defaults to 1

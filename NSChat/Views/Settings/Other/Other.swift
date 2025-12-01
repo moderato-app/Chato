@@ -1,7 +1,7 @@
 import SwiftUI
 
-let privacyHTTPS = "https://nschato.moderato.app/privacy"
-let termsHTTPS = "https://nschato.moderato.app/terms"
+let privacyHTTPS = "https://nschat.moderato.app/privacy"
+let termsHTTPS = "https://nschat.moderato.app/terms"
 let testFlightHTTPS = "https://testflight.apple.com/join/axaO3S26"
 let appHTTPS = "https://apps.apple.com/us/app/chato/id6478404197"
 

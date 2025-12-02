@@ -27,8 +27,6 @@ struct SettingView: View {
     NavigationView {
       List {
         appearanceSection
-        
-        providersSection
                 
         appSection
         

@@ -39,13 +39,10 @@ struct ProviderRow: View {
   
   var body: some View {
     HStack {
-      Image(systemName: provider.iconName)
-        .foregroundColor(.accentColor)
-        .frame(width: 24, height: 24)
-      
       VStack(alignment: .leading, spacing: 4) {
         Text(provider.displayName)
           .font(.body)
+          .foregroundColor(provider.enabled ? .primary : .secondary)
         
         Text("\(provider.models.count) models")
           .font(.caption)
@@ -53,11 +50,6 @@ struct ProviderRow: View {
       }
       
       Spacer()
-      
-      if !provider.enabled {
-        Image(systemName: "exclamationmark.triangle")
-          .foregroundColor(.orange)
-      }
     }
   }
 }

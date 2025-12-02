@@ -257,7 +257,7 @@ struct ModelSelectionRow: View {
 
             HStack(spacing: 8) {
               if showProvider {
-                Label(model.provider.displayName, systemImage: model.provider.iconName)
+                Text(model.provider.displayName)
                   .font(.caption)
                   .foregroundColor(.secondary)
               }

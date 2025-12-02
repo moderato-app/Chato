@@ -81,10 +81,12 @@ struct ProviderDetailView: View {
         Text("Models (\(provider.models.count))")
         Spacer()
         if fetchStatus != .fetching {
-          Button("Refresh") {
+          Button {
             fetchModels()
+          } label: {
+            Image(systemName: "arrow.clockwise")
+              .font(.caption)
           }
-          .font(.caption)
         }
       }
     }

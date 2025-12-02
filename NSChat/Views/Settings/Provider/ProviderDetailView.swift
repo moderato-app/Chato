@@ -209,12 +209,6 @@ struct ModelRow: View {
           .font(.body)
         
         HStack(spacing: 8) {
-          if model.isCustom {
-            Label("Custom", systemImage: "wrench")
-              .font(.caption2)
-              .foregroundColor(.blue)
-          }
-          
           if let contextLength = model.contextLength {
             Text("\(contextLength)k context")
               .font(.caption)
@@ -224,6 +218,11 @@ struct ModelRow: View {
       }
       
       Spacer()
+      
+      if model.isCustom {
+        Image(systemName: "wrench")
+          .foregroundColor(.primary)
+      }
       
       if model.favorited {
         Button {
@@ -261,6 +260,7 @@ struct ModelRow: View {
       } label: {
         Label("Edit", systemImage: "pencil")
       }
+      .disabled(!model.isCustom)
       
       Button {
         withAnimation {
@@ -272,6 +272,8 @@ struct ModelRow: View {
           systemImage: model.favorited ? "star.slash" : "star"
         )
       }
+      
+      Divider()
       
       Button(role: .destructive) {
         modelContext.delete(model)

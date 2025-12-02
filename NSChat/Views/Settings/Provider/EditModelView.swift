@@ -10,31 +10,21 @@ struct EditModelView: View {
   
   @State private var modelId: String
   @State private var modelName: String
-  @State private var contextLength: String
   
   init(model: ModelEntity) {
     self.model = model
     _modelId = State(initialValue: model.modelId)
     _modelName = State(initialValue: model.modelName ?? "")
-    _contextLength = State(initialValue: model.contextLength.map { String($0) } ?? "")
   }
   
   var body: some View {
     NavigationStack {
       Form {
-        Section {
-          TextField("Model ID", text: $modelId)
-            .autocapitalization(.none)
-            .autocorrectionDisabled()
-          
-          TextField("Display Name (Optional)", text: $modelName)
-          
-          TextField("Context Length (Optional)", text: $contextLength)
-            .keyboardType(.numberPad)
-        } header: {
-          Text("Model Information")
-        } footer: {
-          Text("Model ID is required and must be unique")
+        Section("Model ID") {
+          TextField("", text: $modelId)
+        }
+        Section("Model Name") {
+          TextField("Optional", text: $modelName)
         }
       }
       .navigationTitle("Edit Model")
@@ -59,9 +49,18 @@ struct EditModelView: View {
   private func saveModel() {
     model.modelId = modelId
     model.modelName = modelName.isEmpty ? nil : modelName
-    model.contextLength = Int(contextLength)
     
-    AppLogger.data.info("Updated model: \(modelId)")
+    // Force save to ensure SwiftData updates are persisted and view refreshes immediately
+    do {
+      try modelContext.save()
+      AppLogger.data.info("Updated model: \(modelId)")
+    } catch {
+      AppLogger.logError(.from(
+        error: error,
+        operation: "Update model",
+        component: "EditModelView"
+      ))
+    }
     
     dismiss()
   }

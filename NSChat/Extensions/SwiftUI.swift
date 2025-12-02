@@ -77,16 +77,6 @@ extension Color {
   }
 }
 
-extension UIApplication {
-  static var keyWindow: UIWindow? {
-    UIApplication.shared
-      .connectedScenes.lazy
-      .compactMap { $0.activationState == .foregroundActive ? ($0 as? UIWindowScene) : nil }
-      .first(where: { $0.keyWindow != nil })?
-      .keyWindow
-  }
-}
-
 // https://stackoverflow.com/a/72026504
 // tap anywhere to lose focus
 struct RemoveFocusOnTapModifier: ViewModifier {

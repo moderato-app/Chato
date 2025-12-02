@@ -12,8 +12,6 @@ struct ProviderListView: View {
 }
 
 private struct ListProvider: View {
-  private static let sortOrder = [SortDescriptor(\Provider.createdAt, order: .reverse)]
-  
   @Query(sort: \Provider.createdAt, order: .reverse) private var allProviders: [Provider]
   
   @State private var isAddProviderPresented = false
@@ -97,6 +95,26 @@ private struct ListProvider: View {
   func deleteProviders(at offsets: IndexSet) {
     providersToDelete = offsets.map { providers[$0] }
     isDeleteProviderConfirmPresented = true
+  }
+}
+
+struct ProviderRow: View {
+  let provider: Provider
+  
+  var body: some View {
+    HStack {
+      VStack(alignment: .leading, spacing: 4) {
+        Text(provider.displayName)
+          .font(.body)
+          .foregroundColor(provider.enabled ? .primary : .secondary)
+        
+        Text("\(provider.models.count) models")
+          .font(.caption)
+          .foregroundColor(.secondary)
+      }
+      
+      Spacer()
+    }
   }
 }
 

@@ -25,10 +25,5 @@ extension SettingView {
                   Color.cyan]
     return colors[i % colors.count]
   }
-  
-  func deleteProviders(at offsets: IndexSet) {
-    providersToDelete = offsets.map { providers[$0] }
-    isDeleteProviderConfirmPresented = true
-  }
 }
 

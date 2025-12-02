@@ -36,10 +36,6 @@ final class Provider {
     return type.displayName
   }
   
-  var iconName: String {
-    type.iconName
-  }
-  
   var allModelsSorted: [ModelEntity] {
     ModelEntity.smartSort(models)
   }

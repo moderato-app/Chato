@@ -11,12 +11,8 @@ struct ProviderConfigurationForm: View {
     Section {
       Picker("Provider Type", selection: $providerType) {
         ForEach(ProviderType.allCases, id: \.self) { type in
-          Label {
-            Text(type.displayName)
-          } icon: {
-            Image(systemName: type.iconName)
-          }
-          .tag(type)
+          Text(type.displayName)
+            .tag(type)
         }
       }
     } header: {

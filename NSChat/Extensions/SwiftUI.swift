@@ -89,8 +89,8 @@ extension UIApplication {
 
 // https://stackoverflow.com/a/72026504
 // tap anywhere to lose focus
-public struct RemoveFocusOnTapModifier: ViewModifier {
-  public func body(content: Content) -> some View {
+struct RemoveFocusOnTapModifier: ViewModifier {
+  func body(content: Content) -> some View {
     content
     #if os(iOS)
     .onTapGesture {

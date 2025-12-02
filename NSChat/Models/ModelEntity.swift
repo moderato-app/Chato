@@ -48,8 +48,4 @@ extension Array where Element == ModelEntity {
       return (provider: provider, models: sortedModels)
     }.sorted { $0.provider.displayName < $1.provider.displayName }
   }
-
-  var favorited: [ModelEntity] {
-    ModelEntity.smartSort(filter { $0.favorited })
-  }
 }

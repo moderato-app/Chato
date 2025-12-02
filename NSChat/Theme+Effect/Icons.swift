@@ -124,7 +124,6 @@ struct PlusIcon: View {
 }
 
 struct ContextLengthCircle: View {
-  @Environment(\.colorScheme) var colorScheme
   let contextLength: Int
 
   init(_ contextLength: Int) {

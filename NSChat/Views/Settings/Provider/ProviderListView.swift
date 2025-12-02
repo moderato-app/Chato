@@ -14,7 +14,7 @@ struct ProviderListView: View {
 private struct ListProvider: View {
   private static let sortOrder = [SortDescriptor(\Provider.createdAt, order: .reverse)]
   
-  @Query(sort: \Provider.createdAt, order: .reverse) private var providers: [Provider]
+  @Query(sort: \Provider.createdAt, order: .reverse) private var allProviders: [Provider]
   
   @State private var isAddProviderPresented = false
   @State private var isDeleteProviderConfirmPresented: Bool = false
@@ -22,14 +22,19 @@ private struct ListProvider: View {
   
   @Environment(\.modelContext) private var modelContext
   
+  let searchString: String
+  
   init(searchString: String) {
-    _providers = Query(filter: #Predicate {
-      if searchString.isEmpty {
-        return true
-      } else {
-        return $0.displayName.localizedStandardContains(searchString)
-      }
-    }, sort: Self.sortOrder)
+    self.searchString = searchString
+  }
+  
+  private var providers: [Provider] {
+    if searchString.isEmpty {
+      return allProviders
+    }
+    return allProviders.filter { provider in
+      provider.displayName.localizedStandardContains(searchString)
+    }
   }
   
   var body: some View {

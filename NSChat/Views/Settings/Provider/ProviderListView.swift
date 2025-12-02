@@ -65,6 +65,7 @@ private struct ListProvider: View {
             Text("Add Provider")
           }
         }
+        .foregroundStyle(.tint)
       }
     }
     .listStyle(.plain)

@@ -6,28 +6,31 @@ extension ModelEntity {
   /// Smart sort Models
   /// Sorting rules:
   /// 1. Favorited models come first
-  /// 2. Extract numbers from name, larger numbers come first
-  /// 3. If numbers are the same, more numbers come first
-  /// 4. If numbers are identical, sort alphabetically
+  /// 2. Custom models come first (after favorited)
+  /// 3. Extract numbers from name, larger numbers come first
+  /// 4. If numbers are the same, more numbers come first
+  /// 5. If numbers are identical, sort alphabetically
   static func smartSort(_ models: [ModelEntity]) -> [ModelEntity] {
-    sortModels(models, prioritizeFavorited: true)
+    sortModels(models, prioritizeFavorited: true, prioritizeCustom: true)
   }
   
   /// Sort models by version numbers and name, without favorited priority
   /// Sorting rules:
-  /// 1. Extract numbers from name, larger numbers come first
-  /// 2. If numbers are the same, more numbers come first
-  /// 3. If numbers are identical, sort alphabetically
+  /// 1. Custom models come first
+  /// 2. Extract numbers from name, larger numbers come first
+  /// 3. If numbers are the same, more numbers come first
+  /// 4. If numbers are identical, sort alphabetically
   static func versionSort(_ models: [ModelEntity]) -> [ModelEntity] {
-    sortModels(models, prioritizeFavorited: false)
+    sortModels(models, prioritizeFavorited: false, prioritizeCustom: true)
   }
   
   /// Internal sort implementation
   /// - Parameters:
   ///   - models: Models to sort
   ///   - prioritizeFavorited: Whether to prioritize favorited models
+  ///   - prioritizeCustom: Whether to prioritize custom models
   /// - Returns: Sorted models array
-  private static func sortModels(_ models: [ModelEntity], prioritizeFavorited: Bool) -> [ModelEntity] {
+  private static func sortModels(_ models: [ModelEntity], prioritizeFavorited: Bool, prioritizeCustom: Bool) -> [ModelEntity] {
     // Pre-process: extract numbers once for each model to avoid repeated calculations
     let modelsWithNumbers = models.map { model in
       (model: model, numbers: extractNumbers(from: model.resolvedName))
@@ -45,7 +48,12 @@ extension ModelEntity {
         return model1.favorited && !model2.favorited
       }
       
-      // Rule 2: Compare version numbers
+      // Rule 2: Custom models come first (after favorited if enabled)
+      if prioritizeCustom && model1.isCustom != model2.isCustom {
+        return model1.isCustom && !model2.isCustom
+      }
+      
+      // Rule 3: Compare version numbers
       // Compare numbers one by one
       let minCount = min(numbers1.count, numbers2.count)
       for i in 0..<minCount {

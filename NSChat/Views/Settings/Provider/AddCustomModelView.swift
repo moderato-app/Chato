@@ -10,24 +10,15 @@ struct AddCustomModelView: View {
   
   @State private var modelId: String = ""
   @State private var modelName: String = ""
-  @State private var contextLength: String = ""
   
   var body: some View {
     NavigationStack {
       Form {
-        Section {
-          TextField("Model ID", text: $modelId)
-            .autocapitalization(.none)
-            .autocorrectionDisabled()
-          
-          TextField("Display Name (Optional)", text: $modelName)
-          
-          TextField("Context Length (Optional)", text: $contextLength)
-            .keyboardType(.numberPad)
-        } header: {
-          Text("Model Information")
-        } footer: {
-          Text("Model ID is required and must be unique")
+        Section("Model ID") {
+          TextField("", text: $modelId)
+        }
+        Section("Model Name") {
+          TextField("Optional", text: $modelName)
         }
       }
       .navigationTitle("Add Custom Model")
@@ -50,19 +41,27 @@ struct AddCustomModelView: View {
   }
   
   private func addModel() {
-    let contextLengthInt = Int(contextLength)
-    
     let model = ModelEntity(
       provider: provider,
       modelId: modelId,
       modelName: modelName.isEmpty ? nil : modelName,
-      contextLength: contextLengthInt,
+      contextLength: nil,
       isCustom: true,
     )
     
     modelContext.insert(model)
     
-    AppLogger.data.info("Added custom model: \(modelId) to \(provider.displayName)")
+    // Force save to ensure SwiftData updates are persisted and view refreshes immediately
+    do {
+      try modelContext.save()
+      AppLogger.data.info("Added custom model: \(modelId) to \(provider.displayName)")
+    } catch {
+      AppLogger.logError(.from(
+        error: error,
+        operation: "Add custom model",
+        component: "AddCustomModelView"
+      ))
+    }
     
     dismiss()
   }

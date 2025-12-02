@@ -255,6 +255,10 @@ struct ModelRow: View {
       }
     }
     .contextMenu {
+      Text(model.modelId)
+      
+      Divider()
+      
       Button {
         onEdit()
       } label: {

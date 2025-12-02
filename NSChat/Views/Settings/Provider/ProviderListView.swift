@@ -71,15 +71,6 @@ private struct ListProvider: View {
     .listStyle(.plain)
     .animation(.default, value: providers.count)
     .navigationBarTitle("Providers")
-    .toolbar {
-      ToolbarItem(placement: .primaryAction) {
-        Button {
-          isAddProviderPresented = true
-        } label: {
-          PlusIcon()
-        }
-      }
-    }
     .sheet(isPresented: $isAddProviderPresented) {
       AddProviderView()
     }

@@ -17,6 +17,15 @@ extension SettingView {
           }
         }
         .onDelete(perform: deleteProviders)
+        
+        Button {
+          showingAddProvider = true
+        } label: {
+          HStack {
+            Image(systemName: "plus.circle.fill")
+            Text("Add Provider")
+          }
+        }
       }
     } header: {
       Text("AI Providers")

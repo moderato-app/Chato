@@ -176,6 +176,7 @@ struct ProviderDetailView: View {
 }
 
 struct ModelRow: View {
+  @Environment(\.modelContext) private var modelContext
   let model: ModelEntity
   
   var body: some View {
@@ -201,15 +202,48 @@ struct ModelRow: View {
       
       Spacer()
       
+      if model.favorited {
+        Image(systemName: "star.fill")
+          .foregroundColor(.yellow)
+      }
+    }
+    .swipeActions(edge: .leading, allowsFullSwipe: true) {
       Button {
         withAnimation {
           model.favorited.toggle()
         }
       } label: {
-        Image(systemName: model.favorited ? "star.fill" : "star")
-          .foregroundColor(model.favorited ? .yellow : .gray)
+        Label(
+          model.favorited ? "Unstar" : "Star",
+          systemImage: model.favorited ? "star.slash.fill" : "star.fill"
+        )
       }
-      .buttonStyle(.plain)
+      .tint(.yellow)
+    }
+    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+      Button(role: .destructive) {
+        modelContext.delete(model)
+      } label: {
+        Label("Delete", systemImage: "trash")
+      }
+    }
+    .contextMenu {
+      Button {
+        withAnimation {
+          model.favorited.toggle()
+        }
+      } label: {
+        Label(
+          model.favorited ? "Unfavorite" : "Favorite",
+          systemImage: model.favorited ? "star.slash" : "star"
+        )
+      }
+      
+      Button(role: .destructive) {
+        modelContext.delete(model)
+      } label: {
+        Label("Delete", systemImage: "trash")
+      }
     }
   }
 }

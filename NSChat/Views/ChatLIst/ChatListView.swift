@@ -168,11 +168,14 @@ struct ChatListView: View {
         }.fontWeight(.semibold)
       } else {
         Menu("", systemImage: "ellipsis.circle") {
+          NavigationLink(value: NavigationRoute.providerList) {
+            Label("Providers", systemImage: "bolt.fill")
+          }
           NavigationLink(value: NavigationRoute.promptList) {
-            Label("Prompts", systemImage: "p.square")
+            Label("Prompts", systemImage: "lightbulb.fill")
           }
           if !chats.isEmpty {
-            Button("Select Chats", systemImage: "checkmark.circle") {
+            Button("Select Chats", systemImage: "checkmark") {
               withAnimation {
                 editMode = .active
               }

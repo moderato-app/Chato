@@ -15,6 +15,8 @@ struct HomePage: View {
         .navigationDestination(for: Prompt.self) { PromptEditorView($0) }
         .navigationDestination(for: String.self) { str in
           switch str {
+          case NavigationRoute.providerList:
+            ProviderListView()
           case NavigationRoute.promptList:
             PromptListView()
           case NavigationRoute.newPrompt:

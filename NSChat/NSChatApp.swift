@@ -3,7 +3,7 @@ import SwiftUI
 import TipKit
 import os
 
-public let bundleName = Bundle.main.bundleIdentifier ?? "app.moderato.Chato.Chato"
+let bundleName = Bundle.main.bundleIdentifier ?? "app.moderato.Chato.Chato"
 
 @main
 struct NSChat: App {

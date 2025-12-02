@@ -7,7 +7,7 @@ class StoreVM: ObservableObject {
   @Published private(set) var purchasedSubscriptions: [Product] = []
   @Published private(set) var purchasedConsumable: [Product] = []
 
-  @Published public var coffeeCount: Int {
+  @Published var coffeeCount: Int {
     didSet {
       UserDefaults.standard.set(coffeeCount, forKey: "coffeeCount")
     }
@@ -62,57 +62,6 @@ class StoreVM: ObservableObject {
     }
   }
     
-  // purchase the product
-  func purchase(_ product: Product) async throws -> Transaction? {
-    let result = try await product.purchase()
-        
-    switch result {
-    case .success(let verification):
-      // Check whether the transaction is verified. If it isn't,
-      // this function rethrows the verification error.
-      let transaction = try checkVerified(verification)
-            
-      // The transaction is verified. Deliver content to the user.
-      await updateCustomerProductStatus()
-            
-      // Always finish a transaction.
-      await transaction.finish()
-
-      return transaction
-    case .userCancelled, .pending:
-      return nil
-    default:
-      return nil
-    }
-  }
-    
-  // purchase the product
-  func purchase(_ productId: String) async throws -> Transaction? {
-    guard let product = presetProducts.first(where: { $0.id == productId }) else {
-      return nil
-    }
-    let result = try await product.purchase()
-        
-    switch result {
-    case .success(let verification):
-      // Check whether the transaction is verified. If it isn't,
-      // this function rethrows the verification error.
-      let transaction = try checkVerified(verification)
-            
-      // The transaction is verified. Deliver content to the user.
-      await updateCustomerProductStatus()
-            
-      // Always finish a transaction.
-      await transaction.finish()
-
-      return transaction
-    case .userCancelled, .pending:
-      return nil
-    default:
-      return nil
-    }
-  }
-    
   func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
     // Check whether the JWS passes StoreKit verification.
     switch result {
@@ -156,6 +105,6 @@ class StoreVM: ObservableObject {
   }
 }
 
-public enum StoreError: Error {
+enum StoreError: Error {
   case failedVerification
 }

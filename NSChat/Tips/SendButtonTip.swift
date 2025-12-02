@@ -1,7 +1,7 @@
 import TipKit
 
 struct SendButtonTip: Tip {
-  public static let instance = SendButtonTip()
+  static let instance = SendButtonTip()
   var title: Text {
     Text("Long press")
       .foregroundStyle(.indigo)

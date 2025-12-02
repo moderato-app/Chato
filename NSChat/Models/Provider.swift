@@ -37,7 +37,7 @@ final class Provider {
   }
   
   var allModelsSorted: [ModelEntity] {
-    ModelEntity.smartSort(models)
+    ModelEntity.versionSort(models)
   }
 }
 

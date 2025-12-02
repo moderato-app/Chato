@@ -8,6 +8,7 @@ struct ProviderDetailView: View {
   @Bindable var provider: Provider
   
   @State private var showingAddModel = false
+  @State private var modelToEdit: ModelEntity?
   @State private var searchText = ""
   @State private var fetchedModels: [ModelInfo] = []
   @State private var fetchStatus: ProviderFetchStatus = .idle
@@ -20,7 +21,7 @@ struct ProviderDetailView: View {
       model.resolvedName.localizedStandardContains(searchText) ||
         model.modelId.localizedStandardContains(searchText)
     }
-    return ModelEntity.smartSort(filtered)
+    return ModelEntity.versionSort(filtered)
   }
   
   var body: some View {
@@ -51,6 +52,9 @@ struct ProviderDetailView: View {
     .sheet(isPresented: $showingAddModel) {
       AddCustomModelView(provider: provider)
     }
+    .sheet(item: $modelToEdit) { model in
+      EditModelView(model: model)
+    }
     .onChange(of: fetchedModels) { _, newModels in
       if !newModels.isEmpty {
         updateModelsInDatabase(with: newModels)
@@ -73,7 +77,12 @@ struct ProviderDetailView: View {
         }
       } else {
         ForEach(filteredModels) { model in
-          ModelRow(model: model)
+          ModelRow(
+            model: model,
+            onEdit: {
+              modelToEdit = model
+            }
+          )
         }
       }
     } header: {
@@ -174,12 +183,24 @@ struct ProviderDetailView: View {
     for model in modelsToDelete {
       modelContext.delete(model)
     }
+    
+    // Force save to ensure SwiftData updates are persisted and view refreshes
+    do {
+      try modelContext.save()
+    } catch {
+      AppLogger.logError(.from(
+        error: error,
+        operation: "Save models after update",
+        component: "ProviderDetailView"
+      ))
+    }
   }
 }
 
 struct ModelRow: View {
   @Environment(\.modelContext) private var modelContext
   let model: ModelEntity
+  let onEdit: () -> Void
   
   var body: some View {
     HStack {
@@ -205,8 +226,13 @@ struct ModelRow: View {
       Spacer()
       
       if model.favorited {
-        Image(systemName: "star.fill")
-          .foregroundColor(.yellow)
+        Button {
+          model.favorited.toggle()
+        } label: {
+          Image(systemName: "star.fill")
+            .foregroundColor(.yellow)
+        }
+        .buttonStyle(.plain)
       }
     }
     .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -230,6 +256,12 @@ struct ModelRow: View {
       }
     }
     .contextMenu {
+      Button {
+        onEdit()
+      } label: {
+        Label("Edit", systemImage: "pencil")
+      }
+      
       Button {
         withAnimation {
           model.favorited.toggle()

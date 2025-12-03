@@ -2,6 +2,9 @@ import Combine
 import os
 import SwiftData
 import SwiftUI
+import Throttler
+
+private var deltaTextCache: [String: String] = [:]
 
 extension InputAreaView {
   static let whiteSpaces: [Character] = ["\n", " ", "\t"]
@@ -74,7 +77,7 @@ extension InputAreaView {
       }
     }
   }
-
+  
   func ask2(text: String, contextLength: Int, model: ModelEntity) {
     // Get provider from model
     let provider = model.provider
@@ -203,6 +206,7 @@ extension InputAreaView {
       config = .mock(wordCount: 50)
     }
     
+    let sessionId = UUID().uuidString
     // Call streaming service
     service.streamChatCompletion(
       messages: chatMessages,
@@ -217,7 +221,7 @@ extension InputAreaView {
           }
         }
       },
-      onDelta: { deltaText, fullText in
+      onDelta: { deltaText, _ in
         Task { @MainActor in
           if aiMsg.meta?.startedAt == nil {
             aiMsg.meta?.startedAt = .now
@@ -225,10 +229,21 @@ extension InputAreaView {
           if userMsg.status == .sending {
             userMsg.onSent()
           }
-          aiMsg.onTyping(text: deltaText)
+          if let cache = deltaTextCache[sessionId] {
+            deltaTextCache[sessionId] = cache + deltaText
+          } else {
+            deltaTextCache[sessionId] = deltaText
+          }
+          throttle(.milliseconds(50), identifier: sessionId, option: .ensureLast) {
+            if let cache = deltaTextCache[sessionId] {
+              deltaTextCache[sessionId] = ""
+              aiMsg.onTyping(text: cache)
+            }
+          }
+//          aiMsg.onTyping(text: deltaText)
         }
       },
-      onComplete: { finalText in
+      onComplete: { _ in
         Task { @MainActor in
           aiMsg.onEOF(text: "")
           em.messageEvent.send(.eof)

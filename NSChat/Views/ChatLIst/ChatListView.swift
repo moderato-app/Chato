@@ -39,7 +39,7 @@ struct ChatListView: View {
     list()
       .softFeedback(editMode.isEditing, isSettingPresented, isNewChatPresented, isMultiDeleteConfirmPresented)
       .sheet(isPresented: $isSettingPresented) {
-        SettingView(autoShowAddProvider: isSettingWithAddProvider)
+        SettingView()
           .preferredColorScheme(colorScheme)
           .presentationDetents([.large])
       }
@@ -56,7 +56,8 @@ struct ChatListView: View {
           )
       }
       .sheet(isPresented: $isAddProviderPresented) {
-        AddProviderView()
+        let provider = Provider(type: .openAI)
+        AddProviderView(provider: provider)
           .preferredColorScheme(colorScheme)
       }
   }

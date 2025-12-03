@@ -10,8 +10,8 @@ struct ModelListSection: View {
   @Bindable var provider: Provider
   @Binding var searchText: String
 
-  @State private var modelToEdit: ModelEntity?
-  @State private var showingAddModel = false
+  @Binding var modelToEdit: ModelEntity?
+  @Binding var showingAddModel: Bool
   @State var fetchStatus: ProviderFetchStatus = .idle
 
   private var filteredModels: [ModelEntity] {
@@ -68,12 +68,6 @@ struct ModelListSection: View {
           .font(.caption)
         }
       }
-    }
-    .sheet(isPresented: $showingAddModel) {
-      AddCustomModelView(provider: provider)
-    }
-    .sheet(item: $modelToEdit) { model in
-      EditModelView(model: model)
     }
   }
 

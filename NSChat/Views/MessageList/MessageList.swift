@@ -196,7 +196,7 @@ struct MessageList: View {
       showToBottomButton = shouldShow
     }
 
-    AppLogger.ui.debug("Scroll position - contentHeight: \(contentHeight), containerHeight: \(containerHeight), offset: \(contentOffsetY), distanceToBottom: \(distanceToBottom), threshold: \(threshold), showButton: \(shouldShow)")
+//    AppLogger.ui.debug("Scroll position - contentHeight: \(contentHeight), containerHeight: \(containerHeight), offset: \(contentOffsetY), distanceToBottom: \(distanceToBottom), threshold: \(threshold), showButton: \(shouldShow)")
   }
 }
 

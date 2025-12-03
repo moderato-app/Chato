@@ -32,11 +32,10 @@ struct AddProviderView: View {
           enabled: $enabled
         )
         
-        ModelManagementSection(
+        ModelListSection(
           providerType: selectedType,
           apiKey: apiKey,
           endpoint: endpoint,
-          providerDisplayName: displayName,
           fetchedModels: $fetchedModels,
           fetchStatus: $fetchStatus
         )

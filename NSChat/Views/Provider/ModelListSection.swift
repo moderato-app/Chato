@@ -1,11 +1,10 @@
 import SwiftUI
 import os
 
-struct ModelManagementSection: View {
+struct ModelListSection: View {
   let providerType: ProviderType
   let apiKey: String
   let endpoint: String
-  let providerDisplayName: String
   
   @Binding var fetchedModels: [ModelInfo]
   @Binding var fetchStatus: ProviderFetchStatus
@@ -94,8 +93,6 @@ struct ModelManagementSection: View {
         await MainActor.run {
           fetchedModels = modelInfos
           fetchStatus = .success(modelInfos.count)
-          
-          AppLogger.data.info("Fetched \(modelInfos.count) models for \(providerDisplayName)")
         }
       } catch {
         await MainActor.run {

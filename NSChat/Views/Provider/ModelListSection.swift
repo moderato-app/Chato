@@ -1,57 +1,82 @@
-import SwiftUI
 import os
+import SwiftUI
+
+enum ModelListMode {
+  case ADD(providerType: ProviderType, apiKey: String, endpoint: String, onModelsChanged: ([ModelInfo]) -> Void)
+  case EDIT(provider: Provider)
+}
 
 struct ModelListSection: View {
-  let providerType: ProviderType
-  let apiKey: String
-  let endpoint: String
-  
-  @Binding var fetchedModels: [ModelInfo]
-  @Binding var fetchStatus: ProviderFetchStatus
-  @State private var searchText = ""
-  
-  private var filteredModels: [ModelInfo] {
+  @Bindable var provider: Provider
+  @Binding var searchText: String
+
+  @State private var modelToEdit: ModelEntity?
+  @State private var showingAddModel = false
+  @State var fetchStatus: ProviderFetchStatus = .idle
+
+  private var filteredModels: [ModelEntity] {
     if searchText.isEmpty {
-      return fetchedModels.sorted { $0.name < $1.name }
+      return ModelEntity.versionSort(provider.models)
     }
-    return fetchedModels.filter { model in
-      model.name.localizedStandardContains(searchText) ||
-        model.id.localizedStandardContains(searchText)
-    }.sorted { $0.name < $1.name }
+    let filtered = provider.models.filter { model in
+      model.resolvedName.localizedStandardContains(searchText)
+        || model.modelId.localizedStandardContains(searchText)
+    }
+    return ModelEntity.versionSort(filtered)
   }
-  
+
   var body: some View {
     Section {
       if fetchStatus != .idle {
         fetchStatusRow()
       }
-      
-      if fetchedModels.isEmpty && searchText.isEmpty && fetchStatus == .idle {
+
+      if filteredModels.isEmpty && searchText.isEmpty && fetchStatus == .idle {
         ContentUnavailableView {
           Label("No Models", systemImage: "cube.transparent")
         } description: {
-          Text("Fetch models from the provider")
+          Text("Fetch models from the provider or add custom models")
         }
       } else {
-        ForEach(filteredModels, id: \.id) { model in
-          ModelInfoRow(model: model)
+        ForEach(filteredModels) { model in
+          ModelRow(
+            model: model,
+            onEditButtonPressed: { modelToEdit = model },
+            onDelete: onDelete
+          )
         }
       }
     } header: {
       HStack {
-        Text("Models (\(fetchedModels.count))")
+        Text("Models (\(provider.models.count))")
         Spacer()
-        if fetchStatus != .fetching {
-          Button("Fetch") {
-            fetchModels()
+        HStack(spacing: 12) {
+          if fetchStatus != .fetching {
+            Button {
+              fetchModels()
+            } label: {
+              Image(systemName: "arrow.clockwise")
+            }
+            .font(.caption)
+          }
+
+          Button {
+            showingAddModel = true
+          } label: {
+            Image(systemName: "plus")
           }
           .font(.caption)
         }
       }
     }
-    .searchable(text: $searchText, prompt: "Search models")
+    .sheet(isPresented: $showingAddModel) {
+      AddCustomModelView(provider: provider)
+    }
+    .sheet(item: $modelToEdit) { model in
+      EditModelView(model: model)
+    }
   }
-  
+
   @ViewBuilder
   private func fetchStatusRow() -> some View {
     HStack {
@@ -73,56 +98,96 @@ struct ModelListSection: View {
       }
     }
   }
-  
+
   private func fetchModels() {
+    let apiKey = provider.apiKey
     if apiKey.isEmpty {
       fetchStatus = .error("API Key is required")
       return
     }
-    
+
     fetchStatus = .fetching
-    
+
     Task {
       do {
-        let fetcher = ModelFetcherFactory.createFetcher(for: providerType)
+        let fetcher = ModelFetcherFactory.createFetcher(for: provider.type)
         let modelInfos = try await fetcher.fetchModels(
           apiKey: apiKey,
-          endpoint: endpoint
+          endpoint: provider.endpoint
         )
-        
+
         await MainActor.run {
-          fetchedModels = modelInfos
           fetchStatus = .success(modelInfos.count)
+          updateModels(with: modelInfos)
+          AppLogger.data.info("Fetched \(modelInfos.count) models for \(provider.displayName)")
         }
       } catch {
         await MainActor.run {
           fetchStatus = .error(error.localizedDescription)
-          
-          AppLogger.logError(.from(
-            error: error,
-            operation: "Fetch models",
-            component: "ModelManagementSection"
-          ))
+
+          AppLogger.logError(
+            .from(
+              error: error,
+              operation: "Fetch models",
+              component: "ProviderDetailView"
+            ))
         }
       }
     }
   }
-}
 
-struct ModelInfoRow: View {
-  let model: ModelInfo
-  
-  var body: some View {
-    VStack(alignment: .leading, spacing: 4) {
-      Text(model.name)
-        .font(.body)
-      
-      if let contextLength = model.contextLength {
-        Text("\(contextLength)k context")
-          .font(.caption)
-          .foregroundColor(.secondary)
+  func onDelete(model: ModelEntity) {
+    provider.models.removeAll(where: { model == $0 })
+  }
+
+  func updateModels(with modelInfos: [ModelInfo]) {
+    let existingModels = provider.models
+
+    var toAdd: [ModelEntity] = []
+    var toDel: [ModelEntity] = []
+
+    for modelInfo in modelInfos {
+      let existingModels = existingModels.filter {
+        $0.modelId == modelInfo.id && !$0.isCustom
+      }
+
+      if existingModels.isEmpty {
+        let newModel = ModelEntity(
+          provider: provider,
+          modelId: modelInfo.id,
+          modelName: modelInfo.name,
+          contextLength: modelInfo.contextLength
+        )
+        toAdd.append(newModel)
+      } else {
+        // Keep only custom
+        let customs = existingModels.filter { $0.isCustom }
+        if !customs.isEmpty {
+          existingModels.filter { !customs.contains($0) }.forEach {
+            toDel.append($0)
+          }
+          continue
+        }
+
+        if let first = existingModels.first {
+          first.modelName = modelInfo.name
+          first.contextLength = modelInfo.contextLength
+          existingModels.filter { $0 != first }.forEach {
+            toDel.append($0)
+          }
+        }
       }
     }
+
+    let modelIDs = Set(modelInfos.map { $0.id })
+    let modelsToDelete = existingModels.filter { !$0.isCustom && !modelIDs.contains($0.modelId) }
+    toDel.append(contentsOf: modelsToDelete)
+
+    for del in toDel {
+      provider.models.removeAll(where: { del == $0 })
+    }
+
+    provider.models.append(contentsOf: toAdd)
   }
 }
 
@@ -131,7 +196,7 @@ enum ProviderFetchStatus: Equatable {
   case fetching
   case success(Int)
   case error(String)
-  
+
   static func == (lhs: ProviderFetchStatus, rhs: ProviderFetchStatus) -> Bool {
     switch (lhs, rhs) {
     case (.idle, .idle), (.fetching, .fetching):
@@ -146,3 +211,93 @@ enum ProviderFetchStatus: Equatable {
   }
 }
 
+struct ModelRow: View {
+  @Bindable var model: ModelEntity
+  let onEditButtonPressed: () -> Void
+  let onDelete: (ModelEntity) -> Void
+
+  var body: some View {
+    HStack {
+      VStack(alignment: .leading, spacing: 4) {
+        Text(model.resolvedName)
+          .font(.body)
+
+        HStack(spacing: 8) {
+          if let contextLength = model.contextLength {
+            Text("\(contextLength)k context")
+              .font(.caption)
+              .foregroundColor(.secondary)
+          }
+        }
+      }
+
+      Spacer()
+
+      if model.isCustom {
+        Image(systemName: "wrench")
+          .foregroundColor(.primary)
+      }
+
+      if model.favorited {
+        Button {
+          model.favorited.toggle()
+        } label: {
+          Image(systemName: "star.fill")
+            .foregroundColor(.yellow)
+        }
+        .buttonStyle(.plain)
+      }
+    }
+    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+      Button {
+        withAnimation {
+          model.favorited.toggle()
+        }
+      } label: {
+        Label(
+          model.favorited ? "Unstar" : "Star",
+          systemImage: model.favorited ? "star.slash.fill" : "star.fill"
+        )
+      }
+      .tint(.yellow)
+    }
+    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+      Button(role: .destructive) {
+        onDelete(model)
+      } label: {
+        Label("Delete", systemImage: "trash")
+      }
+    }
+    .contextMenu {
+      Text(model.modelId)
+
+      Divider()
+
+      Button {
+        onEditButtonPressed()
+      } label: {
+        Label("Edit", systemImage: "pencil")
+      }
+      .disabled(!model.isCustom)
+
+      Button {
+        withAnimation {
+          model.favorited.toggle()
+        }
+      } label: {
+        Label(
+          model.favorited ? "Unfavorite" : "Favorite",
+          systemImage: model.favorited ? "star.slash" : "star"
+        )
+      }
+
+      Divider()
+
+      Button(role: .destructive) {
+        onDelete(model)
+      } label: {
+        Label("Delete", systemImage: "trash")
+      }
+    }
+  }
+}

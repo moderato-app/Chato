@@ -13,16 +13,9 @@ struct SettingView: View {
   
   @Query(sort: \Provider.createdAt, order: .reverse) var providers: [Provider]
   
-  @State var showingAddProvider = false
   @State var isDeleteProviderConfirmPresented: Bool = false
   @State var providersToDelete: [Provider] = []
-  
-  let autoShowAddProvider: Bool
-  
-  init(autoShowAddProvider: Bool = false) {
-    self.autoShowAddProvider = autoShowAddProvider
-  }
-
+   
   var body: some View {
     NavigationView {
       List {
@@ -46,15 +39,6 @@ struct SettingView: View {
       .animation(.default, value: colorScheme)
       .animation(.default, value: providers.count)
       .confettiCannon(trigger: $storeVM.coffeeCount, num: 100, radius: 400)
-      .sheet(isPresented: $showingAddProvider) {
-        AddProviderView()
-      }
-      .task {
-        if autoShowAddProvider {
-          try? await Task.sleep(for: .milliseconds(300))
-          showingAddProvider = true
-        }
-      }
       .confirmationDialog(
         providersToDelete.count == 1 ? (providersToDelete.first?.displayName ?? "Provider") : "Delete \(providersToDelete.count) Providers",
         isPresented: $isDeleteProviderConfirmPresented,

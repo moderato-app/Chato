@@ -70,7 +70,8 @@ private struct ListProvider: View {
     .animation(.default, value: providers.count)
     .navigationBarTitle("Providers")
     .sheet(isPresented: $isAddProviderPresented) {
-      AddProviderView()
+      let provider = Provider(type: .openAI)
+      AddProviderView(provider: provider)
     }
     .confirmationDialog(
       providersToDelete.count == 1 ? (providersToDelete.first?.displayName ?? "Provider") : "Delete \(providersToDelete.count) Providers",

@@ -8,6 +8,8 @@ struct ProviderDetailView: View {
   @Bindable var provider: Provider
 
   @State private var searchText = ""
+  @State private var modelToEdit: ModelEntity?
+  @State private var showingAddModel = false
 
   var body: some View {
     List {
@@ -19,7 +21,12 @@ struct ProviderDetailView: View {
         enabled: $provider.enabled
       )
 
-      ModelListSection(provider: provider, searchText: $searchText)
+      ModelListSection(
+        provider: provider,
+        searchText: $searchText,
+        modelToEdit: $modelToEdit,
+        showingAddModel: $showingAddModel
+      )
     }
     .animation(.default, value: provider.models.map { $0.persistentModelID })
     .navigationTitle(provider.displayName)
@@ -27,6 +34,12 @@ struct ProviderDetailView: View {
     .searchable(text: $searchText)
     .onDisappear {
       try? modelContext.save()
+    }
+    .sheet(isPresented: $showingAddModel) {
+      AddCustomModelView(provider: provider)
+    }
+    .sheet(item: $modelToEdit) { model in
+      EditModelView(model: model)
     }
   }
 }

@@ -29,7 +29,7 @@ struct ModelSelectionView: View {
       }
     )
     .sheet(isPresented: $isSettingPresented) {
-      SettingView(autoShowAddProvider: true)
+      SettingView()
         .preferredColorScheme(colorScheme)
         .presentationDetents([.large])
     }

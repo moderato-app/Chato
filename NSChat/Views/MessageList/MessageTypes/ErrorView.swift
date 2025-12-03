@@ -52,7 +52,7 @@ struct ErrorView: View {
     .sheet(isPresented: $isSettingPresented) {
       if let provider = provider {
         NavigationStack {
-          ProviderDetailView(provider: provider)
+          ProviderView(provider: provider, mode: .Edit)
         }
         .presentationDetents([.large])
       }

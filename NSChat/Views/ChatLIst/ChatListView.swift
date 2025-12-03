@@ -43,7 +43,7 @@ struct ChatListView: View {
           .preferredColorScheme(colorScheme)
           .presentationDetents([.large])
       }
-      .onChange(of: isSettingPresented) { oldValue, newValue in
+      .onChange(of: isSettingPresented) { _, newValue in
         if !newValue {
           isSettingWithAddProvider = false
         }
@@ -57,8 +57,7 @@ struct ChatListView: View {
       }
       .sheet(isPresented: $isAddProviderPresented) {
         let provider = Provider(type: .openAI)
-        AddProviderView(provider: provider)
-          .preferredColorScheme(colorScheme)
+        ProviderView(provider: provider, mode: .Add)
       }
   }
 

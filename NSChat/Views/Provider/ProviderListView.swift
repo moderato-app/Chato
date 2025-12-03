@@ -48,7 +48,7 @@ private struct ListProvider: View {
       } else {
         ForEach(providers) { provider in
           NavigationLink {
-            ProviderDetailView(provider: provider)
+            ProviderView(provider: provider, mode: .Edit)
           } label: {
             ProviderRow(provider: provider)
           }
@@ -71,7 +71,7 @@ private struct ListProvider: View {
     .navigationBarTitle("Providers")
     .sheet(isPresented: $isAddProviderPresented) {
       let provider = Provider(type: .openAI)
-      AddProviderView(provider: provider)
+      ProviderView(provider: provider, mode: .Add)
     }
     .confirmationDialog(
       providersToDelete.count == 1 ? (providersToDelete.first?.displayName ?? "Provider") : "Delete \(providersToDelete.count) Providers",
@@ -126,4 +126,3 @@ struct ProviderRow: View {
     }
   }
 }
-

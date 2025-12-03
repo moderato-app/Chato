@@ -35,6 +35,16 @@ extension View {
   }
 }
 
+@ViewBuilder
+func CondNavigationStack<Content: View>(_ condition: Bool, @ViewBuilder content: () -> Content) -> some View {
+  if condition {
+    NavigationStack {
+      content()
+    }
+  } else {
+    content()
+  }
+}
 
 
 struct JustScrollView: ViewModifier {

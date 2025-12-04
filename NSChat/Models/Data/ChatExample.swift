@@ -9,7 +9,7 @@ enum ChatSample {
       Message("""
       To make a cup of coffee, start by boiling water and measuring out 2 tablespoons of coffee grounds. Place the grounds in a filter and pour the hot water over them. Let it steep for 4 minutes, then remove the filter. Add any desired cream or sugar and enjoy!
       """, .assistant, .received),
-      Message("", .assistant, .error, errorInfo: "To talk with ChatGPT, consider setting up your API key first", errorType: .apiKey)
+      Message("", .assistant, .error, errorInfo: "To chat with AI, set up AI provider", errorType: .apiKey)
     ]
   )
 

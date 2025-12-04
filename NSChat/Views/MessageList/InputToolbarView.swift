@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import SystemNotification
 
 struct InputToolbarView: View {
   @Query(filter: #Predicate<Provider> { $0.enabled }) private var providers: [Provider]
@@ -8,6 +9,7 @@ struct InputToolbarView: View {
   @Bindable var chatOption: ChatOption
   @Binding var inputText: String
   @State private var isWebSearchEnabled = false
+  @EnvironmentObject private var notificationContext: SystemNotificationContext
 
   private var favoritedModels: [ModelEntity] {
     let filtered = allModels.filter { $0.favorited }
@@ -150,6 +152,10 @@ struct InputToolbarView: View {
     Button {
       isWebSearchEnabled.toggle()
       HapticsService.shared.shake(.light)
+      SystemNotificationManager.shared.showWebSearchNotification(
+        enabled: isWebSearchEnabled,
+        context: notificationContext
+      )
     } label: {
       Image(systemName: "globe")
         .foregroundStyle(isWebSearchEnabled ? Color.accentColor : .secondary)
@@ -163,6 +169,7 @@ struct InputToolbarView: View {
     VStack {
       Spacer()
       InputToolbarView(chatOption: ChatSample.greetings.option, inputText: .constant(""))
+        .environmentObject(SystemNotificationContext())
     }
   }
 }

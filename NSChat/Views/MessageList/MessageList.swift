@@ -59,7 +59,7 @@ struct MessageList: View {
   var body: some View {
 //    let _ = Self.printChagesWhenDebug()
     let currentScreenHeight = screenHeight
-    return ScrollView {
+    ScrollView {
       VStack(alignment: .leading) {
         ForEach(messages, id: \.self) { msg in
 //          let _ = Self.printChagesWhenDebug()
@@ -132,6 +132,7 @@ struct MessageList: View {
       VStack(spacing: 0) {
         InputToolbarView(chatOption: chat.option)
           .padding(.horizontal, 18)
+          .transition(.move(edge: .bottom).combined(with: .opacity))
         InputAreaView(chat: chat)
       }
       .background(

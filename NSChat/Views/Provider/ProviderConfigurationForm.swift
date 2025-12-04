@@ -1,17 +1,14 @@
 import SwiftUI
 
 struct ProviderConfigurationForm: View {
-  @Binding var providerType: ProviderType
-  @Binding var alias: String
-  @Binding var apiKey: String
-  @Binding var endpoint: String
-  @Binding var enabled: Bool
+  @Bindable var provider: Provider
+  let mode: ProviderViewMode
 
   @State private var isPasswordVisible = false
 
   var body: some View {
     Section {
-      Picker("Provider", selection: $providerType) {
+      Picker("Provider", selection: $provider.type) {
         ForEach(ProviderType.allCases, id: \.self) { type in
           Text(type.displayName)
             .tag(type)
@@ -22,13 +19,13 @@ struct ProviderConfigurationForm: View {
     }
 
     Section("Name") {
-      TextField(providerType.displayName, text: $alias).textContentType(.name)
+      TextField(provider.type.displayName, text: $provider.alias).textContentType(.name)
     }
     Section {
       if isPasswordVisible {
-        TextField(providerType.displayName, text: $apiKey).textContentType(.password)
+        TextField(provider.type.displayName, text: $provider.apiKey).textContentType(.password)
       } else {
-        SecureField(providerType.displayName, text: $apiKey).textContentType(.password)
+        SecureField(provider.type.displayName, text: $provider.apiKey).textContentType(.password)
       }
     } header: {
       HStack {
@@ -46,14 +43,17 @@ struct ProviderConfigurationForm: View {
         .controlSize(.small)
       }
     }
+
     Section("Endpoint") {
-      TextField("Endpoint (Optional)", text: $endpoint)
+      TextField("Endpoint (Optional)", text: $provider.endpoint)
         .textContentType(.URL)
         .autocapitalization(.none)
     }
 
-    Section {
-      Toggle("Enabled", isOn: $enabled)
+    if mode == .Edit {
+      Section {
+        Toggle("Enabled", isOn: $provider.enabled)
+      }
     }
   }
 }

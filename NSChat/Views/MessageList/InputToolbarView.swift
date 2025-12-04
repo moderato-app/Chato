@@ -17,8 +17,10 @@ struct InputToolbarView: View {
   }
 
   private var groupedProviders: [(provider: Provider, models: [ModelEntity])] {
-    allModels.groupedByProvider()
+    let grouped = allModels.groupedByProvider()
       .filter { $0.provider.enabled }
+    // Ensure stable sorting by displayName
+    return grouped.sorted { $0.provider.displayName < $1.provider.displayName }
   }
 
   private var selectedModel: ModelEntity? {
@@ -63,49 +65,52 @@ struct InputToolbarView: View {
   @ViewBuilder
   private func modelPickerContent() -> some View {
     Menu {
-      if !favoritedModels.isEmpty {
-        ForEach(favoritedModels) { model in
-          Button {
-            chatOption.model = model
-          } label: {
-            HStack {
-              Text(model.resolvedName)
-              Spacer()
-              if model.id == selectedModel?.id {
-                Image(systemName: "checkmark")
-              }
-            }
-          }
-        }
-        Divider()
-      }
-
-      // Provider sections
-      ForEach(groupedProviders, id: \.provider.id) { group in
-        Menu(group.provider.displayName) {
-          ForEach(group.models) { model in
+      Group {
+        // Favorite models section - always first
+        if !favoritedModels.isEmpty {
+          ForEach(favoritedModels) { model in
             Button {
               chatOption.model = model
             } label: {
-              Label {
+              HStack {
                 Text(model.resolvedName)
-              } icon: {
+                Spacer()
                 if model.id == selectedModel?.id {
                   Image(systemName: "checkmark")
                 }
               }
             }
           }
+          Divider()
         }
-      }
 
-      Divider()
+        // Provider sections - always second
+        ForEach(groupedProviders, id: \.provider.id) { group in
+          Menu(group.provider.displayName) {
+            ForEach(group.models) { model in
+              Button {
+                chatOption.model = model
+              } label: {
+                Label {
+                  Text(model.resolvedName)
+                } icon: {
+                  if model.id == selectedModel?.id {
+                    Image(systemName: "checkmark")
+                  }
+                }
+              }
+            }
+          }
+        }
 
-      // More (Settings)
-      Button {
-        // TODO: Navigate to settings
-      } label: {
-        Label("More", systemImage: "ellipsis")
+        Divider()
+
+        // More (Settings) - always last
+        Button {
+          // TODO: Navigate to settings
+        } label: {
+          Label("More", systemImage: "ellipsis")
+        }
       }
     } label: {
       HStack(spacing: 4) {
@@ -123,9 +128,6 @@ struct InputToolbarView: View {
       .font(.caption)
     }
     .controlSize(.small)
-    //      .menuStyle(.automatic)
-    //      .tint(.primary)
-    // Favorite models section
   }
 
   @ViewBuilder

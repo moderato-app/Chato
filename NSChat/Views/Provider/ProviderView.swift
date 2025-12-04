@@ -26,13 +26,7 @@ struct ProviderView: View {
   @ViewBuilder
   var list: some View {
     List {
-      ProviderConfigurationForm(
-        providerType: $provider.type,
-        alias: $provider.alias,
-        apiKey: $provider.apiKey,
-        endpoint: $provider.endpoint,
-        enabled: $provider.enabled
-      )
+      ProviderConfigurationForm(provider: provider, mode: mode)
 
       ModelListSection(
         provider: provider,

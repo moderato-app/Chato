@@ -86,21 +86,7 @@ struct InputToolbarView: View {
 
         // Provider sections - always second
         ForEach(groupedProviders, id: \.provider.id) { group in
-          Menu(group.provider.displayName) {
-            ForEach(group.models) { model in
-              Button {
-                chatOption.model = model
-              } label: {
-                Label {
-                  Text(model.resolvedName)
-                } icon: {
-                  if model.id == selectedModel?.id {
-                    Image(systemName: "checkmark")
-                  }
-                }
-              }
-            }
-          }
+          providerMenu(group: group)
         }
 
         Divider()
@@ -128,6 +114,35 @@ struct InputToolbarView: View {
       .font(.caption)
     }
     .controlSize(.small)
+  }
+
+  @ViewBuilder
+  private func providerMenu(group: (provider: Provider, models: [ModelEntity])) -> some View {
+    let hasSelectedModel = group.models.contains { $0.id == selectedModel?.id }
+    
+    Menu {
+      ForEach(group.models) { model in
+        Button {
+          chatOption.model = model
+        } label: {
+          Label {
+            Text(model.resolvedName)
+          } icon: {
+            if model.id == selectedModel?.id {
+              Image(systemName: "checkmark")
+            }
+          }
+        }
+      }
+    } label: {
+      HStack {
+        Text(group.provider.displayName)
+        Spacer()
+        if hasSelectedModel {
+          Image(systemName: "checkmark")
+        }
+      }
+    }
   }
 
   @ViewBuilder

@@ -129,31 +129,35 @@ struct MessageList: View {
       }
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
-      InputAreaView(chat: chat)
-        .background(
-          VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
-            .ignoresSafeArea(edges: .bottom))
-        .overlay(alignment: .topTrailing) {
-          // Place offset on outer layer to avoid position changes being animated
-          Button {
-            withAnimation {
-              position.scrollTo(edge: .bottom)
-            }
-            Task.detached {
-              try await Task.sleep(for: .seconds(0.2))
-              Task { @MainActor in
-                triggerHaptic.toggle()
-              }
-            }
-          } label: {
-            ToBottomIcon()
+      VStack(spacing: 0) {
+        InputToolbarView(chatOption: chat.option)
+          .padding(.horizontal, 8)
+        InputAreaView(chat: chat)
+      }
+      .background(
+        VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
+          .ignoresSafeArea(edges: .bottom))
+      .overlay(alignment: .topTrailing) {
+        // Place offset on outer layer to avoid position changes being animated
+        Button {
+          withAnimation {
+            position.scrollTo(edge: .bottom)
           }
-          .scaleEffect(showToBottomButton ? 1 : 0)
-          .opacity(showToBottomButton ? 1 : 0)
-          .animation(.default, value: showToBottomButton)
-          .offset(y: -60)
-          .offset(x: -15)
+          Task.detached {
+            try await Task.sleep(for: .seconds(0.2))
+            Task { @MainActor in
+              triggerHaptic.toggle()
+            }
+          }
+        } label: {
+          ToBottomIcon()
         }
+        .scaleEffect(showToBottomButton ? 1 : 0)
+        .opacity(showToBottomButton ? 1 : 0)
+        .animation(.default, value: showToBottomButton)
+        .offset(y: -60)
+        .offset(x: -15)
+      }
     }
     .softFeedback(triggerHaptic)
     .onAppear {

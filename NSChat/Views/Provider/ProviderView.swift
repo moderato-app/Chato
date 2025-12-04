@@ -36,7 +36,7 @@ struct ProviderView: View {
       )
     }
     .animation(.default, value: provider.models.map { $0.persistentModelID })
-    .searchable(text: $searchText)
+    .searchable(text: $searchText, prompt: "Search models")
     .navigationBarTitleDisplayMode(.inline)
     .navigationTitle(title)
     .toolbar {

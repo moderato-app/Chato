@@ -131,7 +131,7 @@ struct MessageList: View {
     .safeAreaInset(edge: .bottom, spacing: 0) {
       VStack(spacing: 0) {
         InputToolbarView(chatOption: chat.option)
-          .padding(.horizontal, 8)
+          .padding(.horizontal, 18)
         InputAreaView(chat: chat)
       }
       .background(

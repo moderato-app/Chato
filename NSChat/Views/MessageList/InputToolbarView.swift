@@ -33,9 +33,6 @@ struct InputToolbarView: View {
               chatOption.model = model
             } label: {
               HStack {
-                Image(systemName: "star.fill")
-                  .foregroundColor(.yellow)
-                  .font(.caption)
                 Text(model.resolvedName)
                 Spacer()
                 if model.id == selectedModel?.id {
@@ -95,12 +92,15 @@ struct InputToolbarView: View {
 
       // History Messages Size Picker
       Picker("History", selection: $chatOption.contextLength) {
-        ForEach(contextLengthChoices, id: \.self) { choice in
+        ForEach(contextLengthChoices.reversed(), id: \.self) { choice in
           Text(choice.lengthString)
             .tag(choice.length)
         }
       }
       .controlSize(.small)
+      .if(chatOption.contextLength == 0) {
+        $0.tint(.primary)
+      }
 //      .pickerStyle(.automatic)
 //      .tint(.primary)
 
@@ -111,6 +111,7 @@ struct InputToolbarView: View {
         Image(systemName: "globe")
           .foregroundColor(isWebSearchEnabled ? Color.accentColor : .secondary)
       }
+      .animation(.none, value: isWebSearchEnabled)
       .buttonStyle(.plain)
       .controlSize(.small)
 

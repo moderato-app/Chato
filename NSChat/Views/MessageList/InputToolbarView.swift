@@ -4,39 +4,60 @@ import SwiftUI
 struct InputToolbarView: View {
   @Query(filter: #Predicate<Provider> { $0.enabled }) private var providers: [Provider]
   @Query private var allModels: [ModelEntity]
-  
+
   @Bindable var chatOption: ChatOption
+  @Binding var inputText: String
   @State private var isWebSearchEnabled = false
-  
+
   private var favoritedModels: [ModelEntity] {
     let filtered = allModels.filter { $0.favorited }
     return ModelEntity.smartSort(filtered)
   }
-  
+
   private var groupedProviders: [(provider: Provider, models: [ModelEntity])] {
     allModels.groupedByProvider()
       .filter { $0.provider.enabled }
   }
-  
+
   private var selectedModel: ModelEntity? {
     chatOption.model
   }
-  
+
   var body: some View {
     HStack(spacing: 8) {
+      // Clear Button
+      if !inputText.isEmpty {
+        clearButtonContent()
+          .transition(.asymmetric(insertion: .scale, removal: .scale).combined(with: .opacity))
+      }
+
       // Model Picker
       modelPickerContent()
 
       // History and Web Search Controls
       historyPickerContent()
       webSearchContent()
-      
+
       Spacer()
     }
+    .animation(.default, value: inputText.isEmpty)
+    .animation(.default, value: chatOption.model)
   }
-  
+
   // MARK: - ViewBuilder
-  
+
+  @ViewBuilder
+  private func clearButtonContent() -> some View {
+    Button(action: {
+      withAnimation {
+        inputText = ""
+      }
+      HapticsService.shared.shake(.light)
+    }) {
+      ClearIcon(font: .body)
+    }
+  }
+
   @ViewBuilder
   private func modelPickerContent() -> some View {
     Menu {
@@ -56,7 +77,7 @@ struct InputToolbarView: View {
         }
         Divider()
       }
-    
+
       // Provider sections
       ForEach(groupedProviders, id: \.provider.id) { group in
         Menu(group.provider.displayName) {
@@ -75,9 +96,9 @@ struct InputToolbarView: View {
           }
         }
       }
-    
+
       Divider()
-    
+
       // More (Settings)
       Button {
         // TODO: Navigate to settings
@@ -95,16 +116,16 @@ struct InputToolbarView: View {
         }
         Image(systemName: "chevron.up.chevron.down")
           .font(.caption2)
-          .foregroundStyle(.secondary)
+          .foregroundStyle(selectedModel == nil ? .secondary : .primary)
       }
       .font(.caption)
     }
     .controlSize(.small)
-//      .menuStyle(.automatic)
-//      .tint(.primary)
+    //      .menuStyle(.automatic)
+    //      .tint(.primary)
     // Favorite models section
   }
-  
+
   @ViewBuilder
   private func historyPickerContent() -> some View {
     // History Messages Size Picker
@@ -123,19 +144,17 @@ struct InputToolbarView: View {
       $0.tint(.orange)
     }
   }
-  
+
   @ViewBuilder
   private func webSearchContent() -> some View {
-    // Web Search Switch
     Button {
       isWebSearchEnabled.toggle()
+      HapticsService.shared.shake(.light)
     } label: {
       Image(systemName: "globe")
-//        .font(.caption)
-        .foregroundColor(isWebSearchEnabled ? Color.accentColor : .secondary)
+        .foregroundStyle(isWebSearchEnabled ? Color.accentColor : .secondary)
     }
     .buttonStyle(.plain)
-//    .controlSize(.small)
   }
 }
 
@@ -143,7 +162,7 @@ struct InputToolbarView: View {
   ModelContainerPreview(ModelContainer.preview) {
     VStack {
       Spacer()
-      InputToolbarView(chatOption: ChatSample.greetings.option)
+      InputToolbarView(chatOption: ChatSample.greetings.option, inputText: .constant(""))
     }
   }
 }

@@ -20,6 +20,7 @@ struct MessageList: View {
   @State private var position = ScrollPosition()
   @State private var messages: [Message] = []
   @State private var total = 10
+  @State private var inputText = ""
 
   let chat: Chat
 
@@ -130,10 +131,10 @@ struct MessageList: View {
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
       VStack(spacing: 0) {
-        InputToolbarView(chatOption: chat.option)
+        InputToolbarView(chatOption: chat.option, inputText: $inputText)
           .padding(.horizontal, 18)
           .transition(.move(edge: .bottom).combined(with: .opacity))
-        InputAreaView(chat: chat)
+        InputAreaView(chat: chat, inputText: $inputText)
       }
       .background(
         VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)

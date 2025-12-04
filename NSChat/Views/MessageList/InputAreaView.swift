@@ -8,7 +8,7 @@ struct InputAreaView: View {
   @EnvironmentObject var em: EM
 
   @FocusState private var isTextEditorFocused: Bool
-  @State var inputText = ""
+  @Binding var inputText: String
 
   @State var cancellable: AnyCancellable?
 
@@ -16,8 +16,9 @@ struct InputAreaView: View {
 
   let chat: Chat
 
-  init(chat: Chat) {
+  init(chat: Chat, inputText: Binding<String>) {
     self.chat = chat
+    self._inputText = inputText
   }
 
   var body: some View {
@@ -28,21 +29,6 @@ struct InputAreaView: View {
       }
       .onDisappear {
         destroyDebounce()
-      }
-      .overlay(alignment: .topLeading) {
-        if !inputText.isEmpty {
-          Button(action: {
-            withAnimation {
-              inputText = ""
-            }
-            HapticsService.shared.shake(.light)
-          }) {
-            ClearIcon(font: .title2.bold())
-          }
-          .transition(.asymmetric(insertion: .scale, removal: .scale))
-          .padding(.top, -24)
-          .padding(.leading, 8)
-        }
       }
   }
 
@@ -167,7 +153,7 @@ struct GradientView: View {
     NavigationStack {
       VStack {
         Spacer()
-        InputAreaView(chat: ChatSample.manyMessages)
+        InputAreaView(chat: ChatSample.manyMessages, inputText: .constant(""))
       }
     }
   }

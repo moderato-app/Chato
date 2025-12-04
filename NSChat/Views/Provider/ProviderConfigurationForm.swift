@@ -22,15 +22,13 @@ struct ProviderConfigurationForm: View {
     }
 
     Section("Name") {
-      TextField(providerType.displayName, text: $alias)
+      TextField(providerType.displayName, text: $alias).textContentType(.name)
     }
     Section {
       if isPasswordVisible {
-        TextField(providerType.displayName, text: $apiKey)
-          .textContentType(.password)
+        TextField(providerType.displayName, text: $apiKey).textContentType(.password)
       } else {
-        SecureField(providerType.displayName, text: $apiKey)
-          .textContentType(.password)
+        SecureField(providerType.displayName, text: $apiKey).textContentType(.password)
       }
     } header: {
       HStack {
@@ -41,6 +39,8 @@ struct ProviderConfigurationForm: View {
         }) {
           Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
             .foregroundColor(.secondary)
+            .contentTransition(.symbolEffect(.replace))
+            .symbolEffect(.bounce, value: isPasswordVisible)
         }
         .buttonStyle(.plain)
         .controlSize(.small)

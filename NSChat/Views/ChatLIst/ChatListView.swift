@@ -13,7 +13,6 @@ struct ChatListView: View {
 
   @State private var settingsDetent = PresentationDetent.medium
   @State private var isSettingPresented = false
-  @State private var isSettingWithAddProvider = false
   @State private var isNewChatPresented = false
   @State private var isAddProviderPresented = false
 
@@ -37,16 +36,11 @@ struct ChatListView: View {
 
   var body: some View {
     list()
-      .softFeedback(editMode.isEditing, isSettingPresented, isNewChatPresented, isMultiDeleteConfirmPresented)
+      .softFeedback(editMode.isEditing, isAddProviderPresented, isNewChatPresented, isMultiDeleteConfirmPresented)
       .sheet(isPresented: $isSettingPresented) {
         SettingView()
           .preferredColorScheme(colorScheme)
           .presentationDetents([.large])
-      }
-      .onChange(of: isSettingPresented) { _, newValue in
-        if !newValue {
-          isSettingWithAddProvider = false
-        }
       }
       .sheet(isPresented: $isNewChatPresented) {
         NewChatView()
@@ -183,7 +177,6 @@ struct ChatListView: View {
           }
           Section {
             Button("Settings", systemImage: "gear") {
-              isSettingWithAddProvider = false
               isSettingPresented.toggle()
             }
           }
@@ -229,8 +222,7 @@ struct ChatListView: View {
   @ViewBuilder
   func emptyProviderCard() -> some View {
     EmptyProviderCard {
-      isSettingWithAddProvider = true
-      isSettingPresented = true
+      isAddProviderPresented = true
     }
     .background {
       RoundedRectangle(cornerRadius: 12)

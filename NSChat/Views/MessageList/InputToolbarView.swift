@@ -25,98 +25,117 @@ struct InputToolbarView: View {
   var body: some View {
     HStack(spacing: 8) {
       // Model Picker
-      Menu {
-        // Favorite models section
-        if !favoritedModels.isEmpty {
-          ForEach(favoritedModels) { model in
+      modelPickerContent()
+
+      // History and Web Search Controls
+      historyPickerContent()
+      webSearchContent()
+      
+      Spacer()
+    }
+  }
+  
+  // MARK: - ViewBuilder
+  
+  @ViewBuilder
+  private func modelPickerContent() -> some View {
+    Menu {
+      if !favoritedModels.isEmpty {
+        ForEach(favoritedModels) { model in
+          Button {
+            chatOption.model = model
+          } label: {
+            HStack {
+              Text(model.resolvedName)
+              Spacer()
+              if model.id == selectedModel?.id {
+                Image(systemName: "checkmark")
+              }
+            }
+          }
+        }
+        Divider()
+      }
+    
+      // Provider sections
+      ForEach(groupedProviders, id: \.provider.id) { group in
+        Menu(group.provider.displayName) {
+          ForEach(group.models) { model in
             Button {
               chatOption.model = model
             } label: {
-              HStack {
+              Label {
                 Text(model.resolvedName)
-                Spacer()
+              } icon: {
                 if model.id == selectedModel?.id {
                   Image(systemName: "checkmark")
                 }
               }
             }
           }
-          Divider()
         }
-        
-        // Provider sections
-        ForEach(groupedProviders, id: \.provider.id) { group in
-          Menu(group.provider.displayName) {
-            ForEach(group.models) { model in
-              Button {
-                chatOption.model = model
-              } label: {
-                Label {
-                  Text(model.resolvedName)
-                } icon: {
-                  if model.id == selectedModel?.id {
-                    Image(systemName: "checkmark")
-                  }
-                }
-              }
-            }
-          }
-        }
-        
-        Divider()
-        
-        // More (Settings)
-        Button {
-          // TODO: Navigate to settings
-        } label: {
-          Label("More", systemImage: "ellipsis")
-        }
+      }
+    
+      Divider()
+    
+      // More (Settings)
+      Button {
+        // TODO: Navigate to settings
       } label: {
-        HStack(spacing: 4) {
-          if let model = selectedModel {
-            Text(model.resolvedName)
-              .lineLimit(1)
-          } else {
-            Text("Select Model")
-              .foregroundStyle(.secondary)
-          }
-          Image(systemName: "chevron.down")
-            .font(.caption2)
+        Label("More", systemImage: "ellipsis")
+      }
+    } label: {
+      HStack(spacing: 4) {
+        if let model = selectedModel {
+          Text(model.resolvedName)
+            .lineLimit(1)
+        } else {
+          Text("Select Model")
             .foregroundStyle(.secondary)
         }
-        .font(.caption)
+        Image(systemName: "chevron.up.chevron.down")
+          .font(.caption2)
+          .foregroundStyle(.secondary)
       }
-      .controlSize(.small)
+      .font(.caption)
+    }
+    .controlSize(.small)
 //      .menuStyle(.automatic)
 //      .tint(.primary)
-
-      // History Messages Size Picker
-      Picker("History", selection: $chatOption.contextLength) {
-        ForEach(contextLengthChoices.reversed(), id: \.self) { choice in
-          Text(choice.lengthString)
-            .tag(choice.length)
-        }
+    // Favorite models section
+  }
+  
+  @ViewBuilder
+  private func historyPickerContent() -> some View {
+    // History Messages Size Picker
+    Picker("History", selection: $chatOption.contextLength) {
+      ForEach(contextLengthChoices.reversed(), id: \.self) { choice in
+        Text(choice.lengthString)
+          .tag(choice.length)
       }
-      .controlSize(.small)
-      .if(chatOption.contextLength == 0) {
-        $0.tint(.primary)
-      }
-//      .pickerStyle(.automatic)
-//      .tint(.primary)
-
-      // Web Search Switch
-      Button {
-        isWebSearchEnabled.toggle()
-      } label: {
-        Image(systemName: "globe")
-          .foregroundColor(isWebSearchEnabled ? Color.accentColor : .secondary)
-      }
-      .animation(.none, value: isWebSearchEnabled)
-      .buttonStyle(.plain)
-      .controlSize(.small)
-
-      Spacer()
     }
+    .font(.caption)
+    .controlSize(.small)
+    .if(chatOption.contextLength == ContextLength.zero.length) {
+      $0.tint(.secondary).foregroundStyle(.secondary)
+    }
+    .if(chatOption.contextLength == ContextLength.infinite.length) {
+      $0.tint(.orange)
+    }
+  }
+  
+  @ViewBuilder
+  private func webSearchContent() -> some View {
+    // Web Search Switch
+    Button {
+      isWebSearchEnabled.toggle()
+    } label: {
+      Image(systemName: "globe")
+//        .font(.caption)
+        .foregroundColor(isWebSearchEnabled ? Color.accentColor : .secondary)
+    }
+    .buttonStyle(.plain)
+//    .controlSize(.small)
   }
 }
 

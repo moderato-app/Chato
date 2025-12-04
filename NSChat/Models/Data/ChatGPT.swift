@@ -42,7 +42,7 @@ enum ContextLength: Hashable {
 
   var lengthString: String {
     if self == .infinite {
-      return "Inf"
+      return "∞"
     } else {
       return "\(length)"
     }

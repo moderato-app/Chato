@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct EmptyProviderCard: View {
+struct `EmptyProviderCard`: View {
   let onAddProvider: () -> Void
   
   var body: some View {

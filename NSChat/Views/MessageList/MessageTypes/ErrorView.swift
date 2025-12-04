@@ -26,7 +26,7 @@ struct ErrorView: View {
           Button {
             isSettingPresented.toggle()
           } label: {
-            Text("Please enter your API key.")
+            Text("Please set up AI provider.")
               .font(.footnote)
               .foregroundColor(.accentColor)
           }
@@ -39,7 +39,7 @@ struct ErrorView: View {
               }
             }
           } label: {
-            Text("Allow ChatO to use wireless data")
+            Text("Allow NSChat to use wireless data")
               .font(.footnote)
               .foregroundColor(.accentColor)
           }
@@ -50,11 +50,20 @@ struct ErrorView: View {
         .foregroundColor(.orange)
     }
     .sheet(isPresented: $isSettingPresented) {
-      if let provider = provider {
-        NavigationStack {
+      NavigationStack {
+        if let provider = provider {
           ProviderView(provider: provider, mode: .Edit)
+            .toolbar {
+              ToolbarItem(placement: .confirmationAction) {
+                Button("OK") {
+                  isSettingPresented = false
+                }
+                .foregroundStyle(.tint)
+              }
+            }
+        } else {
+          ProviderView(provider: Provider(type: .openAI), mode: .Add)
         }
-        .presentationDetents([.large])
       }
     }
   }

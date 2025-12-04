@@ -5,6 +5,7 @@ struct ProviderConfigurationForm: View {
   let mode: ProviderViewMode
 
   @State private var isPasswordVisible = false
+  @FocusState private var isApiKeyFocused: Bool
 
   var body: some View {
     Section {
@@ -19,21 +20,27 @@ struct ProviderConfigurationForm: View {
     }
 
     Section("Name") {
-      TextField(provider.type.displayName, text: $provider.alias).textContentType(.name)
+      TextField(provider.type.displayName, text: $provider.alias)
+        .textContentType(.name)
+        .submitLabel(.done)
     }
+
     Section {
-      if isPasswordVisible {
-        TextField(provider.type.displayName, text: $provider.apiKey).textContentType(.password)
-      } else {
-        SecureField(provider.type.displayName, text: $provider.apiKey).textContentType(.password)
+      Group {
+        if isPasswordVisible {
+          TextField("", text: $provider.apiKey).focused($isApiKeyFocused)
+        } else {
+          SecureField("", text: $provider.apiKey).focused($isApiKeyFocused)
+        }
       }
+      .textContentType(.password)
+      .submitLabel(.done)
+      .onAppear { isApiKeyFocused = (mode == .Add) }
     } header: {
       HStack {
         Text("API Key")
         Spacer()
-        Button(action: {
-          isPasswordVisible.toggle()
-        }) {
+        Button(action: { isPasswordVisible.toggle() }) {
           Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
             .foregroundColor(.secondary)
             .contentTransition(.symbolEffect(.replace))
@@ -48,6 +55,7 @@ struct ProviderConfigurationForm: View {
       TextField("Endpoint (Optional)", text: $provider.endpoint)
         .textContentType(.URL)
         .autocapitalization(.none)
+        .submitLabel(.done)
     }
 
     if mode == .Edit {

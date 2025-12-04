@@ -6,10 +6,12 @@ struct ProviderConfigurationForm: View {
   @Binding var apiKey: String
   @Binding var endpoint: String
   @Binding var enabled: Bool
-  
+
+  @State private var isPasswordVisible = false
+
   var body: some View {
     Section {
-      Picker("Provider Type", selection: $providerType) {
+      Picker("Provider", selection: $providerType) {
         ForEach(ProviderType.allCases, id: \.self) { type in
           Text(type.displayName)
             .tag(type)
@@ -18,25 +20,40 @@ struct ProviderConfigurationForm: View {
     } header: {
       Text("Type")
     }
-    
+
+    Section("Name") {
+      TextField(providerType.displayName, text: $alias)
+    }
     Section {
-      TextField("Alias (Optional)", text: $alias)
-      
-      TextField("API Key", text: $apiKey)
-        .textContentType(.password)
-      
+      if isPasswordVisible {
+        TextField(providerType.displayName, text: $apiKey)
+          .textContentType(.password)
+      } else {
+        SecureField(providerType.displayName, text: $apiKey)
+          .textContentType(.password)
+      }
+    } header: {
+      HStack {
+        Text("API Key")
+        Spacer()
+        Button(action: {
+          isPasswordVisible.toggle()
+        }) {
+          Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
+            .foregroundColor(.secondary)
+        }
+        .buttonStyle(.plain)
+        .controlSize(.small)
+      }
+    }
+    Section("Endpoint") {
       TextField("Endpoint (Optional)", text: $endpoint)
         .textContentType(.URL)
         .autocapitalization(.none)
-    } header: {
-      Text("Configuration")
-    } footer: {
-      Text("Leave endpoint empty to use default")
     }
-    
+
     Section {
       Toggle("Enabled", isOn: $enabled)
     }
   }
 }
-

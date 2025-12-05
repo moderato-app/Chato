@@ -78,16 +78,10 @@ private struct ChatDetail: View {
                 }
               }
               .presentationDetents([.large])
-            }
-            Button {
+            }.hidden()
+
+            Button("", systemImage: "ellipsis.circle") {
               self.isInfoPresented.toggle()
-            } label: {
-              ContextLengthCircle(chat.option.contextLength)
-                .padding(2)
-                .clipShape(Circle())
-                .overlay(
-                  Circle().stroke(Color.clear)
-                )
             }
             .sheet(isPresented: $isInfoPresented) {
               ChatInfoView(chat: chat)

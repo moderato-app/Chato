@@ -152,34 +152,3 @@ public extension View {
   }
 }
 
-// MARK: - Screen Size Environment
-
-/// A custom environment key for screen size that responds to device rotation
-private struct ScreenSizeKey: EnvironmentKey {
-  static let defaultValue: CGSize = UIScreen.main.bounds.size
-}
-
-extension EnvironmentValues {
-  /// Current screen size that automatically updates on device rotation
-  ///
-  /// Usage:
-  /// ```swift
-  /// @Environment(\.screenSize) var screenSize
-  /// Text("Screen: \(screenSize.width) x \(screenSize.height)")
-  /// ```
-  var screenSize: CGSize {
-    get { self[ScreenSizeKey.self] }
-    set { self[ScreenSizeKey.self] = newValue }
-  }
-  
-  /// Convenience property for screen width
-  var screenWidth: CGFloat {
-    screenSize.width
-  }
-  
-  /// Convenience property for screen height
-  var screenHeight: CGFloat {
-    screenSize.height
-  }
-}
-

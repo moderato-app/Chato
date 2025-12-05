@@ -1,11 +1,6 @@
 import os
 import SwiftUI
 
-enum ModelListMode {
-  case ADD(providerType: ProviderType, apiKey: String, endpoint: String, onModelsChanged: ([ModelInfo]) -> Void)
-  case EDIT(provider: Provider)
-}
-
 struct ModelListSection: View {
   @Bindable var provider: Provider
   @Binding var searchText: String

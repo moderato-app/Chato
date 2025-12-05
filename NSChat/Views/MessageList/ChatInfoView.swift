@@ -76,6 +76,7 @@ struct ChatInfoView: View {
         } else {
           chat.name = newName
         }
+        em.chatOptionChanged.send()
       }
       .navigationTitle("Chat Info")
       .navigationBarTitleDisplayMode(.inline)

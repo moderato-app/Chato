@@ -2,11 +2,12 @@ import SwiftUI
 
 struct HomePage: View {
   @State var searchString = ""
+  @State private var navigationPath = NavigationPath()
 
   var body: some View {
 //    //let _ = Self.printChagesWhenDebug()
-    NavigationStack {
-      ChatListView(searchString)
+    NavigationStack(path: $navigationPath) {
+      ChatListView(searchString, navigationPath: $navigationPath)
         .searchable(text: $searchString)
         .animation(.easeInOut, value: searchString)
         .navigationDestination(for: Chat.self) { chat in

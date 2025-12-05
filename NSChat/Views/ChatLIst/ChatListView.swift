@@ -11,6 +11,8 @@ struct ChatListView: View {
   @Query(sort: \Chat.createdAt) private var chats: [Chat]
   @Query private var providers: [Provider]
 
+  @Binding var navigationPath: NavigationPath
+
   @State private var settingsDetent = PresentationDetent.medium
   @State private var isSettingPresented = false
   @State private var isNewChatPresented = false
@@ -24,7 +26,7 @@ struct ChatListView: View {
 
   @State var editMode: EditMode = .inactive
 
-  init(_ searchString: String) {
+  init(_ searchString: String, navigationPath: Binding<NavigationPath>) {
     _chats = Query(filter: #Predicate {
       if searchString.isEmpty {
         return true
@@ -32,6 +34,7 @@ struct ChatListView: View {
         return $0.name.localizedStandardContains(searchString)
       }
     }, sort: Self.sortOrder)
+    _navigationPath = navigationPath
   }
 
   var body: some View {
@@ -186,22 +189,29 @@ struct ChatListView: View {
     ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
       if editMode != .active {
         Button {
-          self.isNewChatPresented.toggle()
+          do {
+            if let chat = try? modelContext.createNewChat() {
+              modelContext.insert(chat)
+              try modelContext.save()
+              Task { @MainActor in
+                // Wait a bit for the query to update
+                try? await Task.sleep(for: .milliseconds(100))
+                navigationPath.append(chat)
+              }
+            }
+          } catch {
+            AppLogger.logError(.from(
+              error: error,
+              operation: "Save new chat",
+              component: "ChatListView",
+              userMessage: "Failed to save chat"
+            ))
+          }
         } label: {
           PlusIcon()
         }
-        .contextMenu {
-          Button("New Chat", systemImage: "square.and.pencil") {}
-          Button("New Prompt", systemImage: "p.square") {}
-          Button("New Tag", systemImage: "tag") {}
-
-          Section("Experimental") {
-            Button("Generate Image", systemImage: "photo") {}
-            ControlGroup {
-              Button("Camera", systemImage: "camera") {}
-              Button("Photo Library", systemImage: "photo") {}
-            }
-          }
+        .onLongPressGesture {
+          self.isNewChatPresented.toggle()
         }
       }
     }

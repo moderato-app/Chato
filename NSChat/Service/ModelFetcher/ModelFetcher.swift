@@ -7,12 +7,14 @@ protocol ModelFetcher {
 struct ModelInfo: Sendable, Equatable {
   let id: String
   let name: String
-  let contextLength: Int?
+  let inputContextLength: Int?
+  let outputContextLength: Int?
   
-  init(id: String, name: String? = nil, contextLength: Int? = nil) {
+  init(id: String, name: String? = nil, inputContextLength: Int? = nil, outputContextLength: Int? = nil) {
     self.id = id
     self.name = name ?? id
-    self.contextLength = contextLength
+    self.inputContextLength = inputContextLength
+    self.outputContextLength = outputContextLength
   }
 }
 

@@ -5,7 +5,8 @@ import SwiftData
 final class ModelEntity {
   @Attribute(originalName: "modelId") var modelId: String = ""
   @Attribute(originalName: "modelName") var modelName: String?
-  @Attribute(originalName: "contextLength") var contextLength: Int?
+  @Attribute(originalName: "inputContextLength") var inputContextLength: Int?
+  @Attribute(originalName: "outputContextLength") var outputContextLength: Int?
   @Attribute(originalName: "favorited") var favorited: Bool
   @Attribute(originalName: "isCustom") var isCustom: Bool
   @Attribute(originalName: "createdAt") var createdAt: Date
@@ -20,14 +21,16 @@ final class ModelEntity {
     provider: Provider,
     modelId: String,
     modelName: String? = nil,
-    contextLength: Int? = nil,
+    inputContextLength: Int? = nil,
+    outputContextLength: Int? = nil,
     favorited: Bool = false,
     isCustom: Bool = false,
   ) {
     self.provider = provider
     self.modelId = modelId
     self.modelName = modelName
-    self.contextLength = contextLength
+    self.inputContextLength = inputContextLength
+    self.outputContextLength = outputContextLength
     self.favorited = favorited
     self.isCustom = isCustom
     self.createdAt = .now

@@ -45,7 +45,8 @@ struct AddCustomModelView: View {
       provider: provider,
       modelId: modelId,
       modelName: modelName.isEmpty ? nil : modelName,
-      contextLength: nil,
+      inputContextLength: nil,
+      outputContextLength: nil,
       isCustom: true,
     )
     

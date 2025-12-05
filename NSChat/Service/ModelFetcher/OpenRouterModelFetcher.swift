@@ -40,6 +40,11 @@ struct OpenRouterModelFetcher: ModelFetcher {
       struct ModelObject: Codable {
         let id: String
         let name: String?
+        let context_length: Int?
+        struct TopProvider: Codable {
+          let max_completion_tokens: Int?
+        }
+        let top_provider: TopProvider?
       }
       let data: [ModelObject]
     }
@@ -51,7 +56,14 @@ struct OpenRouterModelFetcher: ModelFetcher {
       throw ModelFetchError.decodingError("Failed to decode OpenRouter models response")
     }
     
-    return modelsResponse.data.map { ModelInfo(id: $0.id, name: $0.name ?? $0.id) }
+    return modelsResponse.data.map { model in
+      ModelInfo(
+        id: model.id,
+        name: model.name ?? model.id,
+        inputContextLength: model.context_length,
+        outputContextLength: model.top_provider?.max_completion_tokens
+      )
+    }
   }
 }
 

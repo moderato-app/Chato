@@ -110,11 +110,6 @@ struct MessageList: View {
     } action: { _, newValue in
       updateShowToBottomButton(newValue)
     }
-    .safeAreaInset(edge: .top, spacing: 0) {
-      VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
-        .ignoresSafeArea(edges: .top)
-        .frame(height: 0)
-    }
     .onReceive(em.messageEvent) { event in
       if event == .new {
         withAnimation {

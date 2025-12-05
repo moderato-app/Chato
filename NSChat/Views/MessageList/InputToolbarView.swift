@@ -1,23 +1,24 @@
 import SwiftData
 import SwiftUI
 import SystemNotification
+import os
 
 struct InputToolbarView: View {
-  @Query(filter: #Predicate<Provider> { $0.enabled }) private var providers: [Provider]
-  @Query private var allModels: [ModelEntity]
-
   @Bindable var chatOption: ChatOption
   @Binding var inputText: String
+  @Environment(\.modelContext) private var modelContext
+  @State private var cachedModels: [ModelEntity] = []
+  @State private var cachedProviders: [Provider] = []
   @State private var isWebSearchEnabled = false
   @EnvironmentObject private var notificationContext: SystemNotificationContext
 
   private var favoritedModels: [ModelEntity] {
-    let filtered = allModels.filter { $0.favorited }
+    let filtered = cachedModels.filter { $0.favorited }
     return ModelEntity.smartSort(filtered)
   }
 
   private var groupedProviders: [(provider: Provider, models: [ModelEntity])] {
-    let grouped = allModels.groupedByProvider()
+    let grouped = cachedModels.groupedByProvider()
       .filter { $0.provider.enabled }
     // Ensure stable sorting by displayName
     return grouped.sorted { $0.provider.displayName < $1.provider.displayName }
@@ -46,6 +47,9 @@ struct InputToolbarView: View {
     }
     .animation(.default, value: inputText.isEmpty)
     .animation(.default, value: chatOption.model)
+    .task {
+      reloadProvidersAndModels()
+    }
   }
 
   // MARK: - ViewBuilder
@@ -66,6 +70,7 @@ struct InputToolbarView: View {
   private func modelPickerContent() -> some View {
     Menu {
       Group {
+//        let _ = Self._printChanges()
         // Favorite models section - always first
         if !favoritedModels.isEmpty {
           ForEach(favoritedModels) { model in
@@ -119,7 +124,7 @@ struct InputToolbarView: View {
   @ViewBuilder
   private func providerMenu(group: (provider: Provider, models: [ModelEntity])) -> some View {
     let hasSelectedModel = group.models.contains { $0.id == selectedModel?.id }
-    
+
     Menu {
       ForEach(group.models) { model in
         Button {
@@ -178,6 +183,22 @@ struct InputToolbarView: View {
         .foregroundStyle(isWebSearchEnabled ? Color.accentColor : .secondary)
     }
     .buttonStyle(.plain)
+  }
+
+  // MARK: - Helpers
+
+  private func reloadProvidersAndModels() {
+    do {
+      let providerDescriptor = FetchDescriptor<Provider>(
+        predicate: #Predicate<Provider> { $0.enabled }
+      )
+      cachedProviders = try modelContext.fetch(providerDescriptor)
+
+      let modelDescriptor = FetchDescriptor<ModelEntity>()
+      cachedModels = try modelContext.fetch(modelDescriptor)
+    } catch {
+      AppLogger.error.error("Failed to fetch toolbar data: \(error.localizedDescription)")
+    }
   }
 }
 

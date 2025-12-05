@@ -101,27 +101,6 @@ struct MessageList: View {
     .scrollPosition($position, anchor: .bottom)
     .scrollDismissesKeyboard(.interactively)
     .removeFocusOnTap()
-    .onScrollGeometryChange(for: ScrollState.self) { geometry in
-      ScrollState(
-        contentHeight: geometry.contentSize.height,
-        containerHeight: geometry.containerSize.height,
-        contentOffsetY: geometry.contentOffset.y
-      )
-    } action: { _, newValue in
-      updateShowToBottomButton(newValue)
-    }
-    .onReceive(em.messageEvent) { event in
-      if event == .new {
-        withAnimation {
-          onMsgCountChange()
-          position.scrollTo(edge: .bottom)
-        }
-      } else if event == .countChanged {
-        withAnimation {
-          onMsgCountChange()
-        }
-      }
-    }
     .safeAreaInset(edge: .bottom, spacing: 0) {
       VStack(spacing: 0) {
         InputToolbarView(chatOption: chat.option, inputText: $inputText)
@@ -154,11 +133,32 @@ struct MessageList: View {
         .offset(x: -15)
       }
     }
+    .onScrollGeometryChange(for: ScrollState.self) { geometry in
+      ScrollState(
+        contentHeight: geometry.contentSize.height,
+        containerHeight: geometry.containerSize.height,
+        contentOffsetY: geometry.contentOffset.y
+      )
+    } action: { _, newValue in
+      updateShowToBottomButton(newValue)
+    }
     .softFeedback(triggerHaptic)
     .onAppear {
       initMessageList()
       Task {
         position.scrollTo(edge: .bottom)
+      }
+    }
+    .onReceive(em.messageEvent) { event in
+      if event == .new {
+        withAnimation {
+          onMsgCountChange()
+          position.scrollTo(edge: .bottom)
+        }
+      } else if event == .countChanged {
+        withAnimation {
+          onMsgCountChange()
+        }
       }
     }
     .refreshable {

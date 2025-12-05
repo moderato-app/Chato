@@ -135,7 +135,7 @@ class GeminiStreamingService: ChatStreamingServiceProtocol {
                 }
                 
                 AppLogger.network.debug(
-                  "[GeminiStreamingService] 📝 Text delta received - Length: \(delta.count), Total: \(chunkText.count)"
+                  "[GeminiStreamingService] 📝 Text delta received - Length: \(delta.count), Total: \(chunkText.count): \(chunkText)"
                 )
                 
                 lastProcessedTextLength = chunkText.count

@@ -189,21 +189,12 @@ extension InputAreaView {
     let config: StreamingServiceConfig
     if provider.type == .mock {
       config = .mock(wordCount: 50)
-    } else if provider.type == .openAI {
-      config = .openAI(
+    } else {
+      config = .general(
         apiKey: provider.apiKey,
         modelID: model.modelId,
         endpoint: provider.endpoint.isEmpty ? nil : provider.endpoint
       )
-    } else if provider.type == .openRouter {
-      config = .openRouter(
-        apiKey: provider.apiKey,
-        modelID: model.modelId
-      )
-    } else {
-      // Fallback to mock for unsupported providers
-      AppLogger.error.error("[MessageListVM] ⚠️ Unsupported provider: \(provider.type.displayName), using Mock")
-      config = .mock(wordCount: 50)
     }
     
     let sessionId = UUID().uuidString

@@ -2,6 +2,7 @@ import os
 import SwiftData
 import SwiftUI
 import SystemNotification
+import Combine
 
 struct InputToolbarView: View {
   @Bindable var chatOption: ChatOption
@@ -11,6 +12,7 @@ struct InputToolbarView: View {
   @State private var cachedProviders: [Provider] = []
   @State private var cachedIsWebSearchEnabled = false
   @EnvironmentObject private var notificationContext: SystemNotificationContext
+  @EnvironmentObject private var em: EM
 
   private var favoritedModels: [ModelEntity] {
     let filtered = cachedModels.filter { $0.favorited }
@@ -48,6 +50,9 @@ struct InputToolbarView: View {
     .animation(.default, value: inputText.isEmpty)
     .animation(.default, value: chatOption.model)
     .task {
+      reloadData()
+    }
+    .onReceive(em.chatOptionChanged) {
       reloadData()
     }
   }

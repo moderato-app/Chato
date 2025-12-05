@@ -7,10 +7,11 @@ struct ModelFetcherFactory {
       return OpenAIModelFetcher()
     case .openRouter:
       return OpenRouterModelFetcher()
+    case .gemini:
+      return GeminiModelFetcher()
     case .mock:
       return GenericStaticModelFetcher()
     case .anthropic,
-         .gemini,
          .groq,
          .mistral,
          .deepSeek,

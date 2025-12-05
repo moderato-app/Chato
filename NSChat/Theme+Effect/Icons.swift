@@ -122,32 +122,3 @@ struct PlusIcon: View {
       )
   }
 }
-
-struct ContextLengthCircle: View {
-  let contextLength: Int
-
-  init(_ contextLength: Int) {
-    self.contextLength = contextLength
-  }
-
-  var body: some View {
-    Image(systemName: contextLengthCircle(contextLength))
-      .symbolRenderingMode(.monochrome)
-      .tint(.secondary)
-  }
-}
-
-func contextLengthCircle(_ contextLength: Int) -> String {
-  var name: String
-  if contextLength == 0 {
-    name = "circle"
-  } else if contextLength > 0, contextLength <= 50 {
-    name = "\(contextLength).circle"
-  } else if contextLength == Int.max {
-    name = "infinity.circle"
-  } else {
-    name = "questionmark.circle"
-  }
-
-  return name
-}

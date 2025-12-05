@@ -14,6 +14,7 @@ struct ContentView: View {
       .environmentObject(pref)
       .environmentObject(notificationContext)
       .preferredColorScheme(pref.computedColorScheme)
+      .systemNotification(notificationContext)
   }
 }
 

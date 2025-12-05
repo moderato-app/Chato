@@ -193,7 +193,11 @@ extension InputAreaView {
       config = .general(
         apiKey: provider.apiKey,
         modelID: model.modelId,
-        endpoint: provider.endpoint.isEmpty ? nil : provider.endpoint
+        endpoint: provider.endpoint.isEmpty ? nil : provider.endpoint,
+        webSearch: .init(
+          enabled: chat.option.webSearchOption?.enabled ?? false,
+          contextSize: chat.option.webSearchOption?.contextSize ?? .low,
+        )
       )
     }
     

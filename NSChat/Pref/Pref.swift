@@ -16,9 +16,9 @@ class Pref: ObservableObject {
   @AppStorage("gptUseProxy") var gptEnableEndpoint: Bool = false
   @AppStorage("gptEndpoint") var gptEndpoint: String = "https://api.openai.com"
 
-  // ChatGPT last used option
-  @AppStorage("lastUsedContextLength") var lastUsedContextLength: Int?
-  @AppStorage("lastUsedPromptId") var lastUsedPromptId: String?
+  // Pref for new chat
+  @AppStorage("newChatPref-historyMessageCount") var newChatPrefHistoryMessageCount: Int = 4
+  @AppStorage("newChatPref-webSearchContextSize") var newChatPrefWebSearchContextSize: WebSearchContextSize = .low
 
   // Fill data record
   @AppStorage("fillDataRecordGreeting") var fillDataRecordGreeting: Bool = false
@@ -30,10 +30,10 @@ class Pref: ObservableObject {
     self.doubleTapAction = newPref.doubleTapAction
     self.magicScrolling = newPref.magicScrolling
     self.colorScheme = newPref.colorScheme
-    self.lastUsedContextLength = newPref.lastUsedContextLength
-    self.lastUsedPromptId = newPref.lastUsedPromptId
     self.fillDataRecordGreeting = newPref.fillDataRecordGreeting
     self.fillDataRecordPrompts = newPref.fillDataRecordPrompts
+    self.newChatPrefHistoryMessageCount = newPref.newChatPrefHistoryMessageCount
+    self.newChatPrefWebSearchContextSize = newPref.newChatPrefWebSearchContextSize
   }
 }
 

@@ -42,7 +42,6 @@ struct NewChatView: View {
             if let model = chatOption.model {
               modelContext.insert(UsedModel(model: model))
             }
-            pref.lastUsedContextLength = chatOption.contextLength
 
             dismiss()
             triggerHaptic.toggle()
@@ -87,9 +86,8 @@ struct NewChatView: View {
 
   func load() {
     chatOption.model = usedModels.first?.model
-    if let cl = pref.lastUsedContextLength {
-      chatOption.contextLength = cl
-    }
+    chatOption.contextLength = pref.newChatPrefHistoryMessageCount
+    chatOption.webSearchOption?.contextSize = pref.newChatPrefWebSearchContextSize
   }
 }
 

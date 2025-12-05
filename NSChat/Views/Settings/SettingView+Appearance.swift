@@ -20,6 +20,7 @@ extension SettingView {
 
       HStack {
         Label("3D Scrolling", systemImage: "cube")
+          .modifier(RippleEffect(at: .zero, trigger: pref.magicScrolling))
           .symbolRenderingMode(.multicolor)
         Toggle("", isOn: $pref.magicScrolling.animation())
       }

@@ -80,15 +80,25 @@ class OpenAIStreamingService: ChatStreamingServiceProtocol {
           }
           let input = OpenAIResponse.Input.items(inputItems)
           // Build request body
+          let tools: [OpenAICreateResponseRequestBody.Tool]?
+          if let webSearch = config.webSearch, webSearch.enabled {
+            tools = [
+              .webSearch(
+                .init(
+                  searchContextSize: mapSearchContextSize(webSearch.contextSize),
+                  userLocation: nil
+                )
+              )
+            ]
+          } else {
+            tools = nil
+          }
+          
           let requestBody = OpenAICreateResponseRequestBody(
             input: input,
             model: modelID,
             stream: true,
-            tools: [.webSearchPreview(OpenAICreateResponseRequestBody.WebSearchPreviewTool(
-              searchContextSize: .low,
-              userLocation: .none
-            ))],
-//            webSearchOptions: .init(searchContextSize: .medium, userLocation: .none)
+            tools: tools
           )
           
           // Notify start
@@ -318,6 +328,17 @@ class OpenAIStreamingService: ChatStreamingServiceProtocol {
         }
       }
     }
+  }
+}
+
+private func mapSearchContextSize(_ size: WebSearchContextSize) -> OpenAICreateResponseRequestBody.WebSearchTool.SearchContextSize {
+  switch size {
+  case .high:
+    return .high
+  case .medium:
+    return .medium
+  case .low:
+    return .low
   }
 }
 

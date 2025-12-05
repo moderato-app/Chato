@@ -23,6 +23,8 @@ struct SettingView: View {
                 
         appSection
         
+        newChatPreferenceSection
+        
         OtherViewGroup()
         
         dangerZoneLink

@@ -70,7 +70,7 @@ struct EditModelView: View {
   let container = ModelContainer.preview()
   let provider = Provider(type: .openAI, alias: "My OpenAI", apiKey: "test-key")
   container.mainContext.insert(provider)
-  let model = ModelEntity(provider: provider, modelId: "gpt-4", modelName: "GPT-4", contextLength: 128)
+  let model = ModelEntity(provider: provider, modelId: "gpt-4", modelName: "GPT-4", inputContextLength: 128000, outputContextLength: 4096)
   container.mainContext.insert(model)
   
   return EditModelView(model: model)

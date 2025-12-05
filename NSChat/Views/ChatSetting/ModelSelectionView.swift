@@ -1,6 +1,6 @@
+import os
 import SwiftData
 import SwiftUI
-import os
 
 struct ModelSelectionView: View {
   @Environment(\.dismiss) private var dismiss
@@ -152,8 +152,7 @@ struct ModelSelectionContent: View {
     }
   }
 
-  private func providerSection(for group: (provider: Provider, models: [ModelEntity])) -> some View
-  {
+  private func providerSection(for group: (provider: Provider, models: [ModelEntity])) -> some View {
     DisclosureGroup(
       isExpanded: providerBinding(for: group.provider.id)
     ) {
@@ -209,7 +208,7 @@ struct ModelSelectionContent: View {
     // Check if selected model exists and is not in favorites
     let favorited = favoritedModels()
     if let selectedModel = chatOption.model,
-      !favorited.contains(where: { $0.id == selectedModel.id })
+       !favorited.contains(where: { $0.id == selectedModel.id })
     {
       // Find and expand only the provider containing the selected model
       if let providerGroup = groupedProviders.first(where: { group in
@@ -267,13 +266,8 @@ struct ModelSelectionRow: View {
                   .font(.caption2)
                   .foregroundColor(.blue)
               }
-
-              if let contextLength = model.contextLength {
-                Text("\(contextLength)k")
-                  .font(.caption)
-                  .foregroundColor(.secondary)
-              }
             }
+            ContextLengthView(model.inputContextLength, model.outputContextLength)
           }
 
           Spacer()
@@ -320,8 +314,7 @@ struct HighlightedText: View {
       let lowercasedKeyword = keyword.lowercased()
       var searchRange = lowercasedText.startIndex..<lowercasedText.endIndex
 
-      while let range = lowercasedText.range(of: lowercasedKeyword, options: [], range: searchRange)
-      {
+      while let range = lowercasedText.range(of: lowercasedKeyword, options: [], range: searchRange) {
         if let attributedRange = Range(range, in: attributed) {
           attributed[attributedRange].backgroundColor = .yellow.opacity(0.3)
           attributed[attributedRange].font = .body.bold()

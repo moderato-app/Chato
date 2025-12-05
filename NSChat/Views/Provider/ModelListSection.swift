@@ -150,7 +150,8 @@ struct ModelListSection: View {
           provider: provider,
           modelId: modelInfo.id,
           modelName: modelInfo.name,
-          contextLength: modelInfo.contextLength
+          inputContextLength: modelInfo.inputContextLength,
+          outputContextLength: modelInfo.outputContextLength
         )
         toAdd.append(newModel)
       } else {
@@ -165,7 +166,8 @@ struct ModelListSection: View {
 
         if let first = existingModels.first {
           first.modelName = modelInfo.name
-          first.contextLength = modelInfo.contextLength
+          first.inputContextLength = modelInfo.inputContextLength
+          first.outputContextLength = modelInfo.outputContextLength
           existingModels.filter { $0 != first }.forEach {
             toDel.append($0)
           }
@@ -217,11 +219,7 @@ struct ModelRow: View {
           .font(.body)
 
         HStack(spacing: 8) {
-          if let contextLength = model.contextLength {
-            Text("\(contextLength) context")
-              .font(.caption)
-              .foregroundColor(.secondary)
-          }
+          ContextLengthView(model.inputContextLength, model.outputContextLength)
         }
       }
 

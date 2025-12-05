@@ -127,11 +127,11 @@ struct GeminiModelFetcher: ModelFetcher {
         
         // Use displayName if available, otherwise use modelId
         let name = model.displayName ?? modelId
-        // Use inputTokenLimit as contextLength
         return ModelInfo(
           id: modelId,
           name: name,
-          contextLength: model.inputTokenLimit
+          inputContextLength: model.inputTokenLimit,
+          outputContextLength: model.outputTokenLimit
         )
       }
       

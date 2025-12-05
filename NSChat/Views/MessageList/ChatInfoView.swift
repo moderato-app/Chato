@@ -12,7 +12,7 @@ struct ChatInfoView: View {
   @State private var chatNamePlaceHolder: String = ""
 
   var body: some View {
-    //let _ = Self.printChagesWhenDebug()
+    // let _ = Self.printChagesWhenDebug()
     NavigationStack {
       Form {
         Section("Chat Name") {
@@ -23,6 +23,13 @@ struct ChatInfoView: View {
         Section("General") {
           ChatOptionView(chat.option)
         }.textCase(.none)
+
+        if let wso = chat.option.webSearchOption {
+          Section("Web Search") {
+            WebSearchOptionView(webSearch: wso)
+          }
+          .textCase(.none)
+        }
 
         Section("Parameters") {
           ChatAdvancedOptionView(chat.option)

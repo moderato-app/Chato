@@ -19,20 +19,24 @@ final class ChatOption {
   // An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
   @Relationship(originalName: "modelEntity")
   var model: ModelEntity?
+  @Relationship(deleteRule: .cascade, originalName: "webSearchOption")
+  var webSearchOption: WebSearch?
 
-  init(model: ModelEntity? = nil, contextLength: Int = 2, prompt: Prompt? = nil) {
+  init(model: ModelEntity? = nil, contextLength: Int = 2, prompt: Prompt? = nil, webSearchOption: WebSearch = WebSearch()) {
     self.model = model
     self.contextLength = contextLength
     self.prompt = prompt
+    self.webSearchOption = webSearchOption
   }
 
-  init(model: ModelEntity? = nil, contextLength: Int, prompt: Prompt? = nil, temperature: Double, presencePenalty: Double, frequencyPenalty: Double) {
+  init(model: ModelEntity? = nil, contextLength: Int, prompt: Prompt? = nil, temperature: Double, presencePenalty: Double, frequencyPenalty: Double, webSearchOption: WebSearch? = nil) {
     self.model = model
     self.contextLength = contextLength
     self.prompt = prompt
     self.temperature = temperature
     self.presencePenalty = presencePenalty
     self.frequencyPenalty = frequencyPenalty
+    self.webSearchOption = webSearchOption
   }
 
   @Transient
@@ -51,6 +55,14 @@ final class ChatOption {
   }
 
   func clone() -> ChatOption {
-    return ChatOption(model: self.model, contextLength: self.contextLength, prompt: self.prompt, temperature: self.temperature, presencePenalty: self.presencePenalty, frequencyPenalty: self.frequencyPenalty)
+    return ChatOption(
+      model: self.model,
+      contextLength: self.contextLength,
+      prompt: self.prompt,
+      temperature: self.temperature,
+      presencePenalty: self.presencePenalty,
+      frequencyPenalty: self.frequencyPenalty,
+      webSearchOption: self.webSearchOption?.clone()
+    )
   }
 }

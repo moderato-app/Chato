@@ -1,7 +1,7 @@
+import os
 import SwiftData
 import SwiftUI
 import SystemNotification
-import os
 
 struct InputToolbarView: View {
   @Bindable var chatOption: ChatOption
@@ -9,7 +9,7 @@ struct InputToolbarView: View {
   @Environment(\.modelContext) private var modelContext
   @State private var cachedModels: [ModelEntity] = []
   @State private var cachedProviders: [Provider] = []
-  @State private var isWebSearchEnabled = false
+  @State private var cachedIsWebSearchEnabled = false
   @EnvironmentObject private var notificationContext: SystemNotificationContext
 
   private var favoritedModels: [ModelEntity] {
@@ -48,7 +48,7 @@ struct InputToolbarView: View {
     .animation(.default, value: inputText.isEmpty)
     .animation(.default, value: chatOption.model)
     .task {
-      reloadProvidersAndModels()
+      reloadData()
     }
   }
 
@@ -172,22 +172,33 @@ struct InputToolbarView: View {
   @ViewBuilder
   private func webSearchContent() -> some View {
     Button {
-      isWebSearchEnabled.toggle()
+      if let wso = chatOption.webSearchOption {
+        wso.enabled.toggle()
+      }else{
+        let wso = WebSearch()
+        wso.enabled = cachedIsWebSearchEnabled
+        chatOption.webSearchOption = wso
+      }
+      
+      cachedIsWebSearchEnabled = chatOption.webSearchOption?.enabled ?? false
+      
       HapticsService.shared.shake(.light)
+      
       SystemNotificationManager.shared.showWebSearchNotification(
-        enabled: isWebSearchEnabled,
+        enabled: cachedIsWebSearchEnabled,
         context: notificationContext
       )
     } label: {
       Image(systemName: "globe")
-        .foregroundStyle(isWebSearchEnabled ? Color.accentColor : .secondary)
+        .foregroundStyle(cachedIsWebSearchEnabled ? Color.accentColor : .secondary)
     }
     .buttonStyle(.plain)
   }
 
   // MARK: - Helpers
 
-  private func reloadProvidersAndModels() {
+  private func reloadData() {
+    cachedIsWebSearchEnabled = chatOption.webSearchOption?.enabled ?? false
     do {
       let providerDescriptor = FetchDescriptor<Provider>(
         predicate: #Predicate<Provider> { $0.enabled }

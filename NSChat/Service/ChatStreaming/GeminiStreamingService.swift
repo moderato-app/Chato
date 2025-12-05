@@ -80,7 +80,14 @@ class GeminiStreamingService: ChatStreamingServiceProtocol {
               )
             }
           
-          // Build request body with Google Search enabled
+          let tools: [GeminiGenerateContentRequestBody.Tool]?
+          if config.webSearch?.enabled == true {
+            tools = [.googleSearch(.init())]
+          } else {
+            tools = nil
+          }
+          
+          // Build request body (conditionally enable Google Search)
           let requestBody = GeminiGenerateContentRequestBody(
             contents: contents,
             cachedContent: nil,
@@ -88,7 +95,7 @@ class GeminiStreamingService: ChatStreamingServiceProtocol {
             safetySettings: nil,
             systemInstruction: systemInstruction,
             toolConfig: nil,
-            tools: [.googleSearch(.init())] // Enable Google Search
+            tools: tools
           )
           
           // Notify start

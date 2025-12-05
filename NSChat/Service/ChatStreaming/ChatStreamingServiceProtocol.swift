@@ -25,14 +25,18 @@ struct StreamingServiceConfig {
   
   /// Word count for Mock provider
   let wordCount: Int?
+  
+  /// Web search options
+  let webSearch: WebSearchOptionConfig?
    
   /// Create config for OpenRouter
-  static func general(apiKey: String, modelID: String, endpoint: String?) -> StreamingServiceConfig {
+  static func general(apiKey: String, modelID: String, endpoint: String?, webSearch: WebSearchOptionConfig?) -> StreamingServiceConfig {
     return StreamingServiceConfig(
       apiKey: apiKey,
       modelID: modelID,
       endpoint: endpoint,
-      wordCount: nil
+      wordCount: nil,
+      webSearch: webSearch
     )
   }
   
@@ -42,9 +46,15 @@ struct StreamingServiceConfig {
       apiKey: nil,
       modelID: nil,
       endpoint: nil,
-      wordCount: wordCount
+      wordCount: wordCount,
+      webSearch: nil
     )
   }
+}
+
+struct WebSearchOptionConfig {
+  let enabled: Bool
+  let contextSize: WebSearchContextSize
 }
 
 /// Protocol for streaming chat completion services

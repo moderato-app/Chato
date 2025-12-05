@@ -5,6 +5,7 @@ import SwiftData
 let allSchema = Schema([
   Chat.self,
   ChatOption.self,
+  WebSearch.self,
   Prompt.self,
   PromptMessage.self,
   Provider.self,

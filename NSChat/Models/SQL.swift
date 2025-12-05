@@ -32,7 +32,11 @@ extension ModelContext {
     }
 
     let name = "New Chat at " + Date.now.formatted(date: .omitted, time: .shortened)
-    let option = ChatOption(model: model,contextLength: Pref.shared.lastUsedContextLength ?? 4)
+    let option = ChatOption(
+      model: model,
+      contextLength: Pref.shared.newChatPrefHistoryMessageCount,
+      webSearchOption: WebSearch(contextSize: Pref.shared.newChatPrefWebSearchContextSize)
+    )
     let chat = Chat(name: name,option: option)
     
     return chat

@@ -130,13 +130,19 @@ class GeminiStreamingService: ChatStreamingServiceProtocol {
                 accumulatedText += delta
                 
                 let currentAccumulated = accumulatedText
-                DispatchQueue.main.async {
-                  onDelta(delta, currentAccumulated)
-                }
                 
                 AppLogger.network.debug(
-                  "[GeminiStreamingService] 📝 Text delta received - Length: \(delta.count), Total: \(chunkText.count): \(chunkText)"
+                  "[GeminiStreamingService] 📝 Text delta received - Length: \(delta.count), Total: \(chunkText.count)"
                 )
+                
+                // Call onDelta on main thread
+                // Note: onDelta uses throttle (50ms) in VM, so we need to ensure it's called before onComplete
+                DispatchQueue.main.async {
+                  AppLogger.network.debug(
+                    "[GeminiStreamingService] 🔔 Calling onDelta callback - Delta length: \(delta.count)"
+                  )
+                  onDelta(delta, currentAccumulated)
+                }
                 
                 lastProcessedTextLength = chunkText.count
               }
@@ -166,7 +172,7 @@ class GeminiStreamingService: ChatStreamingServiceProtocol {
               }
             }
             
-            // Check if completed
+            // Check if completed (after processing text delta)
             if let candidate = chunk.candidates?.first,
                let finishReason = candidate.finishReason,
                !finishReason.isEmpty {
@@ -176,6 +182,20 @@ class GeminiStreamingService: ChatStreamingServiceProtocol {
               )
               
               isCompleted = true
+              
+              AppLogger.network.debug(
+                "[GeminiStreamingService] ⏳ Waiting for onDelta callbacks to complete before calling onComplete"
+              )
+              
+              // Add a delay to ensure onDelta callbacks are processed first
+              // This is especially important when the first chunk contains all text
+              // The throttle in VM uses 50ms, so we wait 200ms to ensure throttle callback is executed
+              try? await Task.sleep(nanoseconds: 200_000_000) // 200ms delay
+              
+              AppLogger.network.debug(
+                "[GeminiStreamingService] 🔔 Calling onComplete callback - Total length: \(accumulatedText.count)"
+              )
+              
               DispatchQueue.main.async {
                 onComplete(accumulatedText)
               }

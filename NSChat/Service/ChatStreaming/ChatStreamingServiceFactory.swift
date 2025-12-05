@@ -17,11 +17,7 @@ struct ChatStreamingServiceFactory {
     case .gemini:
       return GeminiStreamingService()
     default:
-      // For unsupported providers, return mock as fallback
-      AppLogger.error.error(
-        "[ChatStreamingServiceFactory] ⚠️ Unsupported provider type: \(providerType.displayName), using Mock service"
-      )
-      return MockStreamingService()
+      return ErrorStreamingService(providerType: providerType)
     }
   }
 }

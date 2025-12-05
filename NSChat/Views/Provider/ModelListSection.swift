@@ -104,7 +104,7 @@ struct ModelListSection: View {
 
     Task {
       do {
-        let fetcher = ModelFetcherFactory.createFetcher(for: provider.type)
+        let fetcher = provider.type.createFetcher()
         let modelInfos = try await fetcher.fetchModels(
           apiKey: apiKey,
           endpoint: provider.endpoint

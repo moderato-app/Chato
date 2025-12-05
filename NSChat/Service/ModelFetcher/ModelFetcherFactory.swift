@@ -1,8 +1,17 @@
 import Foundation
 
-struct ModelFetcherFactory {
-  static func createFetcher(for providerType: ProviderType) -> ModelFetcher {
-    switch providerType {
+extension ProviderType {
+  var isSupportedByNSChat: Bool {
+    switch self {
+    case .openAI, .openRouter, .gemini, .mock:
+      return true
+    default:
+      return false
+    }
+  }
+
+  func createFetcher() -> ModelFetcher {
+    switch self {
     case .openAI:
       return OpenAIModelFetcher()
     case .openRouter:
@@ -10,7 +19,7 @@ struct ModelFetcherFactory {
     case .gemini:
       return GeminiModelFetcher()
     case .mock:
-      return GenericStaticModelFetcher()
+      return MockModelFetcher()
     case .anthropic,
          .groq,
          .mistral,
@@ -25,14 +34,7 @@ struct ModelFetcherFactory {
          .eachAI,
          .fireworksAI,
          .brave:
-      return GenericStaticModelFetcher()
+      return ErrorModelFetcher(providerType: self)
     }
   }
 }
-
-struct GenericStaticModelFetcher: ModelFetcher {
-  func fetchModels(apiKey: String, endpoint: String?) async throws -> [ModelInfo] {
-    return []
-  }
-}
-

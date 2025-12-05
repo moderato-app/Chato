@@ -13,6 +13,7 @@ struct ProviderConfigurationForm: View {
         ForEach(ProviderType.allCases, id: \.self) { type in
           Text(type.displayName)
             .tag(type)
+            .selectionDisabled(!type.isSupportedByNSChat)
         }
       }
     } header: {

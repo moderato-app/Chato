@@ -116,7 +116,7 @@ class OpenAIStreamingService: ChatStreamingServiceProtocol {
               }
               
               AppLogger.network.debug(
-                "[OpenAIStreamingService] 📝 Text delta received - Length: \(textDelta.delta.count)"
+                "[OpenAIStreamingService] 📝 Text delta received - Length: \(textDelta.delta.count): \(textDelta.delta)"
               )
             
             // Response completed - marks successful completion

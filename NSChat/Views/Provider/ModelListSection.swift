@@ -218,7 +218,7 @@ struct ModelRow: View {
 
         HStack(spacing: 8) {
           if let contextLength = model.contextLength {
-            Text("\(contextLength)k context")
+            Text("\(contextLength) context")
               .font(.caption)
               .foregroundColor(.secondary)
           }
@@ -267,12 +267,13 @@ struct ModelRow: View {
 
       Divider()
 
-      Button {
-        onEditButtonPressed()
-      } label: {
-        Label("Edit", systemImage: "pencil")
+      if model.isCustom {
+        Button {
+          onEditButtonPressed()
+        } label: {
+          Label("Edit", systemImage: "pencil")
+        }
       }
-      .disabled(!model.isCustom)
 
       Button {
         withAnimation {

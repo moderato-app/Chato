@@ -35,10 +35,6 @@ final class Provider {
     }
     return type.displayName
   }
-  
-  var allModelsSorted: [ModelEntity] {
-    ModelEntity.versionSort(models)
-  }
 }
 
 

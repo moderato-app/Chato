@@ -14,6 +14,8 @@ struct ChatStreamingServiceFactory {
       return OpenAIStreamingService()
     case .openRouter:
       return OpenRouterStreamingService()
+    case .gemini:
+      return GeminiStreamingService()
     default:
       // For unsupported providers, return mock as fallback
       AppLogger.error.error(

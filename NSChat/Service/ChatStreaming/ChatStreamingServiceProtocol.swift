@@ -25,23 +25,13 @@ struct StreamingServiceConfig {
   
   /// Word count for Mock provider
   let wordCount: Int?
-  
-  /// Create config for OpenAI
-  static func openAI(apiKey: String, modelID: String, endpoint: String?) -> StreamingServiceConfig {
+   
+  /// Create config for OpenRouter
+  static func general(apiKey: String, modelID: String, endpoint: String?) -> StreamingServiceConfig {
     return StreamingServiceConfig(
       apiKey: apiKey,
       modelID: modelID,
       endpoint: endpoint,
-      wordCount: nil
-    )
-  }
-  
-  /// Create config for OpenRouter
-  static func openRouter(apiKey: String, modelID: String) -> StreamingServiceConfig {
-    return StreamingServiceConfig(
-      apiKey: apiKey,
-      modelID: modelID,
-      endpoint: nil,
       wordCount: nil
     )
   }

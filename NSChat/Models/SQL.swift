@@ -3,6 +3,41 @@ import os
 import SwiftData
 
 extension ModelContext {
+  func createNewChat() throws -> Chat {
+    // Lastest chat
+    let predicate = #Predicate<Chat> { $0.option.model != nil }
+    let fetcher = FetchDescriptor<Chat>(
+      predicate: predicate,
+      sortBy: [SortDescriptor(\Chat.updatedAt, order: .reverse)],
+      fetchLimit: 1
+    )
+
+    var model: ModelEntity?
+
+    if let chat = try? fetch(fetcher).first {
+      // Find the latest chat with model
+      model = chat.option.model
+    }
+
+    if model == nil {
+      // Find the model with the most chats
+      let fetcher = FetchDescriptor<ModelEntity>(
+        sortBy: [
+          SortDescriptor(\ModelEntity.chatOptions.count, order: .reverse),
+          SortDescriptor(\ModelEntity.createdAt, order: .reverse)
+        ],
+        fetchLimit: 1
+      )
+      model = try? fetch(fetcher).first
+    }
+
+    let name = "New Chat at " + Date.now.formatted(date: .omitted, time: .shortened)
+    let option = ChatOption(model: model,contextLength: Pref.shared.lastUsedContextLength ?? 4)
+    let chat = Chat(name: name,option: option)
+    
+    return chat
+  }
+
   func getMessage(messageId: PersistentIdentifier) -> Message? {
     let predicate = #Predicate<Message> { $0.persistentModelID == messageId }
     let fetcher = FetchDescriptor<Message>(predicate: predicate, fetchLimit: 1)

@@ -24,7 +24,10 @@ struct ChatInfoView: View {
           ChatOptionView(chat.option)
         }.textCase(.none)
 
-        if let wso = chat.option.webSearchOption {
+        if let pro = chat.option.model?.provider,
+           pro.type.isWebSearchAvailable,
+           let wso = chat.option.webSearchOption
+        {
           Section("Web Search") {
             WebSearchOptionView(webSearch: wso)
           }

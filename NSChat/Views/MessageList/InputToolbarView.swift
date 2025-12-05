@@ -1,8 +1,8 @@
+import Combine
 import os
 import SwiftData
 import SwiftUI
 import SystemNotification
-import Combine
 
 struct InputToolbarView: View {
   @Bindable var chatOption: ChatOption
@@ -11,6 +11,7 @@ struct InputToolbarView: View {
   @State private var cachedModels: [ModelEntity] = []
   @State private var cachedProviders: [Provider] = []
   @State private var cachedIsWebSearchEnabled = false
+  @State private var cachedIsWebSearchAvaialbe = false
   @EnvironmentObject private var notificationContext: SystemNotificationContext
   @EnvironmentObject private var em: EM
 
@@ -38,12 +39,13 @@ struct InputToolbarView: View {
           .transition(.asymmetric(insertion: .scale, removal: .scale).combined(with: .opacity))
       }
 
-      // Model Picker
       modelPickerContent()
 
-      // History and Web Search Controls
       historyPickerContent()
-      webSearchContent()
+
+      if cachedIsWebSearchAvaialbe {
+        webSearchContent()
+      }
 
       Spacer()
     }
@@ -81,6 +83,7 @@ struct InputToolbarView: View {
           ForEach(favoritedModels) { model in
             Button {
               chatOption.model = model
+              em.chatOptionChanged.send()
             } label: {
               HStack {
                 Text(model.resolvedName)
@@ -107,6 +110,7 @@ struct InputToolbarView: View {
         } label: {
           Label("More", systemImage: "ellipsis")
         }
+        .hidden()
       }
     } label: {
       HStack(spacing: 4) {
@@ -134,6 +138,7 @@ struct InputToolbarView: View {
       ForEach(group.models) { model in
         Button {
           chatOption.model = model
+          em.chatOptionChanged.send()
         } label: {
           Label {
             Text(model.resolvedName)
@@ -179,16 +184,16 @@ struct InputToolbarView: View {
     Button {
       if let wso = chatOption.webSearchOption {
         wso.enabled.toggle()
-      }else{
+      } else {
         let wso = WebSearch()
         wso.enabled = cachedIsWebSearchEnabled
         chatOption.webSearchOption = wso
       }
-      
+
       cachedIsWebSearchEnabled = chatOption.webSearchOption?.enabled ?? false
-      
+
       HapticsService.shared.shake(.light)
-      
+
       SystemNotificationManager.shared.showWebSearchNotification(
         enabled: cachedIsWebSearchEnabled,
         context: notificationContext
@@ -203,6 +208,7 @@ struct InputToolbarView: View {
   // MARK: - Helpers
 
   private func reloadData() {
+    cachedIsWebSearchAvaialbe = chatOption.model?.provider.type.isWebSearchAvailable ?? false
     cachedIsWebSearchEnabled = chatOption.webSearchOption?.enabled ?? false
     do {
       let providerDescriptor = FetchDescriptor<Provider>(

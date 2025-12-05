@@ -1,4 +1,5 @@
 import SwiftUI
+import VisualEffectView
 
 struct ChatDetailView: View {
   @Environment(\.colorScheme) private var colorScheme
@@ -6,12 +7,19 @@ struct ChatDetailView: View {
 
   let chat: Chat
 
+  var visualTint: Color {
+    colorScheme == .dark ? .black : .white
+  }
+
   var body: some View {
-//    let _ = Self.printChagesWhenDebug()
+    //    let _ = Self.printChagesWhenDebug()
     ChatDetail(chat: chat)
-      .navigationTitle(chat.name)
-      .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.hidden, for: .automatic)
+      .safeAreaInset(edge: .top, spacing: 0) {
+        VisualEffect(colorTint: visualTint, colorTintAlpha: 0.5, blurRadius: 18, scale: 1)
+          .ignoresSafeArea(edges: .top)
+          .frame(height: 0)
+      }
       .toolbar {
         ToolbarTitleMenu {
           Section {
@@ -46,7 +54,7 @@ private struct ChatDetail: View {
   }
 
   var body: some View {
-//    let _ = Self._printChanges()
+    //    let _ = Self._printChanges()
     MessageList(chat: chat)
       .softFeedback(isPromptPresented, isInfoPresented)
       .toolbar {

@@ -9,6 +9,15 @@ extension ProviderType {
       return false
     }
   }
+  
+  var isWebSearchAvailable: Bool {
+    switch self {
+    case .openAI, .gemini:
+      return true
+    default:
+      return false
+    }
+  }
 
   func createFetcher() -> ModelFetcher {
     switch self {

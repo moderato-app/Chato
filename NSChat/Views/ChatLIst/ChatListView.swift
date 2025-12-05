@@ -27,19 +27,24 @@ struct ChatListView: View {
   @State var editMode: EditMode = .inactive
 
   init(_ searchString: String, navigationPath: Binding<NavigationPath>) {
-    _chats = Query(filter: #Predicate {
-      if searchString.isEmpty {
-        return true
-      } else {
-        return $0.name.localizedStandardContains(searchString)
-      }
-    }, sort: Self.sortOrder)
+    _chats = Query(
+      filter: #Predicate {
+        if searchString.isEmpty {
+          return true
+        } else {
+          return $0.name.localizedStandardContains(searchString)
+        }
+      }, sort: Self.sortOrder
+    )
     _navigationPath = navigationPath
   }
 
   var body: some View {
     list()
-      .softFeedback(editMode.isEditing, isAddProviderPresented, isNewChatPresented, isMultiDeleteConfirmPresented)
+      .softFeedback(
+        editMode.isEditing, isAddProviderPresented, isNewChatPresented,
+        isMultiDeleteConfirmPresented
+      )
       .sheet(isPresented: $isSettingPresented) {
         SettingView()
           .preferredColorScheme(colorScheme)
@@ -189,29 +194,14 @@ struct ChatListView: View {
     ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
       if editMode != .active {
         Button {
-          do {
-            if let chat = try? modelContext.createNewChat() {
-              modelContext.insert(chat)
-              try modelContext.save()
-              Task { @MainActor in
-                // Wait a bit for the query to update
-                try? await Task.sleep(for: .milliseconds(100))
-                navigationPath.append(chat)
-              }
-            }
-          } catch {
-            AppLogger.logError(.from(
-              error: error,
-              operation: "Save new chat",
-              component: "ChatListView",
-              userMessage: "Failed to save chat"
-            ))
-          }
+          createAndNavigateToNewChat()
         } label: {
           PlusIcon()
         }
-        .onLongPressGesture {
-          self.isNewChatPresented.toggle()
+        .contextMenu {
+          Button("New Chat with Options") {
+            self.isNewChatPresented.toggle()
+          }
         }
       }
     }
@@ -226,6 +216,28 @@ struct ChatListView: View {
           .disabled(selectedChatIDs.isEmpty)
         }
       }
+    }
+  }
+
+  private func createAndNavigateToNewChat() {
+    do {
+      if let chat = try? modelContext.createNewChat() {
+        modelContext.insert(chat)
+        try modelContext.save()
+        Task { @MainActor in
+          // Wait a bit for the query to update
+          try? await Task.sleep(for: .milliseconds(100))
+          navigationPath.append(chat)
+        }
+      }
+    } catch {
+      AppLogger.logError(
+        .from(
+          error: error,
+          operation: "Save new chat",
+          component: "ChatListView",
+          userMessage: "Failed to save chat"
+        ))
     }
   }
 
@@ -282,12 +294,13 @@ struct ChatListView: View {
     do {
       try modelContext.save()
     } catch {
-      AppLogger.logError(.from(
-        error: error,
-        operation: "Insert new chat",
-        component: "ChatListView",
-        userMessage: "Failed to create chat"
-      ))
+      AppLogger.logError(
+        .from(
+          error: error,
+          operation: "Insert new chat",
+          component: "ChatListView",
+          userMessage: "Failed to create chat"
+        ))
     }
   }
 }

@@ -82,14 +82,17 @@ func migrateToProviderModel(_ modelContext: ModelContext) throws {
   }
 
   AppLogger.data.info("Successfully migrated \(models.count) models to Provider model")
-  
+
   let chats = try modelContext.fetch(FetchDescriptor<Chat>())
   for chat in chats {
+    chat.option.webSearchOption = WebSearch(enabled: false, contextSize: .low)
+
     let modelId = chat.option.oldModel
-    if modelId.isEmpty{
+    if modelId.isEmpty {
       continue
     }
-    if let model = models.first(where: {$0.modelId == modelId}){
+    if let model = models.first(where: { $0.modelId == modelId }) {
+      model.favorited = true
       chat.option.model = model
     }
   }
@@ -104,7 +107,7 @@ func modelsToAdd(provider: Provider) -> [ModelEntity] {
     ModelEntity(provider: provider, modelId: "gpt-5.1-codex-mini", modelName: "GPT-5.1 Codex Mini"),
     ModelEntity(provider: provider, modelId: "gpt-5.1-chat-latest", modelName: "GPT-5.1 Chat Latest"),
     ModelEntity(provider: provider, modelId: "gpt-5.1-2025-11-13", modelName: "GPT-5.1 2025-11-13"),
-    ModelEntity(provider: provider, modelId: "gpt-5.1", modelName: "GPT-5.1"),
+    ModelEntity(provider: provider, modelId: "gpt-5.1", modelName: "GPT-5.1", favorited: true),
     ModelEntity(provider: provider, modelId: "gpt-5.1-codex", modelName: "GPT-5.1 Codex"),
     ModelEntity(provider: provider, modelId: "davinci-002", modelName: "Davinci 002"),
     ModelEntity(provider: provider, modelId: "babbage-002", modelName: "Babbage 002"),
@@ -174,7 +177,7 @@ func modelsToAdd(provider: Provider) -> [ModelEntity] {
     ModelEntity(provider: provider, modelId: "gpt-5-2025-08-07", modelName: "GPT-5 2025-08-07"),
     ModelEntity(provider: provider, modelId: "gpt-5", modelName: "GPT-5"),
     ModelEntity(provider: provider, modelId: "gpt-5-mini-2025-08-07", modelName: "GPT-5 Mini 2025-08-07"),
-    ModelEntity(provider: provider, modelId: "gpt-5-mini", modelName: "GPT-5 Mini"),
+    ModelEntity(provider: provider, modelId: "gpt-5-mini", modelName: "GPT-5 Mini", favorited: true),
     ModelEntity(provider: provider, modelId: "gpt-5-nano-2025-08-07", modelName: "GPT-5 Nano 2025-08-07"),
     ModelEntity(provider: provider, modelId: "gpt-5-nano", modelName: "GPT-5 Nano"),
     ModelEntity(provider: provider, modelId: "gpt-audio-2025-08-28", modelName: "GPT Audio 2025-08-28"),

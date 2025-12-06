@@ -7,6 +7,7 @@ struct ModelListSection: View {
 
   @Binding var modelToEdit: ModelEntity?
   @Binding var showingAddModel: Bool
+  @EnvironmentObject var em: EM
   @State var fetchStatus: ProviderFetchStatus = .idle
 
   private var filteredModels: [ModelEntity] {
@@ -64,6 +65,11 @@ struct ModelListSection: View {
         }
       }
     }
+    .onReceive(em.apiKeySubmitted) { providerId in
+      if providerId == provider.persistentModelID && !provider.apiKey.isEmpty {
+        fetchModels()
+      }
+    }
   }
 
   @ViewBuilder
@@ -88,7 +94,9 @@ struct ModelListSection: View {
     }
   }
 
-  private func fetchModels() {
+  func fetchModels() {
+    guard fetchStatus != .fetching else { return }
+    
     let apiKey = provider.apiKey
     if apiKey.isEmpty {
       fetchStatus = .error("API Key is required")

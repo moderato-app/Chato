@@ -26,7 +26,10 @@ struct ProviderView: View {
   @ViewBuilder
   var list: some View {
     List {
-      ProviderConfigurationForm(provider: provider, mode: mode)
+      ProviderConfigurationForm(
+        provider: provider,
+        mode: mode
+      )
 
       ModelListSection(
         provider: provider,

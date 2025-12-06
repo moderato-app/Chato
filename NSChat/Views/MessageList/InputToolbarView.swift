@@ -76,41 +76,39 @@ struct InputToolbarView: View {
   @ViewBuilder
   private func modelPickerContent() -> some View {
     Menu {
-      Group {
-//        let _ = Self._printChanges()
-        // Favorite models section - always first
-        if !favoritedModels.isEmpty {
-          ForEach(favoritedModels) { model in
-            Button {
-              chatOption.model = model
-              em.chatOptionChanged.send()
-            } label: {
-              HStack {
-                Text(model.resolvedName)
-                Spacer()
-                if model.id == selectedModel?.id {
-                  Image(systemName: "checkmark")
-                }
-              }
-            }
-          }
-          Divider()
-        }
+      Button {
+        // TODO: Navigate to settings
+      } label: {
+        Label("More", systemImage: "ellipsis")
+      }
+      .hidden()
 
-        // Provider sections - always second
+      if !groupedProviders.isEmpty {
+        Divider()
+        Label("Providers", systemImage: "bolt.fill")
         ForEach(groupedProviders, id: \.provider.id) { group in
           providerMenu(group: group)
         }
+      }
 
+      // Favorite models section - always first
+      if !favoritedModels.isEmpty {
         Divider()
-
-        // More (Settings) - always last
-        Button {
-          // TODO: Navigate to settings
-        } label: {
-          Label("More", systemImage: "ellipsis")
+        Label("Favorites", systemImage: "star.fill")
+        ForEach(favoritedModels) { model in
+          Button {
+            chatOption.model = model
+            em.chatOptionChanged.send()
+          } label: {
+            HStack {
+              Text(model.resolvedName)
+              Spacer()
+              if model.id == selectedModel?.id {
+                Image(systemName: "checkmark")
+              }
+            }
+          }
         }
-        .hidden()
       }
     } label: {
       HStack(spacing: 4) {
@@ -127,6 +125,7 @@ struct InputToolbarView: View {
       }
       .font(.caption)
     }
+    .environment(\.menuOrder, .fixed)
     .controlSize(.small)
   }
 
@@ -164,6 +163,11 @@ struct InputToolbarView: View {
   private func historyPickerContent() -> some View {
     // History Messages Size Picker
     Picker("History", selection: $chatOption.contextLength) {
+      Text("History Messages")
+        .font(.headline)
+        .foregroundStyle(.secondary)
+        .disabled(true)
+
       ForEach(contextLengthChoices.reversed(), id: \.self) { choice in
         Text(choice.lengthString)
           .tag(choice.length)

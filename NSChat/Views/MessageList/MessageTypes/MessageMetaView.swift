@@ -8,6 +8,12 @@ struct MessageMetaView: View {
     VStack(spacing: 12) {
       if let meta = message.meta {
         HStack(alignment: .firstTextBaseline) {
+          Text("Provider").foregroundStyle(.secondary)
+          Spacer()
+          Text(meta.provider).fontWeight(.light)
+        }
+
+        HStack(alignment: .firstTextBaseline) {
           Text("Model").foregroundStyle(.secondary)
           Spacer()
           Text(meta.model).fontWeight(.light)
@@ -108,8 +114,4 @@ struct MessageMetaView: View {
       }
     }
   }
-}
-
-#Preview {
-//  MessageMetaView(message: )
 }

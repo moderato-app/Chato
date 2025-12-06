@@ -3,6 +3,7 @@ import SwiftData
 
 @Model
 final class MessageMeta {
+  @Attribute(originalName: "provider") var provider: String = ""
   @Attribute(originalName: "model") var model: String = ""
   @Attribute(originalName: "context_length") var contextLength: Int = 0
   @Attribute(originalName: "actual_context_length") var actual_contextLength: Int = 0
@@ -15,10 +16,21 @@ final class MessageMeta {
   @Attribute(originalName: "startedAt") var startedAt: Date? = nil
   @Attribute(originalName: "endedAt") var endedAt: Date? = nil
 
-  init(model: String, contextLength: Int, actual_contextLength: Int, promptName: String?, temperature: Double,
-       presencePenalty: Double, frequencyPenalty: Double, promptTokens: Int?,completionTokens: Int?,
-       startedAt: Date?, endedAt: Date? )
-  {
+  init(
+    provider: String,
+    model: String,
+    contextLength: Int,
+    actual_contextLength: Int,
+    promptName: String?,
+    temperature: Double,
+    presencePenalty: Double,
+    frequencyPenalty: Double,
+    promptTokens: Int?,
+    completionTokens: Int?,
+    startedAt: Date?,
+    endedAt: Date?
+  ) {
+    self.provider = provider
     self.model = model
     self.contextLength = contextLength
     self.actual_contextLength = actual_contextLength
@@ -34,20 +46,21 @@ final class MessageMeta {
 
   func clone() -> MessageMeta {
     return .init(
-      model: model,
-      contextLength: contextLength,
-      actual_contextLength: actual_contextLength,
-      promptName: promptName,
-      temperature: temperature,
-      presencePenalty: presencePenalty,
-      frequencyPenalty: frequencyPenalty,
-      promptTokens: promptTokens,
-      completionTokens: completionTokens,
-      startedAt: startedAt,
-      endedAt: endedAt
+      provider: self.provider,
+      model: self.model,
+      contextLength: self.contextLength,
+      actual_contextLength: self.actual_contextLength,
+      promptName: self.promptName,
+      temperature: self.temperature,
+      presencePenalty: self.presencePenalty,
+      frequencyPenalty: self.frequencyPenalty,
+      promptTokens: self.promptTokens,
+      completionTokens: self.completionTokens,
+      startedAt: self.startedAt,
+      endedAt: self.endedAt
     )
   }
-  
+
   @Transient
   var maybeTemperature: Double? {
     doubleEqual(self.temperature, 1.0) ? nil : self.temperature
@@ -62,5 +75,4 @@ final class MessageMeta {
   var maybeFrequencyPenalty: Double? {
     doubleEqual(self.frequencyPenalty, 0.0) ? nil : self.frequencyPenalty
   }
-
 }

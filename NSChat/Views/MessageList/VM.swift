@@ -140,25 +140,31 @@ extension InputAreaView {
     // Create user and AI messages in SwiftData
     var userMsg = Message(text, .user, .sending)
     userMsg.chat = chat
-    userMsg.meta = .init(model: model.modelId,
-                         contextLength: contextLength,
-                         actual_contextLength: actualCL,
-                         promptName: chat.option.prompt?.name,
-                         temperature: chat.option.temperature,
-                         presencePenalty: chat.option.presencePenalty,
-                         frequencyPenalty: chat.option.frequencyPenalty,
-                         promptTokens: nil, completionTokens: nil, startedAt: Date.now, endedAt: nil)
+    userMsg.meta = .init(
+      provider: model.provider.displayName,
+      model: model.modelId,
+      contextLength: contextLength,
+      actual_contextLength: actualCL,
+      promptName: chat.option.prompt?.name,
+      temperature: chat.option.temperature,
+      presencePenalty: chat.option.presencePenalty,
+      frequencyPenalty: chat.option.frequencyPenalty,
+      promptTokens: nil, completionTokens: nil, startedAt: Date.now, endedAt: nil
+    )
     
     var aiMsg = Message("", .assistant, .thinking)
     aiMsg.chat = chat
-    aiMsg.meta = .init(model: model.modelId,
-                       contextLength: contextLength,
-                       actual_contextLength: actualCL,
-                       promptName: chat.option.prompt?.name,
-                       temperature: chat.option.temperature,
-                       presencePenalty: chat.option.presencePenalty,
-                       frequencyPenalty: chat.option.frequencyPenalty,
-                       promptTokens: nil, completionTokens: nil, startedAt: nil, endedAt: nil)
+    aiMsg.meta = .init(
+      provider: model.provider.displayName,
+      model: model.modelId,
+      contextLength: contextLength,
+      actual_contextLength: actualCL,
+      promptName: chat.option.prompt?.name,
+      temperature: chat.option.temperature,
+      presencePenalty: chat.option.presencePenalty,
+      frequencyPenalty: chat.option.frequencyPenalty,
+      promptTokens: nil, completionTokens: nil, startedAt: nil, endedAt: nil
+    )
     
     do {
       // Save messages to SwiftData

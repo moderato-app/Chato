@@ -9,7 +9,7 @@ class OpenAIStreamingService: ChatStreamingServiceProtocol {
   
   /// Background queue for handling streaming requests
   private let streamingQueue = DispatchQueue(
-    label: "com.chato.openaistreaming",
+    label: bundleName + ".openaistreaming",
     qos: .userInitiated
   )
   

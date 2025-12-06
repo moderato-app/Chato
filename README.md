@@ -1,5 +1,5 @@
-# ChatO 
-An iOS App to interact with ChatGPT, build with SwiftUI, completely free to use.
+# NSChat
+An iOS App to interact with AI models, built with SwiftUI, completely free to use.
 
 [![Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917](https://github.com/user-attachments/assets/2b17870a-e619-4172-9be2-b0b18f3dbf64)](https://apps.apple.com/us/app/chato/id6478404197)
 

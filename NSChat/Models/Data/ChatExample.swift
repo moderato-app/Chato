@@ -30,9 +30,9 @@ enum ChatSample {
     messages: [
       Message("What's the weather?", .user, .sent),
       Message("The original text is a snippet of Swift code demonstrating how to define a function named ‘ask’ that takes a string and a completion handler as parameters. The error message is related to Swift’s closure capture rules. Here’s the translation to English", .assistant, .received),
-      Message("What is ChatGPT API Key?", .user, .sent),
+      Message("What is an API Key?", .user, .sent),
       Message("""
-      As of my last update, OpenAI provides an API for developers to integrate its GPT (Generative Pretrained Transformer) models, including ChatGPT, into their applications. The ChatGPT API key would refer to the unique identifier key required to authenticate and interact with the OpenAI API for using ChatGPT. Each key is unique to a user or organization and must be kept secret as it allows the holder to access the API and incur any associated costs.
+      As of my last update, AI providers like OpenAI provide an API for developers to integrate its GPT (Generative Pretrained Transformer) models, including AI models, into their applications. The AI API key would refer to the unique identifier key required to authenticate and interact with the OpenAI API for using AI models. Each key is unique to a user or organization and must be kept secret as it allows the holder to access the API and incur any associated costs.
 
       Here's an overview of how it's generally used:
 

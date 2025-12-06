@@ -163,10 +163,10 @@ struct InputToolbarView: View {
   private func historyPickerContent() -> some View {
     // History Messages Size Picker
     Picker("History", selection: $chatOption.contextLength) {
-      Text("History Messages")
-        .font(.headline)
-        .foregroundStyle(.secondary)
-        .disabled(true)
+      Label("History Messages", systemImage: "clock.fill")
+        .selectionDisabled()
+
+      Divider()
 
       ForEach(contextLengthChoices.reversed(), id: \.self) { choice in
         Text(choice.lengthString)

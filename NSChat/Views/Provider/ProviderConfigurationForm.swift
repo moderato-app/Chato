@@ -66,7 +66,7 @@ struct ProviderConfigurationForm: View {
     }
 
     Section("Endpoint") {
-      TextField("Endpoint (Optional)", text: $provider.endpoint)
+      TextField("Optional", text: $provider.endpoint)
         .textContentType(.URL)
         .autocapitalization(.none)
         .submitLabel(.done)

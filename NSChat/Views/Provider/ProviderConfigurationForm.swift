@@ -3,6 +3,7 @@ import SwiftUI
 struct ProviderConfigurationForm: View {
   @Bindable var provider: Provider
   let mode: ProviderViewMode
+  @EnvironmentObject var em: EM
 
   @State private var isPasswordVisible = false
   @FocusState private var isApiKeyFocused: Bool
@@ -29,9 +30,21 @@ struct ProviderConfigurationForm: View {
     Section {
       Group {
         if isPasswordVisible {
-          TextField("", text: $provider.apiKey).focused($isApiKeyFocused)
+          TextField("", text: $provider.apiKey)
+            .focused($isApiKeyFocused)
+            .onSubmit {
+              if mode == .Add {
+                em.apiKeySubmitted.send(provider.persistentModelID)
+              }
+            }
         } else {
-          SecureField("", text: $provider.apiKey).focused($isApiKeyFocused)
+          SecureField("", text: $provider.apiKey)
+            .focused($isApiKeyFocused)
+            .onSubmit {
+              if mode == .Add {
+                em.apiKeySubmitted.send(provider.persistentModelID)
+              }
+            }
         }
       }
       .textContentType(.password)

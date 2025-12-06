@@ -18,7 +18,7 @@ final class WebSearch {
   @Attribute(originalName: "context_size")
   var contextSize: WebSearchContextSize
   
-  init(enabled: Bool = false, contextSize: WebSearchContextSize = .medium) {
+  init(enabled: Bool = false, contextSize: WebSearchContextSize = .low) {
     self.enabled = enabled
     self.contextSize = contextSize
   }

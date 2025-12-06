@@ -13,7 +13,7 @@ struct ModelSelectionView: View {
   @State private var searchText = ""
   @State private var expandedProviders: Set<PersistentIdentifier> = []
   @State private var favoritesExpanded = true
-  @State private var isSettingPresented = false
+  @State private var isAddProviderPresented = false
 
   var body: some View {
     ModelSelectionContent(
@@ -25,13 +25,11 @@ struct ModelSelectionView: View {
       favoritesExpanded: $favoritesExpanded,
       dismiss: dismiss,
       onAddProvider: {
-        isSettingPresented = true
+        isAddProviderPresented = true
       }
     )
-    .sheet(isPresented: $isSettingPresented) {
-      SettingView()
-        .preferredColorScheme(colorScheme)
-        .presentationDetents([.large])
+    .sheet(isPresented: $isAddProviderPresented) {
+      ProviderView(provider: Provider(type: .openAI), mode: .Add)
     }
   }
 }

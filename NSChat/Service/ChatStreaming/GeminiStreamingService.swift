@@ -9,7 +9,7 @@ class GeminiStreamingService: ChatStreamingServiceProtocol {
   
   /// Background queue for handling streaming requests
   private let streamingQueue = DispatchQueue(
-    label: "com.chato.geministreaming",
+    label: bundleName + ".geministreaming",
     qos: .userInitiated
   )
   

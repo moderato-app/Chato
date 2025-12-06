@@ -9,7 +9,7 @@ class OpenRouterStreamingService: ChatStreamingServiceProtocol {
   
   /// Background queue for handling streaming requests
   private let streamingQueue = DispatchQueue(
-    label: "com.chato.openrouterstreaming",
+    label: bundleName + ".openrouterstreaming",
     qos: .userInitiated
   )
   

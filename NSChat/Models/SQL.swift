@@ -21,14 +21,16 @@ extension ModelContext {
 
     if model == nil {
       // Find the model with the most chats
-      let fetcher = FetchDescriptor<ModelEntity>(
-        sortBy: [
-          SortDescriptor(\ModelEntity.chatOptions.count, order: .reverse),
-          SortDescriptor(\ModelEntity.createdAt, order: .reverse)
-        ],
-        fetchLimit: 1
-      )
-      model = try? fetch(fetcher).first
+      let fetcher = FetchDescriptor<ChatOption>()
+      let opts = try? fetch(fetcher)
+
+      if let options = opts {
+        let models = options.compactMap { $0.model }
+        let grouped = Dictionary(grouping: models) { $0.persistentModelID }
+        if let mostUsed = grouped.max(by: { $0.value.count < $1.value.count }) {
+          model = mostUsed.value.first
+        }
+      }
     }
 
     let name = "New Chat at " + Date.now.formatted(date: .omitted, time: .shortened)
@@ -37,8 +39,8 @@ extension ModelContext {
       contextLength: Pref.shared.newChatPrefHistoryMessageCount,
       webSearchOption: WebSearch(contextSize: Pref.shared.newChatPrefWebSearchContextSize)
     )
-    let chat = Chat(name: name,option: option)
-    
+    let chat = Chat(name: name, option: option)
+
     return chat
   }
 
